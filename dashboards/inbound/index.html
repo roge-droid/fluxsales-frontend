@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inbound Manager Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; background: #f5f5f5; }
+    h1 { margin-bottom: 4px; font-size: 24px; }
+    .subtitle { color: #666; margin-bottom: 24px; font-size: 14px; }
+    .refresh-info { color: #999; font-size: 12px; margin-bottom: 20px; }
+
+    .totals { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+    .total-card { background: white; padding: 16px 20px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; min-width: 90px; flex: 1; }
+    .total-card .number { font-size: 32px; font-weight: 700; }
+    .total-card .label { font-size: 11px; color: #666; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .total-card.leads .number { color: #1565c0; }
+    .total-card.booked .number { color: #6a1b9a; }
+    .total-card.showed .number { color: #2e7d32; }
+    .total-card.deals .number { color: #e65100; }
+    .total-card.alert .number { color: #c62828; }
+    .total-card.recorded .number { color: #00838f; }
+    .total-card.minutes .number { color: #4527a0; }
+
+    .ae-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); }
+    .ae-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .ae-card h2 { font-size: 18px; margin-bottom: 2px; }
+    .ae-card .ae-role { color: #666; font-size: 13px; margin-bottom: 16px; }
+
+    .ae-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+    .ae-stat { text-align: center; padding: 10px 6px; background: #f9f9f9; border-radius: 6px; }
+    .ae-stat .num { font-size: 20px; font-weight: 700; }
+    .ae-stat .lbl { font-size: 10px; color: #666; text-transform: uppercase; }
+    .ae-stat.highlight { background: #e8f5e9; }
+    .ae-stat.highlight .num { color: #2e7d32; }
+    .ae-stat.purple { background: #f3e5f5; }
+    .ae-stat.purple .num { color: #6a1b9a; }
+    .ae-stat.warn { background: #fff3e0; }
+    .ae-stat.warn .num { color: #e65100; }
+    .ae-stat.danger { background: #ffebee; }
+    .ae-stat.danger .num { color: #c62828; }
+    .ae-stat.teal { background: #e0f2f1; }
+    .ae-stat.teal .num { color: #00695c; }
+
+    .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; color: #666; margin: 12px 0 8px; letter-spacing: 0.5px; }
+
+    .pipeline { margin-top: 4px; }
+    .pipeline-bar { display: flex; height: 24px; border-radius: 6px; overflow: hidden; background: #eee; }
+    .pipeline-segment { display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; color: white; min-width: 0; transition: width 0.5s; }
+    .pipeline-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+    .pipeline-legend span { font-size: 11px; color: #555; display: flex; align-items: center; gap: 4px; }
+    .pipeline-legend .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+    .activity-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #f0f0f0; }
+    .activity-row:last-child { border-bottom: none; }
+    .activity-label { font-size: 13px; color: #555; }
+    .activity-value { font-size: 13px; font-weight: 600; }
+    .activity-section { margin-top: 12px; }
+
+    .idle-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-left: 8px; }
+    .idle-badge.active { background: #e8f5e9; color: #2e7d32; }
+    .idle-badge.warning { background: #fff3e0; color: #e65100; }
+    .idle-badge.idle { background: #ffebee; color: #c62828; }
+
+    .verification-bar { display: flex; align-items: center; gap: 8px; margin-top: 8px; padding: 8px 12px; border-radius: 6px; font-size: 12px; }
+    .verification-bar.ok { background: #e8f5e9; color: #2e7d32; }
+    .verification-bar.flag { background: #ffebee; color: #c62828; }
+    .verification-bar .v-icon { font-size: 16px; }
+    .verification-bar .v-text { flex: 1; }
+
+    .empty { text-align: center; padding: 40px; color: #999; }
+
+    .date-nav { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .date-nav button { padding: 6px 14px; border: 1px solid #ddd; background: white; border-radius: 6px; cursor: pointer; font-size: 13px; }
+    .date-nav button:hover { background: #f0f0f0; }
+    .date-nav button.active { background: #1565c0; color: white; border-color: #1565c0; }
+    .date-nav .date-label { font-size: 14px; font-weight: 600; color: #333; }
+  </style>
+</head>
+<body>
+  <h1>Inbound Manager</h1>
+  <p class="subtitle">FluxSales.co — AE Activity Dashboard</p>
+  <p class="refresh-info" id="refresh-info">Auto-refreshes every 30 seconds</p>
+
+  <div class="date-nav">
+    <button id="btn-today" class="active" onclick="setRange('today')">Today</button>
+    <button id="btn-week" onclick="setRange('week')">This Week</button>
+    <button id="btn-month" onclick="setRange('month')">This Month</button>
+    <span class="date-label" id="date-label"></span>
+  </div>
+
+  <div class="totals" id="totals">
+    <div class="total-card booked"><div class="number" id="t-scheduled">—</div><div class="label">Scheduled</div></div>
+    <div class="total-card showed"><div class="number" id="t-recorded">—</div><div class="label">Recorded</div></div>
+    <div class="total-card minutes"><div class="number" id="t-minutes">—</div><div class="label">Talk Minutes</div></div>
+    <div class="total-card deals"><div class="number" id="t-deals">—</div><div class="label">Open Deals</div></div>
+    <div class="total-card leads"><div class="number" id="t-leads">—</div><div class="label">Active Leads</div></div>
+    <div class="total-card alert"><div class="number" id="t-sla">—</div><div class="label">SLA Breaches</div></div>
+  </div>
+
+  <div class="ae-grid" id="ae-grid">
+    <div class="empty">Loading...</div>
+  </div>
+
+  <script>
+    const API = window.location.origin + '/inbound/api/stats';
+    let currentRange = 'today';
+
+    const PIPELINE_COLORS = {
+      new: '#90a4ae',
+      qualifying: '#42a5f5',
+      qualified: '#1565c0',
+      demo_booked: '#7e57c2',
+      demo_showed: '#66bb6a',
+      proposal_sent: '#ffa726',
+      nurturing: '#78909c',
+      demo_no_show: '#ef5350'
+    };
+
+    const PIPELINE_LABELS = {
+      new: 'New',
+      qualifying: 'Qualifying',
+      qualified: 'Qualified',
+      demo_booked: 'Demo Booked',
+      demo_showed: 'Demo Showed',
+      proposal_sent: 'Proposal',
+      nurturing: 'Nurturing',
+      demo_no_show: 'No Show'
+    };
+
+    function setRange(range) {
+      currentRange = range;
+      document.querySelectorAll('.date-nav button').forEach(b => b.classList.remove('active'));
+      document.getElementById('btn-' + range).classList.add('active');
+      refresh();
+    }
+
+    function idleBadge(minutesSinceLastTouch) {
+      if (minutesSinceLastTouch == null) return '<span class="idle-badge warning">No activity</span>';
+      if (minutesSinceLastTouch < 60) return '<span class="idle-badge active">Active</span>';
+      if (minutesSinceLastTouch < 240) return '<span class="idle-badge warning">' + Math.floor(minutesSinceLastTouch / 60) + 'h idle</span>';
+      return '<span class="idle-badge idle">' + Math.floor(minutesSinceLastTouch / 60) + 'h idle</span>';
+    }
+
+    function pipelineBar(pipeline) {
+      var statuses = Object.keys(PIPELINE_COLORS);
+      var total = statuses.reduce(function(s, k) { return s + (pipeline[k] || 0); }, 0);
+      if (total === 0) return '<div class="pipeline-bar"></div>';
+
+      var bar = '<div class="pipeline-bar">';
+      var legend = '<div class="pipeline-legend">';
+      for (var i = 0; i < statuses.length; i++) {
+        var st = statuses[i];
+        var count = pipeline[st] || 0;
+        if (count === 0) continue;
+        var pct = ((count / total) * 100).toFixed(1);
+        bar += '<div class="pipeline-segment" style="width:' + pct + '%;background:' + PIPELINE_COLORS[st] + '">' + (parseFloat(pct) > 8 ? count : '') + '</div>';
+        legend += '<span><span class="dot" style="background:' + PIPELINE_COLORS[st] + '"></span>' + PIPELINE_LABELS[st] + ' ' + count + '</span>';
+      }
+      bar += '</div>';
+      legend += '</div>';
+      return bar + legend;
+    }
+
+    function formatTime(iso) {
+      if (!iso) return '—';
+      var d = new Date(iso);
+      return d.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function verificationBlock(ae) {
+      var recorded = ae.recorded_meetings || 0;
+      var unverified = ae.unverified_demos || 0;
+      var minutes = ae.meeting_minutes || 0;
+      var transcripts = ae.verified_transcripts || 0;
+
+      var html = '<div class="section-label">Call Verification (Granola)</div>';
+
+      html += '<div class="ae-stats">' +
+        '<div class="ae-stat' + (recorded > 0 ? ' teal' : '') + '"><div class="num">' + recorded + '</div><div class="lbl">Recorded</div></div>' +
+        '<div class="ae-stat' + (minutes > 0 ? ' teal' : '') + '"><div class="num">' + minutes + 'm</div><div class="lbl">Talk Time</div></div>' +
+        '<div class="ae-stat' + (transcripts > 0 ? ' teal' : '') + '"><div class="num">' + transcripts + '</div><div class="lbl">Transcripts</div></div>' +
+      '</div>';
+
+      if (unverified > 0) {
+        html += '<div class="verification-bar flag">' +
+          '<span class="v-icon">!</span>' +
+          '<span class="v-text"><strong>' + unverified + ' demos sin grabacion</strong> — booked/no-show without a matching Granola recording</span>' +
+        '</div>';
+      } else if (recorded > 0) {
+        html += '<div class="verification-bar ok">' +
+          '<span class="v-icon">&#10003;</span>' +
+          '<span class="v-text">All demos verified with recordings</span>' +
+        '</div>';
+      }
+
+      return html;
+    }
+
+    function whatsappBlock(ae) {
+      var replies = ae.wa_replies || 0;
+      var ignored = ae.wa_ignored || 0;
+      var avgMin = ae.wa_avg_response_min || 0;
+
+      var html = '<div class="section-label">WhatsApp Activity</div>';
+
+      var responseClass = avgMin === 0 ? '' : avgMin <= 30 ? ' highlight' : avgMin <= 120 ? ' warn' : ' danger';
+      var responseLabel = avgMin === 0 ? '—' : avgMin < 60 ? avgMin + 'm' : Math.floor(avgMin / 60) + 'h ' + (avgMin % 60) + 'm';
+
+      html += '<div class="ae-stats">' +
+        '<div class="ae-stat' + (replies > 0 ? ' teal' : '') + '"><div class="num">' + replies + '</div><div class="lbl">Lead Replies</div></div>' +
+        '<div class="ae-stat' + responseClass + '"><div class="num">' + responseLabel + '</div><div class="lbl">Avg Response</div></div>' +
+        '<div class="ae-stat' + (ignored > 0 ? ' danger' : '') + '"><div class="num">' + ignored + '</div><div class="lbl">Ignored</div></div>' +
+      '</div>';
+
+      if (ignored > 0) {
+        html += '<div class="verification-bar flag">' +
+          '<span class="v-icon">!</span>' +
+          '<span class="v-text"><strong>' + ignored + ' mensajes sin respuesta</strong> — lead replied on WhatsApp but AE did not follow up within 2h</span>' +
+        '</div>';
+      }
+
+      return html;
+    }
+
+    function render(data) {
+      var aes = data.ae_stats || [];
+      var summary = data.summary || {};
+
+      document.getElementById('t-scheduled').textContent = summary.demos_scheduled ?? '—';
+      document.getElementById('t-recorded').textContent = summary.demos_recorded ?? '—';
+      document.getElementById('t-minutes').textContent = (summary.meeting_minutes ?? 0) + 'm';
+
+      var recCard = document.getElementById('t-recorded').parentElement;
+      var sched = summary.demos_scheduled || 0;
+      var rec = summary.demos_recorded || 0;
+      if (sched > 0 && rec < sched) { recCard.style.background = '#fff3e0'; }
+      else { recCard.style.background = 'white'; }
+      document.getElementById('t-deals').textContent = summary.open_deals ?? '—';
+      document.getElementById('t-leads').textContent = summary.active_leads ?? '—';
+      document.getElementById('t-sla').textContent = summary.sla_breaches ?? '—';
+
+      var slaTotalCard = document.getElementById('t-sla').parentElement;
+      slaTotalCard.style.background = (summary.sla_breaches || 0) > 0 ? '#ffebee' : 'white';
+
+      document.getElementById('date-label').textContent = data.range_label || '';
+
+      if (aes.length === 0) {
+        document.getElementById('ae-grid').innerHTML = '<div class="empty">No AE data available</div>';
+        return;
+      }
+
+      var cards = aes.map(function(ae) {
+        var avgDur = ae.avg_demo_duration || 0;
+        var avgLabel = avgDur > 0 ? avgDur + 'm' : '—';
+
+        return '<div class="ae-card">' +
+          '<h2>' + ae.name + idleBadge(ae.minutes_since_last_touch) + '</h2>' +
+          '<div class="ae-role">Account Executive</div>' +
+
+          '<div class="section-label">Video Demos (Granola verified)</div>' +
+          '<div class="ae-stats">' +
+            '<div class="ae-stat' + (ae.demos_scheduled > 0 ? ' purple' : '') + '"><div class="num">' + (ae.demos_scheduled || 0) + '</div><div class="lbl">Scheduled</div></div>' +
+            '<div class="ae-stat' + (ae.demos_recorded > 0 ? ' highlight' : '') + '"><div class="num">' + (ae.demos_recorded || 0) + '</div><div class="lbl">Recorded</div></div>' +
+            '<div class="ae-stat' + (ae.demos_unrecorded > 0 ? ' danger' : '') + '"><div class="num">' + (ae.demos_unrecorded || 0) + '</div><div class="lbl">No Recording</div></div>' +
+            '<div class="ae-stat' + (ae.demo_minutes > 0 ? ' teal' : '') + '"><div class="num">' + (ae.demo_minutes || 0) + 'm</div><div class="lbl">Demo Time</div></div>' +
+            '<div class="ae-stat"><div class="num">' + avgLabel + '</div><div class="lbl">Avg Duration</div></div>' +
+            '<div class="ae-stat"><div class="num">' + (ae.verified_transcripts || 0) + '</div><div class="lbl">Transcripts</div></div>' +
+          '</div>' +
+
+          (ae.demos_unrecorded > 0 ?
+            '<div class="verification-bar flag">' +
+              '<span class="v-icon">!</span>' +
+              '<span class="v-text"><strong>' + ae.demos_unrecorded + ' demos sin grabacion:</strong> ' + (ae.unrecorded_titles || []).join(', ') + '</span>' +
+            '</div>' :
+            (ae.demos_recorded > 0 ?
+              '<div class="verification-bar ok"><span class="v-icon">&#10003;</span><span class="v-text">All calendar demos have Granola recordings</span></div>' : '')
+          ) +
+
+          '<div class="section-label">Phone Calls (Granola)</div>' +
+          '<div class="ae-stats">' +
+            '<div class="ae-stat"><div class="num">' + (ae.phone_calls || 0) + '</div><div class="lbl">Calls</div></div>' +
+            '<div class="ae-stat"><div class="num">' + (ae.phone_minutes || 0) + 'm</div><div class="lbl">Call Time</div></div>' +
+            '<div class="ae-stat' + ((ae.phone_calls > 0 && ae.phone_minutes == 0) ? ' danger' : '') + '"><div class="num">' + (ae.phone_calls > 0 ? Math.round(ae.phone_minutes / ae.phone_calls) + 'm' : '—') + '</div><div class="lbl">Avg Call</div></div>' +
+          '</div>' +
+
+          '<div class="section-label">Deals</div>' +
+          '<div class="ae-stats">' +
+            '<div class="ae-stat' + (ae.open_deals > 0 ? ' warn' : '') + '"><div class="num">' + ae.open_deals + '</div><div class="lbl">Open Deals</div></div>' +
+            '<div class="ae-stat"><div class="num">' + ae.proposals_sent + '</div><div class="lbl">Proposals</div></div>' +
+            '<div class="ae-stat' + (ae.sla_breaches > 0 ? ' danger' : '') + '"><div class="num">' + ae.sla_breaches + '</div><div class="lbl">SLA Breach</div></div>' +
+          '</div>' +
+
+          whatsappBlock(ae) +
+
+          '<div class="section-label">Lead Intake</div>' +
+          '<div class="ae-stats">' +
+            '<div class="ae-stat"><div class="num">' + ae.new_leads + '</div><div class="lbl">New Leads</div></div>' +
+            '<div class="ae-stat"><div class="num">' + ae.qualifying + '</div><div class="lbl">Qualifying</div></div>' +
+            '<div class="ae-stat' + (ae.overdue_tasks > 0 ? ' danger' : '') + '"><div class="num">' + ae.overdue_tasks + '</div><div class="lbl">Overdue Tasks</div></div>' +
+          '</div>' +
+
+          '<div class="section-label">Pipeline</div>' +
+          '<div class="pipeline">' +
+            pipelineBar(ae.pipeline) +
+          '</div>' +
+
+          (ae.upcoming_demos && ae.upcoming_demos.length > 0 ?
+            '<div class="activity-section">' +
+              '<div class="section-label">Upcoming Demos</div>' +
+              ae.upcoming_demos.map(function(d) {
+                return '<div class="activity-row">' +
+                  '<span class="activity-label">' + (d.company || d.lead_name || 'Unknown') + '</span>' +
+                  '<span class="activity-value">' + formatTime(d.scheduled_at) + '</span>' +
+                '</div>';
+              }).join('') +
+            '</div>' : '') +
+
+          '<div class="activity-section">' +
+            '<div class="section-label">Activity</div>' +
+            '<div class="activity-row"><span class="activity-label">Last touch</span><span class="activity-value">' + (ae.last_touch ? new Date(ae.last_touch).toLocaleString('es-MX', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '—') + '</span></div>' +
+            '<div class="activity-row"><span class="activity-label">Events today</span><span class="activity-value">' + ae.events_today + '</span></div>' +
+            '<div class="activity-row"><span class="activity-label">Won (period)</span><span class="activity-value">' + ae.closed_won + '</span></div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+
+      document.getElementById('ae-grid').innerHTML = cards;
+
+      document.getElementById('refresh-info').textContent =
+        'Last updated: ' + new Date().toLocaleTimeString() + ' — auto-refreshes every 30s';
+    }
+
+    async function refresh() {
+      try {
+        var res = await fetch(API + '?range=' + currentRange);
+        var data = await res.json();
+        render(data);
+      } catch (err) {
+        document.getElementById('refresh-info').textContent = 'Failed to load — retrying...';
+      }
+    }
+
+    refresh();
+    setInterval(refresh, 30000);
+  </script>
+</body>
+</html>

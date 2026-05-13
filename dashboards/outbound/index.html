@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Outbound Manager Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 20px; background: #f5f5f5; }
+    h1 { margin-bottom: 4px; font-size: 24px; }
+    .subtitle { color: #666; margin-bottom: 24px; font-size: 14px; }
+    .refresh-info { color: #999; font-size: 12px; margin-bottom: 20px; }
+    .totals { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+    .total-card { background: white; padding: 16px 20px; border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; min-width: 100px; flex: 1; }
+    .total-card .number { font-size: 32px; font-weight: 700; }
+    .total-card .label { font-size: 11px; color: #666; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .total-card.sent .number { color: #1565c0; }
+    .total-card.replied .number { color: #e65100; }
+    .total-card.positive .number { color: #2e7d32; }
+    .total-card.demos .number { color: #6a1b9a; }
+    .total-card.rate .number { color: #333; font-size: 24px; }
+    .ae-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+    .ae-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .ae-card h2 { font-size: 18px; margin-bottom: 4px; }
+    .ae-card .city { color: #666; font-size: 13px; margin-bottom: 16px; }
+    .ae-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .ae-stat { text-align: center; padding: 8px; background: #f9f9f9; border-radius: 6px; }
+    .ae-stat .num { font-size: 20px; font-weight: 700; }
+    .ae-stat .lbl { font-size: 10px; color: #666; text-transform: uppercase; }
+    .ae-stat.highlight { background: #e8f5e9; }
+    .ae-stat.highlight .num { color: #2e7d32; }
+    .ae-stat.demo-highlight { background: #f3e5f5; }
+    .ae-stat.demo-highlight .num { color: #6a1b9a; }
+    .progress-bar { height: 6px; background: #eee; border-radius: 3px; margin-top: 12px; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+    .progress-label { font-size: 11px; color: #999; margin-top: 4px; }
+    .empty { text-align: center; padding: 40px; color: #999; }
+  </style>
+</head>
+<body>
+  <h1>Outbound Manager</h1>
+  <p class="subtitle">FluxSales.co — Live scoreboard</p>
+  <p class="refresh-info" id="refresh-info">Auto-refreshes every 30 seconds</p>
+
+  <div class="totals" id="totals">
+    <div class="total-card sent"><div class="number" id="t-sent">—</div><div class="label">Sent</div></div>
+    <div class="total-card replied"><div class="number" id="t-replied">—</div><div class="label">Replied</div></div>
+    <div class="total-card positive"><div class="number" id="t-positive">—</div><div class="label">Positive</div></div>
+    <div class="total-card demos"><div class="number" id="t-demos">—</div><div class="label">Demos</div></div>
+    <div class="total-card rate"><div class="number" id="t-rate">—</div><div class="label">Reply Rate</div></div>
+  </div>
+
+  <div class="ae-grid" id="ae-grid">
+    <div class="empty">Loading...</div>
+  </div>
+
+  <script>
+    const API = window.location.origin + '/outbound/api/stats';
+
+    function extractAE(name) {
+      const parts = name.split('-');
+      return parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+    }
+
+    function render(data) {
+      const exps = data.experiments || [];
+      if (exps.length === 0) {
+        document.getElementById('ae-grid').innerHTML = '<div class="empty">No active experiments</div>';
+        return;
+      }
+
+      let tSent = 0, tReplied = 0, tPositive = 0, tDemos = 0;
+
+      const cards = exps.map(e => {
+        const sent = parseInt(e.sent);
+        const sentToday = parseInt(e.sent_today);
+        const replied = parseInt(e.replied);
+        const positive = parseInt(e.positive);
+        const demos = parseInt(e.demos);
+        const total = parseInt(e.total);
+        const bad = parseInt(e.bad);
+        const rate = sent > 0 ? ((replied / sent) * 100).toFixed(1) : '0.0';
+        const progress = total > 0 ? ((sent / total) * 100).toFixed(0) : '0';
+        const ae = extractAE(e.name);
+
+        tSent += sent;
+        tReplied += replied;
+        tPositive += positive;
+        tDemos += demos;
+
+        return '<div class="ae-card">' +
+          '<h2>' + ae + '</h2>' +
+          '<div class="city">' + e.city + ' — ' + total + ' prospects</div>' +
+          '<div class="ae-stats">' +
+            '<div class="ae-stat"><div class="num">' + sentToday + '</div><div class="lbl">Sent today</div></div>' +
+            '<div class="ae-stat"><div class="num">' + sent + '</div><div class="lbl">Total sent</div></div>' +
+            '<div class="ae-stat"><div class="num">' + replied + '</div><div class="lbl">Replies</div></div>' +
+            '<div class="ae-stat' + (positive > 0 ? ' highlight' : '') + '"><div class="num">' + positive + '</div><div class="lbl">Positive</div></div>' +
+            '<div class="ae-stat' + (demos > 0 ? ' demo-highlight' : '') + '"><div class="num">' + demos + '</div><div class="lbl">Demos</div></div>' +
+            '<div class="ae-stat"><div class="num">' + rate + '%</div><div class="lbl">Reply rate</div></div>' +
+          '</div>' +
+          '<div class="progress-bar"><div class="progress-fill" style="width:' + progress + '%;background:' + (parseInt(progress) > 50 ? '#2e7d32' : '#1565c0') + '"></div></div>' +
+          '<div class="progress-label">' + progress + '% of list sent (' + bad + ' bad numbers)</div>' +
+        '</div>';
+      }).join('');
+
+      document.getElementById('ae-grid').innerHTML = cards;
+
+      const tRate = tSent > 0 ? ((tReplied / tSent) * 100).toFixed(1) + '%' : '—';
+      document.getElementById('t-sent').textContent = tSent;
+      document.getElementById('t-replied').textContent = tReplied;
+      document.getElementById('t-positive').textContent = tPositive;
+      document.getElementById('t-demos').textContent = tDemos;
+      document.getElementById('t-rate').textContent = tRate;
+
+      document.getElementById('refresh-info').textContent =
+        'Last updated: ' + new Date().toLocaleTimeString() + ' — auto-refreshes every 30s';
+    }
+
+    async function refresh() {
+      try {
+        const res = await fetch(API);
+        const data = await res.json();
+        render(data);
+      } catch (err) {
+        document.getElementById('refresh-info').textContent = 'Failed to load — retrying...';
+      }
+    }
+
+    refresh();
+    setInterval(refresh, 30000);
+  </script>
+</body>
+</html>
