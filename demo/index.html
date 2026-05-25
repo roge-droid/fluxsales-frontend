@@ -262,31 +262,49 @@ function DemoForm() {
 
   const containerRef = React.useRef(null);
   const acElementRef = React.useRef(null);
+  const [placesReady, setPlacesReady] = React.useState(false);
 
   React.useEffect(() => {
     if (!containerRef.current || acElementRef.current) return;
 
     function init() {
       if (!window.google?.maps?.places?.PlaceAutocompleteElement) return false;
-      const el = new window.google.maps.places.PlaceAutocompleteElement({
-        types: ["establishment"],
-        componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
-      });
-      el.style.cssText = "width:100%;font-size:15px;";
-      el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
-      containerRef.current.innerHTML = "";
-      containerRef.current.appendChild(el);
-      el.addEventListener("gmp-placeselect", async (e) => {
-        const place = e.place;
-        if (!place) { console.warn("[places] no place on event, keys:", Object.keys(e)); return; }
-        try { await place.fetchFields({ fields: ["displayName", "formattedAddress", "id"] }); } catch(err) { console.warn("[places] fetchFields failed:", err); }
-        const name = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text || String(place.displayName) : String(place.displayName)) : "";
-        const addr = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text || String(place.formattedAddress) : String(place.formattedAddress)) : "";
-        const pid = place.id || place.place_id || "";
-        console.log("[places] selected:", name, pid, addr);
-        setForm(prev => ({ ...prev, company_name: name, place_id: pid, place_address: addr }));
-      });
-      acElementRef.current = el;
+      try {
+        const el = new window.google.maps.places.PlaceAutocompleteElement({
+          types: ["establishment"],
+          componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
+        });
+        el.style.cssText = "width:100%;font-size:15px;";
+        el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
+        containerRef.current.innerHTML = "";
+        containerRef.current.appendChild(el);
+
+        function handleSelect(e) {
+          try {
+            const place = e.place || e.detail?.place;
+            if (!place) return;
+            const getName = (p) => {
+              if (p.displayName) return typeof p.displayName === "object" ? (p.displayName.text || "") : String(p.displayName);
+              if (p.name) return String(p.name);
+              return "";
+            };
+            const getAddr = (p) => {
+              if (p.formattedAddress) return typeof p.formattedAddress === "object" ? (p.formattedAddress.text || "") : String(p.formattedAddress);
+              if (p.formatted_address) return String(p.formatted_address);
+              return "";
+            };
+            const name = getName(place);
+            const addr = getAddr(place);
+            const pid = place.id || place.place_id || "";
+            setForm(prev => ({ ...prev, company_name: name || prev.company_name, place_id: pid, place_address: addr }));
+          } catch (err) { console.warn("[places] handleSelect error:", err); }
+        }
+
+        el.addEventListener("gmp-placeselect", handleSelect);
+        el.addEventListener("gmp-select", handleSelect);
+        acElementRef.current = el;
+        setPlacesReady(true);
+      } catch (err) { console.warn("[places] init error:", err); }
       return true;
     }
 
@@ -298,7 +316,17 @@ function DemoForm() {
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
-  const canContinue = form.company_name.trim().length > 0 || form.place_id.length > 0;
+  const getPlacesInputValue = () => {
+    try {
+      const gmp = document.querySelector('gmp-place-autocomplete');
+      if (gmp) {
+        const input = gmp.querySelector('input') || (gmp.shadowRoot && gmp.shadowRoot.querySelector('input'));
+        if (input && input.value) return input.value.trim();
+      }
+    } catch {}
+    return "";
+  };
+  const canContinue = form.company_name.trim().length > 0 || form.place_id.length > 0 || getPlacesInputValue().length > 0;
   const canSubmit = form.first_name.trim() && form.email.trim() && form.phone.trim();
 
   const handleSubmit = async () => {
@@ -428,7 +456,13 @@ function DemoForm() {
           <button
             className="demo-submit"
             disabled={!canContinue}
-            onClick={() => setStep(2)}
+            onClick={() => {
+              if (!form.company_name.trim()) {
+                const placesText = getPlacesInputValue();
+                if (placesText) setForm(prev => ({ ...prev, company_name: placesText }));
+              }
+              setStep(2);
+            }}
           >
             Continuar <span>→</span>
           </button>
