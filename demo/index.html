@@ -21,6 +21,7 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','590520096533350');fbq('track','PageView');
 </script>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCl52Mq-ZHk-S4VBAQFd9k9PvO8gr80BWw&libraries=places&language=es&region=MX" async defer></script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
@@ -154,6 +155,29 @@ fbq('init','590520096533350');fbq('track','PageView');
   width: 26px; height: 26px; display: inline-flex;
 }
 
+.demo-field .pac-container {
+  border-radius: 10px; border: 1px solid var(--rule);
+  box-shadow: var(--shadow); margin-top: 4px;
+  font-family: var(--sans); font-size: 14px;
+}
+.demo-field .pac-item {
+  padding: 10px 14px; cursor: pointer; border-top: 1px solid var(--rule);
+}
+.demo-field .pac-item:first-child { border-top: none; }
+.demo-field .pac-item:hover { background: var(--green-100); }
+.demo-field .pac-icon { display: none; }
+.demo-field .pac-item-query { font-weight: 500; color: var(--ink); }
+.demo-place-info {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 8px; padding: 8px 12px;
+  background: var(--green-100); border: 1px solid var(--green-wash);
+  border-radius: 8px; font-size: 12px; color: var(--green-ink);
+  font-family: var(--mono); letter-spacing: .03em;
+}
+.demo-place-info .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0;
+}
+
 @media (max-width: 900px) {
   .demo-layout { grid-template-columns: 1fr; gap: 0; }
   .demo-left { padding: 40px 0 20px; }
@@ -189,6 +213,8 @@ function DemoForm() {
 
   const [form, setForm] = React.useState({
     company_name: "",
+    place_id: "",
+    place_address: "",
     role: "dueno",
     sucursales: "1",
     first_name: "",
@@ -196,6 +222,43 @@ function DemoForm() {
     email: "",
     phone: "",
   });
+
+  const inputRef = React.useRef(null);
+  const autocompleteRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (!inputRef.current || autocompleteRef.current) return;
+    if (!window.google || !window.google.maps) {
+      const check = setInterval(() => {
+        if (window.google && window.google.maps) {
+          clearInterval(check);
+          initAutocomplete();
+        }
+      }, 200);
+      return () => clearInterval(check);
+    }
+    initAutocomplete();
+
+    function initAutocomplete() {
+      const ac = new window.google.maps.places.Autocomplete(inputRef.current, {
+        types: ["establishment"],
+        componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
+        fields: ["name", "place_id", "formatted_address", "geometry"],
+      });
+      ac.addListener("place_changed", () => {
+        const place = ac.getPlace();
+        if (place && place.name) {
+          setForm(prev => ({
+            ...prev,
+            company_name: place.name,
+            place_id: place.place_id || "",
+            place_address: place.formatted_address || "",
+          }));
+        }
+      });
+      autocompleteRef.current = ac;
+    }
+  }, [step]);
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
@@ -214,6 +277,8 @@ function DemoForm() {
         company_name: form.company_name.trim(),
         sucursales: form.sucursales,
         plataformas: form.role,
+        place_id: form.place_id || undefined,
+        place_address: form.place_address || undefined,
       };
       const res = await fetch(API_URL, {
         method: "POST",
@@ -258,14 +323,22 @@ function DemoForm() {
           {error && <div className="demo-error">{error}</div>}
 
           <div className="demo-field">
-            <label>Nombre de tu restaurante</label>
+            <label>Busca tu restaurante</label>
             <input
+              ref={inputRef}
               type="text"
-              placeholder="Ej. Bora Bora Pizzas"
-              value={form.company_name}
-              onChange={set("company_name")}
+              placeholder="Escribe el nombre de tu restaurante..."
+              defaultValue={form.company_name}
+              onChange={(e) => setForm(prev => ({ ...prev, company_name: e.target.value, place_id: "", place_address: "" }))}
               autoFocus
+              autoComplete="off"
             />
+            {form.place_id && (
+              <div className="demo-place-info">
+                <span className="dot" />
+                <span>{form.place_address}</span>
+              </div>
+            )}
           </div>
 
           <div className="demo-field">
