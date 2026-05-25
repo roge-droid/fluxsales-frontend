@@ -21,21 +21,12 @@ function Testimonials({ lang }) {
                 <blockquote>{it.quote}</blockquote>
                 <div>
                   <div className="t-meta">
-                    {it.photo ? (
-                      <img
-                        className="t-photo"
-                        src={it.photo}
-                        alt={it.name}
-                        style={{ width: 72, height: 72, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
-                      />
-                    ) : (
-                      <image-slot
-                        id={"testimonial-" + idx}
-                        shape="circle"
-                        placeholder={lang === "es" ? "Foto del cliente" : "Customer photo"}
-                        style={{ width: 72, height: 72, flexShrink: 0 }}
-                      ></image-slot>
-                    )}
+                    <img
+                      className="t-photo"
+                      src={it.photo || ("assets/testimonial-" + idx + ".webp")}
+                      alt={it.name}
+                      style={{ width: 72, height: 72, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+                    />
                     <div>
                       <div className="nm">{it.name}</div>
                       <div className="rl">{it.role}{it.city ? ` · ${it.city}` : ""}</div>

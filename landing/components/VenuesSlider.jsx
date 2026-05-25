@@ -50,27 +50,20 @@ function VenuesSlider({ lang }) {
         <div className="venues-pad-left" aria-hidden="true" />
         {t.items.map((v, i) => (
           <article className="venue-card" key={v.id}>
-            <div
+            <img
               className="venue-img"
+              src={"assets/venue-" + v.id + ".webp"}
+              alt={v.name}
+              loading="lazy"
               style={{
                 width: "100%",
                 aspectRatio: "9/16",
                 borderRadius: 20,
-                background: `linear-gradient(135deg, var(--green-wash) 0%, var(--cream-3) 100%)`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontFamily: "var(--serif)",
-                fontSize: 28,
-                color: "var(--green-ink)",
-                letterSpacing: "-0.02em",
-                fontVariationSettings: '"opsz" 144',
+                objectFit: "cover",
                 boxShadow: "0 8px 28px rgba(31,81,66,.08)",
-                overflow: "hidden",
+                display: "block",
               }}
-            >
-              {v.name.charAt(0)}
-            </div>
+            />
             <div className="venue-meta">
               <div className="venue-name">{v.name}</div>
               {v.city && <div className="venue-city">{v.city}</div>}
