@@ -128,7 +128,7 @@ function ROICalculator({ lang }) {
 
         <p className="roi-note">{t.note}</p>
 
-        <a href="#demo" className="btn btn-primary" style={{ marginTop: 18, alignSelf: "flex-start" }}>
+        <a href="/demo" className="btn btn-primary" style={{ marginTop: 18, alignSelf: "flex-start" }}>
           {t.cta} <span className="arr">→</span>
         </a>
       </div>

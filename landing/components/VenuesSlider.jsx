@@ -75,7 +75,7 @@ function VenuesSlider({ lang }) {
       </div>
 
       <div className="wrap venues-cta">
-        <a className="btn btn-primary" href="#demo">{t.cta} <span className="arr">→</span></a>
+        <a className="btn btn-primary" href="/demo">{t.cta} <span className="arr">→</span></a>
         <span className="venues-count">{t.count}</span>
       </div>
     </section>
