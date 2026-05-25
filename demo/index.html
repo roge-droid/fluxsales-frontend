@@ -315,7 +315,16 @@ function DemoForm() {
     return "";
   };
 
-  const canContinue = form.company_name.trim().length > 0;
+  const [placesText, setPlacesText] = React.useState("");
+  React.useEffect(() => {
+    if (step !== 1) return;
+    const interval = setInterval(() => {
+      const t = readPlacesInput();
+      if (t !== placesText) setPlacesText(t);
+    }, 500);
+    return () => clearInterval(interval);
+  }, [step, placesText]);
+  const canContinue = form.company_name.trim().length > 0 || placesText.length > 0;
   const canSubmit = form.first_name.trim() && form.email.trim() && form.phone.trim();
 
   const handleSubmit = async () => {
@@ -447,11 +456,11 @@ function DemoForm() {
             className="demo-submit"
             disabled={!canContinue}
             onClick={() => {
-              const placesText = readPlacesInput();
-              if (placesText && !form.company_name.trim()) {
-                setForm(prev => ({ ...prev, company_name: placesText }));
+              const t = readPlacesInput();
+              if (t && !form.company_name.trim()) {
+                setForm(prev => ({ ...prev, company_name: t }));
               }
-              setStep(2);
+              setTimeout(() => setStep(2), 50);
             }}
           >
             Continuar <span>→</span>
