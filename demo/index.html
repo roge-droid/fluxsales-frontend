@@ -21,6 +21,7 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','590520096533350');fbq('track','PageView');
 </script>
 
+<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=q+"="+Date.now();e.set("libraries","places");e.set("key","AIzaSyCZYhvVAGdg4ss9WISSXUp83KWyvTUq02U");e.set("language","es");e.set("region","MX");e.set("v","weekly");e.set("solution_channel","GMP_QB_placepicker_v2");h=e.toString();a=`${p} bootstrap: ${h}`;k=`${p} one script: ${h}`;d[l]?console.warn(a+"called more than once."):(d[l]=(f,...n)=>r.add(f)&&u&&(u=!1,g=m.createElement("script"),g.src=`https://maps.googleapis.com/maps/api/js?`+h,g.onerror=()=>u=!0,m.head.append(g))&&d[l](f,...n)||new Promise((x,y)=>{r=new Proxy(r,{add(v,w){return x({})}})}));d[l]("places")})()</script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
@@ -260,7 +261,59 @@ function DemoForm() {
   });
 
 
+  const placesRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (step !== 1 || placesRef.current) return;
+    const container = document.getElementById("places-container");
+    if (!container) return;
+
+    async function mount() {
+      try {
+        await google.maps.importLibrary("places");
+        const el = new google.maps.places.PlaceAutocompleteElement({
+          types: ["establishment"],
+          componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
+        });
+        el.style.cssText = "width:100%;font-size:15px;";
+        el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
+        container.innerHTML = "";
+        container.appendChild(el);
+        placesRef.current = el;
+
+        el.addEventListener("gmp-placeselect", (e) => {
+          try {
+            const p = e.place;
+            if (!p) return;
+            p.fetchFields({ fields: ["displayName", "formattedAddress", "id"] }).then(() => {
+              const n = p.displayName ? (p.displayName.text || String(p.displayName)) : "";
+              const a = p.formattedAddress ? (p.formattedAddress.text || String(p.formattedAddress)) : "";
+              setForm(prev => ({ ...prev, company_name: n || prev.company_name, place_id: p.id || "", place_address: a }));
+            }).catch(() => {
+              setForm(prev => ({ ...prev, company_name: p.displayName?.text || p.name || prev.company_name, place_id: p.id || "" }));
+            });
+          } catch {}
+        });
+      } catch (err) { console.warn("[places] mount failed:", err); }
+    }
+    mount();
+  }, [step]);
+
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+
+  const readPlacesInput = () => {
+    try {
+      const el = placesRef.current;
+      if (!el) return "";
+      const inputs = el.querySelectorAll("input");
+      for (const inp of inputs) { if (inp.value) return inp.value.trim(); }
+      if (el.shadowRoot) {
+        const sInputs = el.shadowRoot.querySelectorAll("input");
+        for (const inp of sInputs) { if (inp.value) return inp.value.trim(); }
+      }
+    } catch {}
+    return "";
+  };
 
   const canContinue = form.company_name.trim().length > 0;
   const canSubmit = form.first_name.trim() && form.email.trim() && form.phone.trim();
@@ -352,14 +405,22 @@ function DemoForm() {
           {error && <div className="demo-error">{error}</div>}
 
           <div className="demo-field">
-            <label>Nombre de tu restaurante</label>
-            <input
-              type="text"
-              placeholder="Ej. Bora Bora Pizzas"
-              value={form.company_name}
-              onChange={set("company_name")}
-              autoFocus
-            />
+            <label>Busca tu restaurante</label>
+            <div id="places-container" style={{ minHeight: 48 }}>
+              <input
+                type="text"
+                placeholder="Escribe el nombre de tu restaurante..."
+                value={form.company_name}
+                onChange={set("company_name")}
+                autoFocus
+              />
+            </div>
+            {form.place_id && (
+              <div className="demo-place-info">
+                <span className="dot" />
+                <span>{form.place_address}</span>
+              </div>
+            )}
           </div>
 
           <div className="demo-field">
@@ -385,7 +446,13 @@ function DemoForm() {
           <button
             className="demo-submit"
             disabled={!canContinue}
-            onClick={() => setStep(2)}
+            onClick={() => {
+              const placesText = readPlacesInput();
+              if (placesText && !form.company_name.trim()) {
+                setForm(prev => ({ ...prev, company_name: placesText }));
+              }
+              setStep(2);
+            }}
           >
             Continuar <span>→</span>
           </button>
