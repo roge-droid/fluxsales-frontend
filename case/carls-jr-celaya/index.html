@@ -1,451 +1,1180 @@
 <!doctype html>
-<html lang="es-MX">
+<html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="robots" content="noindex, nofollow" />
-  <title>Fluxsales — Propuesta para tu red</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <script type="module" src="ui.js" defer></script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Fluxsales — Propuesta para tu red</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../landing/styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<style>
+/* Page-specific styles (extends styles.css) */
+
+/* —— Slim prospect nav —— */
+.cj-nav {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: saturate(1.4) blur(12px);
+  background: rgba(247, 242, 233, 0.82);
+  border-bottom: 1px solid rgba(217, 207, 186, 0.6);
+}
+.cj-nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 62px;
+}
+.cj-nav-meta {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
+  color: var(--ink-muted); text-transform: uppercase;
+}
+.cj-nav-meta b { color: var(--ink); font-weight: 500; }
+
+/* —— Hero —— */
+.cj-hero { padding: 72px 0 56px; }
+.cj-hero .confidential {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 6px 12px; border: 1px solid var(--rule);
+  border-radius: 99px; background: var(--card);
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 24px;
+}
+.cj-hero .confidential .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); animation: pulseGreen 2s infinite;
+}
+.cj-hero h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: clamp(44px, 6.2vw, 88px);
+  line-height: .98; letter-spacing: -0.028em;
+  color: var(--ink-soft); font-weight: 400;
+  margin: 0 0 24px; max-width: 18ch;
+}
+.cj-hero h1 .strike {
+  color: var(--ink-muted);
+  text-decoration: line-through;
+  text-decoration-color: rgba(196, 90, 42, .5);
+  text-decoration-thickness: 3px;
+}
+.cj-hero h1 .twentyfour {
+  font-style: italic;
+  color: #c45a2a;
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+}
+.cj-hero .sub {
+  font-size: clamp(18px, 1.4vw, 22px);
+  color: var(--ink-soft); max-width: 58ch; line-height: 1.5;
+  margin: 0 0 36px;
+}
+.cj-hero .sub b { font-weight: 500; color: var(--ink); }
+.cj-hero-facts {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin-top: 36px;
+}
+.cj-fact {
+  padding: 24px 24px 24px 0;
+  border-right: 1px solid var(--rule);
+}
+.cj-fact:last-child { border-right: none; padding-right: 0; }
+.cj-fact .k {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
+  color: var(--ink-muted); text-transform: uppercase; margin-bottom: 10px;
+}
+.cj-fact .v {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: 32px; line-height: 1;
+  color: var(--ink); letter-spacing: -0.02em;
+}
+.cj-fact .s { font-size: 13px; color: var(--ink-muted); margin-top: 6px; }
+
+/* —— Section heads —— */
+.sec-lbl {
+  display: flex; align-items: baseline; gap: 14px;
+  margin-bottom: 20px;
+}
+.sec-lbl .num {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  color: var(--green-ink); text-transform: uppercase;
+}
+.sec-lbl .line { flex: 1; height: 1px; background: var(--rule); }
+
+/* —— Case study —— */
+.case { background: var(--cream-2); }
+.case-head { max-width: 780px; margin-bottom: 56px; }
+.case-head h2 { margin: 12px 0 16px; }
+
+.case-beats {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+.beat {
+  background: var(--card); border: 1px solid var(--rule);
+  border-radius: var(--radius); padding: 28px 26px;
+}
+.beat .lbl {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-muted);
+  margin-bottom: 14px;
+}
+.beat h4 {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: 22px; font-weight: 400; letter-spacing: -0.015em;
+  margin: 0 0 12px; color: var(--ink);
+}
+.beat p { margin: 0; font-size: 14px; color: var(--ink-muted); line-height: 1.55; }
+.beat.today { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.beat.today .lbl { color: var(--green); }
+.beat.today h4 { color: var(--cream); }
+.beat.today p { color: rgba(247,242,233,.7); }
+.beat.today .big {
+  font-family: var(--serif); font-variation-settings: "opsz" 144;
+  font-size: 44px; color: var(--green); letter-spacing: -0.03em;
+  line-height: 1; margin: 8px 0 14px;
+}
+
+/* —— Timeline —— */
+.tl {
+  background: var(--card); border: 1px solid var(--rule);
+  border-radius: var(--radius-lg); padding: 40px 44px;
+  position: relative; margin-bottom: 48px;
+}
+.tl-head {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 28px; flex-wrap: wrap; gap: 12px;
+}
+.tl-head h3 {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 40;
+  font-size: 28px; font-weight: 400; margin: 0;
+  letter-spacing: -0.015em;
+}
+.tl-head .lbl { font-family: var(--mono); font-size: 11px; color: var(--ink-muted); letter-spacing: .1em; text-transform: uppercase; }
+.tl-chart {
+  position: relative; height: 220px;
+  border-left: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  margin: 0 0 20px;
+}
+.tl-chart svg { width: 100%; height: 100%; overflow: visible; }
+.tl-gridline {
+  position: absolute; left: 0; right: 0;
+  border-top: 1px dashed rgba(217, 207, 186, .6);
+}
+.tl-axis {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  padding-left: 0; margin-top: 10px;
+}
+.tl-tick {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-muted);
+}
+.tl-tick b { display: block; color: var(--ink); font-family: var(--serif);
+  font-variation-settings: "opsz" 144; font-size: 22px; font-weight: 400;
+  letter-spacing: -0.02em; margin-top: 6px;
+}
+.tl-legend {
+  display: flex; gap: 24px; font-size: 13px; color: var(--ink-muted);
+  padding-top: 18px; border-top: 1px solid var(--rule);
+  margin-top: 18px;
+}
+.tl-legend span { display: inline-flex; align-items: center; gap: 8px; }
+.tl-legend .sw { width: 14px; height: 3px; border-radius: 2px; }
+.tl-legend .sw.ue { background: #c45a2a; }
+.tl-legend .sw.dir { background: var(--green); }
+.tl-legend .sw.rap { background: var(--ink-muted); }
+
+/* —— Recovered callout + pullquote —— */
+.case-split {
+  display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px;
+}
+.recover {
+  background: var(--green); color: #0d2c20;
+  border-radius: var(--radius-lg); padding: 32px 36px 28px;
+  position: relative; overflow: hidden;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.recover-head { margin-bottom: 4px; }
+.recover-eyebrow {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: rgba(13,44,32,.65);
+  margin-bottom: 10px;
+}
+.recover-big {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 40;
+  font-size: clamp(42px, 5vw, 60px); line-height: 1;
+  letter-spacing: -0.03em; margin-bottom: 6px;
+}
+.recover-annual {
+  font-size: 15px; color: rgba(13,44,32,.8);
+  font-family: var(--mono); letter-spacing: .02em;
+}
+.recover-chart {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  margin: 8px 0 4px;
+}
+.recover-chart svg { max-height: 260px; }
+.recover-foot {
+  margin-top: auto; padding-top: 14px;
+  border-top: 1px solid rgba(13,44,32,.15);
+}
+.recover-math {
+  font-family: var(--mono); font-size: 12px;
+  color: rgba(13,44,32,.75); line-height: 1.5;
+  letter-spacing: -0.005em;
+}
+.recover-math b { color: #0d2c20; font-weight: 500; }
+.recover-midsize {
+  margin-top: 10px;
+  font-size: 13px; color: rgba(13,44,32,.85);
+  font-style: italic; line-height: 1.5;
+}
+.quote-card {
+  background: var(--card); border: 1px solid var(--rule);
+  border-radius: var(--radius-lg); padding: 36px 40px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  position: relative;
+}
+.quote-card blockquote {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 40;
+  font-weight: 400; font-size: 22px; line-height: 1.3;
+  letter-spacing: -0.01em; color: var(--ink-soft);
+  margin: 0; position: relative; padding-left: 20px;
+  border-left: 2px solid var(--green);
+}
+.quote-card blockquote { font-style: italic; }
+.quote-card .q-meta { display: flex; align-items: center; gap: 14px; margin-top: 24px; }
+.quote-card .q-meta .av {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--cream-3), var(--cream-2));
+  border: 1px solid var(--rule);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); color: var(--green-ink); font-size: 18px;
+}
+.quote-card .nm { font-size: 14px; font-weight: 500; }
+.quote-card .rl { font-size: 12px; color: var(--ink-muted); }
+
+.flag {
+  margin-top: 24px; font-family: var(--mono); font-size: 11px;
+  color: var(--ink-muted); line-height: 1.55; letter-spacing: .02em;
+  padding: 10px 14px; background: rgba(196,90,42,.06);
+  border-left: 2px solid #c45a2a; border-radius: 2px;
+}
+.flag b { color: #c45a2a; text-transform: uppercase; letter-spacing: .1em; font-weight: 500; }
+
+/* —— ROI Calculator —— */
+.calc { background: var(--cream); padding: 120px 0; }
+.calc-head { max-width: 780px; margin-bottom: 48px; }
+.calc-head h2 { margin: 12px 0 16px; }
+.calc-grid {
+  display: grid; grid-template-columns: 420px 1fr; gap: 32px;
+  align-items: stretch;
+}
+.calc-inputs {
+  background: var(--card); border: 1px solid var(--rule);
+  border-radius: var(--radius-lg); padding: 32px 32px 36px;
+}
+.calc-inputs h4 {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-muted);
+  margin: 0 0 24px;
+}
+.inp-row { margin-bottom: 26px; }
+.inp-row:last-child { margin-bottom: 0; }
+.inp-row .top {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 12px;
+}
+.inp-row .lab { font-size: 14px; color: var(--ink-soft); }
+.inp-row .src { font-family: var(--mono); font-size: 10px; color: var(--green-ink); letter-spacing: .06em; text-transform: uppercase; }
+.inp-row .val {
+  font-family: var(--serif); font-variation-settings: "opsz" 144;
+  font-size: 28px; letter-spacing: -0.02em;
+  color: var(--ink); line-height: 1;
+}
+.inp-row .val .u { font-family: var(--mono); font-size: 12px; color: var(--ink-muted); margin-left: 6px; letter-spacing: .04em; }
+.inp-row .slider { margin-top: 14px; }
+.inp-row .rng-labels {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 10px; color: var(--ink-muted);
+  letter-spacing: .06em; margin-top: 8px;
+}
+.quick {
+  display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap;
+}
+.quick button {
+  padding: 6px 12px; border-radius: 99px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .06em;
+  text-transform: uppercase;
+  background: var(--cream); border: 1px solid var(--rule);
+  color: var(--ink-muted); transition: .15s; cursor: pointer;
+}
+.quick button.on, .quick button:hover {
+  background: var(--ink); color: var(--cream); border-color: var(--ink);
+}
+
+.calc-output {
+  background: var(--ink); color: var(--cream);
+  border-radius: var(--radius-lg); padding: 36px 40px 32px;
+  display: flex; flex-direction: column;
+}
+.out-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 28px; padding-bottom: 22px;
+  border-bottom: 1px solid rgba(247,242,233,.14);
+  margin-bottom: 26px;
+}
+.out-cell .lbl {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; margin-bottom: 10px;
+}
+.out-cell.paid .lbl { color: #e89170; }
+.out-cell.saved .lbl { color: var(--green); }
+.out-cell .val {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 40;
+  font-size: clamp(34px, 3.2vw, 48px); line-height: 1;
+  letter-spacing: -0.03em;
+}
+.out-cell.paid .val { color: #e89170; text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: rgba(232, 145, 112, .4); }
+.out-cell.saved .val { color: var(--green); }
+.out-cell .sub {
+  font-size: 12px; color: rgba(247,242,233,.5); margin-top: 8px;
+  font-family: var(--mono); letter-spacing: .04em;
+}
+.annual-row {
+  padding: 0 0 22px;
+  border-bottom: 1px solid rgba(247,242,233,.14);
+  margin-bottom: 22px;
+}
+.annual-row .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: var(--green); text-transform: uppercase; margin-bottom: 10px; }
+.annual-row .val {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 60;
+  font-size: clamp(56px, 6vw, 84px); line-height: 1;
+  color: var(--green); letter-spacing: -0.035em;
+}
+.annual-row .unit {
+  font-family: var(--mono); font-size: 12px; color: rgba(247,242,233,.5);
+  letter-spacing: .04em; margin-top: 8px;
+}
+
+.chart-wrap {
+  flex: 1;
+}
+.chart-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 12px;
+}
+.chart-head .lbl { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; color: rgba(247,242,233,.7); text-transform: uppercase; }
+.chart-head .peak { font-family: var(--mono); font-size: 11px; color: var(--green); letter-spacing: .05em; }
+.chart-svg { width: 100%; height: 140px; }
+
+.calc-note {
+  margin-top: 20px; font-family: var(--mono); font-size: 11px;
+  color: var(--ink-muted); line-height: 1.6; letter-spacing: .02em;
+}
+.calc-note b { color: var(--ink); font-weight: 500; }
+
+/* —— Sabrosy vignette —— */
+.vignette {
+  background: var(--ink); color: var(--cream); padding: 100px 0;
+}
+.vignette .wrap { display: grid; grid-template-columns: 1.2fr 1fr; gap: 56px; align-items: center; }
+.vignette .sec-lbl .num { color: var(--green); }
+.vignette .sec-lbl .line { background: rgba(247,242,233,.2); }
+.vignette h2 {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: clamp(30px, 3.4vw, 48px); line-height: 1.05;
+  color: var(--cream); font-weight: 400; letter-spacing: -0.02em;
+  margin: 0 0 20px;
+}
+.vignette h2 em { color: var(--green); font-style: italic; font-variation-settings: "opsz" 144, "SOFT" 80; }
+.vignette p { color: rgba(247,242,233,.75); font-size: 17px; line-height: 1.55; max-width: 56ch; margin: 0; }
+.depl {
+  background: rgba(247,242,233,.04); border: 1px solid rgba(247,242,233,.12);
+  border-radius: var(--radius-lg); padding: 32px;
+}
+.depl-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 14px 0; border-top: 1px solid rgba(247,242,233,.1);
+}
+.depl-row:first-child { border-top: none; padding-top: 0; }
+.depl-row .k { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; color: rgba(247,242,233,.6); text-transform: uppercase; }
+.depl-row .v { font-family: var(--serif); font-variation-settings: "opsz" 144; font-size: 22px; color: var(--cream); letter-spacing: -0.01em; }
+.depl-row .v.g { color: var(--green); }
+
+/* —— Logo bar —— */
+.cbar { background: var(--cream-2); padding: 64px 0; }
+.cbar .lbl {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink-muted);
+  text-align: center; margin-bottom: 28px;
+}
+.cbar-row {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px;
+  align-items: center;
+}
+.cbar-tile {
+  padding: 18px 12px; text-align: center;
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: 22px; color: var(--ink-soft); letter-spacing: -0.01em;
+  opacity: .75; transition: .2s;
+  border-right: 1px solid var(--rule);
+  text-decoration: none;
+}
+.cbar-tile:last-child { border-right: none; }
+.cbar-tile:hover { opacity: 1; color: var(--green-ink); }
+.cbar-tile small {
+  display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-muted); margin-top: 6px; opacity: .7;
+}
+
+/* —— Plan —— */
+.plan90 { background: var(--cream); padding: 120px 0; }
+.plan90-head { max-width: 780px; margin-bottom: 48px; }
+.plan90-head h2 { margin: 12px 0 16px; }
+.plan-phases {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  overflow: hidden;
+}
+.phase {
+  padding: 32px 28px 36px;
+  border-right: 1px solid var(--rule);
+  position: relative;
+}
+.phase:last-child { border-right: none; }
+.phase .days {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  color: var(--green-ink); text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.phase .phase-num {
+  position: absolute; top: 28px; right: 28px;
+  font-family: var(--serif); font-variation-settings: "opsz" 144;
+  font-size: 54px; color: var(--cream-3); letter-spacing: -0.04em;
+  line-height: 1;
+}
+.phase h4 {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: 22px; font-weight: 400; letter-spacing: -0.015em;
+  margin: 0 0 12px; max-width: 14ch;
+}
+.phase p { margin: 0; font-size: 14px; color: var(--ink-muted); line-height: 1.55; }
+.phase.milestone {
+  background: var(--green-100);
+}
+.phase.milestone .phase-num { color: var(--green); }
+
+/* —— CTA —— */
+.cj-cta {
+  background: var(--ink); color: var(--cream);
+  padding: 140px 0; text-align: center;
+}
+.cj-cta .sec-lbl { justify-content: center; max-width: 320px; margin: 0 auto 24px; }
+.cj-cta .sec-lbl .num { color: var(--green); }
+.cj-cta .sec-lbl .line { background: rgba(247,242,233,.2); }
+.cj-cta h2 {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 40;
+  font-size: clamp(40px, 5.2vw, 72px); line-height: 1.02;
+  letter-spacing: -0.025em; font-weight: 400; color: var(--cream);
+  margin: 0 auto 20px; max-width: 18ch;
+}
+.cj-cta h2 em { font-style: italic; color: var(--green); font-variation-settings: "opsz" 144, "SOFT" 80; }
+.cj-cta p { color: rgba(247,242,233,.7); max-width: 54ch; margin: 0 auto 36px; font-size: 17px; }
+.cj-cta .btn-green {
+  font-size: 16px; padding: 16px 28px;
+}
+.cj-cta .ctx {
+  margin-top: 28px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(247,242,233,.45);
+}
+
+/* —— Footer —— */
+.cj-foot {
+  background: var(--cream); border-top: 1px solid var(--rule);
+  padding: 40px 0; font-family: var(--mono); font-size: 11px;
+  color: var(--ink-muted); letter-spacing: .08em; text-transform: uppercase;
+}
+.cj-foot .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+.cj-foot .logo { font-family: var(--serif); text-transform: none; letter-spacing: -0.02em; font-size: 16px; color: var(--ink); }
+
+/* Responsive */
+@media (max-width: 1100px) {
+  .calc-grid { grid-template-columns: 1fr; }
+  .vignette .wrap { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 900px) {
+  .cj-hero-facts { grid-template-columns: 1fr 1fr; }
+  .cj-fact:nth-child(2) { border-right: none; }
+  .cj-fact { border-bottom: 1px solid var(--rule); padding: 20px 20px 20px 0; }
+  .cj-fact:nth-child(n+3) { border-bottom: none; }
+  .case-beats { grid-template-columns: 1fr; }
+  .case-split { grid-template-columns: 1fr; }
+  .plan-phases { grid-template-columns: 1fr; }
+  .phase { border-right: none; border-bottom: 1px solid var(--rule); }
+  .phase:last-child { border-bottom: none; }
+  .cbar-row { grid-template-columns: repeat(2, 1fr); }
+  .cbar-tile { border-right: none; border-bottom: 1px solid var(--rule); padding-bottom: 16px; }
+  .out-row { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
+<div id="root"></div>
 
-<a class="skip-link" href="#roi">Saltar a la calculadora</a>
+<script type="text/babel">
+// Prospect page — Celaya franchisee
+// All brand names referenced verbally (case studies) are placeholders-ready.
 
-<header class="cj-nav">
-  <div class="wrap cj-nav-inner">
-    <a href="#" class="logo"><span class="logo-mark"></span><span>Fluxsales</span></a>
-    <div class="cj-nav-meta">
-      Preparado para <b>Tu red · Celaya</b> · Abril 2026
-    </div>
-    <a href="#cta" class="btn btn-primary" style="padding:9px 16px;font-size:13px;">
-      Agendar sesión técnica <span class="arr">→</span>
-    </a>
-  </div>
-</header>
+const fmtMXN = (n, opts = {}) => {
+  const { short = false } = opts;
+  if (short && Math.abs(n) >= 1_000_000) {
+    return "$" + (n / 1_000_000).toFixed(2).replace(/\.?0+$/, "") + "M";
+  }
+  if (short && Math.abs(n) >= 1_000) {
+    return "$" + Math.round(n / 1_000) + "k";
+  }
+  return "$" + Math.round(n).toLocaleString("es-MX");
+};
+const fmtNum = (n) => Math.round(n).toLocaleString("es-MX");
 
-<section class="cj-hero">
-  <div class="wrap">
-    <div class="confidential">
-      <span class="dot"></span>
-      <span>Documento para tu equipo · No compartir fuera de la red</span>
-    </div>
-    <h1>
-      Deja de pagarle <span class="strike">24%</span> <span class="twentyfour">24%</span><br/>
-      de comisión a Uber Eats.
-    </h1>
-    <p class="sub">
-      Lo que Brooklyn Burgers logró en <b>90 días</b>, proyectado para tu piloto en
-      Celaya y tu red de <b>80 locales</b>. Con tus propios números, tus propias
-      comisiones y la misma mecánica que ya probamos en el mercado mexicano.
-    </p>
-    <div class="cj-hero-facts">
-      <div class="cj-fact">
-        <div class="k">Tu marca</div>
-        <div class="v">~80 locales</div>
-        <div class="s">Red nacional</div>
+// —— Slim nav ——
+function CJNav() {
+  return (
+    <header className="cj-nav">
+      <div className="wrap cj-nav-inner">
+        <a href="#" className="logo">
+          <span className="logo-mark" style={{width:26,height:26,display:"inline-flex"}}>
+            <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style={{width:"100%",height:"100%"}}>
+              <g fill="currentColor">
+                <rect x="54" y="40" width="50" height="172" rx="6"/>
+                <rect x="54" y="40" width="150" height="46" rx="6"/>
+                <rect x="54" y="108" width="98" height="38" rx="6"/>
+                <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+              </g>
+            </svg>
+          </span>
+          <span>Fluxsales</span>
+        </a>
+        <div className="cj-nav-meta">
+          Preparado para <b>Tu red · Celaya</b> · Abril 2026
+        </div>
+        <a href="#cta" className="btn btn-primary" style={{ padding: "9px 16px", fontSize: 13 }}>
+          Agendar sesión técnica <span className="arr">→</span>
+        </a>
       </div>
-      <div class="cj-fact">
-        <div class="k">Arranque</div>
-        <div class="v">2 locales</div>
-        <div class="s">Piloto en Celaya</div>
-      </div>
-      <div class="cj-fact">
-        <div class="k">UE hoy</div>
-        <div class="v">24%</div>
-        <div class="s">Comisión enterprise negociada</div>
-      </div>
-      <div class="cj-fact">
-        <div class="k">Caso ancla</div>
-        <div class="v">Brooklyn</div>
-        <div class="s">4 locales · UE apagado en 90 días</div>
-      </div>
-    </div>
-  </div>
-</section>
+    </header>
+  );
+}
 
-<section class="case">
-  <div class="wrap">
-    <div class="sec-lbl"><span class="num">02 · Caso ancla</span><span class="line"></span></div>
-    <div class="case-head">
-      <h2 class="display h2">Brooklyn Burgers mató su canal de Uber Eats.</h2>
-      <p class="lead">
-        Cuatro locales en Veracruz. Dos canales de delivery. Cero comisiones de UE hoy.
-        La misma mecánica que proponemos para tu piloto en Celaya.
-      </p>
-    </div>
-
-    <div class="case-beats">
-      <div class="beat">
-        <div class="lbl">Antes</div>
-        <h4>4 locales · dos apps</h4>
-        <p>
-          Brooklyn Burgers operaba 4 locales en Veracruz. Dos canales de delivery:
-          Uber Eats y Rappi. ~<b>30% de cada orden de UE</b> iba a comisión.
+// —— Hero ——
+function Hero() {
+  return (
+    <section className="cj-hero">
+      <div className="wrap">
+        <div className="confidential">
+          <span className="dot" />
+          <span>Documento para tu equipo · No compartir fuera de la red</span>
+        </div>
+        <h1>
+          Deja de pagarle <span className="strike">24%</span> <span className="twentyfour">24%</span><br/>
+          de comisión a Uber Eats.
+        </h1>
+        <p className="sub">
+          Lo que Brooklyn Burgers logró en <b>90 días</b>, proyectado para tu piloto en
+          Celaya y tu red de <b>80 locales</b>. Con tus propios números, tus propias
+          comisiones y la misma mecánica que ya probamos en el mercado mexicano.
         </p>
+        <div className="cj-hero-facts">
+          <div className="cj-fact">
+            <div className="k">Tu marca</div>
+            <div className="v">~80 locales</div>
+            <div className="s">Red nacional</div>
+          </div>
+          <div className="cj-fact">
+            <div className="k">Arranque</div>
+            <div className="v">2 locales</div>
+            <div className="s">Piloto en Celaya</div>
+          </div>
+          <div className="cj-fact">
+            <div className="k">UE hoy</div>
+            <div className="v">24%</div>
+            <div className="s">Comisión enterprise negociada</div>
+          </div>
+          <div className="cj-fact">
+            <div className="k">Caso ancla</div>
+            <div className="v">Brooklyn</div>
+            <div className="s">4 locales · UE apagado en 90 días</div>
+          </div>
+        </div>
       </div>
-      <div class="beat">
-        <div class="lbl">Durante · 90 días</div>
-        <h4>Transición paralela</h4>
-        <p>
-          Go-live de Fluxsales. Canal directo levantado junto a las apps. Día 30 el
-          directo superó 25% del mix. Día 60 UE iba en caída. Día 90 se apagó.
-        </p>
-      </div>
-      <div class="beat today">
-        <div class="lbl">Hoy</div>
-        <div class="big">~200</div>
-        <h4>órdenes/día sin comisión UE</h4>
-        <p>
-          4 locales. ~200 órdenes diarias en la red. Cero comisión Uber Eats.
-          Rappi se mantiene como secundario.
-        </p>
-      </div>
-    </div>
+    </section>
+  );
+}
 
-    <div class="tl">
-      <div class="tl-head">
-        <h3>La transición. 90 días.</h3>
-        <div class="lbl">Mix de canales · Red Brooklyn (4 locales)</div>
+// —— Recovered visualization ——
+function RecoveredViz() {
+  const W = 420, H = 260;
+  const barW = 120;
+  const gap = 60;
+  const x1 = (W - (barW * 2 + gap)) / 2;
+  const x2 = x1 + barW + gap;
+  const top = 28;
+  const botY = H - 40;
+  const barH = botY - top;
+  const commissionFrac = 0.28;
+  const commissionH = barH * commissionFrac;
+  const keptH = barH - commissionH;
+
+  return (
+    <div className="recover">
+      <div className="recover-head">
+        <div className="recover-eyebrow">Lo recuperado · Red Brooklyn</div>
+        <div className="recover-big">~$1.05M MXN/año</div>
+        <div className="recover-annual">~$88k MXN / mes · 4 locales</div>
       </div>
-      <div class="tl-chart">
-        <svg viewBox="0 0 1000 200" preserveAspectRatio="none" aria-label="Brooklyn transition timeline">
-          <line x1="12" x2="988" y1="56" y2="56" stroke="#d9cfba" stroke-dasharray="3 4" stroke-width="1" opacity=".6" />
-          <line x1="12" x2="988" y1="100" y2="100" stroke="#d9cfba" stroke-dasharray="3 4" stroke-width="1" opacity=".6" />
-          <line x1="12" x2="988" y1="144" y2="144" stroke="#d9cfba" stroke-dasharray="3 4" stroke-width="1" opacity=".6" />
-          <!-- Rappi (flat ~55) -->
-          <path d="M12.0 109.9 L93.3 109.9 L174.7 111.7 L256.0 108.1 L337.3 109.9 L418.7 108.1 L500.0 109.9 L581.3 111.7 L662.7 109.9 L744.0 108.1 L825.3 109.9 L906.7 109.9 L988.0 111.7" fill="none" stroke="#6b6a63" stroke-width="2" opacity=".55" />
-          <!-- UE declining -->
-          <path d="M12.0 12.0 L93.3 15.5 L174.7 19.0 L256.0 24.3 L337.3 33.1 L418.7 50.7 L500.0 68.3 L581.3 85.9 L662.7 110.5 L744.0 135.1 L825.3 149.2 L906.7 167.7 L988.0 176.5" fill="none" stroke="#c45a2a" stroke-width="2.5" />
-          <!-- Direct rising (Brooklyn shape) -->
-          <path d="M12.0 176.5 L93.3 162.4 L174.7 144.8 L256.0 123.7 L337.3 101.3 L418.7 81.9 L500.0 65.6 L581.3 51.4 L662.7 37.3 L744.0 23.2 L825.3 12.6 L906.7 5.6 L988.0 2.0" fill="none" stroke="#57b990" stroke-width="3" />
-          <!-- Crossover marker -->
-          <circle cx="548.6" cy="75.4" r="4" fill="#57b990" />
-          <line x1="548.6" x2="548.6" y1="75.4" y2="188" stroke="#57b990" stroke-dasharray="2 3" stroke-width="1" />
-          <text x="556.6" y="67.4" font-family="JetBrains Mono" font-size="10" fill="#2f7a5e" letter-spacing=".08em">CRUCE · DÍA 45</text>
-          <!-- End marker -->
-          <circle cx="988" cy="2" r="4" fill="#c45a2a" />
-          <text x="984" y="-8" font-family="JetBrains Mono" font-size="10" fill="#c45a2a" text-anchor="end" letter-spacing=".08em">UE APAGADO</text>
+
+      <div className="recover-chart">
+        <svg viewBox={`0 0 ${W} ${H}`} width="100%" preserveAspectRatio="xMidYMid meet">
+          <line x1={x1 - 12} x2={x2 + barW + 12} y1={botY} y2={botY}
+            stroke="rgba(13,44,32,.25)" strokeWidth="1" />
+          <rect x={x1} y={top} width={barW} height={commissionH}
+            fill="#c45a2a" rx="3" />
+          <rect x={x1} y={top + commissionH} width={barW} height={keptH}
+            fill="#0d2c20" opacity="0.85" rx="3" />
+          <text x={x1 + barW / 2} y={top + commissionH / 2 + 4}
+            fill="#f7f2e9" fontSize="13" fontFamily="JetBrains Mono"
+            textAnchor="middle" fontWeight="500">28%</text>
+          <text x={x1 + barW / 2} y={top + commissionH / 2 + 20}
+            fill="rgba(247,242,233,.8)" fontSize="10" fontFamily="JetBrains Mono"
+            textAnchor="middle" letterSpacing=".08em">A UBER EATS</text>
+          <text x={x1 + barW / 2} y={top + commissionH + keptH / 2}
+            fill="#f7f2e9" fontSize="11" fontFamily="JetBrains Mono"
+            textAnchor="middle" letterSpacing=".08em">72%</text>
+          <text x={x1 + barW / 2} y={top + commissionH + keptH / 2 + 16}
+            fill="rgba(247,242,233,.6)" fontSize="10" fontFamily="JetBrains Mono"
+            textAnchor="middle" letterSpacing=".08em">EN CASA</text>
+          <text x={x1 + barW / 2} y={botY + 22}
+            fill="rgba(13,44,32,.65)" fontSize="11" fontFamily="JetBrains Mono"
+            textAnchor="middle" letterSpacing=".12em">ANTES</text>
+          <rect x={x2} y={top} width={barW} height={barH}
+            fill="#0d2c20" opacity="0.92" rx="3" />
+          <rect x={x2} y={top} width={barW} height={commissionH}
+            fill="none" stroke="rgba(13,44,32,.35)" strokeDasharray="3 4" strokeWidth="1" rx="3" />
+          <text x={x2 + barW / 2} y={top + commissionH / 2 + 4}
+            fill="rgba(13,44,32,.55)" fontSize="11" fontFamily="JetBrains Mono"
+            textAnchor="middle" letterSpacing=".08em">—</text>
+          <text x={x2 + barW / 2} y={top + barH / 2 + 2}
+            fill="#f7f2e9" fontSize="13" fontFamily="JetBrains Mono"
+            textAnchor="middle" fontWeight="500">100%</text>
+          <text x={x2 + barW / 2} y={top + barH / 2 + 18}
+            fill="rgba(247,242,233,.65)" fontSize="10" fontFamily="JetBrains Mono"
+            textAnchor="middle" letterSpacing=".08em">EN CASA</text>
+          <text x={x2 + barW / 2} y={botY + 22}
+            fill="rgba(13,44,32,.65)" fontSize="11" fontFamily="JetBrains Mono"
+            textAnchor="middle" letterSpacing=".12em">DESPUÉS</text>
+          <g>
+            <path
+              d={`M ${x1 + barW + 6} ${top + commissionH / 2} C ${x1 + barW + 24} ${top + commissionH / 2}, ${x2 - 24} ${top + commissionH / 2}, ${x2 - 6} ${top + commissionH / 2}`}
+              fill="none" stroke="#0d2c20" strokeWidth="1.5" strokeDasharray="3 3" opacity="0.6" />
+            <path d={`M ${x2 - 10} ${top + commissionH / 2 - 4} L ${x2 - 4} ${top + commissionH / 2} L ${x2 - 10} ${top + commissionH / 2 + 4}`}
+              fill="none" stroke="#0d2c20" strokeWidth="1.5" opacity="0.6" />
+            <text x={(x1 + barW + x2) / 2} y={top + commissionH / 2 - 8}
+              fill="#0d2c20" fontSize="10" fontFamily="JetBrains Mono"
+              textAnchor="middle" letterSpacing=".1em">RECUPERADO</text>
+          </g>
         </svg>
       </div>
-      <div class="tl-axis">
-        <div class="tl-tick">Día 0<b>Go-live</b></div>
-        <div class="tl-tick">Día 30<b>&gt;25% directo</b></div>
-        <div class="tl-tick">Día 60<b>Rappi + directo</b></div>
-        <div class="tl-tick">Día 90<b>UE apagado</b></div>
-      </div>
-      <div class="tl-legend">
-        <span><span class="sw ue"></span> Uber Eats</span>
-        <span><span class="sw dir"></span> Canal directo (Fluxsales)</span>
-        <span><span class="sw rap"></span> Rappi (se mantiene)</span>
-      </div>
-    </div>
 
-    <div class="case-split">
-      <div class="recover">
-        <div class="recover-head">
-          <div class="recover-eyebrow">Lo recuperado · Red Brooklyn</div>
-          <div class="recover-big">~$1.05M MXN/año</div>
-          <div class="recover-annual">~$88k MXN / mes · 4 locales</div>
+      <div className="recover-foot">
+        <div className="recover-math">
+          30 órd/día × <b>$350</b> × <b>28%</b> × 30d × 4 locales = <b>~$88k/mes</b>
         </div>
-
-        <div class="recover-chart">
-          <svg viewBox="0 0 420 260" width="100%" preserveAspectRatio="xMidYMid meet" aria-label="Antes vs Después">
-            <line x1="78" x2="342" y1="220" y2="220" stroke="rgba(13,44,32,.25)" stroke-width="1" />
-            <!-- LEFT BAR - Antes -->
-            <rect x="90" y="28" width="120" height="53.76" fill="#c45a2a" rx="3" />
-            <rect x="90" y="81.76" width="120" height="138.24" fill="#0d2c20" opacity="0.85" rx="3" />
-            <text x="150" y="58.88" fill="#f7f2e9" font-size="13" font-family="JetBrains Mono" text-anchor="middle" font-weight="500">28%</text>
-            <text x="150" y="74.88" fill="rgba(247,242,233,.8)" font-size="10" font-family="JetBrains Mono" text-anchor="middle" letter-spacing=".08em">A UBER EATS</text>
-            <text x="150" y="150.88" fill="#f7f2e9" font-size="11" font-family="JetBrains Mono" text-anchor="middle" letter-spacing=".08em">72%</text>
-            <text x="150" y="166.88" fill="rgba(247,242,233,.6)" font-size="10" font-family="JetBrains Mono" text-anchor="middle" letter-spacing=".08em">EN CASA</text>
-            <text x="150" y="242" fill="rgba(13,44,32,.65)" font-size="11" font-family="JetBrains Mono" text-anchor="middle" letter-spacing=".12em">ANTES</text>
-            <!-- RIGHT BAR - Después -->
-            <rect x="270" y="28" width="120" height="192" fill="#0d2c20" opacity="0.92" rx="3" />
-            <rect x="270" y="28" width="120" height="53.76" fill="none" stroke="rgba(13,44,32,.35)" stroke-dasharray="3 4" stroke-width="1" rx="3" />
-            <text x="330" y="58.88" fill="rgba(13,44,32,.55)" font-size="11" font-family="JetBrains Mono" text-anchor="middle" letter-spacing=".08em">—</text>
-            <text x="330" y="126" fill="#f7f2e9" font-size="13" font-family="JetBrains Mono" text-anchor="middle" font-weight="500">100%</text>
-            <text x="330" y="142" fill="rgba(247,242,233,.65)" font-size="10" font-family="JetBrains Mono" text-anchor="middle" letter-spacing=".08em">EN CASA</text>
-            <text x="330" y="242" fill="rgba(13,44,32,.65)" font-size="11" font-family="JetBrains Mono" text-anchor="middle" letter-spacing=".12em">DESPUÉS</text>
-            <!-- Recovery arrow -->
-            <path d="M 216 54.88 C 234 54.88, 246 54.88, 264 54.88" fill="none" stroke="#0d2c20" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6" />
-            <path d="M 260 50.88 L 266 54.88 L 260 58.88" fill="none" stroke="#0d2c20" stroke-width="1.5" opacity="0.6" />
-            <text x="240" y="46.88" fill="#0d2c20" font-size="10" font-family="JetBrains Mono" text-anchor="middle" letter-spacing=".1em">RECUPERADO</text>
-          </svg>
-        </div>
-
-        <div class="recover-foot">
-          <div class="recover-math">
-            30 órd/día × <b>$350</b> × <b>28%</b> × 30d × 4 locales = <b>~$88k/mes</b>
-          </div>
-          <div class="recover-midsize">
-            Brooklyn es un caso mediano. La misma matemática, corrida con tus números
-            para Celaya y tu red, abajo ↓
-          </div>
-        </div>
-      </div>
-
-      <div class="quote-card">
-        <blockquote>
-          Llegó un momento en que veíamos la cuenta de UE y nos preguntábamos
-          quién era el dueño del negocio, ellos o nosotros. Apagamos el canal en
-          el mes tres. El cliente siguió llegando — solo que ahora la comisión
-          se queda en la casa.
-        </blockquote>
-        <div class="q-meta">
-          <div class="av">A</div>
-          <div>
-            <div class="nm">Axel</div>
-            <div class="rl">Co-fundador, Brooklyn Burgers · 4 locales, Veracruz</div>
-          </div>
-        </div>
-        <!--
-          INTERNAL NOTE (removed from page per owner request): the 28% Brooklyn
-          commission rate is industry-standard, not a confirmed Brooklyn-specific
-          rate. Verify real pre-FluxSales rate before publish; swap + recompute if
-          different. Also tracked in companies/fluxsales/proposals/carls-jr-celaya/
-          README.md pre-publish checklist.
-        -->
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="calc" id="roi">
-  <div class="wrap">
-    <div class="sec-lbl"><span class="num">03 · Tu recuperación</span><span class="line"></span></div>
-    <div class="calc-head">
-      <h2 class="display h2">Tu dinero sobre la mesa, con tus propios números.</h2>
-      <p class="lead">
-        Pre-cargado con lo que nos compartiste en la primera sesión. Mueve el slider
-        de Celaya a la red completa y observa el mismo modelo escalar 40×.
-      </p>
-    </div>
-
-    <div class="calc-grid">
-      <div class="calc-inputs">
-        <h4>Entradas · editables</h4>
-
-        <div class="inp-row">
-          <div class="top">
-            <span class="lab">Órdenes UE / mes / local</span>
-            <span class="src">Tu dato</span>
-          </div>
-          <div class="val"><span data-display="ordersPerMonth">1,000</span> <span class="u">órdenes</span></div>
-          <input class="slider" type="range" min="100" max="3000" step="50" value="1000" data-input="ordersPerMonth" />
-          <div class="rng-labels"><span>100</span><span>3,000</span></div>
-        </div>
-
-        <div class="inp-row">
-          <div class="top">
-            <span class="lab">Número de locales</span>
-            <span class="src">Piloto → red</span>
-          </div>
-          <div class="val"><span data-display="locations">2</span> <span class="u" data-display="locationsUnit">locales</span></div>
-          <input class="slider" type="range" min="1" max="80" step="1" value="2" id="input-locations" data-input="locations" />
-          <div class="rng-labels"><span>1 (piloto mínimo)</span><span>80 (red completa)</span></div>
-          <div class="quick">
-            <button type="button" data-preset-locations="2" class="on">Piloto Celaya (2)</button>
-            <button type="button" data-preset-locations="10">Primer cluster (10)</button>
-            <button type="button" data-preset-locations="40">Media red (40)</button>
-            <button type="button" data-preset-locations="80">Red completa (80)</button>
-          </div>
-        </div>
-
-        <div class="inp-row">
-          <div class="top">
-            <span class="lab">Ticket promedio</span>
-            <span class="src">Tu dato</span>
-          </div>
-          <div class="val"><span data-display="avgTicket">$350</span> <span class="u">MXN</span></div>
-          <input class="slider" type="range" min="150" max="800" step="10" value="350" data-input="avgTicket" />
-          <div class="rng-labels"><span>$150</span><span>$800</span></div>
-        </div>
-
-        <div class="inp-row">
-          <div class="top">
-            <span class="lab">Comisión Uber Eats</span>
-            <span class="src">Tu tarifa enterprise</span>
-          </div>
-          <div class="val"><span data-display="commissionRatePercent">24</span><span class="u">%</span></div>
-          <input class="slider" type="range" min="10" max="35" step="0.5" value="24" data-input="commissionRatePercent" />
-          <div class="rng-labels"><span>10%</span><span>35%</span></div>
-        </div>
-      </div>
-
-      <div class="calc-output">
-        <div class="out-row">
-          <div class="out-cell paid">
-            <div class="lbl">Comisión pagada hoy / mes</div>
-            <div class="val" data-output="monthlyToday">$168,000</div>
-            <div class="sub" data-formula="monthly">A Uber Eats · 2×1,000×$350×24%</div>
-          </div>
-          <div class="out-cell saved">
-            <div class="lbl">Margen recuperado / mes</div>
-            <div class="val" data-output="monthlyRecovered">$168,000</div>
-            <div class="sub">Mismo número · reframeado como tuyo</div>
-          </div>
-        </div>
-        <div class="annual-row">
-          <div class="lbl">Recuperación anual</div>
-          <div class="val" data-output="annual">$2,016,000</div>
-          <div class="unit">MXN · asume reemplazo completo del canal</div>
-        </div>
-
-        <div class="chart-wrap">
-          <div class="chart-head">
-            <div class="lbl">Recuperación acumulada · 12 meses</div>
-            <div class="peak">Pico mes 12 · <span data-output="peak">$19.7M</span></div>
-          </div>
-          <svg class="chart-svg" viewBox="0 0 800 180" preserveAspectRatio="none" aria-label="Curva de recuperación acumulada" data-chart="recovery">
-            <!-- populated by ui.js -->
-          </svg>
-        </div>
-
-        <div class="chart-footnote">
-          <span>Rampa Brooklyn · 25/60/100%</span>
-          <span>Tope: reemplazo total del canal UE</span>
+        <div className="recover-midsize">
+          Brooklyn es un caso mediano. La misma matemática, corrida con tus números
+          para Celaya y tu red, abajo ↓
         </div>
       </div>
     </div>
+  );
+}
 
-    <div class="calc-note">
-      <b>Cómo calculamos esto · </b>
-      Comisión mensual = L × O × T × C. &nbsp;
-      Con tus entradas actuales: <span data-formula="breakdown">2 × 1,000 × $350 × 24% = $168,000/mes</span>.
-      &nbsp; Anual = mensual × 12 = <span data-formula="annualBreakdown">$2,016,000/año</span>.
-      &nbsp; La curva acumulada asume una rampa Brooklyn (25% mes 1, 60% mes 2, 100% desde mes 3).
-      &nbsp; <b>Supuesto a confirmar</b>: la forma 25/60/100 es una aproximación del
-      trayecto Brooklyn, no un dataset mes-por-mes medido. Antes de publicar se cruza
-      con los datos mensuales reales de Brooklyn; si la curva difiere, se actualiza.
-    </div>
-  </div>
-</section>
+// —— Case study —— 90-day timeline visual ——
+function Timeline() {
+  const weeks = 13;
+  const W = 1000, H = 200, pad = 12;
+  const xAt = (i) => pad + (i / (weeks - 1)) * (W - 2 * pad);
+  const yAt = (v) => H - pad - (v / 100) * (H - 2 * pad);
 
-<section class="vignette">
-  <div class="wrap">
-    <div>
-      <div class="sec-lbl"><span class="num">04 · Velocidad de despliegue</span><span class="line"></span></div>
-      <h2>
-        Sabrosy, <em>8 locales</em>,<br/>
-        desplegados en <em>8 semanas</em>.
-      </h2>
-      <p>
-        Sabrosy (tortas, 8 locales en México) se subió completa en 8 semanas. Podemos
-        tener ambos locales de Celaya en producción en 30 días, y tu red completa de
-        80 locales en menos de 6 meses. Nuestro trabajo está diseñado para moverse
-        a la velocidad que una red QSR espera.
-      </p>
-    </div>
-    <div class="depl">
-      <div class="depl-row"><span class="k">Celaya · piloto</span><span class="v g">30 días</span></div>
-      <div class="depl-row"><span class="k">Primer cluster (10)</span><span class="v">60 días</span></div>
-      <div class="depl-row"><span class="k">Media red (40)</span><span class="v">3 meses</span></div>
-      <div class="depl-row"><span class="k">Red completa (80)</span><span class="v g">&lt; 6 meses</span></div>
-    </div>
-  </div>
-</section>
+  const ue = [100, 98, 96, 93, 88, 78, 68, 58, 42, 28, 16, 6, 0];
+  const dir = [0, 8, 18, 30, 44, 55, 64, 72, 80, 88, 94, 98, 100];
+  const rap = [55, 55, 54, 56, 55, 56, 55, 54, 55, 56, 55, 55, 54];
 
-<section class="cbar" id="customers">
-  <div class="wrap">
-    <div class="lbl">Restaurantes operando en Fluxsales</div>
-    <div class="cbar-row">
-      <a href="https://pedidos.carlsjrpuebla.com/" target="_blank" rel="noopener noreferrer" class="cbar-tile">
-        Carl's Jr.<br/>Puebla
-        <small>Piloto activo</small>
-      </a>
-      <a href="https://lflux.co/brooklynmx" target="_blank" rel="noopener noreferrer" class="cbar-tile">
-        Brooklyn<br/>Burgers
-        <small>4 locales</small>
-      </a>
-      <a href="https://sabrosy.com/" target="_blank" rel="noopener noreferrer" class="cbar-tile">
-        Sabrosy
-        <small>8 locales</small>
-      </a>
-      <a href="https://pedidos.cosifantutterestaurante.com/" target="_blank" rel="noopener noreferrer" class="cbar-tile">
-        Cosi Fan Tutte
-        <small>Italiana, Querétaro</small>
-      </a>
-      <a href="https://lealtad.dolcebisquet.com/" target="_blank" rel="noopener noreferrer" class="cbar-tile">
-        Dolce Bisquet
-        <small>Monterrey</small>
-      </a>
-    </div>
-  </div>
-</section>
+  const pathFrom = (arr) =>
+    arr.map((v, i) => (i === 0 ? "M" : "L") + xAt(i).toFixed(1) + " " + yAt(v).toFixed(1)).join(" ");
 
-<section class="plan90">
-  <div class="wrap">
-    <div class="sec-lbl"><span class="num">06 · Lo que haríamos por tu red</span><span class="line"></span></div>
-    <div class="plan90-head">
-      <h2 class="display h2">Un plan 30·60·90 — y después, tu red entera.</h2>
-      <p class="lead">
-        Arranque acotado, ganancia visible antes del trimestre, y un roadmap claro
-        para los 78 locales restantes.
-      </p>
-    </div>
-    <div class="plan-phases">
-      <div class="phase">
-        <div class="phase-num">01</div>
-        <div class="days">Día 1–30 · Piloto Celaya</div>
-        <h4>Dos locales en vivo.</h4>
-        <p>Ambos locales de Celaya arriba. Base de tráfico UE medido. Canal directo lanzado.</p>
+  return (
+    <div className="tl">
+      <div className="tl-head">
+        <h3>La transición. 90 días.</h3>
+        <div className="lbl">Mix de canales · Red Brooklyn (4 locales)</div>
       </div>
-      <div class="phase">
-        <div class="phase-num">02</div>
-        <div class="days">Día 31–60 · Optimización</div>
-        <h4>Menú, precio, campañas.</h4>
-        <p>Optimización semanal. Volumen del canal directo crece semana a semana.</p>
+      <div className="tl-chart">
+        <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">
+          {[25, 50, 75].map((v) => (
+            <line key={v} x1={pad} x2={W - pad} y1={yAt(v)} y2={yAt(v)}
+              stroke="#d9cfba" strokeDasharray="3 4" strokeWidth="1" opacity=".6" />
+          ))}
+          <path d={pathFrom(rap)} fill="none" stroke="#6b6a63" strokeWidth="2" opacity=".55" />
+          <path d={pathFrom(ue)} fill="none" stroke="#c45a2a" strokeWidth="2.5" />
+          <path d={pathFrom(dir)} fill="none" stroke="#57b990" strokeWidth="3" />
+          <circle cx={xAt(6.6)} cy={yAt(64)} r="4" fill="#57b990" />
+          <line x1={xAt(6.6)} x2={xAt(6.6)} y1={yAt(64)} y2={H - pad} stroke="#57b990" strokeDasharray="2 3" strokeWidth="1" />
+          <text x={xAt(6.6) + 8} y={yAt(64) - 8} fontFamily="JetBrains Mono" fontSize="10"
+            fill="#2f7a5e" letterSpacing=".08em">CRUCE · DÍA 45</text>
+          <circle cx={xAt(12)} cy={yAt(0)} r="4" fill="#c45a2a" />
+          <text x={xAt(12) - 4} y={yAt(0) - 10} fontFamily="JetBrains Mono" fontSize="10"
+            fill="#c45a2a" textAnchor="end" letterSpacing=".08em">UE APAGADO</text>
+        </svg>
       </div>
-      <div class="phase milestone">
-        <div class="phase-num">03</div>
-        <div class="days">Día 61–90 · Hito de reemplazo</div>
-        <h4>El directo iguala a UE.</h4>
-        <p>El canal directo iguala el volumen anterior de Uber Eats. La recuperación se ve en el P&amp;L.</p>
+      <div className="tl-axis">
+        <div className="tl-tick">Día 0<b>Go-live</b></div>
+        <div className="tl-tick">Día 30<b>&gt;25% directo</b></div>
+        <div className="tl-tick">Día 60<b>Rappi + directo</b></div>
+        <div className="tl-tick">Día 90<b>UE apagado</b></div>
       </div>
-      <div class="phase">
-        <div class="phase-num">04</div>
-        <div class="days">Día 91+ · Expansión</div>
-        <h4>78 locales más.</h4>
-        <p>Roadmap para los 78 locales restantes en 6–12 meses. Despliegue por clusters.</p>
+      <div className="tl-legend">
+        <span><span className="sw ue" /> Uber Eats</span>
+        <span><span className="sw dir" /> Canal directo (Fluxsales)</span>
+        <span><span className="sw rap" /> Rappi (se mantiene)</span>
       </div>
     </div>
-  </div>
-</section>
+  );
+}
 
-<section class="cj-cta" id="cta">
-  <div class="wrap">
-    <div class="sec-lbl"><span class="num">07 · Siguiente paso</span><span class="line"></span></div>
-    <h2>
-      ¿Quieres ver <em>los números de tu red</em><br/>
-      en detalle?
-    </h2>
-    <p>
-      Los números que viste arriba son el punto de partida. Agendemos una llamada
-      y revisamos juntos cómo llegamos a ellos y qué pasa cuando los aplicamos a
-      tus 80 locales. Sin pitch.
-    </p>
-    <a href="https://wa.me/5214421716825?text=Hola%2C%20me%20interesa%20hablar%20sobre%20FluxSales%20para%20nuestra%20red%20de%20Carl%27s%20Jr.%20Celaya"
-       class="btn btn-green" target="_blank" rel="noopener noreferrer">
-      Agendar llamada por WhatsApp <span class="arr">→</span>
-    </a>
-    <div class="cta-wa-fallback print-only">
-      <span>O escribe directamente a <b>wa.me/5214421716825</b></span>
-    </div>
-    <div class="ctx">Una sola acción · Sin secundaria</div>
-  </div>
-</section>
+function CaseStudy() {
+  return (
+    <section className="case">
+      <div className="wrap">
+        <div className="sec-lbl"><span className="num">02 · Caso ancla</span><span className="line" /></div>
+        <div className="case-head">
+          <h2 className="display h2">Brooklyn Burgers mató su canal de Uber Eats.</h2>
+          <p className="lead">
+            Cuatro locales en Veracruz. Dos canales de delivery. Cero comisiones de UE hoy.
+            La misma mecánica que proponemos para tu piloto en Celaya.
+          </p>
+        </div>
 
-<footer class="cj-foot">
-  <div class="wrap">
-    <div class="logo-text">Fluxsales</div>
-    <div>Preparado para tu red · Celaya · Abril 2026 · Confidencial</div>
-    <div>fluxsales.co</div>
-  </div>
-</footer>
+        <div className="case-beats">
+          <div className="beat">
+            <div className="lbl">Antes</div>
+            <h4>4 locales · dos apps</h4>
+            <p>
+              Brooklyn Burgers operaba 4 locales en Veracruz. Dos canales de delivery:
+              Uber Eats y Rappi. ~<b>30% de cada orden de UE</b> iba a comisión.
+            </p>
+          </div>
+          <div className="beat">
+            <div className="lbl">Durante · 90 días</div>
+            <h4>Transición paralela</h4>
+            <p>
+              Go-live de Fluxsales. Canal directo levantado junto a las apps. Día 30 el
+              directo superó 25% del mix. Día 60 UE iba en caída. Día 90 se apagó.
+            </p>
+          </div>
+          <div className="beat today">
+            <div className="lbl">Hoy</div>
+            <div className="big">~200</div>
+            <h4>órdenes/día sin comisión UE</h4>
+            <p>
+              4 locales. ~200 órdenes diarias en la red. Cero comisión Uber Eats.
+              Rappi se mantiene como secundario.
+            </p>
+          </div>
+        </div>
 
+        <Timeline />
+
+        <div className="case-split">
+          <RecoveredViz />
+
+          <div className="quote-card">
+            <blockquote>
+              Llegó un momento en que veíamos la cuenta de UE y nos preguntábamos
+              quién era el dueño del negocio, ellos o nosotros. Apagamos el canal en
+              el mes tres. El cliente siguió llegando — solo que ahora la comisión
+              se queda en la casa.
+            </blockquote>
+            <div>
+              <div className="q-meta">
+                <div className="av">RM</div>
+                <div>
+                  <div className="nm">Axel</div>
+                  <div className="rl">Co-fundador, Brooklyn Burgers · 4 locales, Veracruz</div>
+                </div>
+              </div>
+              <div className="flag">
+                <b>Nota pre-publicación</b> · La tasa de 28% es el estándar de industria
+                para QSR en UE México, no la cifra específica de Brooklyn. Verificar la
+                comisión real pre-Fluxsales de Brooklyn antes de publicar; si es menor,
+                intercambiar y recalcular.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// —— ROI Calculator ——
+function Calculator() {
+  const [O, setO] = React.useState(1000);
+  const [L, setL] = React.useState(2);
+  const [T, setT] = React.useState(350);
+  const [C, setC] = React.useState(24);
+
+  const monthly = L * O * T * (C / 100);
+  const annual = monthly * 12;
+  const paidMonthly = monthly;
+
+  const factors = [0.25, 0.60, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+  const cumul = [];
+  let running = 0;
+  factors.forEach((f) => { running += f * monthly; cumul.push(running); });
+
+  const W = 800, H = 180, pL = 50, pR = 16, pT = 16, pB = 34;
+  const max = cumul[cumul.length - 1] || 1;
+  const x = (i) => pL + (i / 11) * (W - pL - pR);
+  const y = (v) => pT + (1 - v / max) * (H - pT - pB);
+  const linePath = cumul.map((v, i) => (i === 0 ? "M" : "L") + x(i).toFixed(1) + " " + y(v).toFixed(1)).join(" ");
+  const areaPath = linePath + ` L ${x(11).toFixed(1)} ${(H - pB).toFixed(1)} L ${x(0).toFixed(1)} ${(H - pB).toFixed(1)} Z`;
+
+  const presets = [
+    { label: "Piloto Celaya (2)", L: 2 },
+    { label: "Primer cluster (10)", L: 10 },
+    { label: "Media red (40)", L: 40 },
+    { label: "Red completa (80)", L: 80 },
+  ];
+
+  return (
+    <section className="calc" id="roi">
+      <div className="wrap">
+        <div className="sec-lbl"><span className="num">03 · Tu recuperación</span><span className="line" /></div>
+        <div className="calc-head">
+          <h2 className="display h2">Tu dinero sobre la mesa, con tus propios números.</h2>
+          <p className="lead">
+            Pre-cargado con lo que nos compartiste en la primera sesión. Mueve el slider
+            de Celaya a la red completa y observa el mismo modelo escalar 40×.
+          </p>
+        </div>
+
+        <div className="calc-grid">
+          <div className="calc-inputs">
+            <h4>Entradas · editables</h4>
+
+            <div className="inp-row">
+              <div className="top">
+                <span className="lab">Órdenes UE / mes / local</span>
+                <span className="src">Tu dato</span>
+              </div>
+              <div className="val">{fmtNum(O)} <span className="u">órdenes</span></div>
+              <input className="slider" type="range" min="100" max="3000" step="50"
+                value={O} onChange={(e) => setO(+e.target.value)} />
+              <div className="rng-labels"><span>100</span><span>3,000</span></div>
+            </div>
+
+            <div className="inp-row">
+              <div className="top">
+                <span className="lab">Número de locales</span>
+                <span className="src">Piloto → red</span>
+              </div>
+              <div className="val">{L} <span className="u">{L === 1 ? "local" : "locales"}</span></div>
+              <input className="slider" type="range" min="1" max="80" step="1"
+                value={L} onChange={(e) => setL(+e.target.value)} />
+              <div className="rng-labels"><span>1 (piloto mínimo)</span><span>80 (red completa)</span></div>
+              <div className="quick">
+                {presets.map((p) => (
+                  <button key={p.L} className={L === p.L ? "on" : ""}
+                    onClick={() => setL(p.L)}>{p.label}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="inp-row">
+              <div className="top">
+                <span className="lab">Ticket promedio</span>
+                <span className="src">Tu dato</span>
+              </div>
+              <div className="val">{fmtMXN(T)} <span className="u">MXN</span></div>
+              <input className="slider" type="range" min="150" max="800" step="10"
+                value={T} onChange={(e) => setT(+e.target.value)} />
+              <div className="rng-labels"><span>$150</span><span>$800</span></div>
+            </div>
+
+            <div className="inp-row">
+              <div className="top">
+                <span className="lab">Comisión Uber Eats</span>
+                <span className="src">Tu tarifa enterprise</span>
+              </div>
+              <div className="val">{C}<span className="u">%</span></div>
+              <input className="slider" type="range" min="10" max="35" step="0.5"
+                value={C} onChange={(e) => setC(+e.target.value)} />
+              <div className="rng-labels"><span>10%</span><span>35%</span></div>
+            </div>
+          </div>
+
+          <div className="calc-output">
+            <div className="out-row">
+              <div className="out-cell paid">
+                <div className="lbl">Comisión pagada hoy / mes</div>
+                <div className="val">{fmtMXN(paidMonthly)}</div>
+                <div className="sub">A Uber Eats · {L}×{fmtNum(O)}×{fmtMXN(T)}×{C}%</div>
+              </div>
+              <div className="out-cell saved">
+                <div className="lbl">Margen recuperado / mes</div>
+                <div className="val">{fmtMXN(paidMonthly)}</div>
+                <div className="sub">Mismo número · reframeado como tuyo</div>
+              </div>
+            </div>
+            <div className="annual-row">
+              <div className="lbl">Recuperación anual</div>
+              <div className="val">{fmtMXN(annual)}</div>
+              <div className="unit">MXN · asume reemplazo completo del canal</div>
+            </div>
+
+            <div className="chart-wrap">
+              <div className="chart-head">
+                <div className="lbl">Recuperación acumulada · 12 meses</div>
+                <div className="peak">Pico mes 12 · {fmtMXN(cumul[11], { short: true })}</div>
+              </div>
+              <svg className="chart-svg" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="grad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#57b990" stopOpacity="0.3" />
+                    <stop offset="100%" stopColor="#57b990" stopOpacity="0" />
+                  </linearGradient>
+                </defs>
+                {[0.25, 0.5, 0.75, 1].map((f) => (
+                  <g key={f}>
+                    <line x1={pL} x2={W - pR} y1={y(f * max)} y2={y(f * max)}
+                      stroke="rgba(247,242,233,.1)" strokeDasharray="2 3" />
+                    <text x={pL - 8} y={y(f * max) + 4}
+                      fill="rgba(247,242,233,.4)" fontSize="10"
+                      fontFamily="JetBrains Mono" textAnchor="end">
+                      {fmtMXN(f * max, { short: true })}
+                    </text>
+                  </g>
+                ))}
+                <line x1={x(0)} x2={x(11)} y1={H - pB} y2={H - pB} stroke="rgba(247,242,233,.2)" />
+                {[0, 2, 5, 8, 11].map((i) => (
+                  <text key={i} x={x(i)} y={H - pB + 18} fill="rgba(247,242,233,.5)"
+                    fontSize="10" fontFamily="JetBrains Mono" textAnchor="middle">
+                    M{i + 1}
+                  </text>
+                ))}
+                <path d={areaPath} fill="url(#grad)" />
+                <path d={linePath} stroke="#57b990" strokeWidth="2.5" fill="none" />
+                {cumul.map((v, i) => (
+                  <circle key={i} cx={x(i)} cy={y(v)} r={i === 11 ? 4 : 2.5} fill="#57b990" />
+                ))}
+              </svg>
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "space-between",
+              paddingTop: 16, marginTop: 16,
+              borderTop: "1px solid rgba(247,242,233,.14)",
+              fontFamily: "var(--mono)", fontSize: 11, color: "rgba(247,242,233,.5)",
+              letterSpacing: ".08em", textTransform: "uppercase" }}>
+              <span>Rampa Brooklyn · 25/60/100%</span>
+              <span>Tope: reemplazo total del canal UE</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="calc-note">
+          <b>Cómo calculamos esto · </b>
+          Comisión mensual = L × O × T × C. &nbsp;
+          Con tus entradas actuales: {L} × {fmtNum(O)} × {fmtMXN(T)} × {C}% = <b>{fmtMXN(monthly)}/mes</b>.
+          &nbsp; Anual = mensual × 12 = <b>{fmtMXN(annual)}/año</b>.
+          &nbsp; La curva acumulada asume una rampa Brooklyn (25% mes 1, 60% mes 2, 100% desde mes 3).
+          &nbsp; <b>Supuesto a confirmar</b>: la forma 25/60/100 es una aproximación del
+          trayecto Brooklyn, no un dataset mes-por-mes medido. Antes de publicar se cruza
+          con los datos mensuales reales de Brooklyn; si la curva difiere, se actualiza.
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// —— Sabrosy vignette ——
+function Vignette() {
+  return (
+    <section className="vignette">
+      <div className="wrap">
+        <div>
+          <div className="sec-lbl"><span className="num">04 · Velocidad de despliegue</span><span className="line" /></div>
+          <h2>
+            Sabrosy, <em>8 locales</em>,<br/>
+            desplegados en <em>8 semanas</em>.
+          </h2>
+          <p>
+            Sabrosy (tortas, 8 locales en México) se subió completa en 8 semanas. Podemos
+            tener ambos locales de Celaya en producción en 30 días, y tu red completa de
+            80 locales en menos de 6 meses. Nuestro trabajo está diseñado para moverse
+            a la velocidad que una red QSR espera.
+          </p>
+        </div>
+        <div className="depl">
+          <div className="depl-row"><span className="k">Celaya · piloto</span><span className="v g">30 días</span></div>
+          <div className="depl-row"><span className="k">Primer cluster (10)</span><span className="v">60 días</span></div>
+          <div className="depl-row"><span className="k">Media red (40)</span><span className="v">3 meses</span></div>
+          <div className="depl-row"><span className="k">Red completa (80)</span><span className="v g">&lt; 6 meses</span></div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// —— Customer bar ——
+function CustomerBar() {
+  return (
+    <section className="cbar">
+      <div className="wrap">
+        <div className="lbl">Restaurantes operando en Fluxsales</div>
+        <div className="cbar-row">
+          <a href="https://pedidos.carlsjrpuebla.com/" target="_blank" rel="noreferrer" className="cbar-tile">
+            Carl's Jr.<br/>Puebla
+            <small>Piloto activo</small>
+          </a>
+          <a href="https://lflux.co/brooklynmx" target="_blank" rel="noreferrer" className="cbar-tile">
+            Brooklyn<br/>Burgers
+            <small>4 locales</small>
+          </a>
+          <a href="https://sabrosy.com/" target="_blank" rel="noreferrer" className="cbar-tile">
+            Sabrosy
+            <small>8 locales</small>
+          </a>
+          <a href="https://pedidos.cosifantutterestaurante.com/" target="_blank" rel="noreferrer" className="cbar-tile">
+            Cosi Fan Tutte
+            <small>Italiana, Querétaro</small>
+          </a>
+          <a href="https://lealtad.dolcebisquet.com/" target="_blank" rel="noreferrer" className="cbar-tile">
+            Dolce Bisquet
+            <small>Monterrey</small>
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// —— 30-60-90 Plan ——
+function Plan() {
+  return (
+    <section className="plan90">
+      <div className="wrap">
+        <div className="sec-lbl"><span className="num">06 · Lo que haríamos por tu red</span><span className="line" /></div>
+        <div className="plan90-head">
+          <h2 className="display h2">Un plan 30·60·90 — y después, tu red entera.</h2>
+          <p className="lead">
+            Arranque acotado, ganancia visible antes del trimestre, y un roadmap claro
+            para los 78 locales restantes.
+          </p>
+        </div>
+        <div className="plan-phases">
+          <div className="phase">
+            <div className="phase-num">01</div>
+            <div className="days">Día 1–30 · Piloto Celaya</div>
+            <h4>Dos locales en vivo.</h4>
+            <p>Ambos locales de Celaya arriba. Base de tráfico UE medido. Canal directo lanzado.</p>
+          </div>
+          <div className="phase">
+            <div className="phase-num">02</div>
+            <div className="days">Día 31–60 · Optimización</div>
+            <h4>Menú, precio, campañas.</h4>
+            <p>Optimización semanal. Volumen del canal directo crece semana a semana.</p>
+          </div>
+          <div className="phase milestone">
+            <div className="phase-num">03</div>
+            <div className="days">Día 61–90 · Hito de reemplazo</div>
+            <h4>El directo iguala a UE.</h4>
+            <p>El canal directo iguala el volumen anterior de Uber Eats. La recuperación se ve en el P&amp;L.</p>
+          </div>
+          <div className="phase">
+            <div className="phase-num">04</div>
+            <div className="days">Día 91+ · Expansión</div>
+            <h4>78 locales más.</h4>
+            <p>Roadmap para los 78 locales restantes en 6–12 meses. Despliegue por clusters.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// —— CTA ——
+function CTA() {
+  return (
+    <section className="cj-cta" id="cta">
+      <div className="wrap">
+        <div className="sec-lbl"><span className="num">07 · Siguiente paso</span><span className="line" /></div>
+        <h2>
+          Una sesión técnica.<br/>
+          <em>Tu equipo, el nuestro.</em>
+        </h2>
+        <p>
+          Revisamos arquitectura, integraciones y plan de go-live para los dos locales de
+          Celaya. Una hora. Sin pitch. Los números ya los tienes arriba.
+        </p>
+        <a href="https://cal.com/sebastian-fluxsales" className="btn btn-green" target="_blank" rel="noreferrer">
+          Agendar sesión técnica con nuestro equipo <span className="arr">→</span>
+        </a>
+        <div className="ctx">Una sola acción · Sin secundaria</div>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="cj-foot">
+      <div className="wrap">
+        <div className="logo">Fluxsales</div>
+        <div>Preparado para tu red · Celaya · Abril 2026 · Confidencial</div>
+        <div>fluxsales.co</div>
+      </div>
+    </footer>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <CJNav />
+      <Hero />
+      <CaseStudy />
+      <Calculator />
+      <Vignette />
+      <CustomerBar />
+      <Plan />
+      <CTA />
+      <Footer />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
 </body>
 </html>

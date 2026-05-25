@@ -7,6 +7,10 @@
       "destination": "/case/:path*"
     },
     {
+      "source": "/case/:path*",
+      "destination": "/case/:path*"
+    },
+    {
       "source": "/dashboards/:path*",
       "destination": "/dashboards/:path*"
     },
