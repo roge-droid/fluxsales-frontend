@@ -243,6 +243,7 @@ function DemoForm() {
   const [submitting, setSubmitting] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [showCalendar, setShowCalendar] = React.useState(false);
+  const [calendarUrl, setCalendarUrl] = React.useState("");
   const [error, setError] = React.useState(null);
 
   const [form, setForm] = React.useState({
@@ -325,6 +326,11 @@ function DemoForm() {
       if (!res.ok) throw new Error("Error del servidor: " + res.status);
       const result = await res.json();
       setShowCalendar(result.showCalendar === true);
+      const AE_CALENDARS = {
+        "Mariana": "https://calendar.app.google/PNn3ykthv5gY8SMN8",
+        "Ayline": "https://calendar.app.google/Z1PUtkg8xErSkLPr7",
+      };
+      setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
       setSuccess(true);
       if (typeof fbq === "function") {
         fbq("track", "Lead", { content_name: "demo_page", value: 0, currency: "MXN" });
@@ -346,7 +352,7 @@ function DemoForm() {
             <>
               <p>Tu restaurante califica para una demo personalizada. Elige un horario:</p>
               <a
-                href="https://calendar.google.com/calendar/appointments"
+                href={calendarUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="demo-calendar-btn"
