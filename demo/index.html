@@ -276,18 +276,15 @@ function DemoForm() {
       el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
       containerRef.current.innerHTML = "";
       containerRef.current.appendChild(el);
-      el.addEventListener("gmp-select", async (e) => {
+      el.addEventListener("gmp-placeselect", async (e) => {
         const place = e.place;
-        await place.fetchFields({ fields: ["displayName", "formattedAddress", "id"] });
-        const name = typeof place.displayName === "object" ? place.displayName.text || place.displayName.toString() : (place.displayName || "");
-        const addr = typeof place.formattedAddress === "object" ? place.formattedAddress.text || place.formattedAddress.toString() : (place.formattedAddress || "");
-        console.log("[places] selected:", name, place.id, addr);
-        setForm(prev => ({
-          ...prev,
-          company_name: name,
-          place_id: place.id || "",
-          place_address: addr,
-        }));
+        if (!place) { console.warn("[places] no place on event, keys:", Object.keys(e)); return; }
+        try { await place.fetchFields({ fields: ["displayName", "formattedAddress", "id"] }); } catch(err) { console.warn("[places] fetchFields failed:", err); }
+        const name = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text || String(place.displayName) : String(place.displayName)) : "";
+        const addr = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text || String(place.formattedAddress) : String(place.formattedAddress)) : "";
+        const pid = place.id || place.place_id || "";
+        console.log("[places] selected:", name, pid, addr);
+        setForm(prev => ({ ...prev, company_name: name, place_id: pid, place_address: addr }));
       });
       acElementRef.current = el;
       return true;
