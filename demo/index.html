@@ -268,41 +268,26 @@ function DemoForm() {
     if (!containerRef.current || acElementRef.current) return;
 
     function init() {
-      if (!window.google?.maps?.places?.PlaceAutocompleteElement) return false;
+      if (!window.google?.maps?.places?.Autocomplete) return false;
       try {
-        const el = new window.google.maps.places.PlaceAutocompleteElement({
+        const textInput = document.querySelector('.demo-field input[type="text"]');
+        if (!textInput) return false;
+        const ac = new window.google.maps.places.Autocomplete(textInput, {
           types: ["establishment"],
           componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
+          fields: ["name", "place_id", "formatted_address", "rating", "user_ratings_total"],
         });
-        el.style.cssText = "width:100%;font-size:15px;";
-        el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
-        containerRef.current.innerHTML = "";
-        containerRef.current.appendChild(el);
-
-        function handleSelect(e) {
+        ac.addListener("place_changed", () => {
           try {
-            const place = e.place || e.detail?.place;
+            const place = ac.getPlace();
             if (!place) return;
-            const getName = (p) => {
-              if (p.displayName) return typeof p.displayName === "object" ? (p.displayName.text || "") : String(p.displayName);
-              if (p.name) return String(p.name);
-              return "";
-            };
-            const getAddr = (p) => {
-              if (p.formattedAddress) return typeof p.formattedAddress === "object" ? (p.formattedAddress.text || "") : String(p.formattedAddress);
-              if (p.formatted_address) return String(p.formatted_address);
-              return "";
-            };
-            const name = getName(place);
-            const addr = getAddr(place);
-            const pid = place.id || place.place_id || "";
+            const name = place.name || "";
+            const addr = place.formatted_address || "";
+            const pid = place.place_id || "";
             setForm(prev => ({ ...prev, company_name: name || prev.company_name, place_id: pid, place_address: addr }));
-          } catch (err) { console.warn("[places] handleSelect error:", err); }
-        }
-
-        el.addEventListener("gmp-placeselect", handleSelect);
-        el.addEventListener("gmp-select", handleSelect);
-        acElementRef.current = el;
+          } catch (err) { console.warn("[places] place_changed error:", err); }
+        });
+        acElementRef.current = ac;
         setPlacesReady(true);
       } catch (err) { console.warn("[places] init error:", err); }
       return true;
@@ -316,17 +301,7 @@ function DemoForm() {
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
-  const getPlacesInputValue = () => {
-    try {
-      const gmp = document.querySelector('gmp-place-autocomplete');
-      if (gmp) {
-        const input = gmp.querySelector('input') || (gmp.shadowRoot && gmp.shadowRoot.querySelector('input'));
-        if (input && input.value) return input.value.trim();
-      }
-    } catch {}
-    return "";
-  };
-  const canContinue = form.company_name.trim().length > 0 || form.place_id.length > 0 || getPlacesInputValue().length > 0;
+  const canContinue = form.company_name.trim().length > 0;
   const canSubmit = form.first_name.trim() && form.email.trim() && form.phone.trim();
 
   const handleSubmit = async () => {
@@ -416,19 +391,20 @@ function DemoForm() {
           {error && <div className="demo-error">{error}</div>}
 
           <div className="demo-field">
-            <label>Busca tu restaurante</label>
-            <div ref={containerRef} style={{ minHeight: 48 }}>
-              <input
-                type="text"
-                placeholder="Cargando buscador..."
-                disabled
-                style={{ opacity: 0.5 }}
-              />
-            </div>
+            <label>Nombre de tu restaurante</label>
+            <input
+              type="text"
+              placeholder="Ej. Bora Bora Pizzas"
+              value={form.company_name}
+              onChange={set("company_name")}
+              autoFocus
+            />
+          </div>
+          <div className="demo-field" ref={containerRef} style={{ marginTop: -10 }}>
             {form.place_id && (
               <div className="demo-place-info">
                 <span className="dot" />
-                <span>{form.company_name} — {form.place_address}</span>
+                <span>{form.place_address}</span>
               </div>
             )}
           </div>
@@ -456,13 +432,7 @@ function DemoForm() {
           <button
             className="demo-submit"
             disabled={!canContinue}
-            onClick={() => {
-              if (!form.company_name.trim()) {
-                const placesText = getPlacesInputValue();
-                if (placesText) setForm(prev => ({ ...prev, company_name: placesText }));
-              }
-              setStep(2);
-            }}
+            onClick={() => setStep(2)}
           >
             Continuar <span>→</span>
           </button>
