@@ -279,11 +279,14 @@ function DemoForm() {
       el.addEventListener("gmp-select", async (e) => {
         const place = e.place;
         await place.fetchFields({ fields: ["displayName", "formattedAddress", "id"] });
+        const name = typeof place.displayName === "object" ? place.displayName.text || place.displayName.toString() : (place.displayName || "");
+        const addr = typeof place.formattedAddress === "object" ? place.formattedAddress.text || place.formattedAddress.toString() : (place.formattedAddress || "");
+        console.log("[places] selected:", name, place.id, addr);
         setForm(prev => ({
           ...prev,
-          company_name: place.displayName || "",
+          company_name: name,
           place_id: place.id || "",
-          place_address: place.formattedAddress || "",
+          place_address: addr,
         }));
       });
       acElementRef.current = el;
