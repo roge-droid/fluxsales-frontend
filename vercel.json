@@ -11,6 +11,10 @@
       "destination": "/case/:path*"
     },
     {
+      "source": "/demo/:path*",
+      "destination": "/demo/:path*"
+    },
+    {
       "source": "/dashboards/:path*",
       "destination": "/dashboards/:path*"
     },
