@@ -140,6 +140,38 @@ fbq('init','590520096533350');fbq('track','PageView');
 }
 .demo-back:hover { text-decoration: underline; }
 
+.demo-name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.demo-checkbox { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 22px; }
+.demo-checkbox input[type=checkbox] {
+  width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0;
+  accent-color: var(--green-ink);
+}
+.demo-checkbox label {
+  font-size: 13px; color: var(--ink-muted); line-height: 1.45; cursor: pointer;
+}
+.demo-testimonial {
+  margin-top: 28px; padding: 24px 28px;
+  background: var(--card); border: 1px solid var(--rule);
+  border-radius: var(--radius); text-align: center;
+}
+.demo-testimonial blockquote {
+  font-family: var(--serif); font-size: 16px; font-style: italic;
+  font-variation-settings: "opsz" 144, "SOFT" 60;
+  color: var(--ink-soft); margin: 0 0 12px; line-height: 1.5;
+}
+.demo-testimonial cite {
+  font-style: normal; font-size: 13px; color: var(--ink-muted);
+  font-family: var(--sans);
+}
+.demo-calendar-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; margin-top: 20px; padding: 14px 28px;
+  font-size: 15px; font-weight: 500; background: var(--green-ink);
+  color: var(--cream); border: none; border-radius: 999px;
+  text-decoration: none; font-family: var(--sans); transition: .2s;
+}
+.demo-calendar-btn:hover { opacity: .9; transform: translateY(-1px); }
+
 .demo-nav {
   display: flex; align-items: center; justify-content: space-between;
   max-width: var(--max); margin: 0 auto; padding: 0 28px; height: 70px;
@@ -222,6 +254,8 @@ function DemoForm() {
     last_name: "",
     email: "",
     phone: "",
+    source: "",
+    whatsapp_optin: true,
   });
 
   const containerRef = React.useRef(null);
@@ -279,6 +313,8 @@ function DemoForm() {
         plataformas: form.role,
         place_id: form.place_id || undefined,
         place_address: form.place_address || undefined,
+        source: form.source || undefined,
+        whatsapp_optin: form.whatsapp_optin,
       };
       const res = await fetch(API_URL, {
         method: "POST",
@@ -303,10 +339,18 @@ function DemoForm() {
         <div className="demo-success">
           <div className="check">✓</div>
           <h2>¡Listo, {form.first_name}!</h2>
-          <p>Te contactaremos en las próximas horas para agendar tu demo de 20 minutos.</p>
-          <p style={{ marginTop: 16, fontSize: 13, color: "var(--green-ink)" }}>
-            ¿Urgente? Escríbenos directo por{" "}
-            <a href="https://wa.me/5214421716825" style={{ color: "var(--green-ink)", textDecoration: "underline" }}>WhatsApp</a>
+          <p>Tu demo está casi lista. Elige un horario que te funcione:</p>
+          <a
+            href="https://calendar.google.com/calendar/appointments"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="demo-calendar-btn"
+          >
+            Agendar mi demo <span>→</span>
+          </a>
+          <p style={{ marginTop: 20, fontSize: 13, color: "var(--ink-muted)" }}>
+            ¿Prefieres WhatsApp?{" "}
+            <a href="https://wa.me/5214421716825" style={{ color: "var(--green-ink)", textDecoration: "underline" }}>Escríbenos →</a>
           </p>
         </div>
       </div>
@@ -374,15 +418,26 @@ function DemoForm() {
           <h2>¿A dónde te enviamos los resultados?</h2>
           {error && <div className="demo-error">{error}</div>}
 
-          <div className="demo-field">
-            <label>Tu nombre</label>
-            <input
-              type="text"
-              placeholder="Nombre completo"
-              value={form.first_name}
-              onChange={set("first_name")}
-              autoFocus
-            />
+          <div className="demo-name-row">
+            <div className="demo-field">
+              <label>Nombre</label>
+              <input
+                type="text"
+                placeholder="Nombre"
+                value={form.first_name}
+                onChange={set("first_name")}
+                autoFocus
+              />
+            </div>
+            <div className="demo-field">
+              <label>Apellido</label>
+              <input
+                type="text"
+                placeholder="Apellido"
+                value={form.last_name}
+                onChange={set("last_name")}
+              />
+            </div>
           </div>
 
           <div className="demo-field">
@@ -403,6 +458,31 @@ function DemoForm() {
               value={form.phone}
               onChange={set("phone")}
             />
+          </div>
+
+          <div className="demo-field">
+            <label>¿Cómo nos encontraste?</label>
+            <select value={form.source} onChange={set("source")}>
+              <option value="">Selecciona una opción</option>
+              <option value="Google">Google</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Facebook">Facebook</option>
+              <option value="Recomendación de otro restaurantero">Recomendación de otro restaurantero</option>
+              <option value="Un vendedor me contactó">Un vendedor me contactó</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <div className="demo-checkbox">
+            <input
+              type="checkbox"
+              id="whatsapp-optin"
+              checked={form.whatsapp_optin}
+              onChange={(e) => setForm({ ...form, whatsapp_optin: e.target.checked })}
+            />
+            <label htmlFor="whatsapp-optin">
+              Acepto recibir mensajes por WhatsApp para agendar mi demo. Máximo 4 mensajes/mes.
+            </label>
           </div>
 
           <button
@@ -467,7 +547,15 @@ function App() {
             </div>
           </div>
         </div>
-        <DemoForm />
+        <div>
+          <DemoForm />
+          <div className="demo-testimonial">
+            <blockquote>
+              "Fluxsales cambió nuestro negocio. Bajamos la dependencia de Rappi del 70% al 28% en cinco meses."
+            </blockquote>
+            <cite>Ricardo Mendoza — Co-fundador, Bora Bora Pizzas</cite>
+          </div>
+        </div>
       </div>
     </div>
   );
