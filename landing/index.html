@@ -1,48 +1,354 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FluxSales - La plataforma #1 para restaurantes</title>
-    <meta name="description" content="Vende online, fideliza a tus clientes y haz crecer tu marca con tecnología diseñada para la nueva era de la gastronomía.">
-    <meta name="author" content="FluxSales" />
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FluxSales — Superpoderes para tu restaurante</title>
+<meta name="description" content="Vende online, fideliza a tus clientes y haz crecer tu marca con tecnología diseñada para la nueva era de la gastronomía.">
+<meta name="author" content="FluxSales" />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="/og-image.png" />
-    <meta property="og:title" content="FluxSales - La plataforma #1 para restaurantes">
-    <meta property="og:description" content="Vende online, fideliza a tus clientes y haz crecer tu marca con tecnología diseñada para la nueva era de la gastronomía.">
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/og-image.png" />
+<meta property="og:title" content="FluxSales — Superpoderes para tu restaurante">
+<meta property="og:description" content="Vende online, fideliza a tus clientes y haz crecer tu marca con tecnología diseñada para la nueva era de la gastronomía.">
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@fluxsales" />
-    <meta name="twitter:image" content="/og-image.png" />
-    <meta name="twitter:title" content="FluxSales - La plataforma #1 para restaurantes">
-    <meta name="twitter:description" content="Vende online, fideliza a tus clientes y haz crecer tu marca con tecnología diseñada para la nueva era de la gastronomía.">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@fluxsales" />
+<meta name="twitter:image" content="/og-image.png" />
+<meta name="twitter:title" content="FluxSales — Superpoderes para tu restaurante">
+<meta name="twitter:description" content="Vende online, fideliza a tus clientes y haz crecer tu marca con tecnología diseñada para la nueva era de la gastronomía.">
 
-    <link rel="icon" type="image/png" href="/favicon.png">
-    <link rel="apple-touch-icon" href="/favicon.png">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
 
-    <!-- Meta Pixel Code -->
-    <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '590520096533350');
-      fbq('track', 'PageView');
-    </script>
-    <!-- End Meta Pixel Code -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css" />
 
-    <script type="module" crossorigin src="/assets/index-DBGdIkQU.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-DbH21KXU.css">
-  </head>
-  <body>
-    <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=590520096533350&ev=PageView&noscript=1"
-    /></noscript>
-    <div id="root"></div>
-  </body>
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '590520096533350');
+  fbq('track', 'PageView');
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="content.js"></script>
+</head>
+<body>
+<noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=590520096533350&ev=PageView&noscript=1"
+/></noscript>
+<div id="root"></div>
+
+<script type="text/babel" src="components/HeroVisual.jsx"></script>
+<script type="text/babel" src="components/VenuesSlider.jsx"></script>
+<script type="text/babel" src="components/FeatureTabs.jsx"></script>
+<script type="text/babel" src="components/HowItWorks.jsx"></script>
+<script type="text/babel" src="components/ROICalculator.jsx"></script>
+<script type="text/babel" src="components/Sections.jsx"></script>
+
+<script type="text/babel">
+function LogoMark() {
+  return (
+    <span className="logo-mark" aria-hidden="true">
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor">
+          <rect x="54" y="40" width="50" height="172" rx="6"/>
+          <rect x="54" y="40" width="150" height="46" rx="6"/>
+          <rect x="54" y="108" width="98" height="38" rx="6"/>
+          <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+        </g>
+      </svg>
+    </span>
+  );
+}
+
+function Nav({ lang, setLang }) {
+  const t = window.COPY[lang].nav;
+  return (
+    <header className="nav">
+      <div className="wrap nav-inner">
+        <a href="#" className="logo">
+          <LogoMark />
+          <span>Fluxsales</span>
+        </a>
+        <nav className="nav-links">
+          <a href="#product">{t.product}</a>
+          <a href="#how">{t.howItWorks}</a>
+          <a href="#pricing">{t.pricing}</a>
+          <a href="#stories">{t.stories}</a>
+          <a href="#faq">{lang === "es" ? "Preguntas" : "FAQ"}</a>
+        </nav>
+        <div className="nav-right">
+          <div className="lang-toggle" role="group" aria-label="language">
+            <button className={lang === "es" ? "on" : ""} onClick={() => setLang("es")}>ES</button>
+            <button className={lang === "en" ? "on" : ""} onClick={() => setLang("en")}>EN</button>
+          </div>
+          <a href="#" className="btn btn-ghost">{t.login}</a>
+          <a href="#demo" className="btn btn-primary">{t.cta} <span className="arr">→</span></a>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function Hero({ lang }) {
+  const t = window.COPY[lang].hero;
+  return (
+    <section className="hero" id="top">
+      <div className="wrap hero-grid">
+        <div>
+          <span className="eyebrow">{t.eyebrow}</span>
+          <h1 className="display h1">
+            {lang === "es" ? (
+              <>Superpoderes<br/>para tu <span className="accent">restaurante.</span></>
+            ) : (
+              <>Superpowers<br/>for your <span className="accent">restaurant.</span></>
+            )}
+          </h1>
+          <p className="lead">{t.subtitle}</p>
+          <div className="hero-ctas">
+            <a className="btn btn-primary" href="#demo">{t.primary} <span className="arr">→</span></a>
+            <a className="btn btn-secondary" href="#product">{t.secondary}</a>
+          </div>
+          <div className="hero-trust">
+            <div className="avatars">
+              <span style={{ background: "linear-gradient(135deg,#c45a2a,#e88a5a)" }} />
+              <span style={{ background: "linear-gradient(135deg,#57b990,#2f7a5e)" }} />
+              <span style={{ background: "linear-gradient(135deg,#efe7d7,#c7b98f)" }} />
+              <span style={{ background: "linear-gradient(135deg,#1f5a44,#0d2c20)" }} />
+            </div>
+            <span>{t.trust}</span>
+          </div>
+        </div>
+        <HeroVisual lang={lang} />
+      </div>
+    </section>
+  );
+}
+
+function LogosBand({ lang }) {
+  const t = window.COPY[lang].logos;
+  return (
+    <section className="logos-band">
+      <div className="wrap">
+        <div className="logos-title">{t.title}</div>
+        <div className="logos">
+          {t.brands.map((b, i) => (
+            <div className="logo-tile" key={i}>{b}</div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Problem({ lang }) {
+  const t = window.COPY[lang].problem;
+  return (
+    <section className="problem">
+      <div className="wrap">
+        <div className="problem-head">
+          <span className="eyebrow">{t.eyebrow}</span>
+          <h2 className="display h2">{t.title}</h2>
+          <p className="lead">{t.body}</p>
+        </div>
+        <div className="problem-grid">
+          {t.points.map((p, i) => (
+            <div className="problem-card" key={i}>
+              <div className="kpi">{p.kpi}</div>
+              <div className="plabel">{p.label}</div>
+              <div className="pnote">{p.note}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Features({ lang }) {
+  const t = window.COPY[lang].features;
+  return (
+    <section className="features" id="product">
+      <div className="wrap">
+        <div className="features-head">
+          <span className="eyebrow">{t.eyebrow}</span>
+          <h2 className="display h2">{t.title}</h2>
+          <p className="lead">{t.subtitle}</p>
+        </div>
+        <FeatureTabs lang={lang} />
+      </div>
+    </section>
+  );
+}
+
+function Metrics({ lang }) {
+  const t = window.COPY[lang].metrics;
+  return (
+    <section className="metrics">
+      <div className="wrap">
+        <span className="eyebrow">{t.eyebrow}</span>
+        <h2 className="display h2" style={{ marginTop: 16, maxWidth: 780 }}>{t.title}</h2>
+        <div className="metrics-grid">
+          {t.items.map((m, i) => (
+            <div className="metric" key={i}>
+              <div className="v">{m.value}</div>
+              <div className="l">{m.label}</div>
+              <div className="s">{m.sub}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ROISection({ lang }) {
+  return (
+    <section className="roi">
+      <ROICalculator lang={lang} />
+    </section>
+  );
+}
+
+function Integrations({ lang }) {
+  const t = window.COPY[lang].integrations;
+  return (
+    <section className="integrations">
+      <div className="wrap">
+        <div className="integrations-head">
+          <span className="eyebrow">{t.eyebrow}</span>
+          <h2 className="display h2">{t.title}</h2>
+          <p className="lead">{t.subtitle}</p>
+        </div>
+        <div className="int-grid">
+          {t.items.map((it, i) => (
+            <div className="int-tile" key={i}>
+              <span className="int-dot" />
+              {it}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Founders({ lang }) {
+  const t = window.COPY[lang].founders;
+  return (
+    <section className="founders" id="stories">
+      <div className="wrap founders-grid">
+        <div className="founders-img" aria-label={t.signature}>
+          <img className="founder-photo founder-photo-a" src="assets/founder-sebastian.jpeg" alt="Sebastián Septién" />
+          <img className="founder-photo founder-photo-b" src="assets/founder-roger.jpeg" alt="Roger Mart" />
+          <div className="founder-caption">
+            <span className="fc-name">Sebastián Septién</span>
+            <span className="fc-divider">·</span>
+            <span className="fc-name">Roger Mart</span>
+          </div>
+        </div>
+        <div>
+          <span className="eyebrow">{t.eyebrow}</span>
+          <h2 className="display">{t.title}</h2>
+          <p>{t.body}</p>
+          <span className="sig">{t.signature}</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function EndCTA({ lang }) {
+  const t = window.COPY[lang].cta;
+  return (
+    <section className="endcta" id="demo">
+      <div className="wrap">
+        <span className="eyebrow" style={{ color: "#0d2c20" }}>{lang === "es" ? "Último paso" : "Last step"}</span>
+        <h2 className="display h2" style={{ margin: "16px auto 16px", maxWidth: "14ch" }}>{t.title}</h2>
+        <p>{t.subtitle}</p>
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          <a className="btn btn-primary" href="#">{t.primary} →</a>
+          <a className="btn btn-secondary" href="#">{t.secondary}</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer({ lang }) {
+  const t = window.COPY[lang].footer;
+  return (
+    <footer>
+      <div className="wrap">
+        <div className="foot-grid">
+          <div className="foot-brand">
+            <a href="#" className="logo"><LogoMark /><span>Fluxsales</span></a>
+            <p>{t.tagline}</p>
+          </div>
+          <div className="foot-col">
+            <h4>{t.product}</h4>
+            <ul>{t.productLinks.map((l, i) => <li key={i}>{l}</li>)}</ul>
+          </div>
+          <div className="foot-col">
+            <h4>{t.company}</h4>
+            <ul>{t.companyLinks.map((l, i) => <li key={i}>{l}</li>)}</ul>
+          </div>
+          <div className="foot-col">
+            <h4>{t.resources}</h4>
+            <ul>{t.resourcesLinks.map((l, i) => <li key={i}>{l}</li>)}</ul>
+          </div>
+        </div>
+        <div className="foot-legal">
+          <span>{t.legal}</span>
+          <span>CDMX · Monterrey · Guadalajara</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function App() {
+  const [lang, setLang] = React.useState(() => {
+    try { return localStorage.getItem("flux_lang") || "es"; } catch { return "es"; }
+  });
+  React.useEffect(() => {
+    try { localStorage.setItem("flux_lang", lang); document.documentElement.lang = lang; } catch {}
+  }, [lang]);
+
+  return (
+    <>
+      <Nav lang={lang} setLang={setLang} />
+      <Hero lang={lang} />
+      <VenuesSlider lang={lang} />
+      <Problem lang={lang} />
+      <Features lang={lang} />
+      <HowItWorks lang={lang} />
+      <Metrics lang={lang} />
+      <ROISection lang={lang} />
+      <Testimonials lang={lang} />
+      <Pricing lang={lang} />
+      <FAQ lang={lang} />
+      <Founders lang={lang} />
+      <EndCTA lang={lang} />
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
 </html>
