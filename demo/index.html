@@ -21,7 +21,6 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','590520096533350');fbq('track','PageView');
 </script>
 
-<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZYhvVAGdg4ss9WISSXUp83KWyvTUq02U&libraries=places&language=es&region=MX&loading=async"></script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
@@ -260,44 +259,6 @@ function DemoForm() {
     whatsapp_optin: true,
   });
 
-  const containerRef = React.useRef(null);
-  const acElementRef = React.useRef(null);
-  const [placesReady, setPlacesReady] = React.useState(false);
-
-  React.useEffect(() => {
-    if (!containerRef.current || acElementRef.current) return;
-
-    function init() {
-      if (!window.google?.maps?.places?.Autocomplete) return false;
-      try {
-        const textInput = document.querySelector('.demo-field input[type="text"]');
-        if (!textInput) return false;
-        const ac = new window.google.maps.places.Autocomplete(textInput, {
-          types: ["establishment"],
-          componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
-          fields: ["name", "place_id", "formatted_address", "rating", "user_ratings_total"],
-        });
-        ac.addListener("place_changed", () => {
-          try {
-            const place = ac.getPlace();
-            if (!place) return;
-            const name = place.name || "";
-            const addr = place.formatted_address || "";
-            const pid = place.place_id || "";
-            setForm(prev => ({ ...prev, company_name: name || prev.company_name, place_id: pid, place_address: addr }));
-          } catch (err) { console.warn("[places] place_changed error:", err); }
-        });
-        acElementRef.current = ac;
-        setPlacesReady(true);
-      } catch (err) { console.warn("[places] init error:", err); }
-      return true;
-    }
-
-    if (!init()) {
-      const check = setInterval(() => { if (init()) clearInterval(check); }, 300);
-      return () => clearInterval(check);
-    }
-  }, [step]);
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
 
@@ -399,14 +360,6 @@ function DemoForm() {
               onChange={set("company_name")}
               autoFocus
             />
-          </div>
-          <div className="demo-field" ref={containerRef} style={{ marginTop: -10 }}>
-            {form.place_id && (
-              <div className="demo-place-info">
-                <span className="dot" />
-                <span>{form.place_address}</span>
-              </div>
-            )}
           </div>
 
           <div className="demo-field">
