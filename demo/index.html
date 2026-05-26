@@ -815,9 +815,16 @@ function DemoForm() {
                 className="phone-number"
                 type="tel"
                 inputMode="numeric"
+                maxLength={14}
                 placeholder="55 1234 5678"
                 value={form.phone}
-                onChange={(e) => { setForm({ ...form, phone: e.target.value }); setPhoneError(""); }}
+                onChange={(e) => {
+                  const raw = e.target.value.replace(/[^\d\s\-()]/g, "");
+                  const digitsOnly = raw.replace(/\D/g, "");
+                  if (digitsOnly.length > 10) return;
+                  setForm({ ...form, phone: raw });
+                  setPhoneError("");
+                }}
                 onBlur={validatePhone}
               />
             </div>
