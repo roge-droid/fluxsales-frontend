@@ -262,11 +262,12 @@ function DemoForm() {
 
 
   const placesContainerRef = React.useRef(null);
+  const gmpElementRef = React.useRef(null);
 
   React.useEffect(() => {
-    if (step !== 1) return;
+    if (step !== 1 || gmpElementRef.current) return;
     const container = placesContainerRef.current;
-    if (!container || container.dataset.mounted) return;
+    if (!container) return;
 
     async function mount() {
       try {
@@ -277,37 +278,53 @@ function DemoForm() {
         });
         el.style.cssText = "width:100%;font-size:15px;";
         el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
-        container.innerHTML = "";
+
+        // Hide the React input, show Places element
+        const reactInput = container.querySelector("input");
+        if (reactInput) reactInput.style.display = "none";
         container.appendChild(el);
-        container.dataset.mounted = "true";
+        gmpElementRef.current = el;
 
         el.addEventListener("gmp-placeselect", (e) => {
           try {
             const p = e.place;
             if (!p) return;
-            p.fetchFields({ fields: ["displayName", "formattedAddress", "id"] }).then(() => {
-              const n = p.displayName ? (typeof p.displayName === "object" ? p.displayName.text : String(p.displayName)) : "";
-              const a = p.formattedAddress ? (typeof p.formattedAddress === "object" ? p.formattedAddress.text : String(p.formattedAddress)) : "";
-              if (n) setForm(prev => ({ ...prev, company_name: n, place_id: p.id || "", place_address: a }));
-            }).catch(() => {});
+            // Try fetchFields, but don't depend on it
+            const doUpdate = (place) => {
+              const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
+              const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
+              const pid = place.id || "";
+              if (n || pid) setForm(prev => ({ ...prev, company_name: n || prev.company_name, place_id: pid, place_address: a }));
+            };
+            if (p.fetchFields) {
+              p.fetchFields({ fields: ["displayName", "formattedAddress", "id"] }).then(() => doUpdate(p)).catch(() => doUpdate(p));
+            } else {
+              doUpdate(p);
+            }
           } catch {}
         });
+
+        // Poll the Places input to sync text → React state (backup)
+        const syncInterval = setInterval(() => {
+          try {
+            const gmpEl = gmpElementRef.current;
+            if (!gmpEl) return;
+            // Try to find input in light DOM or via element properties
+            let text = "";
+            const lightInputs = gmpEl.querySelectorAll("input");
+            for (const inp of lightInputs) { if (inp.value) { text = inp.value.trim(); break; } }
+            if (!text && gmpEl.value) text = String(gmpEl.value).trim();
+            if (text) setForm(prev => prev.company_name !== text ? { ...prev, company_name: text } : prev);
+          } catch {}
+        }, 1000);
+
+        return () => clearInterval(syncInterval);
       } catch {}
     }
     mount();
   }, [step]);
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
-
-  const getPlacesText = () => {
-    try {
-      const el = placesContainerRef.current?.querySelector("gmp-place-autocomplete");
-      if (!el) return "";
-      const all = el.querySelectorAll("input");
-      for (const i of all) if (i.value) return i.value.trim();
-    } catch {}
-    return "";
-  };
   const canSubmit = form.first_name.trim() && form.email.trim() && form.phone.trim();
 
   const handleSubmit = async () => {
@@ -438,12 +455,12 @@ function DemoForm() {
           <button
             className="demo-submit"
             onClick={() => {
-              let name = form.company_name.trim();
-              if (!name) name = getPlacesText();
-              if (!name) { setError("Por favor escribe el nombre de tu restaurante."); return; }
-              setForm(prev => ({ ...prev, company_name: name }));
+              if (!form.company_name.trim()) {
+                setError("Por favor escribe el nombre de tu restaurante.");
+                return;
+              }
               setError(null);
-              setTimeout(() => setStep(2), 50);
+              setStep(2);
             }}
           >
             Continuar <span>→</span>
