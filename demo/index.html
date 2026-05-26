@@ -31,30 +31,41 @@ fbq('init','590520096533350');fbq('track','PageView');
 
 .demo-layout {
   display: grid; grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
   max-width: var(--max); margin: 0 auto; padding: 0 28px;
-  min-height: calc(100vh - 70px); align-items: center; gap: 80px;
+  min-height: calc(100vh - 70px); align-items: center; gap: 40px 80px;
+}
+.demo-hero {
+  grid-column: 1; grid-row: 1;
+}
+.demo-form-col {
+  grid-column: 2; grid-row: 1 / 3;
+}
+.demo-covers {
+  grid-column: 1; grid-row: 2;
+  align-self: start;
 }
 
-.demo-left { padding: 60px 0; }
-.demo-left h1 {
+.demo-hero { padding: 60px 0 0; }
+.demo-hero h1 {
   font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 30;
   font-size: clamp(36px, 4vw, 56px); line-height: 1.02;
   letter-spacing: -0.028em; color: var(--ink-soft); font-weight: 400;
   margin: 0 0 20px;
 }
-.demo-left h1 em {
+.demo-hero h1 em {
   font-style: italic; color: var(--green-ink);
   font-variation-settings: "opsz" 144, "SOFT" 80;
 }
-.demo-left .lead {
+.demo-hero .lead {
   font-size: 17px; color: var(--ink-muted); line-height: 1.55;
   max-width: 48ch; margin: 0 0 36px;
 }
-.demo-left .trust {
+.demo-hero .trust {
   font-family: var(--mono); font-size: 12px; letter-spacing: .06em;
   color: var(--ink-muted); margin-bottom: 32px;
 }
-.demo-left .trust b { color: var(--ink); }
+.demo-hero .trust b { color: var(--ink); }
 .demo-covers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .demo-cover {
   padding: 18px; border-radius: var(--radius);
@@ -212,19 +223,23 @@ gmp-place-autocomplete input:focus {
 }
 
 @media (max-width: 900px) {
-  .demo-layout { grid-template-columns: 1fr; gap: 0; }
-  .demo-left { padding: 40px 0 20px; }
-  .demo-covers { grid-template-columns: 1fr; }
+  .demo-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .demo-hero { grid-column: 1; grid-row: 1; padding: 40px 0 0; }
+  .demo-form-col { grid-column: 1; grid-row: 2; }
+  .demo-covers { grid-column: 1; grid-row: 3; grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 640px) {
-  .demo-layout { padding: 0 16px; }
-  .demo-left { padding: 28px 0 16px; }
-  .demo-left h1 { font-size: clamp(28px, 8vw, 40px); }
-  .demo-left .lead { font-size: 15px; margin-bottom: 24px; }
+  .demo-layout { padding: 0 16px; gap: 20px; }
+  .demo-hero { padding: 28px 0 0; }
+  .demo-hero h1 { font-size: clamp(28px, 8vw, 40px); }
+  .demo-hero .lead { font-size: 15px; margin-bottom: 20px; }
   .demo-card { padding: 28px 20px; }
   .demo-card h2 { font-size: 22px; margin-bottom: 20px; }
   .demo-nav { padding: 0 16px; height: 56px; }
-  .demo-covers { gap: 10px; }
+  .demo-covers { grid-template-columns: 1fr; gap: 10px; }
   .demo-cover { padding: 14px; }
   .demo-cover h4 { font-size: 14px; }
   .demo-testimonial { padding: 18px 20px; }
@@ -612,7 +627,7 @@ function App() {
         </a>
       </header>
       <div className="demo-layout">
-        <div className="demo-left">
+        <div className="demo-hero">
           <h1>
             Dale <em>superpoderes</em> a tu restaurante.
           </h1>
@@ -623,36 +638,36 @@ function App() {
           <div className="trust">
             <b>4.8 ★★★★★</b> · Más de 1,400 restaurantes confían en Fluxsales
           </div>
-          <div className="demo-covers">
-            <div className="demo-cover">
-              <span className="icon">⚡</span>
-              <h4>Sitio web + SEO</h4>
-              <p>Más tráfico orgánico desde Google.</p>
-            </div>
-            <div className="demo-cover">
-              <span className="icon">⚡</span>
-              <h4>Pedidos directos</h4>
-              <p>Cero comisiones vs 30% de apps.</p>
-            </div>
-            <div className="demo-cover">
-              <span className="icon">⚡</span>
-              <h4>Marketing automático</h4>
-              <p>Campañas que se envían solas.</p>
-            </div>
-            <div className="demo-cover">
-              <span className="icon">⚡</span>
-              <h4>Lealtad + app</h4>
-              <p>Clientes que regresan 3.2× más.</p>
-            </div>
-          </div>
         </div>
-        <div>
+        <div className="demo-form-col">
           <DemoForm />
           <div className="demo-testimonial">
             <blockquote>
               "Fluxsales cambió nuestro negocio. Bajamos la dependencia de Rappi del 70% al 28% en cinco meses."
             </blockquote>
             <cite>Ricardo Mendoza — Co-fundador, Bora Bora Pizzas</cite>
+          </div>
+        </div>
+        <div className="demo-covers">
+          <div className="demo-cover">
+            <span className="icon">⚡</span>
+            <h4>Sitio web + SEO</h4>
+            <p>Más tráfico orgánico desde Google.</p>
+          </div>
+          <div className="demo-cover">
+            <span className="icon">⚡</span>
+            <h4>Pedidos directos</h4>
+            <p>Cero comisiones vs 30% de apps.</p>
+          </div>
+          <div className="demo-cover">
+            <span className="icon">⚡</span>
+            <h4>Marketing automático</h4>
+            <p>Campañas que se envían solas.</p>
+          </div>
+          <div className="demo-cover">
+            <span className="icon">⚡</span>
+            <h4>Lealtad + app</h4>
+            <p>Clientes que regresan 3.2× más.</p>
           </div>
         </div>
       </div>
