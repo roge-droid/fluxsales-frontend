@@ -27,7 +27,7 @@ fbq('init','590520096533350');fbq('track','PageView');
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 
 <style>
-.demo-page { min-height: 100vh; background: var(--cream); }
+.demo-page { min-height: 100vh; background: var(--cream); overflow-x: hidden; }
 
 .demo-layout {
   display: grid; grid-template-columns: 1fr 1fr;
@@ -86,6 +86,7 @@ fbq('init','590520096533350');fbq('track','PageView');
   background: var(--card); border: 1px solid var(--rule);
   border-radius: var(--radius-lg); padding: 40px;
   box-shadow: var(--shadow);
+  box-sizing: border-box; max-width: 100%; overflow: hidden;
 }
 .demo-step {
   font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
@@ -127,6 +128,7 @@ fbq('init','590520096533350');fbq('track','PageView');
 }
 .demo-success {
   text-align: center; padding: 40px 20px;
+  box-sizing: border-box; max-width: 100%;
 }
 .demo-success .check {
   width: 64px; height: 64px; border-radius: 50%;
