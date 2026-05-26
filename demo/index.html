@@ -216,6 +216,19 @@ gmp-place-autocomplete input:focus {
   .demo-left { padding: 40px 0 20px; }
   .demo-covers { grid-template-columns: 1fr; }
 }
+@media (max-width: 640px) {
+  .demo-layout { padding: 0 16px; }
+  .demo-left { padding: 28px 0 16px; }
+  .demo-left h1 { font-size: clamp(28px, 8vw, 40px); }
+  .demo-left .lead { font-size: 15px; margin-bottom: 24px; }
+  .demo-card { padding: 28px 20px; }
+  .demo-card h2 { font-size: 22px; margin-bottom: 20px; }
+  .demo-nav { padding: 0 16px; height: 56px; }
+  .demo-covers { gap: 10px; }
+  .demo-cover { padding: 14px; }
+  .demo-cover h4 { font-size: 14px; }
+  .demo-testimonial { padding: 18px 20px; }
+}
 </style>
 </head>
 <body>
