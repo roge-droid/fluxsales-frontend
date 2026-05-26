@@ -229,7 +229,7 @@ gmp-place-autocomplete input:focus {
 .demo-success { overflow: hidden; }
 .demo-card *, .demo-card *::before, .demo-card *::after { box-sizing: border-box; }
 .bk-header {
-  text-align: center; margin-bottom: 20px;
+  text-align: center; margin-bottom: 24px;
 }
 .bk-title {
   font-family: var(--serif); font-size: 22px; font-weight: 400;
@@ -240,18 +240,22 @@ gmp-place-autocomplete input:focus {
   font-size: 14px; color: var(--ink-muted); margin: 0;
 }
 .bk-dates {
-  display: flex; gap: 4px; overflow-x: auto; padding: 4px 0 12px;
+  display: flex; gap: 2px; overflow-x: auto; padding: 4px 0 16px;
   scrollbar-width: none; -webkit-overflow-scrolling: touch;
-  max-width: 100%;
+  max-width: 100%; border-bottom: 1px solid var(--rule);
+  margin-bottom: 16px;
 }
 .bk-dates::-webkit-scrollbar { display: none; }
 .bk-date {
-  flex: 0 0 auto; padding: 8px 4px; min-width: 54px;
+  flex: 0 0 auto; padding: 10px 6px; min-width: 56px;
   border-radius: 12px; border: none; background: transparent;
   cursor: pointer; text-align: center; transition: .15s;
 }
 .bk-date:hover { background: var(--cream-3); }
-.bk-date.on { background: var(--green-ink); }
+.bk-date.on {
+  background: var(--green-ink);
+  box-shadow: 0 2px 8px rgba(45,90,60,.25);
+}
 .bk-date-day {
   display: block; font-family: var(--mono); font-size: 10px;
   letter-spacing: .06em; text-transform: uppercase;
@@ -263,29 +267,59 @@ gmp-place-autocomplete input:focus {
   margin-top: 2px; line-height: 1.2;
 }
 .bk-date.on .bk-date-num { color: white; }
+.bk-slots-wrap {
+  position: relative;
+}
+.bk-slots-wrap::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 32px; pointer-events: none;
+  background: linear-gradient(transparent, var(--card));
+}
 .bk-slots {
-  max-height: 260px; overflow-y: auto; margin-top: 4px;
+  max-height: 280px; overflow-y: auto; margin-top: 0;
   scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
-  display: flex; flex-direction: column; gap: 6px;
+  display: flex; flex-direction: column; gap: 8px;
+  padding-bottom: 8px;
 }
 .bk-slot {
-  width: 100%; padding: 14px 16px; border-radius: 10px;
+  width: 100%; padding: 15px 16px; border-radius: 10px;
   border: 1px solid var(--green); background: transparent;
   color: var(--green-ink); font-size: 15px; font-weight: 500;
   font-family: var(--sans); cursor: pointer; text-align: center;
-  transition: .15s;
+  transition: .15s; flex-shrink: 0;
 }
 .bk-slot:hover { background: var(--green-100); }
 .bk-slot.on {
   background: var(--green-ink); color: white; border-color: var(--green-ink);
+  box-shadow: 0 2px 8px rgba(45,90,60,.25);
+}
+.bk-empty {
+  text-align: center; padding: 24px 0; color: var(--ink-muted); font-size: 14px;
 }
 .bk-cta {
-  margin-top: 16px;
+  margin-top: 20px;
 }
 .bk-fallback {
-  font-size: 12px; color: var(--ink-muted); text-align: center; margin-top: 10px;
+  font-size: 12px; color: var(--ink-muted); text-align: center; margin-top: 12px;
 }
 .bk-fallback a { color: var(--green-ink); text-decoration: underline; }
+.bk-booked-check {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--green); color: #0d2c20;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin: 0 auto 16px;
+}
+.bk-booked-title {
+  font-family: var(--serif); font-size: 24px; font-weight: 400;
+  margin: 0 0 8px; text-align: center;
+  font-variation-settings: "opsz" 144, "SOFT" 40;
+}
+.bk-booked-time {
+  color: var(--ink-muted); text-align: center; font-size: 15px; margin: 0 0 20px;
+}
+.bk-booked-email {
+  font-size: 13px; color: var(--ink-muted); text-align: center; margin-top: 16px;
+}
 /* Phone input with country code */
 .phone-row {
   display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 10px;
@@ -310,10 +344,11 @@ gmp-place-autocomplete input:focus {
 }
 
 @media (max-width: 640px) {
-  .bk-date { min-width: 48px; padding: 6px 2px; }
+  .bk-date { min-width: 46px; padding: 8px 4px; }
   .bk-date-num { font-size: 18px; }
-  .bk-slots { max-height: 240px; }
-  .bk-slot { padding: 13px 14px; font-size: 15px; }
+  .bk-slots { max-height: 220px; }
+  .bk-slot { padding: 14px 12px; font-size: 15px; }
+  .bk-cta { margin-top: 16px; }
   .phone-row > .phone-country { flex: 0 0 70px; width: 70px; max-width: 70px; padding: 14px 6px 14px 10px; font-size: 14px; }
 }
 
@@ -419,11 +454,11 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
   if (booked) {
     return (
       <>
-        <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--green)", color: "#0d2c20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, margin: "0 auto 16px" }}>✓</div>
-        <h3 style={{ fontFamily: "var(--serif)", fontSize: 24, fontWeight: 400, margin: "0 0 8px", textAlign: "center", fontVariationSettings: '"opsz" 144, "SOFT" 40' }}>
+        <div className="bk-booked-check">✓</div>
+        <h3 className="bk-booked-title">
           Demo agendada, {firstName}
         </h3>
-        <p style={{ color: "var(--ink-muted)", textAlign: "center", fontSize: 15, margin: "0 0 20px" }}>
+        <p className="bk-booked-time">
           {booked.startFormatted}
         </p>
         {booked.meetLink && (
@@ -431,7 +466,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
             Abrir Google Meet <span>→</span>
           </a>
         )}
-        <p style={{ fontSize: 13, color: "var(--ink-muted)", textAlign: "center", marginTop: 16 }}>
+        <p className="bk-booked-email">
           Te enviamos confirmacion a <strong>{email}</strong>
         </p>
       </>
@@ -495,16 +530,20 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
       </div>
 
       {currentDate && (
-        <div className="bk-slots">
-          {currentDate.slots.map((s, i) => (
-            <button
-              key={i}
-              onClick={() => { setSelectedSlot(s); setError(null); }}
-              className={"bk-slot" + (selectedSlot === s ? " on" : "")}
-            >
-              {s.timeLabel}
-            </button>
-          ))}
+        <div className="bk-slots-wrap">
+          <div className="bk-slots">
+            {currentDate.slots.length ? currentDate.slots.map((s, i) => (
+              <button
+                key={i}
+                onClick={() => { setSelectedSlot(s); setError(null); }}
+                className={"bk-slot" + (selectedSlot === s ? " on" : "")}
+              >
+                {s.timeLabel}
+              </button>
+            )) : (
+              <div className="bk-empty">No hay horarios disponibles este dia.</div>
+            )}
+          </div>
         </div>
       )}
 
