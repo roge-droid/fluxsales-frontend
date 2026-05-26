@@ -166,6 +166,7 @@ fbq('init','590520096533350');fbq('track','PageView');
   margin-top: 28px; padding: 24px 28px;
   background: var(--card); border: 1px solid var(--rule);
   border-radius: var(--radius); text-align: center;
+  box-sizing: border-box; max-width: 100%; overflow: hidden;
 }
 .demo-testimonial blockquote {
   font-family: var(--serif); font-size: 16px; font-style: italic;
@@ -226,6 +227,7 @@ gmp-place-autocomplete input:focus {
 
 /* Inline calendar booking — Calendly-style */
 .demo-success { overflow: hidden; }
+.demo-card *, .demo-card *::before, .demo-card *::after { box-sizing: border-box; }
 .bk-header {
   text-align: center; margin-bottom: 20px;
 }
