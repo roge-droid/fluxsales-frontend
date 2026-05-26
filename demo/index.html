@@ -266,48 +266,177 @@ function LogoMark() {
   );
 }
 
-function QualifiedRedirect({ name, url }) {
-  const [countdown, setCountdown] = React.useState(3);
+function CalendarBooking({ firstName, lastName, email, phone, companyName, assignedAE, calendarUrl }) {
+  const [loading, setLoading] = React.useState(true);
+  const [dates, setDates] = React.useState([]);
+  const [selectedDate, setSelectedDate] = React.useState(0);
+  const [selectedSlot, setSelectedSlot] = React.useState(null);
+  const [booking, setBooking] = React.useState(false);
+  const [booked, setBooked] = React.useState(null);
+  const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown(prev => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          window.location.href = url;
-          return 0;
-        }
-        return prev - 1;
+    fetch(`/api/calendar/available-slots?ae=${encodeURIComponent(assignedAE)}&days=14`)
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok && data.dates?.length) setDates(data.dates);
+        else setError("fallback");
+      })
+      .catch(() => setError("fallback"))
+      .finally(() => setLoading(false));
+  }, [assignedAE]);
+
+  const handleBook = async () => {
+    if (!selectedSlot) return;
+    setBooking(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/calendar/book-demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ae: assignedAE,
+          start: selectedSlot.start,
+          end: selectedSlot.end,
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          phone,
+          company_name: companyName,
+        }),
       });
-    }, 1000);
-    return () => clearInterval(timer);
-  }, [url]);
+      const result = await res.json();
+      if (!res.ok) {
+        setError(result.error || "No pudimos agendar tu demo.");
+        return;
+      }
+      setBooked(result);
+    } catch {
+      setError("No pudimos agendar tu demo. Intenta de nuevo.");
+    } finally {
+      setBooking(false);
+    }
+  };
+
+  if (booked) {
+    return (
+      <>
+        <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--green)", color: "#0d2c20", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, margin: "0 auto 16px" }}>✓</div>
+        <h3 style={{ fontFamily: "var(--serif)", fontSize: 24, fontWeight: 400, margin: "0 0 8px", textAlign: "center", fontVariationSettings: '"opsz" 144, "SOFT" 40' }}>
+          Demo agendada, {firstName}
+        </h3>
+        <p style={{ color: "var(--ink-muted)", textAlign: "center", fontSize: 15, margin: "0 0 20px" }}>
+          {booked.startFormatted}
+        </p>
+        {booked.meetLink && (
+          <a href={booked.meetLink} target="_blank" rel="noopener" className="demo-calendar-btn" style={{ display: "flex", width: "100%", justifyContent: "center" }}>
+            Abrir Google Meet <span>→</span>
+          </a>
+        )}
+        <p style={{ fontSize: 13, color: "var(--ink-muted)", textAlign: "center", marginTop: 16 }}>
+          Te enviamos confirmacion a <strong>{email}</strong>
+        </p>
+      </>
+    );
+  }
+
+  if (error === "fallback") {
+    return (
+      <>
+        <p style={{ fontSize: 17, color: "var(--green-ink)", fontWeight: 500 }}>
+          Tu restaurante califica para una demo personalizada.
+        </p>
+        <a href={calendarUrl} className="demo-calendar-btn" style={{ display: "flex", width: "100%", justifyContent: "center", marginTop: 16 }}>
+          Agendar mi demo de 20 min <span>→</span>
+        </a>
+        <p style={{ marginTop: 12, fontSize: 12, color: "var(--ink-muted)", textAlign: "center" }}>
+          <a href="https://wa.me/5214421716825" style={{ color: "var(--green-ink)", textDecoration: "underline" }}>WhatsApp</a>
+        </p>
+      </>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div style={{ textAlign: "center", padding: "20px 0" }}>
+        <p style={{ fontSize: 15, color: "var(--green-ink)", fontWeight: 500 }}>Cargando horarios disponibles...</p>
+      </div>
+    );
+  }
+
+  const currentDate = dates[selectedDate];
 
   return (
     <>
-      <p style={{ fontSize: 17, color: "var(--green-ink)", fontWeight: 500 }}>
-        Tu restaurante califica para una demo personalizada.
+      <p style={{ fontSize: 17, color: "var(--green-ink)", fontWeight: 500, margin: "0 0 4px" }}>
+        Tu restaurante califica.
       </p>
-      <p style={{ color: "var(--ink-muted)" }}>
-        Redirigiendo al calendario en <strong>{countdown}</strong> segundos...
+      <p style={{ fontSize: 14, color: "var(--ink-muted)", margin: "0 0 20px" }}>
+        Elige un horario para tu demo de 20 minutos:
       </p>
-      <div style={{ margin: "20px 0", width: "100%", height: 4, background: "var(--rule)", borderRadius: 99, overflow: "hidden" }}>
-        <div style={{
-          height: "100%", background: "var(--green)", borderRadius: 99,
-          transition: "width 1s linear",
-          width: countdown === 2 ? "33%" : countdown === 1 ? "66%" : countdown === 0 ? "100%" : "0%",
-        }} />
+
+      {error && <div className="demo-error">{error}</div>}
+
+      <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 8, scrollbarWidth: "none" }}>
+        {dates.map((d, i) => (
+          <button
+            key={i}
+            onClick={() => { setSelectedDate(i); setSelectedSlot(null); setError(null); }}
+            style={{
+              flex: "0 0 auto",
+              padding: "8px 14px",
+              borderRadius: 999,
+              fontSize: 13,
+              fontFamily: "var(--mono)",
+              letterSpacing: ".03em",
+              border: i === selectedDate ? "2px solid var(--green-ink)" : "1px solid var(--rule)",
+              background: i === selectedDate ? "var(--green-100)" : "var(--card)",
+              color: i === selectedDate ? "var(--green-ink)" : "var(--ink-muted)",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {d.dateLabel}
+          </button>
+        ))}
       </div>
-      <a
-        href={url}
-        className="demo-calendar-btn"
+
+      {currentDate && (
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6, marginTop: 12 }}>
+          {currentDate.slots.map((s, i) => (
+            <button
+              key={i}
+              onClick={() => { setSelectedSlot(s); setError(null); }}
+              style={{
+                padding: "10px 8px",
+                borderRadius: 10,
+                fontSize: 14,
+                border: selectedSlot === s ? "2px solid var(--green-ink)" : "1px solid var(--rule)",
+                background: selectedSlot === s ? "var(--green-100)" : "var(--card)",
+                color: selectedSlot === s ? "var(--green-ink)" : "var(--ink-soft)",
+                cursor: "pointer",
+                fontFamily: "var(--sans)",
+              }}
+            >
+              {s.timeLabel}
+            </button>
+          ))}
+        </div>
+      )}
+
+      <button
+        className="demo-submit"
+        disabled={!selectedSlot || booking}
+        onClick={handleBook}
+        style={{ marginTop: 20 }}
       >
-        Agendar mi demo de 20 min <span>→</span>
-      </a>
-      <p style={{ marginTop: 16, fontSize: 12, color: "var(--ink-muted)" }}>
-        ¿No se abrió? <a href={url} style={{ color: "var(--green-ink)", textDecoration: "underline" }}>Haz clic aquí</a>
-        {" · "}
-        <a href="https://wa.me/5214421716825" style={{ color: "var(--green-ink)", textDecoration: "underline" }}>WhatsApp</a>
+        {booking ? "Agendando..." : "Agendar mi demo →"}
+      </button>
+
+      <p style={{ fontSize: 12, color: "var(--ink-muted)", textAlign: "center", marginTop: 12 }}>
+        <a href={calendarUrl} style={{ color: "var(--green-ink)", textDecoration: "underline" }}>
+          Prefiero agendar en Google Calendar directamente
+        </a>
       </p>
     </>
   );
@@ -319,6 +448,7 @@ function DemoForm() {
   const [success, setSuccess] = React.useState(false);
   const [showCalendar, setShowCalendar] = React.useState(false);
   const [calendarUrl, setCalendarUrl] = React.useState("");
+  const [assignedAE, setAssignedAE] = React.useState("Mariana");
   const [error, setError] = React.useState(null);
 
   const [form, setForm] = React.useState({
@@ -418,6 +548,7 @@ function DemoForm() {
         "Ayline": "https://calendar.app.google/Z1PUtkg8xErSkLPr7",
       };
       setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
+      setAssignedAE(result.assignedAE || "Mariana");
       setSuccess(true);
       if (typeof fbq === "function") {
         fbq("track", "Lead", { content_name: "demo_page", value: 0, currency: "MXN" });
@@ -433,12 +564,20 @@ function DemoForm() {
     return (
       <div className="demo-card">
         <div className="demo-success">
-          <div className="check">✓</div>
-          <h2>¡Listo, {form.first_name}!</h2>
           {showCalendar ? (
-            <QualifiedRedirect name={form.first_name} url={calendarUrl} />
+            <CalendarBooking
+              firstName={form.first_name}
+              lastName={form.last_name}
+              email={form.email}
+              phone={form.phone}
+              companyName={form.company_name}
+              assignedAE={assignedAE}
+              calendarUrl={calendarUrl}
+            />
           ) : (
             <>
+              <div className="check">✓</div>
+              <h2>¡Listo, {form.first_name}!</h2>
               <p>Recibimos tu información. Nuestro equipo revisará tu perfil y te contactará en las próximas 24 horas con una propuesta personalizada.</p>
               <p style={{ marginTop: 20, fontSize: 13, color: "var(--green-ink)" }}>
                 ¿Quieres hablar antes?{" "}
