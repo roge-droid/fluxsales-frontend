@@ -222,6 +222,51 @@ gmp-place-autocomplete input:focus {
   width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0;
 }
 
+/* Inline calendar booking */
+.booking-dates {
+  display: flex; gap: 6px; overflow-x: auto; padding-bottom: 8px;
+  scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+.booking-dates::-webkit-scrollbar { display: none; }
+.booking-date-chip {
+  flex: 0 0 auto; padding: 10px 16px; border-radius: 999px;
+  font-size: 13px; font-family: var(--mono); letter-spacing: .03em;
+  border: 1px solid var(--rule); background: var(--card); color: var(--ink-muted);
+  cursor: pointer; white-space: nowrap; transition: .15s;
+}
+.booking-date-chip.on {
+  border: 2px solid var(--green-ink); background: var(--green-100); color: var(--green-ink);
+}
+.booking-slots-scroll {
+  max-height: 320px; overflow-y: auto; margin-top: 12px;
+  scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
+}
+.booking-section-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-muted);
+  padding: 10px 0 6px; border-bottom: 1px solid var(--rule); margin-bottom: 8px;
+}
+.booking-slots-grid {
+  display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px;
+}
+.booking-slot {
+  padding: 12px 8px; border-radius: 12px; font-size: 15px;
+  border: 1px solid var(--rule); background: var(--card); color: var(--ink-soft);
+  cursor: pointer; font-family: var(--sans); transition: .15s; text-align: center;
+}
+.booking-slot:hover { border-color: var(--green); background: var(--green-100); }
+.booking-slot.on {
+  border: 2px solid var(--green-ink); background: var(--green-ink); color: white;
+  font-weight: 500;
+}
+
+@media (max-width: 640px) {
+  .booking-slots-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .booking-slot { padding: 14px 10px; font-size: 15px; }
+  .booking-slots-scroll { max-height: 280px; }
+  .booking-date-chip { padding: 8px 12px; font-size: 12px; }
+}
+
 @media (max-width: 900px) {
   .demo-layout {
     grid-template-columns: 1fr;
@@ -365,36 +410,30 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
   }
 
   const currentDate = dates[selectedDate];
+  const morningSlots = currentDate ? currentDate.slots.filter(s => {
+    const h = new Date(s.start).getUTCHours();
+    const localH = parseInt(s.timeLabel);
+    return s.timeLabel.includes("a.m.") && !s.timeLabel.startsWith("12:");
+  }) : [];
+  const afternoonSlots = currentDate ? currentDate.slots.filter(s => !morningSlots.includes(s)) : [];
 
   return (
     <>
       <p style={{ fontSize: 17, color: "var(--green-ink)", fontWeight: 500, margin: "0 0 4px" }}>
         Tu restaurante califica.
       </p>
-      <p style={{ fontSize: 14, color: "var(--ink-muted)", margin: "0 0 20px" }}>
+      <p style={{ fontSize: 14, color: "var(--ink-muted)", margin: "0 0 16px" }}>
         Elige un horario para tu demo de 20 minutos:
       </p>
 
       {error && <div className="demo-error">{error}</div>}
 
-      <div style={{ display: "flex", gap: 6, overflowX: "auto", paddingBottom: 8, scrollbarWidth: "none" }}>
+      <div className="booking-dates">
         {dates.map((d, i) => (
           <button
             key={i}
             onClick={() => { setSelectedDate(i); setSelectedSlot(null); setError(null); }}
-            style={{
-              flex: "0 0 auto",
-              padding: "8px 14px",
-              borderRadius: 999,
-              fontSize: 13,
-              fontFamily: "var(--mono)",
-              letterSpacing: ".03em",
-              border: i === selectedDate ? "2px solid var(--green-ink)" : "1px solid var(--rule)",
-              background: i === selectedDate ? "var(--green-100)" : "var(--card)",
-              color: i === selectedDate ? "var(--green-ink)" : "var(--ink-muted)",
-              cursor: "pointer",
-              whiteSpace: "nowrap",
-            }}
+            className={"booking-date-chip" + (i === selectedDate ? " on" : "")}
           >
             {d.dateLabel}
           </button>
@@ -402,25 +441,39 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
       </div>
 
       {currentDate && (
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 6, marginTop: 12 }}>
-          {currentDate.slots.map((s, i) => (
-            <button
-              key={i}
-              onClick={() => { setSelectedSlot(s); setError(null); }}
-              style={{
-                padding: "10px 8px",
-                borderRadius: 10,
-                fontSize: 14,
-                border: selectedSlot === s ? "2px solid var(--green-ink)" : "1px solid var(--rule)",
-                background: selectedSlot === s ? "var(--green-100)" : "var(--card)",
-                color: selectedSlot === s ? "var(--green-ink)" : "var(--ink-soft)",
-                cursor: "pointer",
-                fontFamily: "var(--sans)",
-              }}
-            >
-              {s.timeLabel}
-            </button>
-          ))}
+        <div className="booking-slots-scroll">
+          {morningSlots.length > 0 && (
+            <>
+              <div className="booking-section-label">Manana</div>
+              <div className="booking-slots-grid">
+                {morningSlots.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { setSelectedSlot(s); setError(null); }}
+                    className={"booking-slot" + (selectedSlot === s ? " on" : "")}
+                  >
+                    {s.timeLabel}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+          {afternoonSlots.length > 0 && (
+            <>
+              <div className="booking-section-label">Tarde</div>
+              <div className="booking-slots-grid">
+                {afternoonSlots.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => { setSelectedSlot(s); setError(null); }}
+                    className={"booking-slot" + (selectedSlot === s ? " on" : "")}
+                  >
+                    {s.timeLabel}
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       )}
 
@@ -428,12 +481,12 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
         className="demo-submit"
         disabled={!selectedSlot || booking}
         onClick={handleBook}
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 16 }}
       >
         {booking ? "Agendando..." : "Agendar mi demo →"}
       </button>
 
-      <p style={{ fontSize: 12, color: "var(--ink-muted)", textAlign: "center", marginTop: 12 }}>
+      <p style={{ fontSize: 12, color: "var(--ink-muted)", textAlign: "center", marginTop: 10 }}>
         <a href={calendarUrl} style={{ color: "var(--green-ink)", textDecoration: "underline" }}>
           Prefiero agendar en Google Calendar directamente
         </a>
