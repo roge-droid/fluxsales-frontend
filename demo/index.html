@@ -402,6 +402,9 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
         return;
       }
       setBooked(result);
+      if (typeof fbq === "function" && result.eventId) {
+        fbq("track", "Schedule", { content_name: "demo_booking", value: 0, currency: "MXN" }, { eventID: "schedule_" + result.eventId });
+      }
     } catch {
       setError("No pudimos agendar tu demo. Intenta de nuevo.");
     } finally {
@@ -642,7 +645,9 @@ function DemoForm() {
       setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
       setAssignedAE(result.assignedAE || "Mariana");
       setSuccess(true);
-      if (typeof fbq === "function") {
+      if (typeof fbq === "function" && result.eventId) {
+        fbq("track", "Lead", { content_name: "demo_page", value: 0, currency: "MXN" }, { eventID: result.eventId });
+      } else if (typeof fbq === "function") {
         fbq("track", "Lead", { content_name: "demo_page", value: 0, currency: "MXN" });
       }
     } catch (err) {
