@@ -284,24 +284,23 @@ gmp-place-autocomplete input:focus {
 .bk-fallback a { color: var(--green-ink); text-decoration: underline; }
 /* Phone input with country code */
 .phone-row {
-  display: flex; gap: 8px;
+  display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 10px;
+  overflow: hidden; background: var(--cream);
+  transition: border-color .2s;
 }
+.phone-row:focus-within { border-color: var(--green); }
 .phone-country {
-  flex: 0 0 auto; width: 90px; padding: 14px 8px; font-size: 15px;
-  border: 1px solid var(--rule); border-radius: 10px;
-  background: var(--cream); color: var(--ink); font-family: var(--sans);
-  outline: none; appearance: none; -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 5l3 3 3-3' fill='none' stroke='%236f6c66' stroke-width='1.5'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 8px center;
-  cursor: pointer;
+  flex: 0 0 auto; width: 80px; padding: 14px 8px 14px 12px; font-size: 14px;
+  border: none; border-right: 1px solid var(--rule); border-radius: 0;
+  background: var(--cream-2); color: var(--ink); font-family: var(--sans);
+  outline: none; cursor: pointer;
 }
-.phone-country:focus { border-color: var(--green); }
 .phone-number {
-  flex: 1; min-width: 0;
+  flex: 1; min-width: 0; padding: 14px 16px; font-size: 15px;
+  border: none; background: transparent; color: var(--ink);
+  font-family: var(--sans); outline: none;
 }
-.phone-hint {
-  font-size: 12px; color: var(--ink-muted); margin-top: 4px;
-}
+.phone-number::placeholder { color: var(--ink-muted); }
 .phone-error {
   font-size: 12px; color: var(--tomato-ink); margin-top: 4px;
 }
@@ -311,7 +310,7 @@ gmp-place-autocomplete input:focus {
   .bk-date-num { font-size: 18px; }
   .bk-slots { max-height: 240px; }
   .bk-slot { padding: 13px 14px; font-size: 15px; }
-  .phone-country { width: 84px; padding: 14px 6px; font-size: 14px; }
+  .phone-country { width: 70px; padding: 14px 6px 14px 10px; font-size: 14px; }
 }
 
 @media (max-width: 900px) {
@@ -803,18 +802,19 @@ function DemoForm() {
                 value={form.country_code}
                 onChange={set("country_code")}
               >
-                <option value="+52">MX +52</option>
-                <option value="+57">CO +57</option>
-                <option value="+56">CL +56</option>
-                <option value="+51">PE +51</option>
-                <option value="+54">AR +54</option>
-                <option value="+1">US +1</option>
-                <option value="+593">EC +593</option>
-                <option value="+502">GT +502</option>
+                <option value="+52">+52</option>
+                <option value="+57">+57</option>
+                <option value="+56">+56</option>
+                <option value="+51">+51</option>
+                <option value="+54">+54</option>
+                <option value="+1">+1</option>
+                <option value="+593">+593</option>
+                <option value="+502">+502</option>
               </select>
               <input
                 className="phone-number"
                 type="tel"
+                inputMode="numeric"
                 placeholder="55 1234 5678"
                 value={form.phone}
                 onChange={(e) => { setForm({ ...form, phone: e.target.value }); setPhoneError(""); }}
