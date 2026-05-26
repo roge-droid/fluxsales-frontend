@@ -443,12 +443,13 @@ function DemoForm() {
             onClick={() => {
               let name = form.company_name.trim();
               if (!name) {
-                // Read from the GMP element's visible input
+                // Read from GMP element's internal input (closed shadow DOM workaround)
                 try {
                   const gmp = placesContainerRef.current?.querySelector("gmp-place-autocomplete");
                   if (gmp) {
-                    const inputs = gmp.querySelectorAll("input");
-                    for (const inp of inputs) { if (inp.value) { name = inp.value.trim(); break; } }
+                    for (const k in gmp) {
+                      try { if (gmp[k] instanceof HTMLInputElement && gmp[k].value) { name = gmp[k].value.trim(); break; } } catch {}
+                    }
                   }
                 } catch {}
               }
