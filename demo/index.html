@@ -596,13 +596,14 @@ function DemoForm() {
   }, [step, placesMounted]);
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+  const PHONE_LENGTHS = { "+52": 10, "+57": 10, "+56": 9, "+51": 9, "+54": 10, "+1": 10, "+593": 9, "+502": 8 };
+  const maxDigits = PHONE_LENGTHS[form.country_code] || 10;
   const digits = form.phone.replace(/\D/g, "");
-  const canSubmit = form.first_name.trim() && form.email.trim() && digits.length >= 10;
+  const canSubmit = form.first_name.trim() && form.email.trim() && digits.length >= maxDigits;
 
   const validatePhone = () => {
     const d = form.phone.replace(/\D/g, "");
-    if (d.length < 10) { setPhoneError("El numero debe tener al menos 10 digitos"); return false; }
-    if (d.length > 15) { setPhoneError("El numero es demasiado largo"); return false; }
+    if (d.length < maxDigits) { setPhoneError(`El numero debe tener ${maxDigits} digitos`); return false; }
     setPhoneError("");
     return true;
   };
@@ -821,7 +822,7 @@ function DemoForm() {
                 onChange={(e) => {
                   const raw = e.target.value.replace(/[^\d\s\-()]/g, "");
                   const digitsOnly = raw.replace(/\D/g, "");
-                  if (digitsOnly.length > 10) return;
+                  if (digitsOnly.length > maxDigits) return;
                   setForm({ ...form, phone: raw });
                   setPhoneError("");
                 }}
