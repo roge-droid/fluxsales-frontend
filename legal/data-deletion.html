@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Eliminación de Datos — Fluxsales</title>
+<meta name="description" content="Solicita la eliminación de tus datos personales de Fluxsales.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../landing/styles.css" />
+<link rel="stylesheet" href="styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<style>
+.del-form {
+  background: var(--card); border: 1px solid var(--rule);
+  border-radius: var(--radius-lg); padding: 36px;
+  margin: 40px 0;
+}
+.del-form h3 {
+  font-family: var(--serif); font-size: 22px; font-weight: 400;
+  font-variation-settings: "opsz" 144, "SOFT" 40;
+  margin: 0 0 20px;
+}
+.del-field { margin-bottom: 18px; }
+.del-field label {
+  display: block; font-size: 14px; color: var(--ink-soft); margin-bottom: 6px;
+}
+.del-field input, .del-field textarea {
+  width: 100%; padding: 12px 14px; font-size: 15px;
+  border: 1px solid var(--rule); border-radius: 10px;
+  background: var(--cream-2); color: var(--ink);
+  font-family: var(--sans); outline: none; transition: border-color .2s;
+}
+.del-field input:focus, .del-field textarea:focus { border-color: var(--green); }
+.del-field textarea { resize: vertical; min-height: 80px; }
+.del-submit {
+  width: 100%; padding: 14px; font-size: 15px; font-weight: 500;
+  background: var(--ink); color: var(--cream);
+  border: none; border-radius: 999px; cursor: pointer;
+  font-family: var(--sans); transition: .2s;
+}
+.del-submit:hover { background: var(--green-ink); }
+.del-submit:disabled { opacity: .5; cursor: not-allowed; }
+.del-success {
+  text-align: center; padding: 24px 0;
+}
+.del-success .check {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--green); color: #0d2c20;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; margin: 0 auto 16px;
+}
+.del-error {
+  background: rgba(196,90,42,.08); border: 1px solid rgba(196,90,42,.3);
+  border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;
+  font-size: 13px; color: #c45a2a;
+}
+</style>
+</head>
+<body>
+<div class="legal-page">
+  <header class="legal-nav">
+    <a href="/" class="logo">
+      <span class="logo-mark">
+        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <g fill="currentColor">
+            <rect x="54" y="40" width="50" height="172" rx="6"/>
+            <rect x="54" y="40" width="150" height="46" rx="6"/>
+            <rect x="54" y="108" width="98" height="38" rx="6"/>
+            <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+          </g>
+        </svg>
+      </span>
+      <span>Fluxsales</span>
+    </a>
+    <a href="/" class="back">← Inicio</a>
+  </header>
+
+  <main class="legal-content">
+    <span class="eyebrow">Privacidad</span>
+    <h1>Eliminación de <em>Datos</em></h1>
+    <p class="updated">Última actualización: 26 de mayo de 2026</p>
+
+    <p>Si utilizaste tu cuenta de Facebook o Instagram para interactuar con Fluxsales, o si deseas eliminar tus datos personales de nuestra plataforma, puedes solicitarlo aquí.</p>
+
+    <h2>Qué datos eliminamos</h2>
+    <p>Al procesar tu solicitud, eliminaremos:</p>
+    <ul>
+      <li>Tu información de contacto (nombre, email, teléfono)</li>
+      <li>Datos de tu restaurante asociados a tu cuenta</li>
+      <li>Historial de interacciones y preferencias</li>
+      <li>Datos de campañas y marketing</li>
+    </ul>
+    <p><strong>No eliminamos:</strong> registros de transacciones financieras que estamos obligados a retener por ley (SAT) por un período de 5 años.</p>
+
+    <h2>Proceso</h2>
+    <ol>
+      <li>Completa el formulario de abajo con tu email registrado</li>
+      <li>Recibirás un email de confirmación en 48 horas</li>
+      <li>Tus datos serán eliminados en un máximo de 20 días hábiles</li>
+      <li>Te enviaremos una confirmación final cuando el proceso esté completo</li>
+    </ol>
+
+    <div id="deletion-form"></div>
+
+    <h2>Solicitud por otros medios</h2>
+    <p>También puedes solicitar la eliminación de datos por:</p>
+    <ul>
+      <li>Email: <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a></li>
+      <li>WhatsApp: <a href="https://wa.me/5214421716825">+52 1 442 171 6825</a></li>
+    </ul>
+
+    <h2>Meta (Facebook/Instagram)</h2>
+    <p>Si vinculaste tu cuenta de Facebook o Instagram con nuestros servicios, esta página cumple con los requisitos de eliminación de datos de la plataforma Meta. Tu solicitud será procesada conforme a la <a href="https://developers.facebook.com/docs/development/create-an-app/app-dashboard/data-deletion-callback" target="_blank" rel="noopener">política de eliminación de datos de Meta</a>.</p>
+  </main>
+
+  <footer class="legal-footer">
+    <p>Fluxsales · CDMX · Monterrey · Guadalajara</p>
+  </footer>
+</div>
+
+<script type="text/babel">
+function DeletionForm() {
+  const [email, setEmail] = React.useState("");
+  const [reason, setReason] = React.useState("");
+  const [submitting, setSubmitting] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [confirmationCode, setConfirmationCode] = React.useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setSubmitting(true);
+    setError(null);
+
+    try {
+      const res = await fetch("/api/data-deletion", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), reason: reason.trim() }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Error al procesar tu solicitud.");
+      }
+      const data = await res.json();
+      setConfirmationCode(data.confirmationCode || "DEL-" + Date.now().toString(36).toUpperCase());
+      setSuccess(true);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (success) {
+    return (
+      <div className="del-form">
+        <div className="del-success">
+          <div className="check">&#10003;</div>
+          <h3 style={{ textAlign: "center" }}>Solicitud recibida</h3>
+          <p style={{ color: "var(--ink-muted)", textAlign: "center", margin: "0 0 12px" }}>
+            Tu solicitud de eliminación ha sido registrada. Recibirás un email de confirmación en 48 horas.
+          </p>
+          <p style={{ fontFamily: "var(--mono)", fontSize: 13, color: "var(--green-ink)", textAlign: "center" }}>
+            Código de seguimiento: {confirmationCode}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form className="del-form" onSubmit={handleSubmit}>
+      <h3>Solicitar eliminación de datos</h3>
+      {error && <div className="del-error">{error}</div>}
+      <div className="del-field">
+        <label>Email registrado</label>
+        <input
+          type="email"
+          placeholder="tu@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+      <div className="del-field">
+        <label>Motivo (opcional)</label>
+        <textarea
+          placeholder="Cuéntanos por qué deseas eliminar tus datos..."
+          value={reason}
+          onChange={(e) => setReason(e.target.value)}
+        />
+      </div>
+      <button type="submit" className="del-submit" disabled={!email.trim() || submitting}>
+        {submitting ? "Enviando..." : "Solicitar eliminación"}
+      </button>
+    </form>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("deletion-form")).render(<DeletionForm />);
+</script>
+</body>
+</html>

@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Propuesta — Fluxsales</title>
+<meta name="description" content="Tu propuesta personalizada de Fluxsales.">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../landing/styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<style>
+.proposal-page { min-height: 100vh; background: var(--cream); }
+
+.proposal-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  max-width: var(--max); margin: 0 auto; padding: 0 28px; height: 68px;
+}
+.proposal-nav .logo {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--serif); font-size: 22px;
+  font-variation-settings: "opsz" 144, "SOFT" 20;
+  letter-spacing: -0.02em; color: var(--ink); text-decoration: none;
+}
+.proposal-nav .logo-mark { width: 26px; height: 26px; display: inline-flex; }
+.proposal-nav .tag {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-muted);
+}
+
+.proposal-layout {
+  max-width: 920px; margin: 0 auto; padding: 40px 28px 120px;
+}
+
+.proposal-hero { margin-bottom: 48px; }
+.proposal-hero .eyebrow { margin-bottom: 16px; }
+.proposal-hero h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: clamp(36px, 4.5vw, 56px);
+  line-height: 1.05; letter-spacing: -0.025em;
+  color: var(--ink-soft); font-weight: 400;
+  margin: 0 0 16px;
+}
+.proposal-hero h1 em {
+  font-style: italic; color: var(--green-ink);
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+}
+.proposal-hero .lead {
+  font-size: 17px; color: var(--ink-muted); line-height: 1.55;
+  max-width: 56ch;
+}
+
+.proposal-grid {
+  display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px;
+  align-items: start;
+}
+
+.proposal-card {
+  background: var(--card); border: 1px solid var(--rule);
+  border-radius: var(--radius-lg); padding: 36px;
+}
+
+.proposal-card h2 {
+  font-family: var(--serif); font-size: 24px; font-weight: 400;
+  font-variation-settings: "opsz" 144, "SOFT" 40;
+  margin: 0 0 24px;
+}
+
+.p-field { margin-bottom: 20px; }
+.p-field label {
+  display: block; font-size: 14px; color: var(--ink-soft); margin-bottom: 6px;
+}
+.p-field input, .p-field select {
+  width: 100%; padding: 12px 14px; font-size: 15px;
+  border: 1px solid var(--rule); border-radius: 10px;
+  background: var(--cream-2); color: var(--ink);
+  font-family: var(--sans); outline: none; transition: border-color .2s;
+}
+.p-field input:focus, .p-field select:focus { border-color: var(--green); }
+
+.p-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+.p-submit {
+  width: 100%; padding: 14px; font-size: 15px; font-weight: 500;
+  background: var(--ink); color: var(--cream);
+  border: none; border-radius: 999px; cursor: pointer;
+  font-family: var(--sans); transition: .2s;
+  margin-top: 8px;
+}
+.p-submit:hover { background: var(--green-ink); transform: translateY(-1px); }
+.p-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+.p-error {
+  background: rgba(196,90,42,.08); border: 1px solid rgba(196,90,42,.3);
+  border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;
+  font-size: 13px; color: #c45a2a;
+}
+
+/* Output panel */
+.output-panel { position: sticky; top: 88px; }
+.output-panel h2 { color: var(--cream); }
+
+.output-dark {
+  background: var(--ink); color: var(--cream);
+  border-radius: var(--radius-lg); padding: 36px;
+}
+
+.out-metric { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(247,242,233,.12); }
+.out-metric:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.out-metric .label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: .1em;
+  text-transform: uppercase; color: rgba(247,242,233,.55); margin-bottom: 8px;
+}
+.out-metric .value {
+  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 40;
+  font-size: clamp(32px, 3.5vw, 48px); line-height: 1;
+  letter-spacing: -0.03em;
+}
+.out-metric .value.green { color: var(--green); }
+.out-metric .sub {
+  font-family: var(--mono); font-size: 11px; color: rgba(247,242,233,.45);
+  letter-spacing: .04em; margin-top: 6px;
+}
+
+.out-cta {
+  margin-top: 28px; padding-top: 24px;
+  border-top: 1px solid rgba(247,242,233,.12);
+  text-align: center;
+}
+.out-cta a {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 28px; background: var(--green); color: #0d2c20;
+  border-radius: 999px; font-size: 15px; font-weight: 500;
+  text-decoration: none; transition: .2s;
+}
+.out-cta a:hover { background: var(--green-ink); color: var(--cream); }
+.out-cta .note {
+  font-family: var(--mono); font-size: 11px; color: rgba(247,242,233,.4);
+  margin-top: 12px; letter-spacing: .06em;
+}
+
+.p-success {
+  text-align: center; padding: 48px 24px;
+}
+.p-success .check {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: var(--green); color: #0d2c20;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; margin: 0 auto 20px;
+}
+.p-success h2 { text-align: center; margin-bottom: 12px; }
+.p-success p { color: var(--ink-muted); text-align: center; }
+
+@media (max-width: 900px) {
+  .proposal-grid { grid-template-columns: 1fr; }
+  .output-panel { position: static; }
+}
+@media (max-width: 640px) {
+  .proposal-layout { padding: 24px 16px 80px; }
+  .proposal-nav { padding: 0 16px; }
+  .proposal-card { padding: 24px 20px; }
+  .p-row { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const API_URL = "/api/deals/proposal-upsert";
+
+const fmtMXN = (n) => "$" + Math.round(n).toLocaleString("es-MX");
+
+function LogoMark() {
+  return (
+    <span className="logo-mark">
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style={{width:"100%",height:"100%"}}>
+        <g fill="currentColor">
+          <rect x="54" y="40" width="50" height="172" rx="6"/>
+          <rect x="54" y="40" width="150" height="46" rx="6"/>
+          <rect x="54" y="108" width="98" height="38" rx="6"/>
+          <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+        </g>
+      </svg>
+    </span>
+  );
+}
+
+function ProposalForm() {
+  const params = new URLSearchParams(window.location.search);
+
+  const [form, setForm] = React.useState({
+    email: params.get("email") || "",
+    companyName: params.get("company") || "",
+    monthlyOrders: params.get("orders") ? Number(params.get("orders")) : 1000,
+    numberOfLocations: params.get("locations") ? Number(params.get("locations")) : 1,
+    plan: "flexible",
+  });
+  const [submitting, setSubmitting] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
+  const set = (k, isNum) => (e) => {
+    const v = isNum ? Number(e.target.value) : e.target.value;
+    setForm(prev => ({ ...prev, [k]: v }));
+  };
+
+  const PLANS = {
+    flexible: { base: 2499, commission: 0.05, label: "Flexible" },
+    fija: { base: 5499, commission: 0, label: "Tarifa Fija" },
+  };
+
+  const plan = PLANS[form.plan];
+  const avgTicket = 350;
+  const monthlyRevenue = form.monthlyOrders * avgTicket * form.numberOfLocations;
+  const commissionAmount = monthlyRevenue * plan.commission;
+  const totalMonthly = plan.base + commissionAmount;
+  const value = monthlyRevenue;
+
+  const handleSubmit = async () => {
+    if (!form.email.trim()) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email.trim(),
+          companyName: form.companyName.trim() || undefined,
+          monthlyOrders: form.monthlyOrders,
+          numberOfLocations: form.numberOfLocations,
+          value,
+          totalMonthlyInvestment: totalMonthly,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Error al enviar la propuesta.");
+      }
+      setSuccess(true);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  if (success) {
+    return (
+      <div className="proposal-card">
+        <div className="p-success">
+          <div className="check">&#10003;</div>
+          <h2>Propuesta enviada</h2>
+          <p>
+            Hemos registrado tu propuesta para <strong>{form.companyName || form.email}</strong>.
+            Nuestro equipo revisará los números y te contactará en las próximas 24 horas.
+          </p>
+          <a href="/demo" className="btn btn-primary" style={{ marginTop: 24, display: "inline-flex" }}>
+            Agendar demo &rarr;
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="proposal-grid">
+      <div className="proposal-card">
+        <h2>Tu restaurante</h2>
+        {error && <div className="p-error">{error}</div>}
+
+        <div className="p-field">
+          <label>Email</label>
+          <input type="email" placeholder="tu@restaurante.com" value={form.email} onChange={set("email")} />
+        </div>
+
+        <div className="p-field">
+          <label>Nombre del restaurante</label>
+          <input type="text" placeholder="Ej. Bora Bora Pizzas" value={form.companyName} onChange={set("companyName")} />
+        </div>
+
+        <div className="p-row">
+          <div className="p-field">
+            <label>Órdenes / mes</label>
+            <input type="number" min="100" max="50000" step="100" value={form.monthlyOrders} onChange={set("monthlyOrders", true)} />
+          </div>
+          <div className="p-field">
+            <label>Sucursales</label>
+            <input type="number" min="1" max="500" step="1" value={form.numberOfLocations} onChange={set("numberOfLocations", true)} />
+          </div>
+        </div>
+
+        <div className="p-field">
+          <label>Plan</label>
+          <select value={form.plan} onChange={set("plan")}>
+            <option value="flexible">Flexible — $2,499/mes + 5% comisión</option>
+            <option value="fija">Tarifa Fija — $5,499/mes sin comisión</option>
+          </select>
+        </div>
+
+        <button className="p-submit" disabled={!form.email.trim() || submitting} onClick={handleSubmit}>
+          {submitting ? "Enviando..." : "Enviar propuesta"}
+        </button>
+      </div>
+
+      <div className="output-panel">
+        <div className="output-dark">
+          <div className="out-metric">
+            <div className="label">Venta mensual estimada</div>
+            <div className="value green">{fmtMXN(monthlyRevenue)}</div>
+            <div className="sub">{form.numberOfLocations} loc. x {form.monthlyOrders.toLocaleString("es-MX")} órd. x $350 ticket</div>
+          </div>
+
+          <div className="out-metric">
+            <div className="label">Plan {plan.label}</div>
+            <div className="value">{fmtMXN(plan.base)}<span style={{fontSize:"50%",opacity:.6}}>/mes</span></div>
+            {plan.commission > 0 && (
+              <div className="sub">+ {fmtMXN(commissionAmount)} comisión (5%)</div>
+            )}
+          </div>
+
+          <div className="out-metric">
+            <div className="label">Inversión mensual total</div>
+            <div className="value green">{fmtMXN(totalMonthly)}</div>
+            <div className="sub">{((totalMonthly / monthlyRevenue) * 100).toFixed(1)}% de tu venta mensual</div>
+          </div>
+
+          <div className="out-cta">
+            <a href="/demo">Agendar mi demo &rarr;</a>
+            <div className="note">20 min con tu equipo de cuenta</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div className="proposal-page">
+      <header className="proposal-nav">
+        <a href="/" className="logo">
+          <LogoMark />
+          <span>Fluxsales</span>
+        </a>
+        <span className="tag">Propuesta personalizada</span>
+      </header>
+      <div className="proposal-layout">
+        <div className="proposal-hero">
+          <span className="eyebrow">Propuesta</span>
+          <h1>Tu inversión, <em>tus números.</em></h1>
+          <p className="lead">
+            Ajusta las variables de tu restaurante y ve exactamente cuánto cuesta Fluxsales
+            para tu operación. Sin letra chica, sin sorpresas.
+          </p>
+        </div>
+        <ProposalForm />
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

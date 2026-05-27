@@ -23,6 +23,26 @@
       "destination": "/dashboards/:path*"
     },
     {
+      "source": "/terms",
+      "destination": "/legal/terms.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/legal/privacy.html"
+    },
+    {
+      "source": "/returns",
+      "destination": "/legal/returns.html"
+    },
+    {
+      "source": "/data-deletion",
+      "destination": "/legal/data-deletion.html"
+    },
+    {
+      "source": "/proposal",
+      "destination": "/proposal/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/landing/$1"
     }
