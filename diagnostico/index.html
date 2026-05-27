@@ -722,37 +722,27 @@ function DiagnosticoApp() {
     if (step !== "search" || placesMounted) return;
     function tryMount() {
       const container = placesRef.current;
-      if (!container || !window.google?.maps?.places?.PlaceAutocompleteElement) return false;
+      if (!container || !window.google?.maps?.places?.Autocomplete) return false;
+      const input = container.querySelector("input");
+      if (!input) return false;
       try {
-        const el = new google.maps.places.PlaceAutocompleteElement({
+        const autocomplete = new google.maps.places.Autocomplete(input, {
           types: ["establishment"],
           componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
+          fields: ["place_id", "name", "formatted_address"],
         });
-        el.style.cssText = "width:100%;font-size:15px;";
-        el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
-        const inp = container.querySelector("input");
-        if (inp) inp.style.display = "none";
-        container.appendChild(el);
         setPlacesMounted(true);
-        el.addEventListener("gmp-placeselect", (e) => {
-          try {
-            const p = e.place;
-            if (!p) return;
-            const earlyId = p.id || p.place_id || "";
-            console.log("[places] gmp-placeselect fired, earlyId:", earlyId);
-            const doUp = (place) => {
-              const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
-              const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
-              const pid = place.id || earlyId || "";
-              console.log("[places] doUp pid:", pid, "name:", n);
-              if (n || pid) { setCompanyName(n); setPlaceId(pid); setPlaceAddress(a); }
-            };
-            if (p.fetchFields) p.fetchFields({ fields: ["displayName", "formattedAddress"] }).then(() => doUp(p)).catch((err) => { console.error("[places] fetchFields error:", err); doUp(p); });
-            else doUp(p);
-          } catch (err) { console.error("[places] handler error:", err); }
+        autocomplete.addListener("place_changed", () => {
+          const place = autocomplete.getPlace();
+          console.log("[places] place_changed:", place?.place_id, place?.name);
+          if (place && (place.place_id || place.name)) {
+            setCompanyName(place.name || "");
+            setPlaceId(place.place_id || "");
+            setPlaceAddress(place.formatted_address || "");
+          }
         });
         return true;
-      } catch { return false; }
+      } catch (err) { console.error("[places] Autocomplete init error:", err); return false; }
     }
     if (!tryMount()) {
       const iv = setInterval(() => { if (tryMount()) clearInterval(iv); }, 500);
