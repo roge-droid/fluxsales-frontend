@@ -702,12 +702,12 @@ function DiagnosticScorecard({ companyName, placeId, onContinue, onBack }) {
     return () => { cancelled = true; clearTimeout(timeout); };
   }, [placeId]);
 
-  if (loading) return <SkeletonLoader />;
+  React.useEffect(() => {
+    if (failed) onContinue();
+  }, [failed]);
 
-  if (failed) {
-    onContinue();
-    return null;
-  }
+  if (loading) return <SkeletonLoader />;
+  if (failed) return null;
 
   const score = computeDigitalScore(enrich, competitors);
   const gaps = getGaps(enrich, competitors);

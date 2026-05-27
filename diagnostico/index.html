@@ -554,6 +554,10 @@ function DiagnosticoApp() {
   const [competitors, setCompetitors] = React.useState([]);
   const [scoreFailed, setScoreFailed] = React.useState(false);
 
+  React.useEffect(() => {
+    if (scoreFailed) setStep("contact");
+  }, [scoreFailed]);
+
   // Contact form state
   const [form, setForm] = React.useState({
     first_name: "", last_name: "", email: "",
@@ -733,10 +737,7 @@ function DiagnosticoApp() {
         </div>
       );
     }
-    if (scoreFailed || !enrich) {
-      setStep("contact");
-      return null;
-    }
+    if (scoreFailed || !enrich) return null;
 
     const score = computeDigitalScore(enrich, competitors);
     const gaps = getGaps(enrich, competitors);
