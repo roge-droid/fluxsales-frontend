@@ -1222,16 +1222,19 @@ function DemoForm() {
           try {
             const p = e.place;
             if (!p) return;
+            const earlyId = p.id || p.place_id || "";
+            console.log("[places] gmp-placeselect fired, earlyId:", earlyId, "place:", p);
             const doUpdate = (place) => {
               const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
               const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
-              const pid = place.id || "";
+              const pid = place.id || earlyId || "";
+              console.log("[places] doUpdate pid:", pid, "name:", n);
               if (n || pid) setForm(prev => ({ ...prev, company_name: n || prev.company_name, place_id: pid, place_address: a }));
             };
             if (p.fetchFields) {
-              p.fetchFields({ fields: ["displayName", "formattedAddress", "id"] }).then(() => doUpdate(p)).catch(() => doUpdate(p));
+              p.fetchFields({ fields: ["displayName", "formattedAddress"] }).then(() => doUpdate(p)).catch((err) => { console.error("[places] fetchFields error:", err); doUpdate(p); });
             } else { doUpdate(p); }
-          } catch {}
+          } catch (err) { console.error("[places] gmp-placeselect handler error:", err); }
         });
         return true;
       } catch { return false; }

@@ -232,6 +232,53 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
 .dx-tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
 .dx-tip-text { font-size: 13px; color: #475569; line-height: 1.5; }
 
+/* Evaluation Report */
+.dx-eval-summary {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+  padding: 16px; margin-bottom: 16px;
+}
+.dx-eval-headline {
+  font-family: "DM Sans", var(--sans); font-weight: 700; font-size: 15px;
+  color: #1a2332; margin: 0 0 4px;
+}
+.dx-eval-body {
+  font-size: 13px; color: #64748b; line-height: 1.5; margin: 0;
+}
+.dx-eval-items { margin-bottom: 16px; }
+.dx-eval-item {
+  padding: 12px; margin-bottom: 8px;
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+}
+.dx-eval-item--good { border-left: 3px solid #10b981; }
+.dx-eval-item--warn { border-left: 3px solid #f59e0b; }
+.dx-eval-item--bad  { border-left: 3px solid #ef4444; }
+.dx-eval-verdict {
+  display: flex; align-items: center; gap: 6px;
+  font-family: "DM Sans", var(--sans); font-weight: 600; font-size: 14px;
+  color: #1a2332; margin-bottom: 4px;
+}
+.dx-eval-detail {
+  font-size: 13px; color: #475569; line-height: 1.5; margin: 0;
+  padding-left: 22px;
+}
+.dx-eval-rec {
+  background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px;
+  padding: 14px; margin-bottom: 20px;
+}
+.dx-eval-rec-label {
+  font-family: var(--mono, monospace); font-size: 10px;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: #166534; margin-bottom: 6px;
+}
+.dx-eval-rec-text {
+  font-size: 13px; color: #166534; line-height: 1.5; margin: 0;
+}
+@media (max-width: 640px) {
+  .dx-eval-item { padding: 10px; }
+  .dx-eval-summary { padding: 14px; }
+  .dx-eval-rec { padding: 12px; }
+}
+
 /* Skeleton */
 @keyframes dx-pulse {
   0%, 100% { opacity: .4; }
@@ -381,6 +428,104 @@ function getGaps(enrich, competitors) {
       gaps.push({ key: "competition", icon: "📊", tip: "Analiza qué hacen bien tus competidores y adapta lo mejor a tu restaurante." });
   }
   return gaps;
+}
+
+function generateEvaluation(enrich, competitors) {
+  const avgRating = competitors.length > 0
+    ? competitors.reduce((s, c) => s + (c.rating || 0), 0) / competitors.length
+    : 4.2;
+  const avgReviews = competitors.length > 0
+    ? competitors.reduce((s, c) => s + (c.reviewCount || 0), 0) / competitors.length
+    : 156;
+  const zoneLabel = competitors.length > 0 && competitors[0]?.placeId ? "promedio de tu zona" : "promedio nacional";
+
+  const sections = [];
+
+  if (enrich.rating != null) {
+    const diff = enrich.rating - avgRating;
+    const absDiff = Math.abs(diff).toFixed(1);
+    let verdict, detail, status;
+    if (diff >= 0.3) {
+      verdict = "Tu calificación es una fortaleza";
+      detail = "Con " + enrich.rating.toFixed(1) + " estrellas, estás " + absDiff + " puntos arriba del " + zoneLabel + " (" + avgRating.toFixed(1) + "). Esto genera confianza inmediata cuando un cliente te busca en Google.";
+      status = "good";
+    } else if (diff >= -0.2) {
+      verdict = "Tu calificación está en el promedio";
+      detail = "Tu " + enrich.rating.toFixed(1) + " está prácticamente igual al " + zoneLabel + " (" + avgRating.toFixed(1) + "). Para destacar, necesitas llegar a " + (avgRating + 0.3).toFixed(1) + " o más.";
+      status = "warn";
+    } else {
+      verdict = "Tu calificación necesita atención";
+      detail = "Tu " + enrich.rating.toFixed(1) + " está " + absDiff + " puntos debajo del " + zoneLabel + " (" + avgRating.toFixed(1) + "). Los clientes eligen primero a los restaurantes con mejor calificación.";
+      status = "bad";
+    }
+    sections.push({ key: "rating", icon: "★", verdict, detail, status });
+  } else {
+    sections.push({ key: "rating", icon: "★", verdict: "Sin calificación visible", detail: "Tu perfil de Google no tiene calificación visible. Los clientes no pueden evaluar tu restaurante antes de visitarlo — y la mayoría elige otro.", status: "bad" });
+  }
+
+  if (enrich.reviewCount != null) {
+    let verdict, detail, status;
+    if (enrich.reviewCount >= 200) {
+      verdict = "Volumen de reseñas excelente";
+      detail = enrich.reviewCount + " reseñas te dan credibilidad fuerte. Google prioriza negocios con más reseñas en resultados locales.";
+      status = "good";
+    } else if (enrich.reviewCount >= 50) {
+      verdict = "Buen inicio en reseñas";
+      detail = "Tienes " + enrich.reviewCount + " reseñas — un buen número, pero el " + zoneLabel + " es " + Math.round(avgReviews) + ". Cada reseña nueva mejora tu posición en Google Maps.";
+      status = "warn";
+    } else if (enrich.reviewCount >= 10) {
+      verdict = "Pocas reseñas para competir";
+      detail = "Con solo " + enrich.reviewCount + " reseñas, estás lejos del " + zoneLabel + " (" + Math.round(avgReviews) + "). Los restaurantes con más reseñas aparecen primero en Google Maps.";
+      status = "bad";
+    } else {
+      verdict = "Necesitas más reseñas urgentemente";
+      detail = "Solo " + enrich.reviewCount + " reseñas. Google no muestra tu restaurante en las primeras posiciones con tan pocas reseñas. Un QR en cada mesa puede cambiar esto rápido.";
+      status = "bad";
+    }
+    sections.push({ key: "reviews", icon: "💬", verdict, detail, status });
+  } else {
+    sections.push({ key: "reviews", icon: "💬", verdict: "Sin reseñas registradas", detail: "No encontramos reseñas en tu perfil. Las reseñas son el factor #1 que usan los clientes para elegir dónde comer.", status: "bad" });
+  }
+
+  if (enrich.websiteUri) {
+    sections.push({ key: "website", icon: "🌐", verdict: "Tienes sitio web", detail: "Tener un sitio web propio te da control sobre tus pedidos y reduce dependencia de apps de delivery que cobran 30% de comisión.", status: "good" });
+  } else {
+    sections.push({ key: "website", icon: "🌐", verdict: "Sin sitio web propio", detail: "No tienes un sitio web vinculado a tu perfil de Google. Cada cliente que te busca y no encuentra tu menú o forma de pedir se va a la competencia.", status: "bad" });
+  }
+
+  if (enrich.businessStatus === "OPERATIONAL") {
+    sections.push({ key: "status", icon: "✓", verdict: "Perfil activo en Google", detail: "Tu negocio aparece como activo. Esto es lo básico — pero importante porque un perfil inactivo pierde el 100% de las búsquedas.", status: "good" });
+  } else {
+    sections.push({ key: "status", icon: "✓", verdict: "Tu perfil no aparece como activo", detail: "Google no muestra tu negocio como activo. Esto puede significar que no apareces en búsquedas tipo 'restaurantes cerca de mí'.", status: "bad" });
+  }
+
+  const goods = sections.filter(s => s.status === "good").length;
+  const bads = sections.filter(s => s.status === "bad").length;
+  let summaryHeadline, summaryBody;
+  if (goods >= 3) {
+    summaryHeadline = "Tu presencia digital tiene bases sólidas";
+    summaryBody = "Tienes lo principal en orden. Con algunos ajustes estratégicos puedes convertir más búsquedas en clientes reales.";
+  } else if (goods >= 2) {
+    summaryHeadline = "Vas por buen camino, pero hay oportunidades claras";
+    summaryBody = "Tienes fortalezas que puedes aprovechar. Corrigiendo " + bads + " área" + (bads > 1 ? "s" : "") + " clave puedes ver resultados en semanas.";
+  } else if (goods >= 1) {
+    summaryHeadline = "Tu restaurante tiene potencial — pero necesita atención";
+    summaryBody = "Encontramos varias áreas que necesitan trabajo. La buena noticia: cada mejora tiene impacto directo en clientes nuevos.";
+  } else {
+    summaryHeadline = "Es momento de actuar en tu presencia digital";
+    summaryBody = "Tu restaurante tiene mucho que ganar. Cada día sin optimizar tu perfil de Google, tus competidores capturan clientes que podrían ser tuyos.";
+  }
+
+  const recMap = {
+    rating: "Empieza respondiendo a cada reseña de Google — los clientes ven que te importa y Google mejora tu posición.",
+    reviews: "Coloca un QR en cada mesa que lleve directo a dejar una reseña en Google. Con 5 reseñas por semana, en 2 meses puedes duplicar tu número.",
+    website: "Un sitio web con tu menú, ubicación y forma de pedir elimina la barrera entre la búsqueda y el pedido.",
+    status: "Verifica tu perfil de Google Business. Un perfil activo y completo es requisito para aparecer en búsquedas locales.",
+  };
+  const firstBad = sections.find(s => s.status === "bad");
+  const topRec = firstBad ? recMap[firstBad.key] : null;
+
+  return { sections, summaryHeadline, summaryBody, topRec, goods, bads };
 }
 
 function getScoreColor(score) {
@@ -593,15 +738,18 @@ function DiagnosticoApp() {
           try {
             const p = e.place;
             if (!p) return;
+            const earlyId = p.id || p.place_id || "";
+            console.log("[places] gmp-placeselect fired, earlyId:", earlyId);
             const doUp = (place) => {
               const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
               const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
-              const pid = place.id || "";
+              const pid = place.id || earlyId || "";
+              console.log("[places] doUp pid:", pid, "name:", n);
               if (n || pid) { setCompanyName(n); setPlaceId(pid); setPlaceAddress(a); }
             };
-            if (p.fetchFields) p.fetchFields({ fields: ["displayName", "formattedAddress", "id"] }).then(() => doUp(p)).catch(() => doUp(p));
+            if (p.fetchFields) p.fetchFields({ fields: ["displayName", "formattedAddress"] }).then(() => doUp(p)).catch((err) => { console.error("[places] fetchFields error:", err); doUp(p); });
             else doUp(p);
-          } catch {}
+          } catch (err) { console.error("[places] handler error:", err); }
         });
         return true;
       } catch { return false; }
@@ -741,6 +889,8 @@ function DiagnosticoApp() {
 
     const score = computeDigitalScore(enrich, competitors);
     const gaps = getGaps(enrich, competitors);
+    const evaluation = generateEvaluation(enrich, competitors);
+    const hasAnyData = enrich.rating != null || enrich.reviewCount != null || enrich.websiteUri != null;
     const rC = enrich.rating >= 4.0 ? "dx-metric--good" : enrich.rating >= 3.0 ? "dx-metric--warn" : "dx-metric--bad";
     const rvC = (enrich.reviewCount || 0) >= 100 ? "dx-metric--good" : (enrich.reviewCount || 0) >= 30 ? "dx-metric--warn" : "dx-metric--bad";
     const wC = enrich.websiteUri ? "dx-metric--good" : "dx-metric--bad";
@@ -770,6 +920,36 @@ function DiagnosticoApp() {
           <div className={"dx-metric " + wC}><span className="dx-metric-icon">🌐</span><span className="dx-metric-val">{enrich.websiteUri ? "Sí" : "No"}</span><span className="dx-metric-label">Sitio web</span></div>
           <div className={"dx-metric " + sC}><span className="dx-metric-icon">✓</span><span className="dx-metric-val">{enrich.businessStatus === "OPERATIONAL" ? "Activo" : "Inactivo"}</span><span className="dx-metric-label">Estado</span></div>
         </div>
+
+        <div className="dx-divider">Tu evaluación</div>
+        {hasAnyData ? (
+          <>
+            <div className="dx-eval-summary">
+              <div className="dx-eval-headline">{evaluation.summaryHeadline}</div>
+              <p className="dx-eval-body">{evaluation.summaryBody}</p>
+            </div>
+            <div className="dx-eval-items">
+              {evaluation.sections.map((s, i) => (
+                <div className={"dx-eval-item dx-eval-item--" + s.status} key={i}>
+                  <div className="dx-eval-verdict"><span>{s.icon}</span> {s.verdict}</div>
+                  <p className="dx-eval-detail">{s.detail}</p>
+                </div>
+              ))}
+            </div>
+            {evaluation.topRec && (
+              <div className="dx-eval-rec">
+                <div className="dx-eval-rec-label">Acción #1</div>
+                <p className="dx-eval-rec-text">{evaluation.topRec}</p>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="dx-eval-summary">
+            <div className="dx-eval-headline">No pudimos obtener todos los datos de tu perfil</div>
+            <p className="dx-eval-body">Esto puede pasar si tu perfil de Google Business es nuevo o no está verificado. Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
+          </div>
+        )}
+
         {total > 0 && (
           <>
             <div className="dx-divider">Tu vs tu zona</div>
@@ -790,9 +970,11 @@ function DiagnosticoApp() {
         )}
         {isWarm ? (
           <>
-            <div className="dx-warm-title">Tips para mejorar</div>
-            {gaps.slice(0,3).map((g,i) => <div className="dx-tip" key={i}><span className="dx-tip-icon">{g.icon}</span><span className="dx-tip-text">{g.tip}</span></div>)}
-            <a href={"https://wa.me/5214421716825?text=Hola%2C%20quiero%20mejorar%20la%20presencia%20digital%20de%20mi%20restaurante%20" + encodeURIComponent(companyName)}
+            <div className="dx-warm-title">Lo bueno: todo esto se puede mejorar</div>
+            <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, margin: "0 0 16px" }}>
+              Muchos de nuestros clientes empezaron con un perfil similar al tuyo. Con las acciones correctas, los resultados llegan rápido.
+            </p>
+            <a href={"https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, acabo de hacer el diagnóstico de " + companyName + " y quiero mejorar mi presencia digital")}
               className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ marginTop: 16, textDecoration: "none" }}>
               Habla con un experto por WhatsApp
             </a>
