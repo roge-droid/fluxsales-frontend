@@ -1218,27 +1218,17 @@ function DemoForm() {
         container.appendChild(el);
         setPlacesMounted(true);
 
-        el.addEventListener("gmp-placeselect", (e) => {
-          console.log("[places] gmp-placeselect raw event:", e, "keys:", Object.keys(e));
+        el.addEventListener("gmp-select", async (e) => {
           try {
-            const p = e.place || e.detail?.place || e.detail;
-            console.log("[places] place:", p, "id:", p?.id, "place_id:", p?.place_id);
-            if (!p) { console.warn("[places] no place object found in event"); return; }
-            const doUpdate = (place) => {
-              const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
-              const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
-              const pid = place.id || place.place_id || "";
-              console.log("[places] doUpdate — pid:", pid, "name:", n, "addr:", a);
-              if (n || pid) setForm(prev => ({ ...prev, company_name: n || prev.company_name, place_id: pid, place_address: a }));
-            };
-            if (p.fetchFields) {
-              p.fetchFields({ fields: ["displayName", "formattedAddress"] }).then(() => doUpdate(p)).catch((err) => { console.error("[places] fetchFields error:", err); doUpdate(p); });
-            } else { doUpdate(p); }
-          } catch (err) { console.error("[places] handler error:", err); }
-        });
-
-        el.addEventListener("gmp-placeautocomplete-place-changed", (e) => {
-          console.log("[places] gmp-placeautocomplete-place-changed fired:", e);
+            const pp = e.placePrediction;
+            if (!pp) return;
+            const place = pp.toPlace();
+            await place.fetchFields({ fields: ["displayName", "formattedAddress"] });
+            const pid = place.id || pp.placeId || "";
+            const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
+            const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
+            if (n || pid) setForm(prev => ({ ...prev, company_name: n || prev.company_name, place_id: pid, place_address: a }));
+          } catch (err) { console.error("[places] gmp-select error:", err); }
         });
 
         return true;

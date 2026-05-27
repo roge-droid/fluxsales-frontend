@@ -735,26 +735,17 @@ function DiagnosticoApp() {
         container.appendChild(el);
         setPlacesMounted(true);
 
-        el.addEventListener("gmp-placeselect", (e) => {
-          console.log("[places] gmp-placeselect raw event:", e, "keys:", Object.keys(e));
+        el.addEventListener("gmp-select", async (e) => {
           try {
-            const p = e.place || e.detail?.place || e.detail;
-            console.log("[places] place:", p, "id:", p?.id);
-            if (!p) { console.warn("[places] no place object found"); return; }
-            const doUp = (place) => {
-              const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
-              const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
-              const pid = place.id || place.place_id || "";
-              console.log("[places] doUp — pid:", pid, "name:", n);
-              if (n || pid) { setCompanyName(n); setPlaceId(pid); setPlaceAddress(a); }
-            };
-            if (p.fetchFields) p.fetchFields({ fields: ["displayName", "formattedAddress"] }).then(() => doUp(p)).catch((err) => { console.error("[places] fetchFields error:", err); doUp(p); });
-            else doUp(p);
-          } catch (err) { console.error("[places] handler error:", err); }
-        });
-
-        el.addEventListener("gmp-placeautocomplete-place-changed", (e) => {
-          console.log("[places] gmp-placeautocomplete-place-changed fired:", e);
+            const pp = e.placePrediction;
+            if (!pp) return;
+            const place = pp.toPlace();
+            await place.fetchFields({ fields: ["displayName", "formattedAddress"] });
+            const pid = place.id || pp.placeId || "";
+            const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
+            const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
+            if (n || pid) { setCompanyName(n); setPlaceId(pid); setPlaceAddress(a); }
+          } catch (err) { console.error("[places] gmp-select error:", err); }
         });
 
         return true;
