@@ -8,7 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../landing/styles.css" />
 
 <!-- Meta Pixel -->
@@ -225,7 +225,7 @@ gmp-place-autocomplete input:focus {
   width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0;
 }
 
-/* Inline calendar booking — Calendly-style */
+/* Inline calendar booking */
 .demo-success { overflow: hidden; }
 .demo-card *, .demo-card *::before, .demo-card *::after { box-sizing: border-box; }
 .bk-header {
@@ -343,6 +343,168 @@ gmp-place-autocomplete input:focus {
   font-size: 12px; color: var(--tomato-ink); margin-top: 4px;
 }
 
+/* ── Diagnostic Scorecard ── */
+.diag-card {
+  background: #f8fafc; border: 1px solid #e2e8f0;
+  border-radius: 16px; padding: 32px 24px;
+  box-sizing: border-box; max-width: 100%;
+}
+.diag-name {
+  font-family: "DM Sans", var(--sans); font-weight: 700; font-size: 16px;
+  color: #1a2332; text-align: center; margin: 0 0 24px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.diag-score-section {
+  display: flex; flex-direction: column; align-items: center; margin-bottom: 16px;
+}
+.diag-ring-wrap {
+  position: relative; display: inline-flex;
+  align-items: center; justify-content: center;
+}
+.diag-ring-wrap svg { display: block; }
+.diag-score-inner {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.diag-score-num {
+  font-family: "DM Sans", var(--sans); font-weight: 700; font-size: 48px;
+  line-height: 1; transition: color .3s;
+}
+.diag-score-of {
+  font-family: "Inter", var(--sans); font-size: 13px; color: #94a3b8;
+  margin-top: 2px;
+}
+.diag-summary {
+  font-size: 14px; color: #64748b; text-align: center;
+  margin: 12px 0 24px; line-height: 1.5;
+}
+.diag-metrics {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+  margin-bottom: 24px;
+}
+.diag-metric {
+  background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
+  padding: 12px; min-height: 72px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.diag-metric-icon { font-size: 16px; line-height: 1; }
+.diag-metric-val {
+  font-family: "DM Sans", var(--sans); font-weight: 700; font-size: 18px;
+  color: #1a2332; line-height: 1.2;
+}
+.diag-metric-label {
+  font-size: 12px; color: #94a3b8; line-height: 1.3;
+}
+.diag-metric--good { border-left: 3px solid #10b981; }
+.diag-metric--warn { border-left: 3px solid #f59e0b; }
+.diag-metric--bad  { border-left: 3px solid #ef4444; }
+
+.diag-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 0 0 16px; color: #94a3b8; font-size: 12px;
+  font-family: "DM Sans", var(--sans); font-weight: 500;
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.diag-divider::before, .diag-divider::after {
+  content: ""; flex: 1; height: 1px; background: #e2e8f0;
+}
+.diag-competitors { margin-bottom: 16px; }
+.diag-comp {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid #f1f5f9;
+}
+.diag-comp:last-child { border-bottom: none; }
+.diag-comp-name {
+  font-size: 14px; color: #1a2332; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  max-width: 55%;
+}
+.diag-comp-rating {
+  font-family: "DM Sans", var(--sans); font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; gap: 4px;
+}
+.diag-comp-reviews {
+  font-size: 12px; color: #94a3b8; font-weight: 400;
+}
+.diag-ranking {
+  text-align: center; padding: 8px 16px; margin-bottom: 24px;
+  background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
+  font-size: 13px; font-weight: 500; color: #166534;
+}
+.diag-ranking--warn {
+  background: #fffbeb; border-color: #fde68a; color: #92400e;
+}
+.diag-ranking--bad {
+  background: #fef2f2; border-color: #fecaca; color: #991b1b;
+}
+.diag-cta {
+  width: 100%; padding: 16px; font-size: 15px; font-weight: 600;
+  background: #2563eb; color: #fff;
+  border: none; border-radius: 12px; cursor: pointer;
+  font-family: "DM Sans", var(--sans); transition: .2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px;
+}
+.diag-cta:hover { background: #1d4ed8; transform: translateY(-1px); }
+
+/* Warm landing (score < 40) */
+.diag-warm-section { margin-top: 24px; }
+.diag-warm-title {
+  font-family: "DM Sans", var(--sans); font-weight: 700; font-size: 16px;
+  color: #1a2332; margin: 0 0 12px;
+}
+.diag-tip {
+  display: flex; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+.diag-tip:last-child { border-bottom: none; }
+.diag-tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.diag-tip-text { font-size: 13px; color: #475569; line-height: 1.5; }
+.diag-wa-cta {
+  width: 100%; padding: 14px; font-size: 15px; font-weight: 600;
+  background: #25d366; color: #fff;
+  border: none; border-radius: 12px; cursor: pointer;
+  font-family: "DM Sans", var(--sans); transition: .2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin-top: 16px; text-decoration: none; min-height: 48px;
+}
+.diag-wa-cta:hover { background: #20bd5a; }
+.diag-secondary {
+  display: block; width: 100%; text-align: center;
+  font-size: 13px; color: #2563eb; cursor: pointer;
+  background: none; border: none; font-family: var(--sans);
+  margin-top: 12px; padding: 8px;
+}
+.diag-secondary:hover { text-decoration: underline; }
+
+/* Skeleton loader */
+@keyframes diag-pulse {
+  0%, 100% { opacity: .4; }
+  50% { opacity: .15; }
+}
+.diag-skel { animation: diag-pulse 1.5s ease-in-out infinite; background: #e2e8f0; border-radius: 8px; }
+.diag-skel-ring {
+  width: 120px; height: 120px; border-radius: 50%;
+  margin: 0 auto 16px; animation: diag-pulse 1.5s ease-in-out infinite;
+  background: #e2e8f0;
+}
+.diag-skel-text {
+  height: 14px; border-radius: 4px; margin: 0 auto 24px;
+  animation: diag-pulse 1.5s ease-in-out infinite; background: #e2e8f0;
+}
+.diag-skel-cards {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px;
+}
+.diag-skel-card {
+  height: 72px; border-radius: 8px;
+  animation: diag-pulse 1.5s ease-in-out infinite; background: #e2e8f0;
+}
+.diag-skel-bar {
+  height: 14px; border-radius: 4px; margin-bottom: 10px;
+  animation: diag-pulse 1.5s ease-in-out infinite; background: #e2e8f0;
+}
+
 @media (max-width: 640px) {
   .bk-date { min-width: 46px; padding: 8px 4px; }
   .bk-date-num { font-size: 18px; }
@@ -350,6 +512,8 @@ gmp-place-autocomplete input:focus {
   .bk-slot { padding: 14px 12px; font-size: 15px; }
   .bk-cta { margin-top: 16px; }
   .phone-row > .phone-country { flex: 0 0 70px; width: 70px; max-width: 70px; padding: 14px 6px 14px 10px; font-size: 14px; }
+  .diag-card { padding: 24px 16px; }
+  .diag-score-num { font-size: 42px; }
 }
 
 @media (max-width: 900px) {
@@ -380,6 +544,57 @@ gmp-place-autocomplete input:focus {
 <div id="root"></div>
 <script type="text/babel">
 const API_URL = "/api/demo-page/lead-intake";
+const SESSION_ID = "sess_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
+
+function fireEvent(eventType, placeId) {
+  fetch("/api/diagnostico/event", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ event_type: eventType, place_id: placeId, session_id: SESSION_ID }),
+  }).catch(() => {});
+}
+
+function computeDigitalScore(enrich, competitors) {
+  let score = 0;
+  if (enrich.rating) score += (enrich.rating / 5) * 30;
+  if (enrich.reviewCount) score += Math.min(enrich.reviewCount / 200, 1) * 25;
+  if (enrich.websiteUri) score += 20;
+  if (enrich.businessStatus === "OPERATIONAL") score += 10;
+  if (competitors && competitors.length > 0) {
+    const avg = competitors.reduce((s, c) => s + (c.rating || 0), 0) / competitors.length;
+    if (enrich.rating) {
+      const diff = enrich.rating - avg;
+      score += diff > 0.5 ? 15 : diff > 0 ? 12 : diff > -0.3 ? 8 : 4;
+    } else {
+      score += 4;
+    }
+  } else {
+    score += 8;
+  }
+  return Math.round(score);
+}
+
+function getGaps(enrich, competitors) {
+  const gaps = [];
+  if (!enrich.rating || enrich.rating < 4.0)
+    gaps.push({ key: "rating", label: "Calificación Google", icon: "★", tip: "Responde a todas las reseñas de Google. Cada respuesta mejora tu calificación y muestra que te importa." });
+  if (!enrich.reviewCount || enrich.reviewCount < 50)
+    gaps.push({ key: "reviews", label: "Reseñas de clientes", icon: "💬", tip: "Pide reseñas a clientes satisfechos. Un QR en la mesa funciona muy bien." });
+  if (!enrich.websiteUri)
+    gaps.push({ key: "website", label: "Presencia web", icon: "🌐", tip: "Crea un sitio web con tu menú y ubicación. Es lo primero que buscan tus clientes." });
+  if (competitors && competitors.length > 0) {
+    const avg = competitors.reduce((s, c) => s + (c.rating || 0), 0) / competitors.length;
+    if (enrich.rating && enrich.rating < avg)
+      gaps.push({ key: "competition", label: "Competitividad local", icon: "📊", tip: "Analiza qué hacen bien tus competidores y adapta lo mejor a tu restaurante." });
+  }
+  return gaps;
+}
+
+function getScoreColor(score) {
+  if (score >= 70) return "#10b981";
+  if (score >= 40) return "#f59e0b";
+  return "#ef4444";
+}
 
 function LogoMark() {
   return (
@@ -393,6 +608,215 @@ function LogoMark() {
         </g>
       </svg>
     </span>
+  );
+}
+
+function ScoreRing({ score, size = 120, strokeWidth = 8 }) {
+  const [progress, setProgress] = React.useState(0);
+  const [revealed, setRevealed] = React.useState(false);
+
+  React.useEffect(() => {
+    const duration = 2000;
+    const start = performance.now();
+    let raf;
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setProgress(eased);
+      if (eased >= 0.8 && !revealed) setRevealed(true);
+      if (t < 1) raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [score]);
+
+  const r = (size - strokeWidth) / 2;
+  const circ = 2 * Math.PI * r;
+  const offset = circ * (1 - (progress * score / 100));
+  const display = Math.round(progress * score);
+  const finalColor = getScoreColor(score);
+  const color = revealed ? finalColor : "#2563eb";
+
+  return (
+    <div className="diag-ring-wrap" role="img" aria-label={"Puntuación: " + score + " de 100"} style={{ width: size, height: size }}>
+      <svg width={size} height={size} viewBox={"0 0 " + size + " " + size} style={{ transform: "rotate(-90deg)" }}>
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#e2e8f0" strokeWidth={strokeWidth} />
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={strokeWidth}
+          strokeDasharray={circ} strokeDashoffset={offset}
+          strokeLinecap="round" style={{ transition: "stroke 0.3s ease" }} />
+      </svg>
+      <div className="diag-score-inner">
+        <span className="diag-score-num" style={{ color: revealed ? finalColor : "#1a2332" }}>{display}</span>
+        <span className="diag-score-of">/100</span>
+      </div>
+    </div>
+  );
+}
+
+function SkeletonLoader() {
+  return (
+    <div className="diag-card">
+      <div className="diag-skel-ring" />
+      <div className="diag-skel-text" style={{ width: "60%" }} />
+      <div className="diag-skel-cards">
+        <div className="diag-skel-card" />
+        <div className="diag-skel-card" />
+        <div className="diag-skel-card" />
+        <div className="diag-skel-card" />
+      </div>
+      <div className="diag-skel-text" style={{ width: "40%", marginBottom: 16 }} />
+      <div className="diag-skel-bar" style={{ width: "90%" }} />
+      <div className="diag-skel-bar" style={{ width: "75%" }} />
+      <div className="diag-skel-bar" style={{ width: "85%" }} />
+    </div>
+  );
+}
+
+function DiagnosticScorecard({ companyName, placeId, onContinue, onBack }) {
+  const [loading, setLoading] = React.useState(true);
+  const [enrich, setEnrich] = React.useState(null);
+  const [competitors, setCompetitors] = React.useState([]);
+  const [failed, setFailed] = React.useState(false);
+
+  React.useEffect(() => {
+    let cancelled = false;
+    const timeout = setTimeout(() => {
+      if (!cancelled && loading) { setFailed(true); setLoading(false); }
+    }, 8000);
+
+    Promise.all([
+      fetch("/api/diagnostico/enrich?place_id=" + encodeURIComponent(placeId)).then(r => r.ok ? r.json() : null),
+      fetch("/api/diagnostico/nearby?place_id=" + encodeURIComponent(placeId)).then(r => r.ok ? r.json() : null),
+    ]).then(([enrichRes, nearbyRes]) => {
+      if (cancelled) return;
+      clearTimeout(timeout);
+      if (!enrichRes) { setFailed(true); setLoading(false); return; }
+      setEnrich(enrichRes);
+      setCompetitors(nearbyRes?.competitors || []);
+      setLoading(false);
+      fireEvent("diagnostic_viewed", placeId);
+    }).catch(() => {
+      if (!cancelled) { setFailed(true); setLoading(false); }
+    });
+
+    return () => { cancelled = true; clearTimeout(timeout); };
+  }, [placeId]);
+
+  React.useEffect(() => {
+    if (failed) onContinue();
+  }, [failed]);
+
+  if (loading) return <SkeletonLoader />;
+  if (failed) return null;
+
+  const score = computeDigitalScore(enrich, competitors);
+  const gaps = getGaps(enrich, competitors);
+  const scoreColor = getScoreColor(score);
+
+  const ratingClass = enrich.rating >= 4.0 ? "diag-metric--good" : enrich.rating >= 3.0 ? "diag-metric--warn" : "diag-metric--bad";
+  const reviewClass = enrich.reviewCount >= 100 ? "diag-metric--good" : enrich.reviewCount >= 30 ? "diag-metric--warn" : "diag-metric--bad";
+  const webClass = enrich.websiteUri ? "diag-metric--good" : "diag-metric--bad";
+  const statusClass = enrich.businessStatus === "OPERATIONAL" ? "diag-metric--good" : "diag-metric--bad";
+
+  const betterThan = competitors.filter(c => enrich.rating && c.rating && enrich.rating > c.rating).length;
+  const total = competitors.length;
+  let rankText, rankClass;
+  if (total === 0) {
+    rankText = null;
+  } else if (betterThan === total) {
+    rankText = "Mejor que " + total + " de " + total + " competidores cercanos";
+    rankClass = "";
+  } else if (betterThan > 0) {
+    rankText = "Mejor que " + betterThan + " de " + total + " competidores cercanos";
+    rankClass = betterThan >= total / 2 ? "" : "diag-ranking--warn";
+  } else {
+    rankText = "Por debajo de tus " + total + " competidores cercanos";
+    rankClass = "diag-ranking--bad";
+  }
+
+  const isWarm = score < 40;
+
+  return (
+    <div className="diag-card">
+      <button className="demo-back" onClick={onBack}>{"←"} Cambiar restaurante</button>
+      <div className="diag-name">{companyName}</div>
+
+      <div className="diag-score-section">
+        <ScoreRing score={score} />
+      </div>
+
+      <div className="diag-summary">
+        {gaps.length === 0
+          ? "Tu restaurante tiene una presencia digital sólida."
+          : "Oportunidades de mejora en " + gaps.length + " área" + (gaps.length > 1 ? "s" : "") + "."}
+      </div>
+
+      <div className="diag-metrics">
+        <div className={"diag-metric " + ratingClass}>
+          <span className="diag-metric-icon">{"★"}</span>
+          <span className="diag-metric-val">{enrich.rating ? enrich.rating.toFixed(1) + "/5" : "N/A"}</span>
+          <span className="diag-metric-label">Calificación Google</span>
+        </div>
+        <div className={"diag-metric " + reviewClass}>
+          <span className="diag-metric-icon">{"💬"}</span>
+          <span className="diag-metric-val">{enrich.reviewCount != null ? enrich.reviewCount : "N/A"}</span>
+          <span className="diag-metric-label">Reseñas</span>
+        </div>
+        <div className={"diag-metric " + webClass}>
+          <span className="diag-metric-icon">{"🌐"}</span>
+          <span className="diag-metric-val">{enrich.websiteUri ? "Sí" : "No"}</span>
+          <span className="diag-metric-label">Sitio web</span>
+        </div>
+        <div className={"diag-metric " + statusClass}>
+          <span className="diag-metric-icon">{"✓"}</span>
+          <span className="diag-metric-val">{enrich.businessStatus === "OPERATIONAL" ? "Activo" : "Inactivo"}</span>
+          <span className="diag-metric-label">Estado Google</span>
+        </div>
+      </div>
+
+      {total > 0 && (
+        <>
+          <div className="diag-divider">Tu vs tu zona</div>
+          <div className="diag-competitors">
+            {competitors.map((c, i) => (
+              <div className="diag-comp" key={i}>
+                <span className="diag-comp-name">{c.name}</span>
+                <span className="diag-comp-rating">
+                  <span style={{ color: c.rating >= (enrich.rating || 0) ? "#f59e0b" : "#94a3b8" }}>{"★"}</span>
+                  {c.rating ? c.rating.toFixed(1) : "N/A"}
+                  <span className="diag-comp-reviews">({c.reviewCount || 0})</span>
+                </span>
+              </div>
+            ))}
+          </div>
+          {rankText && <div className={"diag-ranking " + rankClass}>{rankText}</div>}
+        </>
+      )}
+
+      {isWarm ? (
+        <>
+          <div className="diag-warm-section">
+            <div className="diag-warm-title">Tips para mejorar</div>
+            {gaps.slice(0, 3).map((g, i) => (
+              <div className="diag-tip" key={i}>
+                <span className="diag-tip-icon">{g.icon}</span>
+                <span className="diag-tip-text">{g.tip}</span>
+              </div>
+            ))}
+          </div>
+          <a href="https://wa.me/5214421716825?text=Hola%2C%20quiero%20mejorar%20la%20presencia%20digital%20de%20mi%20restaurante" className="diag-wa-cta" target="_blank" rel="noopener">
+            Habla con un experto por WhatsApp
+          </a>
+          <button className="diag-secondary" onClick={onContinue}>
+            Agendar demo de todas formas
+          </button>
+        </>
+      ) : (
+        <button className="diag-cta" onClick={onContinue}>
+          Quiero mejorar mi presencia digital <span>{"→"}</span>
+        </button>
+      )}
+    </div>
   );
 }
 
@@ -454,7 +878,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
   if (booked) {
     return (
       <>
-        <div className="bk-booked-check">✓</div>
+        <div className="bk-booked-check">{"✓"}</div>
         <h3 className="bk-booked-title">
           Demo agendada, {firstName}
         </h3>
@@ -463,11 +887,11 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
         </p>
         {booked.meetLink && (
           <a href={booked.meetLink} target="_blank" rel="noopener" className="demo-calendar-btn" style={{ display: "flex", width: "100%", justifyContent: "center" }}>
-            Abrir Google Meet <span>→</span>
+            Abrir Google Meet <span>{"→"}</span>
           </a>
         )}
         <p className="bk-booked-email">
-          Te enviamos confirmacion a <strong>{email}</strong>
+          Te enviamos confirmación a <strong>{email}</strong>
         </p>
       </>
     );
@@ -480,7 +904,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
           Tu restaurante califica para una demo personalizada.
         </p>
         <a href={calendarUrl} className="demo-calendar-btn" style={{ display: "flex", width: "100%", justifyContent: "center", marginTop: 16 }}>
-          Agendar mi demo de 20 min <span>→</span>
+          Agendar mi demo de 20 min <span>{"→"}</span>
         </a>
         <p style={{ marginTop: 12, fontSize: 12, color: "var(--ink-muted)", textAlign: "center" }}>
           <a href="https://wa.me/5214421716825" style={{ color: "var(--green-ink)", textDecoration: "underline" }}>WhatsApp</a>
@@ -541,7 +965,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
                 {s.timeLabel}
               </button>
             )) : (
-              <div className="bk-empty">No hay horarios disponibles este dia.</div>
+              <div className="bk-empty">No hay horarios disponibles este día.</div>
             )}
           </div>
         </div>
@@ -567,7 +991,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
 }
 
 function DemoForm() {
-  const [step, setStep] = React.useState(1);
+  const [step, setStep] = React.useState("place");
   const [submitting, setSubmitting] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [showCalendar, setShowCalendar] = React.useState(false);
@@ -596,7 +1020,7 @@ function DemoForm() {
   const [placesMounted, setPlacesMounted] = React.useState(false);
 
   React.useEffect(() => {
-    if (step !== 1 || placesMounted) return;
+    if (step !== "place" || placesMounted) return;
 
     function tryMount() {
       const container = placesContainerRef.current;
@@ -716,12 +1140,12 @@ function DemoForm() {
             />
           ) : (
             <>
-              <div className="check">✓</div>
-              <h2>¡Listo, {form.first_name}!</h2>
+              <div className="check">{"✓"}</div>
+              <h2>{"¡"}Listo, {form.first_name}!</h2>
               <p>Recibimos tu información. Nuestro equipo revisará tu perfil y te contactará en las próximas 24 horas con una propuesta personalizada.</p>
               <p style={{ marginTop: 20, fontSize: 13, color: "var(--green-ink)" }}>
-                ¿Quieres hablar antes?{" "}
-                <a href="https://wa.me/5214421716825" style={{ color: "var(--green-ink)", textDecoration: "underline" }}>Escríbenos por WhatsApp →</a>
+                {"¿"}Quieres hablar antes?{" "}
+                <a href="https://wa.me/5214421716825" style={{ color: "var(--green-ink)", textDecoration: "underline" }}>Escríbenos por WhatsApp {"→"}</a>
               </p>
             </>
           )}
@@ -730,11 +1154,26 @@ function DemoForm() {
     );
   }
 
+  if (step === "scorecard") {
+    return (
+      <DiagnosticScorecard
+        companyName={form.company_name}
+        placeId={form.place_id}
+        onContinue={() => {
+          fireEvent("contact_form_shown", form.place_id);
+          setStep("contact");
+        }}
+        onBack={() => setStep("place")}
+      />
+    );
+  }
+
   return (
     <div className="demo-card">
-      <div className="demo-step">Paso {step} de 2</div>
+      {step === "place" && <div className="demo-step">Paso 1 de 2</div>}
+      {step === "contact" && <div className="demo-step">Paso 2 de 2</div>}
 
-      {step === 1 ? (
+      {step === "place" && (
         <>
           <h2>Cuéntanos de tu restaurante para preparar tu demo.</h2>
           {error && <div className="demo-error">{error}</div>}
@@ -769,7 +1208,7 @@ function DemoForm() {
           </div>
 
           <div className="demo-field">
-            <label>¿Cuántas sucursales tienes?</label>
+            <label>{"¿"}Cuántas sucursales tienes?</label>
             <select value={form.sucursales} onChange={set("sucursales")}>
               <option value="1">1 sucursal</option>
               <option value="2-5">2 a 5 sucursales</option>
@@ -783,7 +1222,6 @@ function DemoForm() {
             onClick={() => {
               let name = form.company_name.trim();
               if (!name) {
-                // Read from GMP element's internal input (closed shadow DOM workaround)
                 try {
                   const gmp = placesContainerRef.current?.querySelector("gmp-place-autocomplete");
                   if (gmp) {
@@ -799,16 +1237,26 @@ function DemoForm() {
               }
               setForm(prev => ({ ...prev, company_name: name }));
               setError(null);
-              setTimeout(() => setStep(2), 50);
+              if (form.place_id) {
+                fireEvent("diagnostic_started", form.place_id);
+                setTimeout(() => setStep("scorecard"), 50);
+              } else {
+                setTimeout(() => setStep("contact"), 50);
+              }
             }}
           >
-            Continuar <span>→</span>
+            Continuar <span>{"→"}</span>
           </button>
         </>
-      ) : (
+      )}
+
+      {step === "contact" && (
         <>
-          <button className="demo-back" onClick={() => setStep(1)}>← Volver</button>
-          <h2>¿A dónde te enviamos los resultados?</h2>
+          <button className="demo-back" onClick={() => {
+            if (form.place_id) setStep("scorecard");
+            else setStep("place");
+          }}>{"←"} Volver</button>
+          <h2>{"¿"}A dónde te enviamos los resultados?</h2>
           {error && <div className="demo-error">{error}</div>}
 
           <div className="demo-name-row">
@@ -881,7 +1329,7 @@ function DemoForm() {
           </div>
 
           <div className="demo-field">
-            <label>¿Cómo nos encontraste?</label>
+            <label>{"¿"}Cómo nos encontraste?</label>
             <select value={form.source} onChange={set("source")}>
               <option value="">Selecciona una opción</option>
               <option value="Google">Google</option>
@@ -942,7 +1390,7 @@ function App() {
             reales de tu restaurante — sin compromiso, sin contrato.
           </p>
           <div className="trust">
-            <b>4.8 ★★★★★</b> · Más de 1,400 restaurantes confían en Fluxsales
+            <b>4.8 {"★★★★★"}</b> {"·"} Más de 1,400 restaurantes confían en Fluxsales
           </div>
         </div>
         <div className="demo-form-col">
@@ -956,22 +1404,22 @@ function App() {
         </div>
         <div className="demo-covers">
           <div className="demo-cover">
-            <span className="icon">⚡</span>
+            <span className="icon">{"⚡"}</span>
             <h4>Sitio web + SEO</h4>
             <p>Más tráfico orgánico desde Google.</p>
           </div>
           <div className="demo-cover">
-            <span className="icon">⚡</span>
+            <span className="icon">{"⚡"}</span>
             <h4>Pedidos directos</h4>
             <p>Cero comisiones vs 30% de apps.</p>
           </div>
           <div className="demo-cover">
-            <span className="icon">⚡</span>
+            <span className="icon">{"⚡"}</span>
             <h4>Marketing automático</h4>
             <p>Campañas que se envían solas.</p>
           </div>
           <div className="demo-cover">
-            <span className="icon">⚡</span>
+            <span className="icon">{"⚡"}</span>
             <h4>Lealtad + app</h4>
             <p>Clientes que regresan 3.2× más.</p>
           </div>
