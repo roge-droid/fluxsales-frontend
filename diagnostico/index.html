@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Diagnóstico Digital Gratuito — Fluxsales</title>
+<meta name="description" content="Descubre la salud digital de tu restaurante en 30 segundos. Calificación, reseñas, presencia web y competidores — gratis, sin compromiso.">
+<meta property="og:title" content="Diagnóstico Digital Gratuito — Fluxsales">
+<meta property="og:description" content="Descubre la salud digital de tu restaurante en 30 segundos.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Meta Pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','590520096533350');fbq('track','PageView');
+</script>
+
+<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=q+"="+Date.now();e.set("libraries","places");e.set("key","AIzaSyCZYhvVAGdg4ss9WISSXUp83KWyvTUq02U");e.set("language","es");e.set("region","MX");e.set("v","weekly");h=e.toString();d[l]?0:(d[l]=(f,...n)=>r.add(f)&&u&&(u=!1,g=m.createElement("script"),g.src="https://maps.googleapis.com/maps/api/js?"+h,g.onerror=()=>u=!0,m.head.append(g))&&d[l](f,...n)||new Promise((x,y)=>{r=new Proxy(r,{add(v,w){return x({})}})}));d[l]("places")})()</script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+<style>
+:root {
+  --diag-navy: #1a2332;
+  --diag-blue: #2563eb;
+  --diag-blue-hover: #1d4ed8;
+  --diag-green: #10b981;
+  --diag-yellow: #f59e0b;
+  --diag-red: #ef4444;
+  --diag-bg: #f8fafc;
+  --diag-card: #ffffff;
+  --diag-border: #e2e8f0;
+  --diag-muted: #94a3b8;
+  --diag-subtle: #64748b;
+  --diag-rule: #f1f5f9;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Inter", -apple-system, system-ui, sans-serif;
+  background: var(--diag-bg); color: var(--diag-navy);
+  -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+.dx-page { min-height: 100vh; display: flex; flex-direction: column; }
+.dx-nav {
+  display: flex; align-items: center; justify-content: center;
+  height: 56px; border-bottom: 1px solid var(--diag-border);
+  background: var(--diag-card);
+}
+.dx-logo {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 20px;
+  color: var(--diag-navy); text-decoration: none;
+}
+.dx-logo svg { width: 24px; height: 24px; }
+.dx-main {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 32px 16px;
+}
+.dx-container { width: 100%; max-width: 440px; }
+
+.dx-hero { text-align: center; margin-bottom: 24px; }
+.dx-hero h1 {
+  font-family: "DM Sans", sans-serif; font-weight: 700;
+  font-size: 28px; line-height: 1.15; margin: 0 0 8px; color: var(--diag-navy);
+}
+.dx-hero p {
+  font-size: 15px; color: var(--diag-subtle); margin: 0; line-height: 1.5;
+}
+
+.dx-card {
+  background: var(--diag-card); border: 1px solid var(--diag-border);
+  border-radius: 16px; padding: 28px 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
+}
+
+.dx-field { margin-bottom: 20px; }
+.dx-field label {
+  display: block; font-size: 13px; font-weight: 500;
+  color: var(--diag-subtle); margin-bottom: 6px;
+}
+.dx-field input, .dx-field select {
+  width: 100%; padding: 12px 14px; font-size: 15px;
+  border: 1px solid var(--diag-border); border-radius: 10px;
+  background: var(--diag-bg); color: var(--diag-navy);
+  font-family: inherit; outline: none; transition: border-color .2s;
+}
+.dx-field input:focus, .dx-field select:focus { border-color: var(--diag-blue); }
+.dx-field input::placeholder { color: var(--diag-muted); }
+
+gmp-place-autocomplete { width: 100%; }
+gmp-place-autocomplete input {
+  width: 100%; padding: 12px 14px; font-size: 15px;
+  border: 1px solid var(--diag-border); border-radius: 10px;
+  background: var(--diag-bg); color: var(--diag-navy);
+  font-family: inherit; outline: none; transition: border-color .2s;
+}
+gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
+.dx-place-ok {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 6px; padding: 6px 10px;
+  background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px;
+  font-size: 12px; color: #166534;
+}
+.dx-place-ok .dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--diag-green); flex-shrink: 0;
+}
+
+.dx-btn {
+  width: 100%; padding: 14px; font-size: 15px; font-weight: 600;
+  background: var(--diag-blue); color: #fff;
+  border: none; border-radius: 12px; cursor: pointer;
+  font-family: "DM Sans", sans-serif; transition: .2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px;
+}
+.dx-btn:hover { background: var(--diag-blue-hover); transform: translateY(-1px); }
+.dx-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.dx-btn--green { background: #25d366; }
+.dx-btn--green:hover { background: #20bd5a; }
+.dx-btn--dark { background: var(--diag-navy); }
+.dx-btn--dark:hover { background: #0f172a; }
+.dx-btn--ghost {
+  background: transparent; color: var(--diag-blue);
+  font-size: 13px; font-weight: 500; padding: 10px;
+}
+.dx-btn--ghost:hover { background: transparent; text-decoration: underline; transform: none; }
+
+.dx-error {
+  background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: 8px; padding: 10px 14px; margin-bottom: 16px;
+  font-size: 13px; color: #991b1b;
+}
+.dx-back {
+  font-size: 13px; color: var(--diag-blue); cursor: pointer;
+  background: none; border: none; margin-bottom: 12px; padding: 0;
+}
+.dx-back:hover { text-decoration: underline; }
+
+/* Scorecard styles (reused from demo) */
+.dx-score-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 16px; }
+.dx-ring-wrap {
+  position: relative; display: inline-flex;
+  align-items: center; justify-content: center;
+}
+.dx-ring-wrap svg { display: block; }
+.dx-score-inner {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.dx-score-num {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 48px;
+  line-height: 1; transition: color .3s;
+}
+.dx-score-of { font-size: 13px; color: var(--diag-muted); margin-top: 2px; }
+.dx-name {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 16px;
+  color: var(--diag-navy); text-align: center; margin: 0 0 20px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.dx-summary {
+  font-size: 14px; color: var(--diag-subtle); text-align: center;
+  margin: 12px 0 24px; line-height: 1.5;
+}
+.dx-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; }
+.dx-metric {
+  background: var(--diag-bg); border: 1px solid var(--diag-border); border-radius: 8px;
+  padding: 12px; display: flex; flex-direction: column; gap: 4px;
+}
+.dx-metric-icon { font-size: 16px; line-height: 1; }
+.dx-metric-val {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 18px;
+  color: var(--diag-navy); line-height: 1.2;
+}
+.dx-metric-label { font-size: 12px; color: var(--diag-muted); line-height: 1.3; }
+.dx-metric--good { border-left: 3px solid var(--diag-green); }
+.dx-metric--warn { border-left: 3px solid var(--diag-yellow); }
+.dx-metric--bad  { border-left: 3px solid var(--diag-red); }
+.dx-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin: 0 0 16px; color: var(--diag-muted); font-size: 12px;
+  font-family: "DM Sans", sans-serif; font-weight: 500;
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.dx-divider::before, .dx-divider::after {
+  content: ""; flex: 1; height: 1px; background: var(--diag-border);
+}
+.dx-comp {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 0; border-bottom: 1px solid var(--diag-rule);
+}
+.dx-comp:last-child { border-bottom: none; }
+.dx-comp-name {
+  font-size: 14px; color: var(--diag-navy); font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 55%;
+}
+.dx-comp-rating {
+  font-family: "DM Sans", sans-serif; font-size: 14px; font-weight: 700;
+  display: flex; align-items: center; gap: 4px;
+}
+.dx-comp-reviews { font-size: 12px; color: var(--diag-muted); font-weight: 400; }
+.dx-ranking {
+  text-align: center; padding: 8px 16px; margin-bottom: 20px;
+  background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
+  font-size: 13px; font-weight: 500; color: #166534;
+}
+.dx-ranking--warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+.dx-ranking--bad { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+
+.dx-warm-title {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 16px;
+  color: var(--diag-navy); margin: 24px 0 12px;
+}
+.dx-tip {
+  display: flex; gap: 10px; padding: 10px 0;
+  border-bottom: 1px solid var(--diag-rule);
+}
+.dx-tip:last-child { border-bottom: none; }
+.dx-tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.dx-tip-text { font-size: 13px; color: #475569; line-height: 1.5; }
+
+/* Skeleton */
+@keyframes dx-pulse {
+  0%, 100% { opacity: .4; }
+  50% { opacity: .15; }
+}
+.dx-skel { animation: dx-pulse 1.5s ease-in-out infinite; background: var(--diag-border); border-radius: 8px; }
+.dx-skel-ring {
+  width: 120px; height: 120px; border-radius: 50%;
+  margin: 0 auto 16px; animation: dx-pulse 1.5s ease-in-out infinite; background: var(--diag-border);
+}
+.dx-skel-text {
+  height: 14px; border-radius: 4px; margin: 0 auto 24px;
+  animation: dx-pulse 1.5s ease-in-out infinite; background: var(--diag-border);
+}
+.dx-skel-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; }
+.dx-skel-card { height: 72px; border-radius: 8px; animation: dx-pulse 1.5s ease-in-out infinite; background: var(--diag-border); }
+.dx-skel-bar {
+  height: 14px; border-radius: 4px; margin-bottom: 10px;
+  animation: dx-pulse 1.5s ease-in-out infinite; background: var(--diag-border);
+}
+
+/* Contact form extras */
+.dx-name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dx-phone-row {
+  display: flex; gap: 0; border: 1px solid var(--diag-border); border-radius: 10px;
+  overflow: hidden; background: var(--diag-bg); transition: border-color .2s;
+}
+.dx-phone-row:focus-within { border-color: var(--diag-blue); }
+.dx-phone-row > select {
+  flex: 0 0 74px; padding: 12px 6px 12px 10px; font-size: 14px;
+  border: none; border-right: 1px solid var(--diag-border); border-radius: 0;
+  background: #f1f5f9; color: var(--diag-navy); outline: none;
+}
+.dx-phone-row > input {
+  flex: 1; min-width: 0; padding: 12px 14px; font-size: 15px;
+  border: none; border-radius: 0; background: transparent;
+  color: var(--diag-navy); outline: none;
+}
+.dx-phone-error { font-size: 12px; color: var(--diag-red); margin-top: 4px; }
+.dx-checkbox { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+.dx-checkbox input[type=checkbox] {
+  width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0;
+  accent-color: var(--diag-blue);
+}
+.dx-checkbox label { font-size: 13px; color: var(--diag-subtle); line-height: 1.45; cursor: pointer; }
+.dx-legal {
+  font-size: 12px; color: var(--diag-muted); text-align: center;
+  margin-top: 14px; line-height: 1.5;
+}
+
+/* Calendar (shared) */
+.dx-bk-header { text-align: center; margin-bottom: 20px; }
+.dx-bk-title { font-family: "DM Sans", sans-serif; font-size: 20px; font-weight: 700; margin: 0 0 4px; }
+.dx-bk-sub { font-size: 14px; color: var(--diag-muted); margin: 0; }
+.dx-bk-dates {
+  display: flex; gap: 2px; overflow-x: auto; padding: 4px 0 14px;
+  scrollbar-width: none; border-bottom: 1px solid var(--diag-border); margin-bottom: 14px;
+}
+.dx-bk-dates::-webkit-scrollbar { display: none; }
+.dx-bk-date {
+  flex: 0 0 auto; padding: 8px 6px; min-width: 50px;
+  border-radius: 10px; text-align: center; transition: .15s;
+}
+.dx-bk-date:hover { background: var(--diag-rule); }
+.dx-bk-date.on { background: var(--diag-blue); box-shadow: 0 2px 8px rgba(37,99,235,.25); }
+.dx-bk-day { display: block; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--diag-muted); }
+.dx-bk-date.on .dx-bk-day { color: rgba(255,255,255,.7); }
+.dx-bk-num { display: block; font-size: 18px; font-weight: 600; color: var(--diag-navy); margin-top: 2px; }
+.dx-bk-date.on .dx-bk-num { color: #fff; }
+.dx-bk-slots { max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.dx-bk-slot {
+  width: 100%; padding: 13px; border-radius: 10px;
+  border: 1px solid var(--diag-blue); background: transparent;
+  color: var(--diag-blue); font-size: 15px; font-weight: 500;
+  text-align: center; transition: .15s;
+}
+.dx-bk-slot:hover { background: #eff6ff; }
+.dx-bk-slot.on { background: var(--diag-blue); color: #fff; border-color: var(--diag-blue); }
+.dx-bk-empty { text-align: center; padding: 20px 0; color: var(--diag-muted); font-size: 14px; }
+.dx-bk-booked-check {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--diag-green); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin: 0 auto 14px;
+}
+.dx-bk-booked-title {
+  font-family: "DM Sans", sans-serif; font-size: 22px; font-weight: 700;
+  margin: 0 0 8px; text-align: center;
+}
+.dx-bk-links { font-size: 12px; color: var(--diag-muted); text-align: center; margin-top: 12px; }
+.dx-bk-links a { color: var(--diag-blue); text-decoration: underline; }
+
+.dx-footer {
+  text-align: center; padding: 16px;
+  font-size: 12px; color: var(--diag-muted);
+}
+.dx-footer a { color: var(--diag-blue); text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .dx-card { padding: 24px 18px; }
+  .dx-hero h1 { font-size: 24px; }
+  .dx-score-num { font-size: 42px; }
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const API_URL = "/api/demo-page/lead-intake";
+const SESSION_ID = "sess_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
+
+function fireEvent(eventType, placeId) {
+  fetch("/api/diagnostico/event", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ event_type: eventType, place_id: placeId, session_id: SESSION_ID }),
+  }).catch(() => {});
+}
+
+function computeDigitalScore(enrich, competitors) {
+  let score = 0;
+  if (enrich.rating) score += (enrich.rating / 5) * 30;
+  if (enrich.reviewCount) score += Math.min(enrich.reviewCount / 200, 1) * 25;
+  if (enrich.websiteUri) score += 20;
+  if (enrich.businessStatus === "OPERATIONAL") score += 10;
+  if (competitors && competitors.length > 0) {
+    const avg = competitors.reduce((s, c) => s + (c.rating || 0), 0) / competitors.length;
+    if (enrich.rating) {
+      const diff = enrich.rating - avg;
+      score += diff > 0.5 ? 15 : diff > 0 ? 12 : diff > -0.3 ? 8 : 4;
+    } else { score += 4; }
+  } else { score += 8; }
+  return Math.round(score);
+}
+
+function getGaps(enrich, competitors) {
+  const gaps = [];
+  if (!enrich.rating || enrich.rating < 4.0)
+    gaps.push({ key: "rating", icon: "★", tip: "Responde a todas las reseñas de Google. Cada respuesta mejora tu calificación y muestra que te importa." });
+  if (!enrich.reviewCount || enrich.reviewCount < 50)
+    gaps.push({ key: "reviews", icon: "💬", tip: "Pide reseñas a clientes satisfechos. Un QR en la mesa funciona muy bien." });
+  if (!enrich.websiteUri)
+    gaps.push({ key: "website", icon: "🌐", tip: "Crea un sitio web con tu menú y ubicación. Es lo primero que buscan tus clientes." });
+  if (competitors && competitors.length > 0) {
+    const avg = competitors.reduce((s, c) => s + (c.rating || 0), 0) / competitors.length;
+    if (enrich.rating && enrich.rating < avg)
+      gaps.push({ key: "competition", icon: "📊", tip: "Analiza qué hacen bien tus competidores y adapta lo mejor a tu restaurante." });
+  }
+  return gaps;
+}
+
+function getScoreColor(score) {
+  if (score >= 70) return "#10b981";
+  if (score >= 40) return "#f59e0b";
+  return "#ef4444";
+}
+
+function ScoreRing({ score, size = 120, strokeWidth = 8 }) {
+  const [progress, setProgress] = React.useState(0);
+  const [revealed, setRevealed] = React.useState(false);
+  React.useEffect(() => {
+    const duration = 2000;
+    const start = performance.now();
+    let raf;
+    function tick(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setProgress(eased);
+      if (eased >= 0.8 && !revealed) setRevealed(true);
+      if (t < 1) raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [score]);
+  const r = (size - strokeWidth) / 2;
+  const circ = 2 * Math.PI * r;
+  const offset = circ * (1 - (progress * score / 100));
+  const display = Math.round(progress * score);
+  const finalColor = getScoreColor(score);
+  const color = revealed ? finalColor : "#2563eb";
+  return (
+    <div className="dx-ring-wrap" role="img" aria-label={"Puntuación: " + score + " de 100"} style={{ width: size, height: size }}>
+      <svg width={size} height={size} viewBox={"0 0 " + size + " " + size} style={{ transform: "rotate(-90deg)" }}>
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#e2e8f0" strokeWidth={strokeWidth} />
+        <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={strokeWidth}
+          strokeDasharray={circ} strokeDashoffset={offset}
+          strokeLinecap="round" style={{ transition: "stroke 0.3s ease" }} />
+      </svg>
+      <div className="dx-score-inner">
+        <span className="dx-score-num" style={{ color: revealed ? finalColor : "#1a2332" }}>{display}</span>
+        <span className="dx-score-of">/100</span>
+      </div>
+    </div>
+  );
+}
+
+function CalendarBooking({ firstName, lastName, email, phone, companyName, assignedAE, calendarUrl }) {
+  const [loading, setLoading] = React.useState(true);
+  const [dates, setDates] = React.useState([]);
+  const [selectedDate, setSelectedDate] = React.useState(0);
+  const [selectedSlot, setSelectedSlot] = React.useState(null);
+  const [booking, setBooking] = React.useState(false);
+  const [booked, setBooked] = React.useState(null);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    fireEvent("calendar_shown", "");
+    fetch("/api/calendar/available-slots?ae=" + encodeURIComponent(assignedAE) + "&days=14")
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok && data.dates?.length) setDates(data.dates);
+        else setError("fallback");
+      })
+      .catch(() => setError("fallback"))
+      .finally(() => setLoading(false));
+  }, [assignedAE]);
+
+  const handleBook = async () => {
+    if (!selectedSlot) return;
+    setBooking(true); setError(null);
+    try {
+      const res = await fetch("/api/calendar/book-demo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ae: assignedAE, start: selectedSlot.start, end: selectedSlot.end,
+          first_name: firstName, last_name: lastName, email, phone, company_name: companyName,
+        }),
+      });
+      const result = await res.json();
+      if (!res.ok) { setError(result.error || "No pudimos agendar tu demo."); return; }
+      setBooked(result);
+      if (typeof fbq === "function" && result.eventId) {
+        fbq("track", "Schedule", { content_name: "diagnostico_booking", value: 0, currency: "MXN" }, { eventID: "schedule_" + result.eventId });
+      }
+    } catch { setError("No pudimos agendar. Intenta de nuevo."); }
+    finally { setBooking(false); }
+  };
+
+  if (booked) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <div className="dx-bk-booked-check">✓</div>
+        <h3 className="dx-bk-booked-title">Demo agendada, {firstName}</h3>
+        <p style={{ color: "#64748b", fontSize: 15, margin: "0 0 16px" }}>{booked.startFormatted}</p>
+        {booked.meetLink && <a href={booked.meetLink} target="_blank" rel="noopener" className="dx-btn" style={{ marginBottom: 8 }}>Abrir Google Meet →</a>}
+        <p style={{ fontSize: 13, color: "#94a3b8", marginTop: 14 }}>Te enviamos confirmación a <strong>{email}</strong></p>
+      </div>
+    );
+  }
+
+  if (error === "fallback") {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <p style={{ fontSize: 16, color: "#2563eb", fontWeight: 600, margin: "0 0 16px" }}>Tu restaurante califica para una demo personalizada.</p>
+        <a href={calendarUrl} className="dx-btn" style={{ display: "flex", textDecoration: "none" }}>Agendar mi demo de 20 min →</a>
+        <div className="dx-bk-links" style={{ marginTop: 12 }}>
+          <a href="https://wa.me/5214421716825">WhatsApp</a>
+        </div>
+      </div>
+    );
+  }
+
+  if (loading) return <p style={{ textAlign: "center", color: "#2563eb", fontWeight: 500 }}>Cargando horarios...</p>;
+
+  const currentDate = dates[selectedDate];
+  const parseLabel = (l) => { const p = l.split(" "); return { day: p[0], num: p[1] }; };
+
+  return (
+    <>
+      <div className="dx-bk-header">
+        <div className="dx-bk-title">Elige tu horario</div>
+        <div className="dx-bk-sub">Demo de 20 min por Google Meet</div>
+      </div>
+      {error && error !== "fallback" && <div className="dx-error">{error}</div>}
+      <div className="dx-bk-dates">
+        {dates.map((d, i) => {
+          const p = parseLabel(d.dateLabel);
+          return (
+            <button key={i} onClick={() => { setSelectedDate(i); setSelectedSlot(null); setError(null); }}
+              className={"dx-bk-date" + (i === selectedDate ? " on" : "")}>
+              <span className="dx-bk-day">{p.day}</span>
+              <span className="dx-bk-num">{p.num}</span>
+            </button>
+          );
+        })}
+      </div>
+      {currentDate && (
+        <div className="dx-bk-slots">
+          {currentDate.slots.length ? currentDate.slots.map((s, i) => (
+            <button key={i} onClick={() => { setSelectedSlot(s); setError(null); }}
+              className={"dx-bk-slot" + (selectedSlot === s ? " on" : "")}>
+              {s.timeLabel}
+            </button>
+          )) : <div className="dx-bk-empty">No hay horarios este día.</div>}
+        </div>
+      )}
+      <div style={{ marginTop: 16 }}>
+        <button className="dx-btn dx-btn--dark" disabled={!selectedSlot || booking} onClick={handleBook}>
+          {booking ? "Agendando..." : selectedSlot ? "Agendar " + selectedSlot.timeLabel + " →" : "Selecciona un horario"}
+        </button>
+      </div>
+      <div className="dx-bk-links">
+        <a href={calendarUrl}>Google Calendar</a> · <a href="https://wa.me/5214421716825">WhatsApp</a>
+      </div>
+    </>
+  );
+}
+
+function DiagnosticoApp() {
+  const [step, setStep] = React.useState("search");
+  const [companyName, setCompanyName] = React.useState("");
+  const [placeId, setPlaceId] = React.useState("");
+  const [placeAddress, setPlaceAddress] = React.useState("");
+  const [error, setError] = React.useState(null);
+
+  // Scorecard state
+  const [scorecardLoading, setScorecardLoading] = React.useState(false);
+  const [enrich, setEnrich] = React.useState(null);
+  const [competitors, setCompetitors] = React.useState([]);
+  const [scoreFailed, setScoreFailed] = React.useState(false);
+
+  // Contact form state
+  const [form, setForm] = React.useState({
+    first_name: "", last_name: "", email: "",
+    country_code: "+52", phone: "", source: "", whatsapp_optin: true,
+  });
+  const [phoneError, setPhoneError] = React.useState("");
+  const [submitting, setSubmitting] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const [showCalendar, setShowCalendar] = React.useState(false);
+  const [calendarUrl, setCalendarUrl] = React.useState("");
+  const [assignedAE, setAssignedAE] = React.useState("Mariana");
+
+  const placesRef = React.useRef(null);
+  const [placesMounted, setPlacesMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    if (step !== "search" || placesMounted) return;
+    function tryMount() {
+      const container = placesRef.current;
+      if (!container || !window.google?.maps?.places?.PlaceAutocompleteElement) return false;
+      try {
+        const el = new google.maps.places.PlaceAutocompleteElement({
+          types: ["establishment"],
+          componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
+        });
+        el.style.cssText = "width:100%;font-size:15px;";
+        el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
+        const inp = container.querySelector("input");
+        if (inp) inp.style.display = "none";
+        container.appendChild(el);
+        setPlacesMounted(true);
+        el.addEventListener("gmp-placeselect", (e) => {
+          try {
+            const p = e.place;
+            if (!p) return;
+            const doUp = (place) => {
+              const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
+              const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
+              const pid = place.id || "";
+              if (n || pid) { setCompanyName(n); setPlaceId(pid); setPlaceAddress(a); }
+            };
+            if (p.fetchFields) p.fetchFields({ fields: ["displayName", "formattedAddress", "id"] }).then(() => doUp(p)).catch(() => doUp(p));
+            else doUp(p);
+          } catch {}
+        });
+        return true;
+      } catch { return false; }
+    }
+    if (!tryMount()) {
+      const iv = setInterval(() => { if (tryMount()) clearInterval(iv); }, 500);
+      return () => clearInterval(iv);
+    }
+  }, [step, placesMounted]);
+
+  const fetchScorecard = () => {
+    setScorecardLoading(true);
+    setScoreFailed(false);
+    const timeout = setTimeout(() => { setScorecardLoading(false); setScoreFailed(true); }, 8000);
+    Promise.all([
+      fetch("/api/diagnostico/enrich?place_id=" + encodeURIComponent(placeId)).then(r => r.ok ? r.json() : null),
+      fetch("/api/diagnostico/nearby?place_id=" + encodeURIComponent(placeId)).then(r => r.ok ? r.json() : null),
+    ]).then(([eRes, nRes]) => {
+      clearTimeout(timeout);
+      if (!eRes) { setScoreFailed(true); setScorecardLoading(false); return; }
+      setEnrich(eRes);
+      setCompetitors(nRes?.competitors || []);
+      setScorecardLoading(false);
+      fireEvent("diagnostic_viewed", placeId);
+    }).catch(() => { clearTimeout(timeout); setScoreFailed(true); setScorecardLoading(false); });
+  };
+
+  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
+  const PHONE_LENGTHS = { "+52": 10, "+57": 10, "+56": 9, "+51": 9, "+54": 10, "+1": 10, "+593": 9, "+502": 8 };
+  const maxDigits = PHONE_LENGTHS[form.country_code] || 10;
+  const digits = form.phone.replace(/\D/g, "");
+  const canSubmit = form.first_name.trim() && form.email.trim() && digits.length >= maxDigits;
+  const validatePhone = () => {
+    const d = form.phone.replace(/\D/g, "");
+    if (d.length < maxDigits) { setPhoneError("El número debe tener " + maxDigits + " dígitos"); return false; }
+    setPhoneError(""); return true;
+  };
+
+  const handleSubmit = async () => {
+    if (!validatePhone()) return;
+    setSubmitting(true); setError(null);
+    try {
+      const fullPhone = form.country_code + form.phone.replace(/\D/g, "");
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first_name: form.first_name.trim(), last_name: form.last_name.trim(),
+          email: form.email.trim(), phone: fullPhone,
+          company_name: companyName, sucursales: "1", plataformas: "dueno",
+          place_id: placeId || undefined, place_address: placeAddress || undefined,
+          source: form.source || "diagnostico", whatsapp_optin: form.whatsapp_optin,
+        }),
+      });
+      if (!res.ok) throw new Error(res.status);
+      const result = await res.json();
+      setShowCalendar(result.showCalendar === true);
+      const AE_CALENDARS = {
+        "Mariana": "https://calendar.app.google/PNn3ykthv5gY8SMN8",
+        "Ayline": "https://calendar.app.google/Z1PUtkg8xErSkLPr7",
+      };
+      setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
+      setAssignedAE(result.assignedAE || "Mariana");
+      setSuccess(true);
+      if (typeof fbq === "function" && result.eventId) {
+        fbq("track", "Lead", { content_name: "diagnostico_page", value: 0, currency: "MXN" }, { eventID: result.eventId });
+      } else if (typeof fbq === "function") {
+        fbq("track", "Lead", { content_name: "diagnostico_page", value: 0, currency: "MXN" });
+      }
+    } catch { setError("No pudimos enviar tu información. Intenta de nuevo."); }
+    finally { setSubmitting(false); }
+  };
+
+  // ── Render ──
+
+  const renderSearch = () => (
+    <div className="dx-card">
+      <div className="dx-field">
+        <label>Busca tu restaurante</label>
+        <div ref={placesRef} style={{ minHeight: 44 }}>
+          <input type="text" placeholder="Ej. Bora Bora Pizzas" value={companyName}
+            onChange={(e) => setCompanyName(e.target.value)} autoFocus />
+        </div>
+        {placeId && (
+          <div className="dx-place-ok">
+            <span className="dot" />
+            <span>{placeAddress}</span>
+          </div>
+        )}
+      </div>
+      {error && <div className="dx-error">{error}</div>}
+      <button className="dx-btn" onClick={() => {
+        let name = companyName.trim();
+        if (!name) {
+          try {
+            const gmp = placesRef.current?.querySelector("gmp-place-autocomplete");
+            if (gmp) {
+              for (const k in gmp) {
+                try { if (gmp[k] instanceof HTMLInputElement && gmp[k].value) { name = gmp[k].value.trim(); break; } } catch {}
+              }
+            }
+          } catch {}
+        }
+        if (!name) { setError("Por favor escribe el nombre de tu restaurante."); return; }
+        setCompanyName(name); setError(null);
+        if (placeId) {
+          fireEvent("diagnostic_started", placeId);
+          setStep("scorecard");
+          fetchScorecard();
+        } else {
+          setStep("contact");
+        }
+      }}>
+        Ver mi diagnóstico →
+      </button>
+    </div>
+  );
+
+  const renderScorecard = () => {
+    if (scorecardLoading) {
+      return (
+        <div className="dx-card">
+          <div className="dx-skel-ring" />
+          <div className="dx-skel-text" style={{ width: "60%" }} />
+          <div className="dx-skel-cards">
+            <div className="dx-skel-card" /><div className="dx-skel-card" />
+            <div className="dx-skel-card" /><div className="dx-skel-card" />
+          </div>
+          <div className="dx-skel-text" style={{ width: "40%", marginBottom: 16 }} />
+          <div className="dx-skel-bar" style={{ width: "90%" }} />
+          <div className="dx-skel-bar" style={{ width: "75%" }} />
+          <div className="dx-skel-bar" style={{ width: "85%" }} />
+        </div>
+      );
+    }
+    if (scoreFailed || !enrich) {
+      setStep("contact");
+      return null;
+    }
+
+    const score = computeDigitalScore(enrich, competitors);
+    const gaps = getGaps(enrich, competitors);
+    const rC = enrich.rating >= 4.0 ? "dx-metric--good" : enrich.rating >= 3.0 ? "dx-metric--warn" : "dx-metric--bad";
+    const rvC = (enrich.reviewCount || 0) >= 100 ? "dx-metric--good" : (enrich.reviewCount || 0) >= 30 ? "dx-metric--warn" : "dx-metric--bad";
+    const wC = enrich.websiteUri ? "dx-metric--good" : "dx-metric--bad";
+    const sC = enrich.businessStatus === "OPERATIONAL" ? "dx-metric--good" : "dx-metric--bad";
+    const betterThan = competitors.filter(c => enrich.rating && c.rating && enrich.rating > c.rating).length;
+    const total = competitors.length;
+    let rankText = null, rankClass = "";
+    if (total > 0) {
+      if (betterThan === total) { rankText = "Mejor que " + total + " de " + total + " competidores"; }
+      else if (betterThan > 0) { rankText = "Mejor que " + betterThan + " de " + total + " competidores"; rankClass = betterThan >= total/2 ? "" : "dx-ranking--warn"; }
+      else { rankText = "Por debajo de tus " + total + " competidores"; rankClass = "dx-ranking--bad"; }
+    }
+    const isWarm = score < 40;
+
+    return (
+      <div className="dx-card">
+        <button className="dx-back" onClick={() => setStep("search")}>← Cambiar restaurante</button>
+        <div className="dx-name">{companyName}</div>
+        <div className="dx-score-section"><ScoreRing score={score} /></div>
+        <div className="dx-summary">
+          {gaps.length === 0 ? "Tu restaurante tiene una presencia digital sólida."
+            : "Oportunidades de mejora en " + gaps.length + " área" + (gaps.length > 1 ? "s" : "") + "."}
+        </div>
+        <div className="dx-metrics">
+          <div className={"dx-metric " + rC}><span className="dx-metric-icon">★</span><span className="dx-metric-val">{enrich.rating ? enrich.rating.toFixed(1) + "/5" : "N/A"}</span><span className="dx-metric-label">Calificación</span></div>
+          <div className={"dx-metric " + rvC}><span className="dx-metric-icon">💬</span><span className="dx-metric-val">{enrich.reviewCount != null ? enrich.reviewCount : "N/A"}</span><span className="dx-metric-label">Reseñas</span></div>
+          <div className={"dx-metric " + wC}><span className="dx-metric-icon">🌐</span><span className="dx-metric-val">{enrich.websiteUri ? "Sí" : "No"}</span><span className="dx-metric-label">Sitio web</span></div>
+          <div className={"dx-metric " + sC}><span className="dx-metric-icon">✓</span><span className="dx-metric-val">{enrich.businessStatus === "OPERATIONAL" ? "Activo" : "Inactivo"}</span><span className="dx-metric-label">Estado</span></div>
+        </div>
+        {total > 0 && (
+          <>
+            <div className="dx-divider">Tu vs tu zona</div>
+            <div style={{ marginBottom: 16 }}>
+              {competitors.map((c, i) => (
+                <div className="dx-comp" key={i}>
+                  <span className="dx-comp-name">{c.name}</span>
+                  <span className="dx-comp-rating">
+                    <span style={{ color: c.rating >= (enrich.rating || 0) ? "#f59e0b" : "#94a3b8" }}>★</span>
+                    {c.rating ? c.rating.toFixed(1) : "N/A"}
+                    <span className="dx-comp-reviews">({c.reviewCount || 0})</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+            {rankText && <div className={"dx-ranking " + rankClass}>{rankText}</div>}
+          </>
+        )}
+        {isWarm ? (
+          <>
+            <div className="dx-warm-title">Tips para mejorar</div>
+            {gaps.slice(0,3).map((g,i) => <div className="dx-tip" key={i}><span className="dx-tip-icon">{g.icon}</span><span className="dx-tip-text">{g.tip}</span></div>)}
+            <a href={"https://wa.me/5214421716825?text=Hola%2C%20quiero%20mejorar%20la%20presencia%20digital%20de%20mi%20restaurante%20" + encodeURIComponent(companyName)}
+              className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ marginTop: 16, textDecoration: "none" }}>
+              Habla con un experto por WhatsApp
+            </a>
+            <button className="dx-btn dx-btn--ghost" onClick={() => setStep("contact")}>Agendar demo de todas formas</button>
+          </>
+        ) : (
+          <button className="dx-btn" onClick={() => setStep("contact")}>Quiero mejorar mi presencia digital →</button>
+        )}
+      </div>
+    );
+  };
+
+  const renderContact = () => {
+    if (success) {
+      return (
+        <div className="dx-card" style={{ textAlign: "center" }}>
+          {showCalendar ? (
+            <CalendarBooking firstName={form.first_name} lastName={form.last_name}
+              email={form.email} phone={form.phone} companyName={companyName}
+              assignedAE={assignedAE} calendarUrl={calendarUrl} />
+          ) : (
+            <>
+              <div className="dx-bk-booked-check">✓</div>
+              <h3 className="dx-bk-booked-title">¡Listo, {form.first_name}!</h3>
+              <p style={{ color: "#64748b", fontSize: 15, margin: 0 }}>
+                Nuestro equipo te contactará en las próximas 24 horas.
+              </p>
+              <a href="https://wa.me/5214421716825" style={{ display: "inline-block", marginTop: 16, fontSize: 13, color: "#2563eb" }}>
+                Escríbenos por WhatsApp →
+              </a>
+            </>
+          )}
+        </div>
+      );
+    }
+
+    return (
+      <div className="dx-card">
+        <button className="dx-back" onClick={() => {
+          if (placeId && enrich) setStep("scorecard");
+          else setStep("search");
+        }}>← Volver</button>
+        <h3 style={{ fontFamily: '"DM Sans", sans-serif', fontSize: 20, fontWeight: 700, margin: "0 0 20px" }}>
+          ¿A dónde te enviamos los resultados?
+        </h3>
+        {error && <div className="dx-error">{error}</div>}
+        <div className="dx-name-row">
+          <div className="dx-field"><label>Nombre</label><input type="text" placeholder="Nombre" value={form.first_name} onChange={set("first_name")} autoFocus /></div>
+          <div className="dx-field"><label>Apellido</label><input type="text" placeholder="Apellido" value={form.last_name} onChange={set("last_name")} /></div>
+        </div>
+        <div className="dx-field"><label>Email</label><input type="email" placeholder="tu@restaurante.com" value={form.email} onChange={set("email")} /></div>
+        <div className="dx-field">
+          <label>WhatsApp</label>
+          <div className="dx-phone-row">
+            <select value={form.country_code} onChange={set("country_code")}>
+              <option value="+52">+52</option><option value="+57">+57</option>
+              <option value="+56">+56</option><option value="+51">+51</option>
+              <option value="+54">+54</option><option value="+1">+1</option>
+              <option value="+593">+593</option><option value="+502">+502</option>
+            </select>
+            <input type="tel" inputMode="numeric" maxLength={14} placeholder="55 1234 5678"
+              value={form.phone} onChange={(e) => {
+                const raw = e.target.value.replace(/[^\d\s\-()]/g, "");
+                if (raw.replace(/\D/g, "").length > maxDigits) return;
+                setForm({ ...form, phone: raw }); setPhoneError("");
+              }} onBlur={validatePhone} />
+          </div>
+          {phoneError && <div className="dx-phone-error">{phoneError}</div>}
+        </div>
+        <div className="dx-checkbox">
+          <input type="checkbox" id="wa-opt" checked={form.whatsapp_optin}
+            onChange={(e) => setForm({ ...form, whatsapp_optin: e.target.checked })} />
+          <label htmlFor="wa-opt">Acepto recibir mensajes por WhatsApp. Máximo 4/mes.</label>
+        </div>
+        <button className="dx-btn dx-btn--dark" disabled={!canSubmit || submitting} onClick={handleSubmit}>
+          {submitting ? "Enviando..." : "Agenda mi demo →"}
+        </button>
+        <div className="dx-legal">Al enviar aceptas nuestra política de privacidad.</div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="dx-page">
+      <nav className="dx-nav">
+        <a href="/" className="dx-logo">
+          <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><rect x="54" y="40" width="50" height="172" rx="6"/><rect x="54" y="40" width="150" height="46" rx="6"/><rect x="54" y="108" width="98" height="38" rx="6"/><path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/></g></svg>
+          Fluxsales
+        </a>
+      </nav>
+      <div className="dx-main">
+        <div className="dx-container">
+          {step === "search" && (
+            <div className="dx-hero">
+              <h1>Diagnóstico digital gratuito para tu restaurante</h1>
+              <p>Descubre tu calificación, reseñas, presencia web y cómo te comparas con tu competencia — en 30 segundos.</p>
+            </div>
+          )}
+          {step === "search" && renderSearch()}
+          {step === "scorecard" && renderScorecard()}
+          {step === "contact" && renderContact()}
+        </div>
+      </div>
+      <div className="dx-footer">
+        <a href="/privacy">Privacidad</a> · <a href="/terms">Términos</a> · © 2026 Fluxsales
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<DiagnosticoApp />);
+</script>
+</body>
+</html>

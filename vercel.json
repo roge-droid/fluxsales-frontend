@@ -19,6 +19,10 @@
       "destination": "/demo/:path*"
     },
     {
+      "source": "/diagnostico",
+      "destination": "/diagnostico/index.html"
+    },
+    {
       "source": "/dashboards/:path*",
       "destination": "/dashboards/:path*"
     },
