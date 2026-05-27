@@ -21,7 +21,7 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','590520096533350');fbq('track','PageView');
 </script>
 
-<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=q+"="+Date.now();e.set("libraries","places");e.set("key","AIzaSyCZYhvVAGdg4ss9WISSXUp83KWyvTUq02U");e.set("language","es");e.set("region","MX");e.set("v","weekly");h=e.toString();d[l]?0:(d[l]=(f,...n)=>r.add(f)&&u&&(u=!1,g=m.createElement("script"),g.src="https://maps.googleapis.com/maps/api/js?"+h,g.onerror=()=>u=!0,m.head.append(g))&&d[l](f,...n)||new Promise((x,y)=>{r=new Proxy(r,{add(v,w){return x({})}})}));d[l]("places")})()</script>
+<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=q+"="+Date.now();e.set("libraries","places");e.set("key","AIzaSyCZYhvVAGdg4ss9WISSXUp83KWyvTUq02U");e.set("language","es");e.set("region","MX");e.set("v","quarterly");h=e.toString();d[l]?0:(d[l]=(f,...n)=>r.add(f)&&u&&(u=!1,g=m.createElement("script"),g.src="https://maps.googleapis.com/maps/api/js?"+h,g.onerror=()=>u=!0,m.head.append(g))&&d[l](f,...n)||new Promise((x,y)=>{r=new Proxy(r,{add(v,w){return x({})}})}));d[l]("places")})()</script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
@@ -1203,33 +1203,46 @@ function DemoForm() {
     function tryMount() {
       const container = placesContainerRef.current;
       if (!container) return false;
-      if (!window.google?.maps?.places?.Autocomplete) return false;
-
-      const input = container.querySelector("input");
-      if (!input) return false;
+      if (!window.google?.maps?.places?.PlaceAutocompleteElement) return false;
 
       try {
-        const autocomplete = new google.maps.places.Autocomplete(input, {
+        const el = new google.maps.places.PlaceAutocompleteElement({
           types: ["establishment"],
           componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
-          fields: ["place_id", "name", "formatted_address"],
         });
+        el.style.cssText = "width:100%;font-size:15px;";
+        el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
+
+        const reactInput = container.querySelector("input");
+        if (reactInput) reactInput.style.display = "none";
+        container.appendChild(el);
         setPlacesMounted(true);
 
-        autocomplete.addListener("place_changed", () => {
-          const place = autocomplete.getPlace();
-          console.log("[places] place_changed:", place?.place_id, place?.name);
-          if (place && (place.place_id || place.name)) {
-            setForm(prev => ({
-              ...prev,
-              company_name: place.name || prev.company_name,
-              place_id: place.place_id || "",
-              place_address: place.formatted_address || "",
-            }));
-          }
+        el.addEventListener("gmp-placeselect", (e) => {
+          console.log("[places] gmp-placeselect raw event:", e, "keys:", Object.keys(e));
+          try {
+            const p = e.place || e.detail?.place || e.detail;
+            console.log("[places] place:", p, "id:", p?.id, "place_id:", p?.place_id);
+            if (!p) { console.warn("[places] no place object found in event"); return; }
+            const doUpdate = (place) => {
+              const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
+              const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
+              const pid = place.id || place.place_id || "";
+              console.log("[places] doUpdate — pid:", pid, "name:", n, "addr:", a);
+              if (n || pid) setForm(prev => ({ ...prev, company_name: n || prev.company_name, place_id: pid, place_address: a }));
+            };
+            if (p.fetchFields) {
+              p.fetchFields({ fields: ["displayName", "formattedAddress"] }).then(() => doUpdate(p)).catch((err) => { console.error("[places] fetchFields error:", err); doUpdate(p); });
+            } else { doUpdate(p); }
+          } catch (err) { console.error("[places] handler error:", err); }
         });
+
+        el.addEventListener("gmp-placeautocomplete-place-changed", (e) => {
+          console.log("[places] gmp-placeautocomplete-place-changed fired:", e);
+        });
+
         return true;
-      } catch (err) { console.error("[places] Autocomplete init error:", err); return false; }
+      } catch (err) { console.error("[places] PlaceAutocompleteElement init error:", err); return false; }
     }
 
     if (!tryMount()) {
