@@ -635,6 +635,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
       const result = await res.json();
       if (!res.ok) { setError(result.error || "No pudimos agendar tu demo."); return; }
       setBooked(result);
+      fireEvent("demo_booked", "");
       if (typeof fbq === "function" && result.eventId) {
         fbq("track", "Schedule", { content_name: "diagnostico_booking", value: 0, currency: "MXN" }, { eventID: "schedule_" + result.eventId });
       }
@@ -854,6 +855,7 @@ function DiagnosticoApp() {
       setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
       setAssignedAE(result.assignedAE || "Mariana");
       setSuccess(true);
+      fireEvent("contact_submitted", placeId);
       if (window.clarity) {
         const s = enrich ? computeDigitalScore(enrich, competitors) : 0;
         window.clarity("set", "score_tier", s >= 70 ? "high" : s >= 40 ? "mid" : "low");
@@ -946,6 +948,14 @@ function DiagnosticoApp() {
     if (scoreFailed || !enrich) return null;
 
     const score = computeDigitalScore(enrich, competitors);
+    const qualified = score >= 40;
+    const qualifiedRef = React.useRef(false);
+    React.useEffect(() => {
+      if (qualified && !qualifiedRef.current) {
+        qualifiedRef.current = true;
+        fireEvent("diagnostic_qualified", placeId);
+      }
+    }, [qualified]);
     const gaps = getGaps(enrich, competitors);
     const evaluation = generateEvaluation(enrich, competitors);
     const hasAnyData = enrich.rating != null || enrich.reviewCount != null || enrich.websiteUri != null;
