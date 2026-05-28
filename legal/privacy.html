@@ -10,105 +10,322 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../landing/styles.css" />
-<link rel="stylesheet" href="styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../landing/content.js"></script>
+<style>
+.legal-body { max-width: 780px; margin: 0 auto; padding: 64px 28px 120px; }
+.legal-body .eyebrow { margin-bottom: 16px; }
+.legal-body h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.05; letter-spacing: -0.025em;
+  color: var(--ink-soft); font-weight: 400;
+  margin: 0 0 12px;
+}
+.legal-body h1 em {
+  font-style: italic; color: var(--green-ink);
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+}
+.legal-body .updated {
+  font-family: var(--mono); font-size: 12px;
+  letter-spacing: .06em; color: var(--ink-muted);
+  margin-bottom: 48px;
+}
+.legal-body h2 {
+  font-family: var(--sans); font-weight: 600;
+  font-size: 20px; letter-spacing: -0.01em;
+  color: var(--ink); margin: 48px 0 12px;
+  padding-top: 24px; border-top: 1px solid var(--rule);
+}
+.legal-body h2:first-of-type { margin-top: 0; border-top: none; padding-top: 0; }
+.legal-body p {
+  font-size: 15.5px; line-height: 1.6; color: var(--ink-muted);
+  margin: 0 0 16px;
+}
+.legal-body p strong { color: var(--ink); font-weight: 500; }
+.legal-body ul, .legal-body ol { padding-left: 20px; margin: 0 0 16px; }
+.legal-body li {
+  font-size: 15.5px; line-height: 1.6; color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.legal-body a { color: var(--green-ink); text-decoration: underline; }
+.legal-body a:hover { color: var(--green-deep); }
+@media (max-width: 640px) {
+  .legal-body { padding: 32px 20px 80px; }
+}
+</style>
 </head>
 <body>
-<div class="legal-page">
-  <header class="legal-nav">
-    <a href="/" class="logo">
-      <span class="logo-mark">
-        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-          <g fill="currentColor">
-            <rect x="54" y="40" width="50" height="172" rx="6"/>
-            <rect x="54" y="40" width="150" height="46" rx="6"/>
-            <rect x="54" y="108" width="98" height="38" rx="6"/>
-            <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
-          </g>
-        </svg>
-      </span>
-      <span>Fluxsales</span>
-    </a>
-    <a href="/" class="back">← Inicio</a>
-  </header>
+<div id="root"></div>
+<script type="text/babel">
+function LogoMark() {
+  return (
+    <span className="logo-mark" aria-hidden="true">
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor">
+          <rect x="54" y="40" width="50" height="172" rx="6"/>
+          <rect x="54" y="40" width="150" height="46" rx="6"/>
+          <rect x="54" y="108" width="98" height="38" rx="6"/>
+          <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+        </g>
+      </svg>
+    </span>
+  );
+}
 
-  <main class="legal-content">
-    <span class="eyebrow">Legal</span>
-    <h1>Política de <em>Privacidad</em></h1>
-    <p class="updated">Última actualización: 26 de mayo de 2026</p>
+function Nav({ lang, setLang }) {
+  const t = window.COPY[lang].nav;
+  return (
+    <header className="nav">
+      <div className="wrap nav-inner">
+        <a href="/" className="logo">
+          <LogoMark />
+          <span>Fluxsales</span>
+        </a>
+        <nav className="nav-links">
+          <a href="/#product">{t.product}</a>
+          <a href="/#how">{t.howItWorks}</a>
+          <a href="/#pricing">{t.pricing}</a>
+          <a href="/#stories">{t.stories}</a>
+          <a href="/#faq">{lang === "es" ? "Preguntas" : "FAQ"}</a>
+        </nav>
+        <div className="nav-right">
+          <div className="lang-toggle" role="group" aria-label="language">
+            <button className={lang === "es" ? "on" : ""} onClick={() => setLang("es")}>ES</button>
+            <button className={lang === "en" ? "on" : ""} onClick={() => setLang("en")}>EN</button>
+          </div>
+          <a href="#" className="btn btn-ghost">{t.login}</a>
+          <a href="/demo" className="btn btn-primary">{t.cta} <span className="arr">&rarr;</span></a>
+        </div>
+      </div>
+    </header>
+  );
+}
 
-    <h2>1. Información que recopilamos</h2>
-    <p>Recopilamos la siguiente información cuando usas Fluxsales:</p>
-    <ul>
-      <li><strong>Información de cuenta:</strong> nombre, email, teléfono, nombre del restaurante</li>
-      <li><strong>Datos de negocio:</strong> menús, precios, ubicaciones, datos de ventas</li>
-      <li><strong>Datos de uso:</strong> interacciones con la plataforma, páginas visitadas</li>
-      <li><strong>Información de pago:</strong> procesada de forma segura por nuestro proveedor de pagos</li>
-      <li><strong>Datos de clientes finales:</strong> nombre, email, teléfono y preferencias de los clientes de tu restaurante</li>
-    </ul>
+function Footer({ lang }) {
+  const t = window.COPY[lang].footer;
+  return (
+    <footer>
+      <div className="wrap">
+        <div className="foot-grid">
+          <div className="foot-brand">
+            <a href="/" className="logo"><LogoMark /><span>Fluxsales</span></a>
+            <p>{t.tagline}</p>
+          </div>
+          <div className="foot-col">
+            <h4>{t.product}</h4>
+            <ul>{t.productLinks.map((l, i) => <li key={i}>{l}</li>)}</ul>
+          </div>
+          <div className="foot-col">
+            <h4>{t.company}</h4>
+            <ul>{t.companyLinks.map((l, i) => <li key={i}>{l}</li>)}</ul>
+          </div>
+          <div className="foot-col">
+            <h4>{t.resources}</h4>
+            <ul>{t.resourcesLinks.map((l, i) => <li key={i}>{l}</li>)}</ul>
+          </div>
+        </div>
+        <div className="foot-legal">
+          <span>{t.legal}</span>
+          <span>CDMX &middot; Monterrey &middot; Guadalajara</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
 
-    <h2>2. Cómo usamos tu información</h2>
-    <p>Utilizamos tu información para:</p>
-    <ul>
-      <li>Proporcionar y mejorar nuestros servicios</li>
-      <li>Procesar pedidos y transacciones</li>
-      <li>Enviar comunicaciones relevantes sobre tu cuenta</li>
-      <li>Generar analítica y reportes para tu negocio</li>
-      <li>Ejecutar campañas de marketing autorizadas por ti</li>
-      <li>Cumplir con obligaciones legales</li>
-    </ul>
+function PrivacyContent({ lang }) {
+  if (lang === "en") {
+    return (
+      <div className="legal-body">
+        <span className="eyebrow">Legal</span>
+        <h1>Privacy <em>Policy</em></h1>
+        <p className="updated">Last updated: May 26, 2026</p>
 
-    <h2>3. Compartición de datos</h2>
-    <p><strong>No vendemos tu información personal.</strong> Compartimos datos únicamente con:</p>
-    <ul>
-      <li>Proveedores de servicios necesarios para operar la plataforma (hosting, email, pagos)</li>
-      <li>Cuando sea requerido por ley o autoridad competente</li>
-      <li>Con tu consentimiento explícito</li>
-    </ul>
+        <h2>1. Information we collect</h2>
+        <p>We collect the following information when you use Fluxsales:</p>
+        <ul>
+          <li><strong>Account information:</strong> name, email, phone, restaurant name</li>
+          <li><strong>Business data:</strong> menus, prices, locations, sales data</li>
+          <li><strong>Usage data:</strong> interactions with the platform, pages visited</li>
+          <li><strong>Payment information:</strong> processed securely by our payment provider</li>
+          <li><strong>End-customer data:</strong> name, email, phone, and preferences of your restaurant's customers</li>
+        </ul>
 
-    <h2>4. Cookies y tecnologías de rastreo</h2>
-    <p>Utilizamos cookies y tecnologías similares para mejorar la experiencia del usuario y medir el rendimiento de nuestras campañas de marketing. Esto incluye:</p>
-    <ul>
-      <li><strong>Meta Pixel:</strong> para medir la efectividad de campañas publicitarias en Facebook e Instagram</li>
-      <li><strong>Google Analytics:</strong> para entender cómo los usuarios interactúan con nuestro sitio</li>
-      <li><strong>Cookies funcionales:</strong> para recordar tus preferencias de idioma y sesión</li>
-    </ul>
+        <h2>2. How we use your information</h2>
+        <p>We use your information to:</p>
+        <ul>
+          <li>Provide and improve our services</li>
+          <li>Process orders and transactions</li>
+          <li>Send relevant communications about your account</li>
+          <li>Generate analytics and reports for your business</li>
+          <li>Execute marketing campaigns authorized by you</li>
+          <li>Comply with legal obligations</li>
+        </ul>
 
-    <h2>5. Seguridad de datos</h2>
-    <p>Implementamos medidas técnicas y organizativas para proteger tu información, incluyendo cifrado en tránsito (TLS), acceso restringido a datos personales y monitoreo continuo de seguridad.</p>
+        <h2>3. Data sharing</h2>
+        <p><strong>We do not sell your personal information.</strong> We share data only with:</p>
+        <ul>
+          <li>Service providers necessary to operate the platform (hosting, email, payments)</li>
+          <li>When required by law or competent authority</li>
+          <li>With your explicit consent</li>
+        </ul>
 
-    <h2>6. Retención de datos</h2>
-    <p>Conservamos tu información mientras mantengas una cuenta activa con nosotros. Después de la cancelación, retenemos datos por un período máximo de 90 días antes de su eliminación, excepto cuando la ley requiera un período de retención mayor.</p>
+        <h2>4. Cookies and tracking technologies</h2>
+        <p>We use cookies and similar technologies to improve the user experience and measure the performance of our marketing campaigns. This includes:</p>
+        <ul>
+          <li><strong>Meta Pixel:</strong> to measure the effectiveness of advertising campaigns on Facebook and Instagram</li>
+          <li><strong>Google Analytics:</strong> to understand how users interact with our site</li>
+          <li><strong>Functional cookies:</strong> to remember your language and session preferences</li>
+        </ul>
 
-    <h2>7. Tus derechos</h2>
-    <p>Conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP), tienes derecho a:</p>
-    <ul>
-      <li><strong>Acceso:</strong> solicitar una copia de tus datos personales</li>
-      <li><strong>Rectificación:</strong> corregir datos inexactos</li>
-      <li><strong>Cancelación:</strong> solicitar la eliminación de tus datos</li>
-      <li><strong>Oposición:</strong> oponerte al tratamiento de tus datos</li>
-    </ul>
-    <p>Para ejercer estos derechos (derechos ARCO), envía un email a <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a>.</p>
+        <h2>5. Data security</h2>
+        <p>We implement technical and organizational measures to protect your information, including encryption in transit (TLS), restricted access to personal data, and continuous security monitoring.</p>
 
-    <h2>8. Eliminación de datos</h2>
-    <p>Puedes solicitar la eliminación completa de tus datos en cualquier momento a través de nuestra <a href="/data-deletion">página de eliminación de datos</a> o enviando un email a <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a>. Procesaremos tu solicitud en un máximo de 20 días hábiles.</p>
+        <h2>6. Data retention</h2>
+        <p>We retain your information while you maintain an active account with us. After cancellation, we retain data for a maximum period of 90 days before deletion, except where the law requires a longer retention period.</p>
 
-    <h2>9. Datos de menores</h2>
-    <p>Fluxsales no recopila intencionalmente información de menores de 18 años. Si descubrimos que hemos recopilado datos de un menor, los eliminaremos de inmediato.</p>
+        <h2>7. Your rights</h2>
+        <p>Under Mexican Federal Law for the Protection of Personal Data Held by Private Parties (LFPDPPP), you have the right to:</p>
+        <ul>
+          <li><strong>Access:</strong> request a copy of your personal data</li>
+          <li><strong>Rectification:</strong> correct inaccurate data</li>
+          <li><strong>Cancellation:</strong> request deletion of your data</li>
+          <li><strong>Opposition:</strong> object to the processing of your data</li>
+        </ul>
+        <p>To exercise these rights (ARCO rights), send an email to <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a>.</p>
 
-    <h2>10. Cambios a esta política</h2>
-    <p>Notificaremos cualquier cambio material a esta política por email con al menos 30 días de anticipación.</p>
+        <h2>8. Data deletion</h2>
+        <p>You can request complete deletion of your data at any time through our <a href="/data-deletion">data deletion page</a> or by sending an email to <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a>. We will process your request within a maximum of 20 business days.</p>
 
-    <h2>11. Contacto</h2>
-    <p>Para preguntas sobre privacidad, contacta a nuestro responsable de datos:</p>
-    <ul>
-      <li>Email: <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a></li>
-      <li>WhatsApp: <a href="https://wa.me/5214421716825">+52 1 442 171 6825</a></li>
-    </ul>
-  </main>
+        <h2>9. Children's data</h2>
+        <p>Fluxsales does not intentionally collect information from minors under 18 years of age. If we discover that we have collected data from a minor, we will delete it immediately.</p>
 
-  <footer class="legal-footer">
-    <p>Fluxsales · CDMX · Monterrey · Guadalajara</p>
-  </footer>
-</div>
+        <h2>10. Changes to this policy</h2>
+        <p>We will notify of any material changes to this policy by email at least 30 days in advance.</p>
+
+        <h2>11. Contact</h2>
+        <p>For privacy questions, contact our data officer:</p>
+        <ul>
+          <li>Email: <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a></li>
+          <li>WhatsApp: <a href="https://wa.me/5214421716825">+52 1 442 171 6825</a></li>
+        </ul>
+      </div>
+    );
+  }
+
+  return (
+    <div className="legal-body">
+      <span className="eyebrow">Legal</span>
+      <h1>Política de <em>Privacidad</em></h1>
+      <p className="updated">Última actualización: 26 de mayo de 2026</p>
+
+      <h2>1. Información que recopilamos</h2>
+      <p>Recopilamos la siguiente información cuando usas Fluxsales:</p>
+      <ul>
+        <li><strong>Información de cuenta:</strong> nombre, email, teléfono, nombre del restaurante</li>
+        <li><strong>Datos de negocio:</strong> menús, precios, ubicaciones, datos de ventas</li>
+        <li><strong>Datos de uso:</strong> interacciones con la plataforma, páginas visitadas</li>
+        <li><strong>Información de pago:</strong> procesada de forma segura por nuestro proveedor de pagos</li>
+        <li><strong>Datos de clientes finales:</strong> nombre, email, teléfono y preferencias de los clientes de tu restaurante</li>
+      </ul>
+
+      <h2>2. Cómo usamos tu información</h2>
+      <p>Utilizamos tu información para:</p>
+      <ul>
+        <li>Proporcionar y mejorar nuestros servicios</li>
+        <li>Procesar pedidos y transacciones</li>
+        <li>Enviar comunicaciones relevantes sobre tu cuenta</li>
+        <li>Generar analítica y reportes para tu negocio</li>
+        <li>Ejecutar campañas de marketing autorizadas por ti</li>
+        <li>Cumplir con obligaciones legales</li>
+      </ul>
+
+      <h2>3. Compartición de datos</h2>
+      <p><strong>No vendemos tu información personal.</strong> Compartimos datos únicamente con:</p>
+      <ul>
+        <li>Proveedores de servicios necesarios para operar la plataforma (hosting, email, pagos)</li>
+        <li>Cuando sea requerido por ley o autoridad competente</li>
+        <li>Con tu consentimiento explícito</li>
+      </ul>
+
+      <h2>4. Cookies y tecnologías de rastreo</h2>
+      <p>Utilizamos cookies y tecnologías similares para mejorar la experiencia del usuario y medir el rendimiento de nuestras campañas de marketing. Esto incluye:</p>
+      <ul>
+        <li><strong>Meta Pixel:</strong> para medir la efectividad de campañas publicitarias en Facebook e Instagram</li>
+        <li><strong>Google Analytics:</strong> para entender cómo los usuarios interactúan con nuestro sitio</li>
+        <li><strong>Cookies funcionales:</strong> para recordar tus preferencias de idioma y sesión</li>
+      </ul>
+
+      <h2>5. Seguridad de datos</h2>
+      <p>Implementamos medidas técnicas y organizativas para proteger tu información, incluyendo cifrado en tránsito (TLS), acceso restringido a datos personales y monitoreo continuo de seguridad.</p>
+
+      <h2>6. Retención de datos</h2>
+      <p>Conservamos tu información mientras mantengas una cuenta activa con nosotros. Después de la cancelación, retenemos datos por un período máximo de 90 días antes de su eliminación, excepto cuando la ley requiera un período de retención mayor.</p>
+
+      <h2>7. Tus derechos</h2>
+      <p>Conforme a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (LFPDPPP), tienes derecho a:</p>
+      <ul>
+        <li><strong>Acceso:</strong> solicitar una copia de tus datos personales</li>
+        <li><strong>Rectificación:</strong> corregir datos inexactos</li>
+        <li><strong>Cancelación:</strong> solicitar la eliminación de tus datos</li>
+        <li><strong>Oposición:</strong> oponerte al tratamiento de tus datos</li>
+      </ul>
+      <p>Para ejercer estos derechos (derechos ARCO), envía un email a <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a>.</p>
+
+      <h2>8. Eliminación de datos</h2>
+      <p>Puedes solicitar la eliminación completa de tus datos en cualquier momento a través de nuestra <a href="/data-deletion">página de eliminación de datos</a> o enviando un email a <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a>. Procesaremos tu solicitud en un máximo de 20 días hábiles.</p>
+
+      <h2>9. Datos de menores</h2>
+      <p>Fluxsales no recopila intencionalmente información de menores de 18 años. Si descubrimos que hemos recopilado datos de un menor, los eliminaremos de inmediato.</p>
+
+      <h2>10. Cambios a esta política</h2>
+      <p>Notificaremos cualquier cambio material a esta política por email con al menos 30 días de anticipación.</p>
+
+      <h2>11. Contacto</h2>
+      <p>Para preguntas sobre privacidad, contacta a nuestro responsable de datos:</p>
+      <ul>
+        <li>Email: <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a></li>
+        <li>WhatsApp: <a href="https://wa.me/5214421716825">+52 1 442 171 6825</a></li>
+      </ul>
+    </div>
+  );
+}
+
+function App() {
+  const [lang, setLang] = React.useState(() => {
+    try { return localStorage.getItem("flux_lang") || "es"; } catch { return "es"; }
+  });
+  React.useEffect(() => {
+    try { localStorage.setItem("flux_lang", lang); document.documentElement.lang = lang; } catch {}
+  }, [lang]);
+
+  return (
+    <>
+      <Nav lang={lang} setLang={setLang} />
+      <PrivacyContent lang={lang} />
+      <section className="endcta" id="demo">
+        <div className="wrap">
+          <span className="eyebrow" style={{ color: "#0d2c20" }}>{lang === "es" ? "Último paso" : "Last step"}</span>
+          <h2 className="display h2" style={{ margin: "16px auto 16px", maxWidth: "14ch" }}>
+            {lang === "es" ? "Dale superpoderes a tu restaurante." : "Give your restaurant superpowers."}
+          </h2>
+          <p>{lang === "es" ? "Demo gratuita de 20 minutos. Te mostramos resultados con tus propios números." : "20-minute free demo. We'll show you results using your own numbers."}</p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <a className="btn btn-primary" href="/demo">{lang === "es" ? "Agenda una demo" : "Book a demo"} &rarr;</a>
+            <a className="btn btn-secondary" href="https://wa.me/5214421716825">{lang === "es" ? "Hablar por WhatsApp" : "WhatsApp us"}</a>
+          </div>
+        </div>
+      </section>
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
 </body>
 </html>

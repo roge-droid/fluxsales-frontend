@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Propuesta — Fluxsales</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<!-- Google Fonts: Fraunces, Inter, JetBrains Mono -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../landing/styles.css" />
+<!-- React UMD -->
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<!-- Shared proposal components -->
+<script type="text/babel" src="../proposal/components.js"></script>
+<style>
+/* -- Slim prospect nav -- */
+.pd-nav {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: saturate(1.4) blur(12px);
+  background: rgba(255, 255, 255, 0.82);
+  border-bottom: 1px solid rgba(231, 228, 221, 0.8);
+}
+.pd-nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 62px;
+}
+.pd-nav-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--card);
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink-muted);
+}
+.pd-nav-badge .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green);
+  animation: pulseGreen 2s infinite;
+}
+@keyframes pulseGreen {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(87,185,144,.4); }
+  50% { box-shadow: 0 0 0 8px rgba(87,185,144,0); }
+}
+
+/* -- Loading state -- */
+.loading-wrap {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 80vh; gap: 24px;
+}
+.loading-logo {
+  animation: loadPulse 2s ease-in-out infinite;
+}
+@keyframes loadPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .5; transform: scale(.96); }
+}
+.loading-text {
+  font-family: var(--mono); font-size: 13px;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* -- Error state -- */
+.error-wrap {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  min-height: 80vh; gap: 16px; text-align: center;
+  padding: 0 28px;
+}
+.error-wrap h2 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: clamp(28px, 3.6vw, 44px);
+  line-height: 1.1; letter-spacing: -0.02em;
+  color: var(--ink-soft); font-weight: 400;
+  margin: 16px 0 8px;
+}
+.error-wrap p {
+  font-size: 16px; color: var(--ink-muted);
+  max-width: 44ch; line-height: 1.55;
+  margin: 0 0 24px;
+}
+.error-wrap a {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 500; color: var(--green-ink);
+  text-decoration: none;
+}
+.error-wrap a:hover { text-decoration: underline; }
+
+/* -- Slim footer -- */
+.pd-foot {
+  background: var(--cream); border-top: 1px solid var(--rule);
+  padding: 40px 0; font-family: var(--mono); font-size: 11px;
+  color: var(--ink-muted); letter-spacing: .08em; text-transform: uppercase;
+}
+.pd-foot .wrap {
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 14px;
+}
+.pd-foot .logo {
+  font-family: var(--serif); text-transform: none;
+  letter-spacing: -0.02em; font-size: 16px; color: var(--ink);
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+
+/* -- Logo mark (reused from proposal) -- */
+function LogoMark({ size = 28 }) {
+  return (
+    <span className="logo-mark" aria-hidden="true" style={{ width: size, height: size }}>
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor">
+          <rect x="54" y="40" width="50" height="172" rx="6"/>
+          <rect x="54" y="40" width="150" height="46" rx="6"/>
+          <rect x="54" y="108" width="98" height="38" rx="6"/>
+          <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+        </g>
+      </svg>
+    </span>
+  );
+}
+
+/* -- Loading state -- */
+function LoadingState() {
+  return (
+    <div className="loading-wrap">
+      <div className="loading-logo">
+        <span className="logo-mark" aria-hidden="true" style={{ width: 48, height: 48, color: "var(--green)" }}>
+          <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+            <g fill="currentColor">
+              <rect x="54" y="40" width="50" height="172" rx="6"/>
+              <rect x="54" y="40" width="150" height="46" rx="6"/>
+              <rect x="54" y="108" width="98" height="38" rx="6"/>
+              <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+            </g>
+          </svg>
+        </span>
+      </div>
+      <div className="loading-text">Cargando propuesta...</div>
+    </div>
+  );
+}
+
+/* -- Error state -- */
+function ErrorState({ message }) {
+  return (
+    <div className="error-wrap">
+      <span className="logo-mark" aria-hidden="true" style={{ width: 48, height: 48, color: "var(--green)" }}>
+        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+          <g fill="currentColor">
+            <rect x="54" y="40" width="50" height="172" rx="6"/>
+            <rect x="54" y="40" width="150" height="46" rx="6"/>
+            <rect x="54" y="108" width="98" height="38" rx="6"/>
+            <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+          </g>
+        </svg>
+      </span>
+      <h2>Propuesta no encontrada</h2>
+      <p>El enlace que seguiste puede haber expirado o ser incorrecto.</p>
+      <a href="/">Volver al inicio &rarr;</a>
+    </div>
+  );
+}
+
+/* -- Slim nav bar -- */
+function ProposalNav({ data }) {
+  const dateStr = data
+    ? new Date(data.createdAt || Date.now()).toLocaleDateString("es-MX", {
+        day: "numeric", month: "short", year: "numeric"
+      })
+    : null;
+
+  return (
+    <header className="pd-nav">
+      <div className="wrap pd-nav-inner">
+        <a href="/" className="logo">
+          <LogoMark />
+          <span>Fluxsales</span>
+        </a>
+
+        {data && (
+          <div className="pd-nav-badge">
+            <span className="dot" />
+            <span>Generado para: {data.restaurantName || data.companyName} | {dateStr}</span>
+          </div>
+        )}
+
+        <a href="/demo" className="btn btn-primary" style={{ padding: "9px 16px", fontSize: 13 }}>
+          Agendar demo <span className="arr">&rarr;</span>
+        </a>
+      </div>
+    </header>
+  );
+}
+
+/* -- Slim footer -- */
+function SlimFooter() {
+  return (
+    <footer className="pd-foot">
+      <div className="wrap">
+        <a href="/" className="logo">Fluxsales</a>
+        <div>Propuesta personalizada &middot; Confidencial</div>
+        <div>fluxsales.co</div>
+      </div>
+    </footer>
+  );
+}
+
+/* -- Main app -- */
+function App() {
+  const [data, setData] = React.useState(null);
+  const [error, setError] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const code = window.location.pathname.split("/p/")[1];
+    if (!code) {
+      setError("No proposal code");
+      setLoading(false);
+      return;
+    }
+    fetch("/api/proposals/" + code)
+      .then(r => {
+        if (!r.ok) throw new Error("not found");
+        return r.json();
+      })
+      .then(d => {
+        setData(d);
+        document.title = "Propuesta para " + (d.restaurantName || d.companyName) + " — Fluxsales";
+      })
+      .catch(() => setError("Propuesta no encontrada"))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <LoadingState />;
+  if (error) return <ErrorState message={error} />;
+
+  return (
+    <>
+      <ProposalNav data={data} />
+      <window.ProposalDoc.ProposalDocument data={data} />
+      <SlimFooter />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

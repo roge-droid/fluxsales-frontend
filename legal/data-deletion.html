@@ -10,11 +10,49 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../landing/styles.css" />
-<link rel="stylesheet" href="styles.css" />
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="../landing/content.js"></script>
 <style>
+.legal-body { max-width: 780px; margin: 0 auto; padding: 64px 28px 120px; }
+.legal-body .eyebrow { margin-bottom: 16px; }
+.legal-body h1 {
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 30;
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.05; letter-spacing: -0.025em;
+  color: var(--ink-soft); font-weight: 400;
+  margin: 0 0 12px;
+}
+.legal-body h1 em {
+  font-style: italic; color: var(--green-ink);
+  font-variation-settings: "opsz" 144, "SOFT" 80;
+}
+.legal-body .updated {
+  font-family: var(--mono); font-size: 12px;
+  letter-spacing: .06em; color: var(--ink-muted);
+  margin-bottom: 48px;
+}
+.legal-body h2 {
+  font-family: var(--sans); font-weight: 600;
+  font-size: 20px; letter-spacing: -0.01em;
+  color: var(--ink); margin: 48px 0 12px;
+  padding-top: 24px; border-top: 1px solid var(--rule);
+}
+.legal-body h2:first-of-type { margin-top: 0; border-top: none; padding-top: 0; }
+.legal-body p {
+  font-size: 15.5px; line-height: 1.6; color: var(--ink-muted);
+  margin: 0 0 16px;
+}
+.legal-body p strong { color: var(--ink); font-weight: 500; }
+.legal-body ul, .legal-body ol { padding-left: 20px; margin: 0 0 16px; }
+.legal-body li {
+  font-size: 15.5px; line-height: 1.6; color: var(--ink-muted);
+  margin-bottom: 8px;
+}
+.legal-body a { color: var(--green-ink); text-decoration: underline; }
+.legal-body a:hover { color: var(--green-deep); }
 .del-form {
   background: var(--card); border: 1px solid var(--rule);
   border-radius: var(--radius-lg); padding: 36px;
@@ -45,9 +83,7 @@
 }
 .del-submit:hover { background: var(--green-ink); }
 .del-submit:disabled { opacity: .5; cursor: not-allowed; }
-.del-success {
-  text-align: center; padding: 24px 0;
-}
+.del-success { text-align: center; padding: 24px 0; }
 .del-success .check {
   width: 56px; height: 56px; border-radius: 50%;
   background: var(--green); color: #0d2c20;
@@ -59,71 +95,91 @@
   border-radius: 8px; padding: 10px 14px; margin-bottom: 14px;
   font-size: 13px; color: #c45a2a;
 }
+@media (max-width: 640px) {
+  .legal-body { padding: 32px 20px 80px; }
+  .del-form { padding: 24px 20px; }
+}
 </style>
 </head>
 <body>
-<div class="legal-page">
-  <header class="legal-nav">
-    <a href="/" class="logo">
-      <span class="logo-mark">
-        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-          <g fill="currentColor">
-            <rect x="54" y="40" width="50" height="172" rx="6"/>
-            <rect x="54" y="40" width="150" height="46" rx="6"/>
-            <rect x="54" y="108" width="98" height="38" rx="6"/>
-            <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
-          </g>
-        </svg>
-      </span>
-      <span>Fluxsales</span>
-    </a>
-    <a href="/" class="back">← Inicio</a>
-  </header>
-
-  <main class="legal-content">
-    <span class="eyebrow">Privacidad</span>
-    <h1>Eliminación de <em>Datos</em></h1>
-    <p class="updated">Última actualización: 26 de mayo de 2026</p>
-
-    <p>Si utilizaste tu cuenta de Facebook o Instagram para interactuar con Fluxsales, o si deseas eliminar tus datos personales de nuestra plataforma, puedes solicitarlo aquí.</p>
-
-    <h2>Qué datos eliminamos</h2>
-    <p>Al procesar tu solicitud, eliminaremos:</p>
-    <ul>
-      <li>Tu información de contacto (nombre, email, teléfono)</li>
-      <li>Datos de tu restaurante asociados a tu cuenta</li>
-      <li>Historial de interacciones y preferencias</li>
-      <li>Datos de campañas y marketing</li>
-    </ul>
-    <p><strong>No eliminamos:</strong> registros de transacciones financieras que estamos obligados a retener por ley (SAT) por un período de 5 años.</p>
-
-    <h2>Proceso</h2>
-    <ol>
-      <li>Completa el formulario de abajo con tu email registrado</li>
-      <li>Recibirás un email de confirmación en 48 horas</li>
-      <li>Tus datos serán eliminados en un máximo de 20 días hábiles</li>
-      <li>Te enviaremos una confirmación final cuando el proceso esté completo</li>
-    </ol>
-
-    <div id="deletion-form"></div>
-
-    <h2>Solicitud por otros medios</h2>
-    <p>También puedes solicitar la eliminación de datos por:</p>
-    <ul>
-      <li>Email: <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a></li>
-      <li>WhatsApp: <a href="https://wa.me/5214421716825">+52 1 442 171 6825</a></li>
-    </ul>
-
-    <h2>Meta (Facebook/Instagram)</h2>
-    <p>Si vinculaste tu cuenta de Facebook o Instagram con nuestros servicios, esta página cumple con los requisitos de eliminación de datos de la plataforma Meta. Tu solicitud será procesada conforme a la <a href="https://developers.facebook.com/docs/development/create-an-app/app-dashboard/data-deletion-callback" target="_blank" rel="noopener">política de eliminación de datos de Meta</a>.</p>
-  </main>
-
-  <footer class="legal-footer">
-    <p>Fluxsales · CDMX · Monterrey · Guadalajara</p>
-  </footer>
-</div>
-
+<div id="root"></div>
 <script type="text/babel">
+function LogoMark() {
+  return (
+    <span className="logo-mark" aria-hidden="true">
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor">
+          <rect x="54" y="40" width="50" height="172" rx="6"/>
+          <rect x="54" y="40" width="150" height="46" rx="6"/>
+          <rect x="54" y="108" width="98" height="38" rx="6"/>
+          <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+        </g>
+      </svg>
+    </span>
+  );
+}
+
+function Nav({ lang, setLang }) {
+  const t = window.COPY[lang].nav;
+  return (
+    <header className="nav">
+      <div className="wrap nav-inner">
+        <a href="/" className="logo">
+          <LogoMark />
+          <span>Fluxsales</span>
+        </a>
+        <nav className="nav-links">
+          <a href="/#product">{t.product}</a>
+          <a href="/#how">{t.howItWorks}</a>
+          <a href="/#pricing">{t.pricing}</a>
+          <a href="/#stories">{t.stories}</a>
+          <a href="/#faq">{lang === "es" ? "Preguntas" : "FAQ"}</a>
+        </nav>
+        <div className="nav-right">
+          <div className="lang-toggle" role="group" aria-label="language">
+            <button className={lang === "es" ? "on" : ""} onClick={() => setLang("es")}>ES</button>
+            <button className={lang === "en" ? "on" : ""} onClick={() => setLang("en")}>EN</button>
+          </div>
+          <a href="#" className="btn btn-ghost">{t.login}</a>
+          <a href="/demo" className="btn btn-primary">{t.cta} <span className="arr">&rarr;</span></a>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function Footer({ lang }) {
+  const t = window.COPY[lang].footer;
+  return (
+    <footer>
+      <div className="wrap">
+        <div className="foot-grid">
+          <div className="foot-brand">
+            <a href="/" className="logo"><LogoMark /><span>Fluxsales</span></a>
+            <p>{t.tagline}</p>
+          </div>
+          <div className="foot-col">
+            <h4>{t.product}</h4>
+            <ul>{t.productLinks.map((l, i) => <li key={i}>{l}</li>)}</ul>
+          </div>
+          <div className="foot-col">
+            <h4>{t.company}</h4>
+            <ul>{t.companyLinks.map((l, i) => <li key={i}>{l}</li>)}</ul>
+          </div>
+          <div className="foot-col">
+            <h4>{t.resources}</h4>
+            <ul>{t.resourcesLinks.map((l, i) => <li key={i}>{l}</li>)}</ul>
+          </div>
+        </div>
+        <div className="foot-legal">
+          <span>{t.legal}</span>
+          <span>CDMX &middot; Monterrey &middot; Guadalajara</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
 function DeletionForm() {
   const [email, setEmail] = React.useState("");
   const [reason, setReason] = React.useState("");
@@ -204,7 +260,121 @@ function DeletionForm() {
   );
 }
 
-ReactDOM.createRoot(document.getElementById("deletion-form")).render(<DeletionForm />);
+function DataDeletionContent({ lang }) {
+  if (lang === "en") {
+    return (
+      <div className="legal-body">
+        <span className="eyebrow">Privacy</span>
+        <h1>Data <em>Deletion</em></h1>
+        <p className="updated">Last updated: May 26, 2026</p>
+
+        <p>If you used your Facebook or Instagram account to interact with Fluxsales, or if you wish to delete your personal data from our platform, you can request it here.</p>
+
+        <h2>What data we delete</h2>
+        <p>When processing your request, we will delete:</p>
+        <ul>
+          <li>Your contact information (name, email, phone)</li>
+          <li>Your restaurant data associated with your account</li>
+          <li>Interaction history and preferences</li>
+          <li>Campaign and marketing data</li>
+        </ul>
+        <p><strong>We do not delete:</strong> financial transaction records that we are required by law (SAT) to retain for a period of 5 years.</p>
+
+        <h2>Process</h2>
+        <ol>
+          <li>Complete the form below with your registered email</li>
+          <li>You will receive a confirmation email within 48 hours</li>
+          <li>Your data will be deleted within a maximum of 20 business days</li>
+          <li>We will send you a final confirmation when the process is complete</li>
+        </ol>
+
+        <DeletionForm />
+
+        <h2>Request by other means</h2>
+        <p>You can also request data deletion via:</p>
+        <ul>
+          <li>Email: <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a></li>
+          <li>WhatsApp: <a href="https://wa.me/5214421716825">+52 1 442 171 6825</a></li>
+        </ul>
+
+        <h2>Meta (Facebook/Instagram)</h2>
+        <p>If you linked your Facebook or Instagram account with our services, this page complies with Meta's data deletion requirements. Your request will be processed in accordance with <a href="https://developers.facebook.com/docs/development/create-an-app/app-dashboard/data-deletion-callback" target="_blank" rel="noopener">Meta's data deletion policy</a>.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="legal-body">
+      <span className="eyebrow">Privacidad</span>
+      <h1>Eliminación de <em>Datos</em></h1>
+      <p className="updated">Última actualización: 26 de mayo de 2026</p>
+
+      <p>Si utilizaste tu cuenta de Facebook o Instagram para interactuar con Fluxsales, o si deseas eliminar tus datos personales de nuestra plataforma, puedes solicitarlo aquí.</p>
+
+      <h2>Qué datos eliminamos</h2>
+      <p>Al procesar tu solicitud, eliminaremos:</p>
+      <ul>
+        <li>Tu información de contacto (nombre, email, teléfono)</li>
+        <li>Datos de tu restaurante asociados a tu cuenta</li>
+        <li>Historial de interacciones y preferencias</li>
+        <li>Datos de campañas y marketing</li>
+      </ul>
+      <p><strong>No eliminamos:</strong> registros de transacciones financieras que estamos obligados a retener por ley (SAT) por un período de 5 años.</p>
+
+      <h2>Proceso</h2>
+      <ol>
+        <li>Completa el formulario de abajo con tu email registrado</li>
+        <li>Recibirás un email de confirmación en 48 horas</li>
+        <li>Tus datos serán eliminados en un máximo de 20 días hábiles</li>
+        <li>Te enviaremos una confirmación final cuando el proceso esté completo</li>
+      </ol>
+
+      <DeletionForm />
+
+      <h2>Solicitud por otros medios</h2>
+      <p>También puedes solicitar la eliminación de datos por:</p>
+      <ul>
+        <li>Email: <a href="mailto:privacidad@fluxsales.co">privacidad@fluxsales.co</a></li>
+        <li>WhatsApp: <a href="https://wa.me/5214421716825">+52 1 442 171 6825</a></li>
+      </ul>
+
+      <h2>Meta (Facebook/Instagram)</h2>
+      <p>Si vinculaste tu cuenta de Facebook o Instagram con nuestros servicios, esta página cumple con los requisitos de eliminación de datos de la plataforma Meta. Tu solicitud será procesada conforme a la <a href="https://developers.facebook.com/docs/development/create-an-app/app-dashboard/data-deletion-callback" target="_blank" rel="noopener">política de eliminación de datos de Meta</a>.</p>
+    </div>
+  );
+}
+
+function App() {
+  const [lang, setLang] = React.useState(() => {
+    try { return localStorage.getItem("flux_lang") || "es"; } catch { return "es"; }
+  });
+  React.useEffect(() => {
+    try { localStorage.setItem("flux_lang", lang); document.documentElement.lang = lang; } catch {}
+  }, [lang]);
+
+  return (
+    <>
+      <Nav lang={lang} setLang={setLang} />
+      <DataDeletionContent lang={lang} />
+      <section className="endcta" id="demo">
+        <div className="wrap">
+          <span className="eyebrow" style={{ color: "#0d2c20" }}>{lang === "es" ? "Último paso" : "Last step"}</span>
+          <h2 className="display h2" style={{ margin: "16px auto 16px", maxWidth: "14ch" }}>
+            {lang === "es" ? "Dale superpoderes a tu restaurante." : "Give your restaurant superpowers."}
+          </h2>
+          <p>{lang === "es" ? "Demo gratuita de 20 minutos. Te mostramos resultados con tus propios números." : "20-minute free demo. We'll show you results using your own numbers."}</p>
+          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+            <a className="btn btn-primary" href="/demo">{lang === "es" ? "Agenda una demo" : "Book a demo"} &rarr;</a>
+            <a className="btn btn-secondary" href="https://wa.me/5214421716825">{lang === "es" ? "Hablar por WhatsApp" : "WhatsApp us"}</a>
+          </div>
+        </div>
+      </section>
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 </script>
 </body>
 </html>

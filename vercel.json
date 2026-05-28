@@ -47,6 +47,10 @@
       "destination": "/proposal/index.html"
     },
     {
+      "source": "/p/:code",
+      "destination": "/p/index.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/landing/$1"
     }
