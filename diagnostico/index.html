@@ -458,6 +458,58 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
 @media (max-width: 480px) {
   .dx-gate-overlay { margin: 0 -18px; padding: 0 18px 18px; }
 }
+
+/* Trust bar */
+.dx-trust-bar {
+  display: flex; justify-content: center; gap: 24px;
+  margin: -8px 0 20px; padding: 0;
+  flex-wrap: wrap;
+}
+.dx-trust-item {
+  font-size: 13px; color: var(--diag-subtle);
+  font-weight: 500; white-space: nowrap;
+}
+.dx-trust-item strong {
+  color: var(--diag-navy); font-weight: 700;
+}
+
+/* Testimonials */
+.dx-testimonials {
+  display: flex; flex-direction: column; gap: 16px;
+  max-width: 520px; margin: 24px auto 0; padding: 0 20px;
+}
+.dx-testi {
+  background: var(--diag-card);
+  border: 1px solid var(--diag-border);
+  border-radius: 12px; padding: 20px;
+}
+.dx-testi-quote {
+  font-size: 14px; color: var(--diag-navy);
+  line-height: 1.6; margin: 0 0 12px;
+  font-style: italic;
+}
+.dx-testi-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.dx-testi-who {
+  font-size: 13px; color: var(--diag-subtle); line-height: 1.4;
+}
+.dx-testi-name {
+  font-weight: 600; color: var(--diag-navy);
+}
+.dx-testi-metric {
+  font-size: 12px; font-weight: 600;
+  color: var(--diag-green); background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 20px; padding: 4px 12px;
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .dx-trust-bar { gap: 12px; }
+  .dx-trust-item { font-size: 12px; }
+  .dx-testimonials { padding: 0; }
+}
 </style>
 </head>
 <body>
@@ -816,10 +868,11 @@ function DiagnosticoApp() {
           types: ["establishment"],
           componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
         });
-        el.style.cssText = "width:100%;font-size:15px;";
+        el.style.cssText = "width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--diag-border);border-radius:10px;box-sizing:border-box;";
         el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
         const inp = container.querySelector("input");
-        if (inp) inp.style.display = "none";
+        if (inp) { inp.style.opacity = "0"; inp.style.position = "absolute"; inp.style.pointerEvents = "none"; }
+        container.style.position = "relative";
         container.appendChild(el);
         setPlacesMounted(true);
         clearTimeout(hintTimer);
@@ -838,7 +891,7 @@ function DiagnosticoApp() {
             setTimeout(() => {
               const container = placesRef.current;
               if (container) {
-                container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
               }
             }, 300);
           } catch (err) { console.error("[places] gmp-select error:", err); }
@@ -993,11 +1046,9 @@ function DiagnosticoApp() {
           <input type="text" placeholder="Ej. Bora Bora Pizzas" value={companyName}
             onChange={(e) => setCompanyName(e.target.value)} autoFocus />
         </div>
-        {placesHint && !placesMounted && (
-          <div style={{ fontSize: 12, color: "var(--diag-muted)", marginTop: 6 }}>
-            Escribe el nombre y haz clic en "Ver mi diagnóstico"
-          </div>
-        )}
+        <div style={{ fontSize: 12, color: "var(--diag-muted)", marginTop: 6, minHeight: 18, visibility: placesHint && !placesMounted ? "visible" : "hidden" }}>
+          Escribe el nombre y haz clic en "Ver mi diagnóstico"
+        </div>
         {placeId && (
           <div className="dx-place-ok">
             <span className="dot" />
@@ -1335,7 +1386,39 @@ function DiagnosticoApp() {
               <p>Descubre tu calificación, reseñas, presencia web y cómo te comparas con tu competencia — en 30 segundos.</p>
             </div>
           )}
+          {step === "search" && (
+            <div className="dx-trust-bar">
+              <span className="dx-trust-item"><strong>1,400+</strong> restaurantes</span>
+              <span className="dx-trust-item"><strong>+38%</strong> ventas en 90 días</span>
+              <span className="dx-trust-item"><strong>3.2x</strong> tasa de retorno</span>
+            </div>
+          )}
           {step === "search" && renderSearch()}
+          {step === "search" && (
+            <div className="dx-testimonials">
+              <div className="dx-testi">
+                <p className="dx-testi-quote">"Bajamos nuestra dependencia de Rappi del 70% al 28% en cinco meses."</p>
+                <div className="dx-testi-footer">
+                  <div className="dx-testi-who"><span className="dx-testi-name">Ricardo Mendoza</span><br/>Co-fundador, Bora Bora Pizzas</div>
+                  <span className="dx-testi-metric">-$412K comisiones/año</span>
+                </div>
+              </div>
+              <div className="dx-testi">
+                <p className="dx-testi-quote">"Ahora Fluxsales hace mis posts por mí y vendemos el doble los martes."</p>
+                <div className="dx-testi-footer">
+                  <div className="dx-testi-who"><span className="dx-testi-name">Andrea Castellanos</span><br/>Dueña, Cosi Fan Tutte</div>
+                  <span className="dx-testi-metric">2x ventas martes</span>
+                </div>
+              </div>
+              <div className="dx-testi">
+                <p className="dx-testi-quote">"Los clientes reciben un mensaje el día de su cumpleaños y vienen con tres amigos."</p>
+                <div className="dx-testi-footer">
+                  <div className="dx-testi-who"><span className="dx-testi-name">Mariana Ortiz</span><br/>Operaciones, Dolce Bisquet</div>
+                  <span className="dx-testi-metric">3.2x retorno</span>
+                </div>
+              </div>
+            </div>
+          )}
           {step === "scorecard" && renderScorecard()}
           {step === "contact" && renderContact()}
         </div>
