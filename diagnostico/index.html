@@ -39,7 +39,7 @@ fbq('init','590520096533350');fbq('track','PageView');
   --diag-bg: #f8fafc;
   --diag-card: #ffffff;
   --diag-border: #e2e8f0;
-  --diag-muted: #94a3b8;
+  --diag-muted: #64748b;
   --diag-subtle: #64748b;
   --diag-rule: #f1f5f9;
 }
@@ -186,9 +186,9 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
   color: var(--diag-navy); line-height: 1.2;
 }
 .dx-metric-label { font-size: 12px; color: var(--diag-muted); line-height: 1.3; }
-.dx-metric--good { border-left: 3px solid var(--diag-green); }
-.dx-metric--warn { border-left: 3px solid var(--diag-yellow); }
-.dx-metric--bad  { border-left: 3px solid var(--diag-red); }
+.dx-metric--good { background: #f0fdf4; }
+.dx-metric--warn { background: #fffbeb; }
+.dx-metric--bad  { background: #fef2f2; }
 .dx-divider {
   display: flex; align-items: center; gap: 12px;
   margin: 0 0 16px; color: var(--diag-muted); font-size: 12px;
@@ -249,9 +249,9 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
   padding: 12px; margin-bottom: 8px;
   background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
 }
-.dx-eval-item--good { border-left: 3px solid #10b981; }
-.dx-eval-item--warn { border-left: 3px solid #f59e0b; }
-.dx-eval-item--bad  { border-left: 3px solid #ef4444; }
+.dx-eval-item--good { background: #f0fdf4; }
+.dx-eval-item--warn { background: #fffbeb; }
+.dx-eval-item--bad  { background: #fef2f2; }
 .dx-eval-verdict {
   display: flex; align-items: center; gap: 6px;
   font-family: "DM Sans", var(--sans); font-weight: 600; font-size: 14px;
@@ -339,7 +339,7 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
 }
 .dx-bk-dates::-webkit-scrollbar { display: none; }
 .dx-bk-date {
-  flex: 0 0 auto; padding: 8px 6px; min-width: 50px;
+  flex: 0 0 auto; padding: 10px 8px; min-width: 50px; min-height: 48px;
   border-radius: 10px; text-align: center; transition: .15s;
 }
 .dx-bk-date:hover { background: var(--diag-rule); }
@@ -377,6 +377,23 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
 }
 .dx-footer a { color: var(--diag-blue); text-decoration: underline; }
 
+.dx-sticky-cta {
+  display: none;
+}
+@media (max-width: 640px) {
+  .dx-sticky-cta {
+    display: block;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,.95);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid var(--diag-border);
+    padding: 12px 16px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 100;
+  }
+  .dx-sticky-cta .dx-btn { margin: 0; }
+  .dx-scorecard-pad { padding-bottom: 88px; }
+}
 @media (max-width: 480px) {
   .dx-card { padding: 24px 18px; }
   .dx-hero h1 { font-size: 24px; }
@@ -699,8 +716,14 @@ function DiagnosticoApp() {
   const [competitors, setCompetitors] = React.useState([]);
   const [scoreFailed, setScoreFailed] = React.useState(false);
 
+  const [scoreFailMsg, setScoreFailMsg] = React.useState(false);
+
   React.useEffect(() => {
-    if (scoreFailed) setStep("contact");
+    if (scoreFailed) {
+      setScoreFailMsg(true);
+      const t = setTimeout(() => { setScoreFailMsg(false); setStep("contact"); }, 3000);
+      return () => clearTimeout(t);
+    }
   }, [scoreFailed]);
 
   // Contact form state
@@ -717,9 +740,11 @@ function DiagnosticoApp() {
 
   const placesRef = React.useRef(null);
   const [placesMounted, setPlacesMounted] = React.useState(false);
+  const [placesHint, setPlacesHint] = React.useState(false);
 
   React.useEffect(() => {
     if (step !== "search" || placesMounted) return;
+    const hintTimer = setTimeout(() => { setPlacesHint(true); }, 5000);
     function tryMount() {
       const container = placesRef.current;
       if (!container || !window.google?.maps?.places?.PlaceAutocompleteElement) return false;
@@ -734,6 +759,8 @@ function DiagnosticoApp() {
         if (inp) inp.style.display = "none";
         container.appendChild(el);
         setPlacesMounted(true);
+        clearTimeout(hintTimer);
+        setPlacesHint(false);
 
         el.addEventListener("gmp-select", async (e) => {
           try {
@@ -745,6 +772,12 @@ function DiagnosticoApp() {
             const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
             const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
             if (n || pid) { setCompanyName(n); setPlaceId(pid); setPlaceAddress(a); }
+            setTimeout(() => {
+              const container = placesRef.current;
+              if (container) {
+                container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
+            }, 300);
           } catch (err) { console.error("[places] gmp-select error:", err); }
         });
 
@@ -752,9 +785,10 @@ function DiagnosticoApp() {
       } catch (err) { console.error("[places] init error:", err); return false; }
     }
     if (!tryMount()) {
-      const iv = setInterval(() => { if (tryMount()) clearInterval(iv); }, 500);
-      return () => clearInterval(iv);
+      const iv = setInterval(() => { if (tryMount()) { clearInterval(iv); clearTimeout(hintTimer); } }, 500);
+      return () => { clearInterval(iv); clearTimeout(hintTimer); };
     }
+    return () => clearTimeout(hintTimer);
   }, [step, placesMounted]);
 
   const fetchScorecard = () => {
@@ -811,6 +845,12 @@ function DiagnosticoApp() {
       setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
       setAssignedAE(result.assignedAE || "Mariana");
       setSuccess(true);
+      if (window.clarity) {
+        const s = enrich ? computeDigitalScore(enrich, competitors) : 0;
+        window.clarity("set", "score_tier", s >= 70 ? "high" : s >= 40 ? "mid" : "low");
+        window.clarity("set", "funnel_step", "contact_submitted");
+        window.clarity("set", "demo_booked", result.showCalendar ? "pending" : "no_calendar");
+      }
       if (typeof fbq === "function" && result.eventId) {
         fbq("track", "Lead", { content_name: "diagnostico_page", value: 0, currency: "MXN" }, { eventID: result.eventId });
       } else if (typeof fbq === "function") {
@@ -830,6 +870,11 @@ function DiagnosticoApp() {
           <input type="text" placeholder="Ej. Bora Bora Pizzas" value={companyName}
             onChange={(e) => setCompanyName(e.target.value)} autoFocus />
         </div>
+        {placesHint && !placesMounted && (
+          <div style={{ fontSize: 12, color: "var(--diag-muted)", marginTop: 6 }}>
+            Escribe el nombre y haz clic en "Ver mi diagnóstico"
+          </div>
+        )}
         {placeId && (
           <div className="dx-place-ok">
             <span className="dot" />
@@ -882,6 +927,13 @@ function DiagnosticoApp() {
         </div>
       );
     }
+    if (scoreFailMsg) return (
+      <div className="dx-card" style={{ textAlign: "center", padding: "40px 24px" }}>
+        <p style={{ fontSize: 15, color: "var(--diag-subtle)", margin: 0 }}>
+          No pudimos cargar tu diagnóstico completo, pero puedes agendar tu demo directamente.
+        </p>
+      </div>
+    );
     if (scoreFailed || !enrich) return null;
 
     const score = computeDigitalScore(enrich, competitors);
@@ -900,10 +952,18 @@ function DiagnosticoApp() {
       else if (betterThan > 0) { rankText = "Mejor que " + betterThan + " de " + total + " competidores"; rankClass = betterThan >= total/2 ? "" : "dx-ranking--warn"; }
       else { rankText = "Por debajo de tus " + total + " competidores"; rankClass = "dx-ranking--bad"; }
     }
-    const isWarm = score < 40;
+    const scoreTier = score >= 70 ? "high" : score >= 40 ? "mid" : "low";
+    const firstGapSection = evaluation.sections.find(s => s.status === "bad" || s.status === "warn");
+    const biggestGapSection = evaluation.sections.find(s => s.status === "bad") || evaluation.sections.find(s => s.status === "warn");
+    const tierCta = scoreTier === "high"
+      ? ("Tu restaurante ya destaca — pero " + (firstGapSection ? firstGapSection.verdict.toLowerCase() : "hay detalles por pulir") + ". Agenda tu demo para capitalizarlo.")
+      : scoreTier === "mid"
+      ? ((biggestGapSection ? biggestGapSection.verdict : "Presencia digital") + " es tu mayor oportunidad.")
+      : null;
+    const tierBtnText = scoreTier === "high" ? "Agendar mi demo →" : "Quiero mejorar mi presencia digital →";
 
     return (
-      <div className="dx-card">
+      <div className="dx-card dx-scorecard-pad">
         <button className="dx-back" onClick={() => setStep("search")}>← Cambiar restaurante</button>
         <div className="dx-name">{companyName}</div>
         <div className="dx-score-section"><ScoreRing score={score} /></div>
@@ -965,7 +1025,7 @@ function DiagnosticoApp() {
             {rankText && <div className={"dx-ranking " + rankClass}>{rankText}</div>}
           </>
         )}
-        {isWarm ? (
+        {scoreTier === "low" ? (
           <>
             <div className="dx-warm-title">Lo bueno: todo esto se puede mejorar</div>
             <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, margin: "0 0 16px" }}>
@@ -978,8 +1038,21 @@ function DiagnosticoApp() {
             <button className="dx-btn dx-btn--ghost" onClick={() => setStep("contact")}>Agendar demo de todas formas</button>
           </>
         ) : (
-          <button className="dx-btn" onClick={() => setStep("contact")}>Quiero mejorar mi presencia digital →</button>
+          <>
+            <p className="dx-summary" style={{ margin: "16px 0" }}>{tierCta}</p>
+            <button className="dx-btn" onClick={() => setStep("contact")}>{tierBtnText}</button>
+          </>
         )}
+        <div className="dx-sticky-cta">
+          {scoreTier === "low" ? (
+            <a href={"https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, acabo de hacer el diagnóstico de " + companyName + " y quiero mejorar mi presencia digital")}
+              className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
+              Habla con un experto por WhatsApp
+            </a>
+          ) : (
+            <button className="dx-btn" onClick={() => setStep("contact")}>{tierBtnText}</button>
+          )}
+        </div>
       </div>
     );
   };
@@ -1019,10 +1092,10 @@ function DiagnosticoApp() {
         </h3>
         {error && <div className="dx-error">{error}</div>}
         <div className="dx-name-row">
-          <div className="dx-field"><label>Nombre</label><input type="text" placeholder="Nombre" value={form.first_name} onChange={set("first_name")} autoFocus /></div>
-          <div className="dx-field"><label>Apellido</label><input type="text" placeholder="Apellido" value={form.last_name} onChange={set("last_name")} /></div>
+          <div className="dx-field"><label>Nombre</label><input type="text" placeholder="Nombre" value={form.first_name} onChange={set("first_name")} data-clarity-mask="true" autoFocus /></div>
+          <div className="dx-field"><label>Apellido</label><input type="text" placeholder="Apellido" value={form.last_name} onChange={set("last_name")} data-clarity-mask="true" /></div>
         </div>
-        <div className="dx-field"><label>Email</label><input type="email" placeholder="tu@restaurante.com" value={form.email} onChange={set("email")} /></div>
+        <div className="dx-field"><label>Email</label><input type="email" placeholder="tu@restaurante.com" value={form.email} onChange={set("email")} data-clarity-mask="true" /></div>
         <div className="dx-field">
           <label>WhatsApp</label>
           <div className="dx-phone-row">
@@ -1033,7 +1106,7 @@ function DiagnosticoApp() {
               <option value="+593">+593</option><option value="+502">+502</option>
             </select>
             <input type="tel" inputMode="numeric" maxLength={14} placeholder="55 1234 5678"
-              value={form.phone} onChange={(e) => {
+              data-clarity-mask="true" value={form.phone} onChange={(e) => {
                 const raw = e.target.value.replace(/[^\d\s\-()]/g, "");
                 if (raw.replace(/\D/g, "").length > maxDigits) return;
                 setForm({ ...form, phone: raw }); setPhoneError("");
