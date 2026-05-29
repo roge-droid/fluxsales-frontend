@@ -88,6 +88,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dx-hero p {
   font-size: 15px; color: var(--diag-subtle); margin: 0; line-height: 1.5;
 }
+.dx-hero-badge {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  color: var(--diag-blue); background: #eff6ff; border: 1px solid #dbeafe;
+  border-radius: 20px; padding: 4px 12px; margin: 0 0 12px;
+}
+.dx-hero-note {
+  font-size: 13px; color: var(--diag-muted); margin-top: 10px !important;
+  font-weight: 500;
+}
 
 .dx-card {
   background: var(--diag-card); border: 1px solid var(--diag-border);
@@ -455,8 +464,20 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
   font-size: 14px; color: var(--diag-subtle);
   margin: 0 0 20px; line-height: 1.5;
 }
+.dx-deep { margin-top: 4px; }
+.dx-demo-gate {
+  border: 1px solid var(--diag-border);
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 20px 18px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.dx-demo-gate .dx-bk-header, .dx-demo-gate .dx-bk-dates,
+.dx-demo-gate .dx-bk-slots { text-align: left; }
 @media (max-width: 480px) {
   .dx-gate-overlay { margin: 0 -18px; padding: 0 18px 18px; }
+  .dx-demo-gate { padding: 18px 14px; }
 }
 
 /* Trust bar */
@@ -492,6 +513,14 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
   display: flex; align-items: center; justify-content: space-between;
   gap: 12px; flex-wrap: wrap;
 }
+.dx-testi-id {
+  display: flex; align-items: center; gap: 10px;
+}
+.dx-testi-photo {
+  width: 44px; height: 44px; border-radius: 10px;
+  object-fit: cover; flex-shrink: 0;
+  border: 1px solid var(--diag-border);
+}
 .dx-testi-who {
   font-size: 13px; color: var(--diag-subtle); line-height: 1.4;
 }
@@ -518,11 +547,13 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
 const API_URL = "/api/demo-page/lead-intake";
 const SESSION_ID = "sess_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
 
+const FUNNEL_VERSION = "v2-demogate";
+
 function fireEvent(eventType, placeId) {
   fetch("/api/diagnostico/event", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ event_type: eventType, place_id: placeId, session_id: SESSION_ID }),
+    body: JSON.stringify({ event_type: eventType, place_id: placeId, session_id: SESSION_ID, funnel_version: FUNNEL_VERSION }),
   }).catch(() => {});
 }
 
@@ -701,7 +732,7 @@ function ScoreRing({ score, size = 120, strokeWidth = 8 }) {
   );
 }
 
-function CalendarBooking({ firstName, lastName, email, phone, companyName, assignedAE, calendarUrl }) {
+function CalendarBooking({ firstName, lastName, email, phone, companyName, assignedAE, calendarUrl, onBooked, sessionId, placeId }) {
   const [loading, setLoading] = React.useState(true);
   const [dates, setDates] = React.useState([]);
   const [selectedDate, setSelectedDate] = React.useState(0);
@@ -733,12 +764,14 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
         body: JSON.stringify({
           ae: assignedAE, start: selectedSlot.start, end: selectedSlot.end,
           first_name: firstName, last_name: lastName, email, phone, company_name: companyName,
+          session_id: sessionId, source: "diagnostico", place_id: placeId || undefined,
         }),
       });
       const result = await res.json();
       if (!res.ok) { setError(result.error || "No pudimos agendar tu demo."); return; }
       setBooked(result);
-      fireEvent("demo_booked", "");
+      fireEvent("demo_booked", placeId || "");
+      if (onBooked) onBooked();
       if (window.clarity) window.clarity("set", "funnel_step", "demo_booked");
       if (typeof fbq === "function" && result.eventId) {
         fbq("track", "Schedule", { content_name: "diagnostico_booking", value: 0, currency: "MXN" }, { eventID: "schedule_" + result.eventId });
@@ -763,7 +796,8 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
     return (
       <div style={{ textAlign: "center" }}>
         <p style={{ fontSize: 16, color: "#2563eb", fontWeight: 600, margin: "0 0 16px" }}>Tu restaurante califica para una demo personalizada.</p>
-        <a href={calendarUrl} className="dx-btn" style={{ display: "flex", textDecoration: "none" }}>Agendar mi demo de 20 min →</a>
+        <a href={calendarUrl} target="_blank" rel="noopener" className="dx-btn" style={{ display: "flex", textDecoration: "none" }}
+          onClick={() => { if (onBooked) onBooked(); }}>Agendar mi demo de 20 min →</a>
         <div className="dx-bk-links" style={{ marginTop: 12 }}>
           <a href="https://wa.me/5214421716825">WhatsApp</a>
         </div>
@@ -823,6 +857,7 @@ function DiagnosticoApp() {
   const [placeId, setPlaceId] = React.useState("");
   const [placeAddress, setPlaceAddress] = React.useState("");
   const [unlocked, setUnlocked] = React.useState(false);
+  const [fullUnlocked, setFullUnlocked] = React.useState(false);
   const [error, setError] = React.useState(null);
 
   // Scorecard state
@@ -918,6 +953,18 @@ function DiagnosticoApp() {
     }
   }, [isQualified]);
 
+  // Fires once when the full diagnostic (improvements + competitors) is revealed —
+  // on demo booked (qualified) or on contact submit (non-qualified). New event name,
+  // distinct from scorecard_unlocked, to keep mid-test trend data clean.
+  const demoGateRef = React.useRef(null);
+  const fullRevealedRef = React.useRef(false);
+  const fireFullReveal = () => {
+    if (fullRevealedRef.current) return;
+    fullRevealedRef.current = true;
+    fireEvent("full_diagnostic_revealed", placeId);
+    if (window.clarity) window.clarity("set", "funnel_step", "full_diagnostic_revealed");
+  };
+
   const fetchScorecard = () => {
     setScorecardLoading(true);
     setScoreFailed(false);
@@ -1011,8 +1058,14 @@ function DiagnosticoApp() {
       });
       if (!res.ok) throw new Error(res.status);
       const result = await res.json();
+      // Qualification is the BACKEND signal (showCalendar). Branch on the local
+      // result, NOT the showCalendar state (which hasn't updated this tick).
+      const qualified = result.showCalendar === true;
       setUnlocked(true);
-      setShowCalendar(result.showCalendar === true);
+      setShowCalendar(qualified);
+      // Qualified leads must book a demo to reveal improvements + competitors.
+      // Non-qualified leads get the full diagnostic now (no demo gate).
+      if (!qualified) { setFullUnlocked(true); fireFullReveal(); }
       const AE_CALENDARS = {
         "Mariana": "https://calendar.app.google/PNn3ykthv5gY8SMN8",
         "Ayline": "https://calendar.app.google/Z1PUtkg8xErSkLPr7",
@@ -1023,6 +1076,7 @@ function DiagnosticoApp() {
       fireEvent("contact_submitted", placeId);
       if (window.clarity) {
         window.clarity("set", "score_tier", computedScore >= 70 ? "high" : computedScore >= 40 ? "mid" : "low");
+        window.clarity("set", "qualified", qualified ? "true" : "false");
         window.clarity("set", "funnel_step", "scorecard_unlocked");
       }
       if (typeof fbq === "function" && result.eventId) {
@@ -1122,6 +1176,9 @@ function DiagnosticoApp() {
     const sC = enrich.businessStatus === "OPERATIONAL" ? "dx-metric--good" : "dx-metric--bad";
     const betterThan = competitors.filter(c => enrich.rating && c.rating && enrich.rating > c.rating).length;
     const total = competitors.length;
+    // Deep content (improvements + competitors) that sits behind the demo gate.
+    const hasDeep = hasAnyData && (!!evaluation.topRec || total > 0);
+    const waExpertUrl = "https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, hice el diagnóstico de " + companyName + " y quiero ver mis mejoras y comparación con mi competencia");
     let rankText = null, rankClass = "";
     if (total > 0) {
       if (betterThan === total) { rankText = "Mejor que " + total + " de " + total + " competidores"; }
@@ -1140,7 +1197,7 @@ function DiagnosticoApp() {
 
     return (
       <div className="dx-card dx-scorecard-pad">
-        <button className="dx-back" onClick={() => { setStep("search"); setUnlocked(false); }}>← Cambiar restaurante</button>
+        <button className="dx-back" onClick={() => { setStep("search"); setUnlocked(false); setFullUnlocked(false); fullRevealedRef.current = false; }}>← Cambiar restaurante</button>
         <div className="dx-name">{companyName}</div>
         <div className="dx-score-section"><ScoreRing score={score} /></div>
         <div className="dx-summary">
@@ -1157,9 +1214,9 @@ function DiagnosticoApp() {
         {!unlocked && (
           <div className="dx-gate-overlay" ref={gateFormRef}>
             <div className="dx-gate-lock">🔒</div>
-            <h3 className="dx-gate-title">Desbloquea tu diagnóstico completo</h3>
+            <h3 className="dx-gate-title">Desbloquea tu diagnóstico</h3>
             <p className="dx-gate-sub">
-              Tu evaluación detallada, recomendaciones y comparación con competidores están listos.
+              Tu calificación, reseñas, presencia web y evaluación detallada — al instante.
             </p>
             <div style={{ textAlign: "left" }}>
               {error && <div className="dx-error">{error}</div>}
@@ -1192,13 +1249,14 @@ function DiagnosticoApp() {
                 <label htmlFor="wa-opt-gate">Acepto recibir mensajes por WhatsApp. Máximo 4/mes.</label>
               </div>
               <button className="dx-btn dx-btn--dark" disabled={!canSubmit || submitting} onClick={handleGateSubmit}>
-                {submitting ? "Desbloqueando..." : "Ver mi diagnóstico completo →"}
+                {submitting ? "Desbloqueando..." : "Ver mi evaluación →"}
               </button>
               <div className="dx-legal">Al enviar aceptas nuestra política de privacidad.</div>
             </div>
           </div>
         )}
 
+        {/* Stage 1 — evaluation (revealed on contact submit) */}
         <div className={"dx-gated" + (unlocked ? " dx-gated--revealed" : "")}>
           <div className="dx-divider">Tu evaluación</div>
           {hasAnyData ? (
@@ -1215,12 +1273,6 @@ function DiagnosticoApp() {
                   </div>
                 ))}
               </div>
-              {evaluation.topRec && (
-                <div className="dx-eval-rec">
-                  <div className="dx-eval-rec-label">Acción #1</div>
-                  <p className="dx-eval-rec-text">{evaluation.topRec}</p>
-                </div>
-              )}
             </>
           ) : (
             <div className="dx-eval-summary">
@@ -1228,55 +1280,103 @@ function DiagnosticoApp() {
               <p className="dx-eval-body">Esto puede pasar si tu perfil de Google Business es nuevo o no está verificado. Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
             </div>
           )}
+        </div>
 
-          {total > 0 && (
-            <>
-              <div className="dx-divider">Tu vs tu zona</div>
-              <div style={{ marginBottom: 16 }}>
-                {competitors.map((c, i) => (
-                  <div className="dx-comp" key={i}>
-                    <span className="dx-comp-name">{c.name}</span>
-                    <span className="dx-comp-rating">
-                      <span style={{ color: c.rating >= (enrich.rating || 0) ? "#f59e0b" : "#94a3b8" }}>★</span>
-                      {c.rating ? c.rating.toFixed(1) : "N/A"}
-                      <span className="dx-comp-reviews">({c.reviewCount || 0})</span>
-                    </span>
-                  </div>
-                ))}
+        {/* Stage 2 — improvements + competitors, gated behind a booked demo */}
+        {unlocked && hasDeep && (
+          <div className="dx-deep" ref={demoGateRef}>
+            {showCalendar ? (
+              <div className="dx-demo-gate">
+                {!fullUnlocked && (
+                  <>
+                    <div className="dx-gate-lock">🔒</div>
+                    <h3 className="dx-gate-title">Tu plan de mejora está listo</h3>
+                    <p className="dx-gate-sub">
+                      Agenda una demo de 20 min para ver tus mejoras priorizadas{total > 0 ? " y la comparación con tus " + total + " competidores cercanos" : ""}.
+                    </p>
+                  </>
+                )}
+                <CalendarBooking
+                  firstName={form.first_name} lastName={form.last_name}
+                  email={form.email} phone={form.phone} companyName={companyName}
+                  assignedAE={assignedAE} calendarUrl={calendarUrl}
+                  sessionId={SESSION_ID} placeId={placeId}
+                  onBooked={() => { setFullUnlocked(true); fireFullReveal(); }} />
               </div>
-              {rankText && <div className={"dx-ranking " + rankClass}>{rankText}</div>}
-            </>
-          )}
-
-          {unlocked && (
-            <>
-              {scoreTier === "low" ? (
-                <>
-                  <div className="dx-warm-title">Lo bueno: todo esto se puede mejorar</div>
-                  <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, margin: "0 0 16px" }}>
-                    Muchos de nuestros clientes empezaron con un perfil similar al tuyo. Con las acciones correctas, los resultados llegan rápido.
-                  </p>
-                  <a href={"https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, acabo de hacer el diagnóstico de " + companyName + " y quiero mejorar mi presencia digital")}
-                    className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ marginTop: 16, textDecoration: "none" }}>
-                    Habla con un experto por WhatsApp
-                  </a>
-                </>
-              ) : (
-                <>
-                  <p className="dx-summary" style={{ margin: "16px 0" }}>{tierCta}</p>
-                </>
-              )}
-              {showCalendar && (
-                <div style={{ marginTop: 24, paddingTop: 24, borderTop: "1px solid var(--diag-border)" }}>
-                  <CalendarBooking
-                    firstName={form.first_name} lastName={form.last_name}
-                    email={form.email} phone={form.phone} companyName={companyName}
-                    assignedAE={assignedAE} calendarUrl={calendarUrl} />
+            ) : (!fullUnlocked && (
+              <div className="dx-demo-gate">
+                <div className="dx-gate-lock">🔒</div>
+                <h3 className="dx-gate-title">Tu plan de mejora está listo</h3>
+                <p className="dx-gate-sub">Habla con un experto para ver tus mejoras y la comparación con tu competencia.</p>
+                <a href={waExpertUrl} className="dx-btn dx-btn--dark" target="_blank" rel="noopener" style={{ textDecoration: "none" }}
+                  onClick={() => { setFullUnlocked(true); fireFullReveal(); }}>
+                  Hablar con un experto →
+                </a>
+              </div>
+            ))}
+            <div className={"dx-gated" + (fullUnlocked ? " dx-gated--revealed" : "")}>
+              {evaluation.topRec && (
+                <div className="dx-eval-rec">
+                  <div className="dx-eval-rec-label">Acción #1</div>
+                  <p className="dx-eval-rec-text">{evaluation.topRec}</p>
                 </div>
               )}
-            </>
-          )}
-        </div>
+              {total > 0 && (
+                <>
+                  <div className="dx-divider">Tu vs tu zona</div>
+                  <div style={{ marginBottom: 16 }}>
+                    {competitors.map((c, i) => (
+                      <div className="dx-comp" key={i}>
+                        <span className="dx-comp-name">{c.name}</span>
+                        <span className="dx-comp-rating">
+                          <span style={{ color: c.rating >= (enrich.rating || 0) ? "#f59e0b" : "#94a3b8" }}>★</span>
+                          {c.rating ? c.rating.toFixed(1) : "N/A"}
+                          <span className="dx-comp-reviews">({c.reviewCount || 0})</span>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  {rankText && <div className={"dx-ranking " + rankClass}>{rankText}</div>}
+                </>
+              )}
+            </div>
+            {fullUnlocked && scoreTier === "low" && (
+              <div style={{ marginTop: 8 }}>
+                <div className="dx-warm-title">Lo bueno: todo esto se puede mejorar</div>
+                <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, margin: "0 0 16px" }}>
+                  Muchos de nuestros clientes empezaron con un perfil similar al tuyo. Con las acciones correctas, los resultados llegan rápido.
+                </p>
+                <a href={"https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, acabo de hacer el diagnóstico de " + companyName + " y quiero mejorar mi presencia digital")}
+                  className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
+                  Habla con un experto por WhatsApp
+                </a>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* No deep content (new/unverified profile) — let qualified leads book directly */}
+        {unlocked && !hasDeep && (
+          <div style={{ marginTop: 8 }}>
+            {showCalendar ? (
+              <div style={{ paddingTop: 8 }}>
+                <CalendarBooking
+                  firstName={form.first_name} lastName={form.last_name}
+                  email={form.email} phone={form.phone} companyName={companyName}
+                  assignedAE={assignedAE} calendarUrl={calendarUrl}
+                  sessionId={SESSION_ID} placeId={placeId}
+                  onBooked={() => { setFullUnlocked(true); fireFullReveal(); }} />
+              </div>
+            ) : (
+              <>
+                <p className="dx-summary" style={{ margin: "8px 0 16px" }}>Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
+                <a href={waExpertUrl} className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
+                  Habla con un experto por WhatsApp
+                </a>
+              </>
+            )}
+          </div>
+        )}
 
         <div className="dx-sticky-cta">
           {!unlocked ? (
@@ -1285,15 +1385,19 @@ function DiagnosticoApp() {
             }}>
               Desbloquea tu diagnóstico →
             </button>
+          ) : (!fullUnlocked && hasDeep && showCalendar) ? (
+            <button className="dx-btn" onClick={() => {
+              if (demoGateRef.current) demoGateRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}>Agenda tu demo para ver todo →</button>
           ) : scoreTier === "low" ? (
             <a href={"https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, acabo de hacer el diagnóstico de " + companyName + " y quiero mejorar mi presencia digital")}
               className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
               Habla con un experto por WhatsApp
             </a>
           ) : (
-            <button className="dx-btn" onClick={() => {
-              if (gateFormRef.current) gateFormRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}>Agendar mi demo →</button>
+            <a href={waExpertUrl} className="dx-btn" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
+              Habla con un experto →
+            </a>
           )}
         </div>
       </div>
@@ -1307,7 +1411,8 @@ function DiagnosticoApp() {
           {showCalendar ? (
             <CalendarBooking firstName={form.first_name} lastName={form.last_name}
               email={form.email} phone={form.phone} companyName={companyName}
-              assignedAE={assignedAE} calendarUrl={calendarUrl} />
+              assignedAE={assignedAE} calendarUrl={calendarUrl}
+              sessionId={SESSION_ID} placeId={placeId} />
           ) : (
             <>
               <div className="dx-bk-booked-check">✓</div>
@@ -1382,8 +1487,10 @@ function DiagnosticoApp() {
         <div className="dx-container">
           {step === "search" && (
             <div className="dx-hero">
-              <h1>Diagnóstico digital gratuito para tu restaurante</h1>
-              <p>Descubre tu calificación, reseñas, presencia web y cómo te comparas con tu competencia — en 30 segundos.</p>
+              <span className="dx-hero-badge">Diagnóstico digital gratuito</span>
+              <h1>Descubre cuánto te cuestan las apps de delivery — y cómo recuperar ese margen.</h1>
+              <p>Recibe un diagnóstico de tu presencia digital y un plan para vender más por canal directo, sin regalarle el 30% a Rappi, Uber Eats y DiDi.</p>
+              <p className="dx-hero-note">Gratis · 30 segundos · sin tarjeta</p>
             </div>
           )}
           {step === "search" && (
@@ -1399,21 +1506,30 @@ function DiagnosticoApp() {
               <div className="dx-testi">
                 <p className="dx-testi-quote">"Bajamos nuestra dependencia de Rappi del 70% al 28% en cinco meses."</p>
                 <div className="dx-testi-footer">
-                  <div className="dx-testi-who"><span className="dx-testi-name">Ricardo Mendoza</span><br/>Co-fundador, Bora Bora Pizzas</div>
+                  <div className="dx-testi-id">
+                    <img className="dx-testi-photo" src="/landing/assets/venue-bora-bora.webp" alt="Bora Bora Pizzas" width="44" height="44" loading="lazy" />
+                    <div className="dx-testi-who"><span className="dx-testi-name">Ricardo Mendoza</span><br/>Co-fundador, Bora Bora Pizzas</div>
+                  </div>
                   <span className="dx-testi-metric">-$412K comisiones/año</span>
                 </div>
               </div>
               <div className="dx-testi">
                 <p className="dx-testi-quote">"Ahora Fluxsales hace mis posts por mí y vendemos el doble los martes."</p>
                 <div className="dx-testi-footer">
-                  <div className="dx-testi-who"><span className="dx-testi-name">Andrea Castellanos</span><br/>Dueña, Cosi Fan Tutte</div>
+                  <div className="dx-testi-id">
+                    <img className="dx-testi-photo" src="/landing/assets/venue-cosi-fan-tutte.webp" alt="Cosi Fan Tutte" width="44" height="44" loading="lazy" />
+                    <div className="dx-testi-who"><span className="dx-testi-name">Andrea Castellanos</span><br/>Dueña, Cosi Fan Tutte</div>
+                  </div>
                   <span className="dx-testi-metric">2x ventas martes</span>
                 </div>
               </div>
               <div className="dx-testi">
                 <p className="dx-testi-quote">"Los clientes reciben un mensaje el día de su cumpleaños y vienen con tres amigos."</p>
                 <div className="dx-testi-footer">
-                  <div className="dx-testi-who"><span className="dx-testi-name">Mariana Ortiz</span><br/>Operaciones, Dolce Bisquet</div>
+                  <div className="dx-testi-id">
+                    <img className="dx-testi-photo" src="/landing/assets/venue-dolce-bisquet.webp" alt="Dolce Bisquet" width="44" height="44" loading="lazy" />
+                    <div className="dx-testi-who"><span className="dx-testi-name">Mariana Ortiz</span><br/>Operaciones, Dolce Bisquet</div>
+                  </div>
                   <span className="dx-testi-metric">3.2x retorno</span>
                 </div>
               </div>
