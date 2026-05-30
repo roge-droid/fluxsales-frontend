@@ -118,14 +118,28 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dx-field input:focus, .dx-field select:focus { border-color: var(--diag-blue); }
 .dx-field input::placeholder { color: var(--diag-muted); }
 
-gmp-place-autocomplete { width: 100%; }
-gmp-place-autocomplete input {
-  width: 100%; padding: 12px 14px; font-size: 15px;
+.dx-ac { width: 100%; position: relative; }
+.dx-ac-input {
+  width: 100%; padding: 12px 14px; font-size: 15px; box-sizing: border-box;
   border: 1px solid var(--diag-border); border-radius: 10px;
   background: var(--diag-bg); color: var(--diag-navy);
   font-family: inherit; outline: none; transition: border-color .2s;
 }
-gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
+.dx-ac-input:focus { border-color: var(--diag-blue); }
+.dx-ac-list {
+  list-style: none; margin: 6px 0 0; padding: 4px;
+  position: absolute; left: 0; right: 0; top: 100%; z-index: 30;
+  background: #fff; border: 1px solid var(--diag-border); border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .12);
+  max-height: 280px; overflow-y: auto;
+}
+.dx-ac-item {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 10px 12px; border-radius: 8px; cursor: pointer;
+}
+.dx-ac-item.active, .dx-ac-item:hover { background: #f1f5f9; }
+.dx-ac-main { font-size: 14px; color: var(--diag-navy); font-weight: 500; }
+.dx-ac-sec { font-size: 12px; color: var(--diag-muted); }
 .dx-place-ok {
   display: flex; align-items: center; gap: 6px;
   margin-top: 6px; padding: 6px 10px;
@@ -907,58 +921,89 @@ function DiagnosticoApp() {
   const [assignedAE, setAssignedAE] = React.useState("Mariana");
 
   const placesRef = React.useRef(null);
-  const [placesMounted, setPlacesMounted] = React.useState(false);
-  const [placesHint, setPlacesHint] = React.useState(false);
+  const placesLibRef = React.useRef(null);
+  const sessionTokenRef = React.useRef(null);
+  const debounceRef = React.useRef(null);
+  const blurTimerRef = React.useRef(null);
+  const [suggestions, setSuggestions] = React.useState([]);
+  const [sugActive, setSugActive] = React.useState(-1);
 
+  // Load the Places library once we reach the search step.
   React.useEffect(() => {
-    if (step !== "search" || placesMounted) return;
-    const hintTimer = setTimeout(() => { setPlacesHint(true); }, 5000);
-    function tryMount() {
-      const container = placesRef.current;
-      if (!container || !window.google?.maps?.places?.PlaceAutocompleteElement) return false;
+    if (step !== "search" || placesLibRef.current) return;
+    let cancelled = false;
+    (async () => {
       try {
-        const el = new google.maps.places.PlaceAutocompleteElement({
-          types: ["establishment"],
-          componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
-        });
-        el.style.cssText = "width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--diag-border);border-radius:10px;box-sizing:border-box;";
-        el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
-        const inp = container.querySelector("input");
-        if (inp) { inp.style.opacity = "0"; inp.style.position = "absolute"; inp.style.pointerEvents = "none"; }
-        container.style.position = "relative";
-        container.appendChild(el);
-        setPlacesMounted(true);
-        clearTimeout(hintTimer);
-        setPlacesHint(false);
+        const lib = await google.maps.importLibrary("places");
+        if (!cancelled) placesLibRef.current = lib;
+      } catch (err) { console.error("[places] importLibrary failed:", err); }
+    })();
+    return () => { cancelled = true; };
+  }, [step]);
 
-        el.addEventListener("gmp-select", async (e) => {
-          try {
-            const pp = e.placePrediction;
-            if (!pp) return;
-            const place = pp.toPlace();
-            await place.fetchFields({ fields: ["displayName", "formattedAddress"] });
-            const pid = place.id || pp.placeId || "";
-            const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
-            const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
-            if (n || pid) { setCompanyName(n); setPlaceId(pid); setPlaceAddress(a); }
-            setTimeout(() => {
-              const container = placesRef.current;
-              if (container) {
-                container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-              }
-            }, 300);
-          } catch (err) { console.error("[places] gmp-select error:", err); }
-        });
+  // Custom autocomplete (owner.com-style): fetch suggestions via the Places
+  // Data API and render them inline, so the field never repositions on mobile
+  // the way Google's drop-in PlaceAutocompleteElement did when its dropdown
+  // opened (it anchored to a full-viewport fixed overlay → jump to top).
+  const runSuggest = (text) => {
+    const lib = placesLibRef.current;
+    const q = (text || "").trim();
+    if (!lib || !lib.AutocompleteSuggestion || q.length < 2) { setSuggestions([]); return; }
+    if (!sessionTokenRef.current) sessionTokenRef.current = new lib.AutocompleteSessionToken();
+    const base = {
+      input: q,
+      sessionToken: sessionTokenRef.current,
+      includedRegionCodes: ["mx", "co", "cl", "pe"],
+      language: "es", region: "mx",
+    };
+    const apply = ({ suggestions }) => {
+      const preds = (suggestions || []).map((s) => s.placePrediction).filter(Boolean).slice(0, 5);
+      setSuggestions(preds);
+      setSugActive(-1);
+    };
+    const AS = lib.AutocompleteSuggestion;
+    // Prefer establishment-only results; if the type filter is rejected, fall
+    // back to an unfiltered query so suggestions still appear.
+    AS.fetchAutocompleteSuggestions({ ...base, includedPrimaryTypes: ["establishment"] })
+      .then(apply)
+      .catch(() => AS.fetchAutocompleteSuggestions(base).then(apply))
+      .catch((err) => { console.error("[places] suggest error:", err); setSuggestions([]); });
+  };
 
-        return true;
-      } catch (err) { console.error("[places] init error:", err); return false; }
+  const onSearchChange = (val) => {
+    setCompanyName(val);
+    if (placeId) { setPlaceId(""); setPlaceAddress(""); } // editing invalidates prior pick
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => runSuggest(val), 220);
+  };
+
+  const selectSuggestion = async (pred) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    const fallbackName = (pred.text && pred.text.text) || (pred.mainText && pred.mainText.text) || "";
+    try {
+      const place = pred.toPlace();
+      await place.fetchFields({ fields: ["displayName", "formattedAddress"] });
+      const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : fallbackName;
+      const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
+      const pid = place.id || pred.placeId || "";
+      setCompanyName(n); setPlaceId(pid); setPlaceAddress(a);
+    } catch (err) {
+      console.error("[places] fetchFields error:", err);
+      if (fallbackName) setCompanyName(fallbackName);
+      if (pred.placeId) setPlaceId(pred.placeId);
     }
-    if (!tryMount()) {
-      const iv = setInterval(() => { if (tryMount()) { clearInterval(iv); clearTimeout(hintTimer); } }, 500);
-      return () => { clearInterval(iv); clearTimeout(hintTimer); };
-    }
-    return () => clearTimeout(hintTimer);
-  }, [step, placesMounted]);
+    sessionTokenRef.current = null; // a selection ends the billing session
+    setSuggestions([]);
+    setSugActive(-1);
+  };
+
+  const onSearchKeyDown = (e) => {
+    if (!suggestions.length) return;
+    if (e.key === "ArrowDown") { e.preventDefault(); setSugActive((i) => Math.min(i + 1, suggestions.length - 1)); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); setSugActive((i) => Math.max(i - 1, 0)); }
+    else if (e.key === "Enter" && sugActive >= 0) { e.preventDefault(); selectSuggestion(suggestions[sugActive]); }
+    else if (e.key === "Escape") { setSuggestions([]); }
+  };
 
   const qualifiedRef = React.useRef(false);
   const computedScore = enrich ? computeDigitalScore(enrich, competitors) : 0;
@@ -1126,12 +1171,34 @@ function DiagnosticoApp() {
     <div className="dx-card">
       <div className="dx-field">
         <label>Busca tu restaurante</label>
-        <div ref={placesRef} style={{ minHeight: 44 }}>
-          <input type="text" placeholder="Ej. Bora Bora Pizzas" value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)} autoFocus />
-        </div>
-        <div style={{ fontSize: 12, color: "var(--diag-muted)", marginTop: 6, minHeight: 18, visibility: placesHint && !placesMounted ? "visible" : "hidden" }}>
-          Escribe el nombre y haz clic en "Ver mi diagnóstico"
+        <div ref={placesRef} className="dx-ac">
+          <input type="text" className="dx-ac-input" placeholder="Ej. Bora Bora Pizzas"
+            value={companyName}
+            onChange={(e) => onSearchChange(e.target.value)}
+            onKeyDown={onSearchKeyDown}
+            onBlur={() => {
+              if (blurTimerRef.current) clearTimeout(blurTimerRef.current);
+              blurTimerRef.current = setTimeout(() => setSuggestions([]), 150);
+            }}
+            autoComplete="off" role="combobox" aria-expanded={suggestions.length > 0}
+            aria-autocomplete="list" />
+          {suggestions.length > 0 && (
+            <ul className="dx-ac-list" role="listbox">
+              {suggestions.map((pred, i) => {
+                const main = (pred.mainText && pred.mainText.text) || (pred.text && pred.text.text) || "";
+                const secondary = (pred.secondaryText && pred.secondaryText.text) || "";
+                return (
+                  <li key={pred.placeId || i} role="option" aria-selected={i === sugActive}
+                    className={"dx-ac-item" + (i === sugActive ? " active" : "")}
+                    onMouseDown={(e) => { e.preventDefault(); selectSuggestion(pred); }}
+                    onMouseEnter={() => setSugActive(i)}>
+                    <span className="dx-ac-main">{main}</span>
+                    {secondary && <span className="dx-ac-sec">{secondary}</span>}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
         {placeId && (
           <div className="dx-place-ok">
@@ -1142,19 +1209,10 @@ function DiagnosticoApp() {
       </div>
       {error && <div className="dx-error">{error}</div>}
       <button className="dx-btn" onClick={() => {
-        let name = companyName.trim();
-        if (!name) {
-          try {
-            const gmp = placesRef.current?.querySelector("gmp-place-autocomplete");
-            if (gmp) {
-              for (const k in gmp) {
-                try { if (gmp[k] instanceof HTMLInputElement && gmp[k].value) { name = gmp[k].value.trim(); break; } } catch {}
-              }
-            }
-          } catch {}
-        }
+        const name = companyName.trim();
         if (!name) { setError("Por favor escribe el nombre de tu restaurante."); return; }
-        setCompanyName(name); setError(null);
+        setError(null);
+        setSuggestions([]);
         if (placeId) {
           fireEvent("diagnostic_started", placeId);
           if (window.clarity) window.clarity("set", "funnel_step", "diagnostic_started");
