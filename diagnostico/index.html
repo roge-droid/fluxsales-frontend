@@ -1235,8 +1235,21 @@ function DiagnosticoApp() {
       <button className="dx-btn" onClick={() => {
         const name = companyName.trim();
         if (!name) { setError("Por favor escribe el nombre de tu restaurante."); return; }
+        if (!sucursales) { setError("Selecciona cuántas sucursales tienes."); return; }
+        if (!plataformas) { setError("Selecciona tu rol."); return; }
         setError(null);
         setSuggestions([]);
+        // Fire-and-forget partial capture (quiet Attio record; never blocks the funnel).
+        try {
+          fetch("/api/diagnostico/partial-lead", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              company_name: name, place_id: placeId || undefined, place_address: placeAddress || undefined,
+              sucursales, plataformas, session_id: SESSION_ID,
+            }),
+          }).catch(() => {});
+        } catch {}
         if (placeId) {
           fireEvent("diagnostic_started", placeId);
           if (window.clarity) window.clarity("set", "funnel_step", "diagnostic_started");
