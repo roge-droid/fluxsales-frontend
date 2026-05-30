@@ -237,6 +237,12 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
 }
 .dx-ranking--warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
 .dx-ranking--bad { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+/* Competitor loss-aversion teaser (pre-gate) */
+.dx-teaser { margin: 0 0 24px; }
+.dx-comp--you { background: #f1f5f9; border-radius: 8px; padding-left: 10px; padding-right: 10px; }
+.dx-comp--you .dx-comp-name { color: var(--diag-blue); font-weight: 700; }
+.dx-teaser-more { margin-top: 2px; }
+.dx-teaser-cta { font-size: 13px; color: var(--diag-subtle); line-height: 1.5; margin: 14px 0 0; text-align: center; }
 
 .dx-warm-title {
   font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 16px;
@@ -547,7 +553,10 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
 const API_URL = "/api/demo-page/lead-intake";
 const SESSION_ID = "sess_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
 
-const FUNNEL_VERSION = "v2-demogate";
+// v3: free score + metrics + evaluation; only improvements + competitors gated.
+// Bumped from v2-demogate so this redesign's events don't pollute the v2 A/B.
+// Event NAMES kept stable (scorecard_unlocked etc.) to avoid breaking dashboards.
+const FUNNEL_VERSION = "v3-freescore";
 
 function fireEvent(eventType, placeId) {
   fetch("/api/diagnostico/event", {
@@ -965,6 +974,17 @@ function DiagnosticoApp() {
     if (window.clarity) window.clarity("set", "funnel_step", "full_diagnostic_revealed");
   };
 
+  // Fires once when the competitor loss-aversion teaser first becomes visible
+  // (scorecard loaded with >=1 competitor) — measures hook → contact conversion.
+  const teaserShownRef = React.useRef(false);
+  React.useEffect(() => {
+    if (enrich && competitors.length > 0 && !teaserShownRef.current) {
+      teaserShownRef.current = true;
+      fireEvent("competitor_teaser_shown", placeId);
+      if (window.clarity) window.clarity("set", "funnel_step", "competitor_teaser_shown");
+    }
+  }, [enrich, competitors]);
+
   const fetchScorecard = () => {
     setScorecardLoading(true);
     setScoreFailed(false);
@@ -1185,6 +1205,12 @@ function DiagnosticoApp() {
       else if (betterThan > 0) { rankText = "Mejor que " + betterThan + " de " + total + " competidores"; rankClass = betterThan >= total/2 ? "" : "dx-ranking--warn"; }
       else { rankText = "Por debajo de tus " + total + " competidores"; rankClass = "dx-ranking--bad"; }
     }
+    // Competitor loss-aversion teaser (shown before the form). Sort a copy — API order not guaranteed.
+    const sortedComp = [...competitors].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    const teaserComp = sortedComp.filter(c => c.rating).slice(0, 2);
+    const userRating = enrich.rating || 0;
+    const losingToNames = teaserComp.filter(c => (c.rating || 0) > userRating).map(c => c.name);
+    const isLeader = total > 0 && betterThan === total; // already #1 — copy must not claim "por debajo"
     const scoreTier = score >= 70 ? "high" : score >= 40 ? "mid" : "low";
     const firstGapSection = evaluation.sections.find(s => s.status === "bad" || s.status === "warn");
     const biggestGapSection = evaluation.sections.find(s => s.status === "bad") || evaluation.sections.find(s => s.status === "warn");
@@ -1205,18 +1231,96 @@ function DiagnosticoApp() {
             : "Oportunidades de mejora en " + gaps.length + " área" + (gaps.length > 1 ? "s" : "") + "."}
         </div>
         <div className="dx-metrics">
-          <div className={"dx-metric " + rC}><span className="dx-metric-icon">★</span><span className={"dx-metric-val" + (!unlocked ? " dx-metric-val--blurred" : "")}>{enrich.rating ? enrich.rating.toFixed(1) + "/5" : "N/A"}</span><span className="dx-metric-label">Calificación</span></div>
-          <div className={"dx-metric " + rvC}><span className="dx-metric-icon">💬</span><span className={"dx-metric-val" + (!unlocked ? " dx-metric-val--blurred" : "")}>{enrich.reviewCount != null ? enrich.reviewCount : "N/A"}</span><span className="dx-metric-label">Reseñas</span></div>
-          <div className={"dx-metric " + wC}><span className="dx-metric-icon">🌐</span><span className={"dx-metric-val" + (!unlocked ? " dx-metric-val--blurred" : "")}>{enrich.websiteUri ? "Sí" : "No"}</span><span className="dx-metric-label">Sitio web</span></div>
-          <div className={"dx-metric " + sC}><span className="dx-metric-icon">✓</span><span className={"dx-metric-val" + (!unlocked ? " dx-metric-val--blurred" : "")}>{enrich.businessStatus === "OPERATIONAL" ? "Activo" : "Inactivo"}</span><span className="dx-metric-label">Estado</span></div>
+          <div className={"dx-metric " + rC}><span className="dx-metric-icon">★</span><span className="dx-metric-val">{enrich.rating ? enrich.rating.toFixed(1) + "/5" : "N/A"}</span><span className="dx-metric-label">Calificación</span></div>
+          <div className={"dx-metric " + rvC}><span className="dx-metric-icon">💬</span><span className="dx-metric-val">{enrich.reviewCount != null ? enrich.reviewCount : "N/A"}</span><span className="dx-metric-label">Reseñas</span></div>
+          <div className={"dx-metric " + wC}><span className="dx-metric-icon">🌐</span><span className="dx-metric-val">{enrich.websiteUri ? "Sí" : "No"}</span><span className="dx-metric-label">Sitio web</span></div>
+          <div className={"dx-metric " + sC}><span className="dx-metric-icon">✓</span><span className="dx-metric-val">{enrich.businessStatus === "OPERATIONAL" ? "Activo" : "Inactivo"}</span><span className="dx-metric-label">Estado</span></div>
         </div>
+
+        {/* Free evaluation — score, metrics, and this detailed read are all ungated now */}
+        <div className="dx-eval-block">
+          <div className="dx-divider">Tu evaluación</div>
+          {hasAnyData ? (
+            <>
+              <div className="dx-eval-summary">
+                <div className="dx-eval-headline">{evaluation.summaryHeadline}</div>
+                <p className="dx-eval-body">{evaluation.summaryBody}</p>
+              </div>
+              <div className="dx-eval-items">
+                {evaluation.sections.map((s, i) => (
+                  <div className={"dx-eval-item dx-eval-item--" + s.status} key={i}>
+                    <div className="dx-eval-verdict"><span>{s.icon}</span> {s.verdict}</div>
+                    <p className="dx-eval-detail">{s.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className="dx-eval-summary">
+              <div className="dx-eval-headline">No pudimos obtener todos los datos de tu perfil</div>
+              <p className="dx-eval-body">Esto puede pasar si tu perfil de Google Business es nuevo o no está verificado. Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
+            </div>
+          )}
+        </div>
+
+        {/* Competitor loss-aversion teaser — surfaces the locked value BEFORE the form so the
+            visitor sees there is more (and that they may be losing to nearby competitors). */}
+        {!unlocked && teaserComp.length > 0 && (
+          <div className="dx-teaser">
+            <div className="dx-divider">Tu zona</div>
+            {losingToNames.length >= 1 ? (
+              <div className="dx-ranking dx-ranking--bad">
+                Estás por debajo de {losingToNames.join(" y ")} en tu zona.
+              </div>
+            ) : isLeader ? (
+              <div className="dx-ranking">
+                Vas a la cabeza de tu zona — mira cuánta ventaja tienes y cómo mantenerla.
+              </div>
+            ) : (
+              <div className="dx-ranking dx-ranking--warn">
+                La competencia en tu zona está muy cerca. Mira dónde te superan.
+              </div>
+            )}
+            <div>
+              {teaserComp.map((c, i) => (
+                <div className="dx-comp" key={i}>
+                  <span className="dx-comp-name">{c.name}</span>
+                  <span className="dx-comp-rating">
+                    <span style={{ color: (c.rating || 0) >= userRating ? "#f59e0b" : "#94a3b8" }}>★</span>
+                    {c.rating ? c.rating.toFixed(1) : "N/A"}
+                    <span className="dx-comp-reviews">({c.reviewCount || 0})</span>
+                  </span>
+                </div>
+              ))}
+              <div className="dx-comp dx-comp--you">
+                <span className="dx-comp-name">{companyName} (tú)</span>
+                <span className="dx-comp-rating">
+                  <span style={{ color: "#94a3b8" }}>★</span>
+                  {userRating ? userRating.toFixed(1) : "N/A"}
+                  <span className="dx-comp-reviews">({enrich.reviewCount || 0})</span>
+                </span>
+              </div>
+              {total > teaserComp.length && (
+                <div className="dx-gated dx-teaser-more" aria-hidden="true">
+                  <div className="dx-comp"><span className="dx-comp-name">•••••••••••</span><span className="dx-comp-rating">★ •.•</span></div>
+                  <div className="dx-comp"><span className="dx-comp-name">••••••••</span><span className="dx-comp-rating">★ •.•</span></div>
+                </div>
+              )}
+            </div>
+            {gaps.length > 0 && (
+              <p className="dx-teaser-cta">
+                Tienes {gaps.length} mejora{gaps.length > 1 ? "s" : ""} priorizada{gaps.length > 1 ? "s" : ""} y la comparación completa con tus {total} competidores — desbloquéalas abajo.
+              </p>
+            )}
+          </div>
+        )}
 
         {!unlocked && (
           <div className="dx-gate-overlay" ref={gateFormRef}>
             <div className="dx-gate-lock">🔒</div>
-            <h3 className="dx-gate-title">Desbloquea tu diagnóstico</h3>
+            <h3 className="dx-gate-title">Desbloquea tu plan de mejora</h3>
             <p className="dx-gate-sub">
-              Tu calificación, reseñas, presencia web y evaluación detallada — al instante.
+              Tus mejoras priorizadas{total > 0 ? " y la comparación completa con tu competencia" : ""} — al instante.
             </p>
             <div style={{ textAlign: "left" }}>
               {error && <div className="dx-error">{error}</div>}
@@ -1249,38 +1353,12 @@ function DiagnosticoApp() {
                 <label htmlFor="wa-opt-gate">Acepto recibir mensajes por WhatsApp. Máximo 4/mes.</label>
               </div>
               <button className="dx-btn dx-btn--dark" disabled={!canSubmit || submitting} onClick={handleGateSubmit}>
-                {submitting ? "Desbloqueando..." : "Ver mi evaluación →"}
+                {submitting ? "Desbloqueando..." : "Ver mi plan de mejora →"}
               </button>
               <div className="dx-legal">Al enviar aceptas nuestra política de privacidad.</div>
             </div>
           </div>
         )}
-
-        {/* Stage 1 — evaluation (revealed on contact submit) */}
-        <div className={"dx-gated" + (unlocked ? " dx-gated--revealed" : "")}>
-          <div className="dx-divider">Tu evaluación</div>
-          {hasAnyData ? (
-            <>
-              <div className="dx-eval-summary">
-                <div className="dx-eval-headline">{evaluation.summaryHeadline}</div>
-                <p className="dx-eval-body">{evaluation.summaryBody}</p>
-              </div>
-              <div className="dx-eval-items">
-                {evaluation.sections.map((s, i) => (
-                  <div className={"dx-eval-item dx-eval-item--" + s.status} key={i}>
-                    <div className="dx-eval-verdict"><span>{s.icon}</span> {s.verdict}</div>
-                    <p className="dx-eval-detail">{s.detail}</p>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="dx-eval-summary">
-              <div className="dx-eval-headline">No pudimos obtener todos los datos de tu perfil</div>
-              <p className="dx-eval-body">Esto puede pasar si tu perfil de Google Business es nuevo o no está verificado. Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
-            </div>
-          )}
-        </div>
 
         {/* Stage 2 — improvements + competitors, gated behind a booked demo */}
         {unlocked && hasDeep && (
@@ -1325,7 +1403,7 @@ function DiagnosticoApp() {
                 <>
                   <div className="dx-divider">Tu vs tu zona</div>
                   <div style={{ marginBottom: 16 }}>
-                    {competitors.map((c, i) => (
+                    {sortedComp.map((c, i) => (
                       <div className="dx-comp" key={i}>
                         <span className="dx-comp-name">{c.name}</span>
                         <span className="dx-comp-rating">
@@ -1383,7 +1461,7 @@ function DiagnosticoApp() {
             <button className="dx-btn" onClick={() => {
               if (gateFormRef.current) gateFormRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
             }}>
-              Desbloquea tu diagnóstico →
+              Desbloquea tu plan →
             </button>
           ) : (!fullUnlocked && hasDeep && showCalendar) ? (
             <button className="dx-btn" onClick={() => {
