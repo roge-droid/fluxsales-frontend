@@ -126,6 +126,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-family: inherit; outline: none; transition: border-color .2s;
 }
 .dx-ac-input:focus { border-color: var(--diag-blue); }
+select.dx-ac-input { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+select.dx-ac-input:invalid, select.dx-ac-input option[value=""] { color: var(--diag-muted); }
 .dx-ac-list {
   list-style: none; margin: 6px 0 0; padding: 4px;
   position: absolute; left: 0; right: 0; top: 100%; z-index: 30;
@@ -886,6 +888,8 @@ function DiagnosticoApp() {
   const [companyName, setCompanyName] = React.useState("");
   const [placeId, setPlaceId] = React.useState("");
   const [placeAddress, setPlaceAddress] = React.useState("");
+  const [sucursales, setSucursales] = React.useState("");
+  const [plataformas, setPlataformas] = React.useState("");
   const [unlocked, setUnlocked] = React.useState(false);
   const [fullUnlocked, setFullUnlocked] = React.useState(false);
   // Step-based scorecard: false = Screen 1 (score), true = Screen 2 (gate/form).
@@ -1199,6 +1203,26 @@ function DiagnosticoApp() {
               })}
             </ul>
           )}
+        </div>
+        <div className="dx-field" style={{ marginTop: 14 }}>
+          <label>¿Cuántas sucursales tienes?</label>
+          <select className="dx-ac-input" value={sucursales} onChange={(e) => setSucursales(e.target.value)}>
+            <option value="" disabled>Selecciona…</option>
+            <option value="1">1</option>
+            <option value="2-5">2 a 5</option>
+            <option value="6-20">6 a 20</option>
+            <option value="20+">Más de 20</option>
+          </select>
+        </div>
+        <div className="dx-field" style={{ marginTop: 14 }}>
+          <label>¿Cuál es tu rol?</label>
+          <select className="dx-ac-input" value={plataformas} onChange={(e) => setPlataformas(e.target.value)}>
+            <option value="" disabled>Selecciona…</option>
+            <option value="dueno">Dueño de restaurante</option>
+            <option value="gerente">Gerente</option>
+            <option value="marketing">Marketing</option>
+            <option value="otro">Otro</option>
+          </select>
         </div>
         {placeId && (
           <div className="dx-place-ok">
