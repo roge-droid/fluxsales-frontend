@@ -243,6 +243,13 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
 .dx-comp--you .dx-comp-name { color: var(--diag-blue); font-weight: 700; }
 .dx-teaser-more { margin-top: 2px; }
 .dx-teaser-cta { font-size: 13px; color: var(--diag-subtle); line-height: 1.5; margin: 14px 0 0; text-align: center; }
+/* Step-based screens */
+.dx-score-mini { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; margin-bottom: 18px; background: #f8fafc; border: 1px solid var(--diag-border); border-radius: 10px; }
+.dx-score-mini-name { font-weight: 600; color: var(--diag-navy); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dx-score-mini-num { font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 22px; color: var(--diag-blue); white-space: nowrap; }
+.dx-score-mini-num span { font-size: 13px; color: var(--diag-muted); font-weight: 500; }
+.dx-back-link { background: none; border: none; color: var(--diag-blue); font-size: 13px; cursor: pointer; margin: 16px auto 0; display: block; padding: 8px; }
+.dx-gate-preview { max-height: 108px; overflow: hidden; margin-bottom: 18px; border-radius: 10px; -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent); mask-image: linear-gradient(to bottom, #000 35%, transparent); }
 
 .dx-warm-title {
   font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 16px;
@@ -416,7 +423,7 @@ gmp-place-autocomplete input:focus { border-color: var(--diag-blue); }
     z-index: 100;
   }
   .dx-sticky-cta .dx-btn { margin: 0; }
-  .dx-scorecard-pad { padding-bottom: 88px; }
+  .dx-scorecard-pad { padding-bottom: 24px; }
 }
 @media (max-width: 480px) {
   .dx-card { padding: 24px 18px; }
@@ -867,6 +874,8 @@ function DiagnosticoApp() {
   const [placeAddress, setPlaceAddress] = React.useState("");
   const [unlocked, setUnlocked] = React.useState(false);
   const [fullUnlocked, setFullUnlocked] = React.useState(false);
+  // Step-based scorecard: false = Screen 1 (score), true = Screen 2 (gate/form).
+  const [planOpen, setPlanOpen] = React.useState(false);
   const [error, setError] = React.useState(null);
 
   // Scorecard state
@@ -987,6 +996,7 @@ function DiagnosticoApp() {
 
   const fetchScorecard = () => {
     setScorecardLoading(true);
+    setPlanOpen(false);
     setScoreFailed(false);
     const timeout = setTimeout(() => { setScorecardLoading(false); setScoreFailed(true); }, 8000);
     Promise.all([
@@ -1221,263 +1231,280 @@ function DiagnosticoApp() {
       : null;
     const tierBtnText = scoreTier === "high" ? "Agendar mi demo →" : "Quiero mejorar mi presencia digital →";
 
-    return (
-      <div className="dx-card dx-scorecard-pad">
-        <button className="dx-back" onClick={() => { setStep("search"); setUnlocked(false); setFullUnlocked(false); fullRevealedRef.current = false; }}>← Cambiar restaurante</button>
+    // ── Step-based render helpers (one focused screen per step) ──
+    const metricsGrid = (
+      <div className="dx-metrics">
+        <div className={"dx-metric " + rC}><span className="dx-metric-icon">★</span><span className="dx-metric-val">{enrich.rating ? enrich.rating.toFixed(1) + "/5" : "N/A"}</span><span className="dx-metric-label">Calificación</span></div>
+        <div className={"dx-metric " + rvC}><span className="dx-metric-icon">💬</span><span className="dx-metric-val">{enrich.reviewCount != null ? enrich.reviewCount : "N/A"}</span><span className="dx-metric-label">Reseñas</span></div>
+        <div className={"dx-metric " + wC}><span className="dx-metric-icon">🌐</span><span className="dx-metric-val">{enrich.websiteUri ? "Sí" : "No"}</span><span className="dx-metric-label">Sitio web</span></div>
+        <div className={"dx-metric " + sC}><span className="dx-metric-icon">✓</span><span className="dx-metric-val">{enrich.businessStatus === "OPERATIONAL" ? "Activo" : "Inactivo"}</span><span className="dx-metric-label">Estado</span></div>
+      </div>
+    );
+    const scoreHeader = (
+      <>
         <div className="dx-name">{companyName}</div>
         <div className="dx-score-section"><ScoreRing score={score} /></div>
         <div className="dx-summary">
           {gaps.length === 0 ? "Tu restaurante tiene una presencia digital sólida."
             : "Oportunidades de mejora en " + gaps.length + " área" + (gaps.length > 1 ? "s" : "") + "."}
         </div>
-        <div className="dx-metrics">
-          <div className={"dx-metric " + rC}><span className="dx-metric-icon">★</span><span className="dx-metric-val">{enrich.rating ? enrich.rating.toFixed(1) + "/5" : "N/A"}</span><span className="dx-metric-label">Calificación</span></div>
-          <div className={"dx-metric " + rvC}><span className="dx-metric-icon">💬</span><span className="dx-metric-val">{enrich.reviewCount != null ? enrich.reviewCount : "N/A"}</span><span className="dx-metric-label">Reseñas</span></div>
-          <div className={"dx-metric " + wC}><span className="dx-metric-icon">🌐</span><span className="dx-metric-val">{enrich.websiteUri ? "Sí" : "No"}</span><span className="dx-metric-label">Sitio web</span></div>
-          <div className={"dx-metric " + sC}><span className="dx-metric-icon">✓</span><span className="dx-metric-val">{enrich.businessStatus === "OPERATIONAL" ? "Activo" : "Inactivo"}</span><span className="dx-metric-label">Estado</span></div>
-        </div>
-
-        {/* Free evaluation — score, metrics, and this detailed read are all ungated now */}
-        <div className="dx-eval-block">
-          <div className="dx-divider">Tu evaluación</div>
-          {hasAnyData ? (
-            <>
-              <div className="dx-eval-summary">
-                <div className="dx-eval-headline">{evaluation.summaryHeadline}</div>
-                <p className="dx-eval-body">{evaluation.summaryBody}</p>
-              </div>
-              <div className="dx-eval-items">
-                {evaluation.sections.map((s, i) => (
-                  <div className={"dx-eval-item dx-eval-item--" + s.status} key={i}>
-                    <div className="dx-eval-verdict"><span>{s.icon}</span> {s.verdict}</div>
-                    <p className="dx-eval-detail">{s.detail}</p>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <div className="dx-eval-summary">
-              <div className="dx-eval-headline">No pudimos obtener todos los datos de tu perfil</div>
-              <p className="dx-eval-body">Esto puede pasar si tu perfil de Google Business es nuevo o no está verificado. Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
+        {metricsGrid}
+      </>
+    );
+    const scoreMini = (
+      <div className="dx-score-mini">
+        <span className="dx-score-mini-name">{companyName}</span>
+        <span className="dx-score-mini-num">{score}<span>/100</span></span>
+      </div>
+    );
+    const detailedVerdicts = hasAnyData ? (
+      <>
+        <div className="dx-divider">Tu evaluación detallada</div>
+        <div className="dx-eval-items">
+          {evaluation.sections.map((s, i) => (
+            <div className={"dx-eval-item dx-eval-item--" + s.status} key={i}>
+              <div className="dx-eval-verdict"><span>{s.icon}</span> {s.verdict}</div>
+              <p className="dx-eval-detail">{s.detail}</p>
             </div>
-          )}
+          ))}
         </div>
-
-        {/* Competitor loss-aversion teaser — surfaces the locked value BEFORE the form so the
-            visitor sees there is more (and that they may be losing to nearby competitors). */}
-        {!unlocked && teaserComp.length > 0 && (
-          <div className="dx-teaser">
-            <div className="dx-divider">Tu zona</div>
-            {losingToNames.length >= 1 ? (
-              <div className="dx-ranking dx-ranking--bad">
-                Estás por debajo de {losingToNames.join(" y ")} en tu zona.
-              </div>
-            ) : isLeader ? (
-              <div className="dx-ranking">
-                Vas a la cabeza de tu zona — mira cuánta ventaja tienes y cómo mantenerla.
-              </div>
-            ) : (
-              <div className="dx-ranking dx-ranking--warn">
-                La competencia en tu zona está muy cerca. Mira dónde te superan.
-              </div>
-            )}
-            <div>
-              {teaserComp.map((c, i) => (
+      </>
+    ) : null;
+    // The full plan that unlocks after the demo is booked (verdicts + top action + competitors).
+    const revealedPlan = (
+      <div className="dx-gated dx-gated--revealed" style={{ marginTop: 20 }}>
+        {detailedVerdicts}
+        {evaluation.topRec && (
+          <div className="dx-eval-rec">
+            <div className="dx-eval-rec-label">Acción #1</div>
+            <p className="dx-eval-rec-text">{evaluation.topRec}</p>
+          </div>
+        )}
+        {total > 0 && (
+          <>
+            <div className="dx-divider">Tu vs tu zona</div>
+            <div style={{ marginBottom: 16 }}>
+              {sortedComp.map((c, i) => (
                 <div className="dx-comp" key={i}>
                   <span className="dx-comp-name">{c.name}</span>
                   <span className="dx-comp-rating">
-                    <span style={{ color: (c.rating || 0) >= userRating ? "#f59e0b" : "#94a3b8" }}>★</span>
+                    <span style={{ color: c.rating >= (enrich.rating || 0) ? "#f59e0b" : "#94a3b8" }}>★</span>
                     {c.rating ? c.rating.toFixed(1) : "N/A"}
                     <span className="dx-comp-reviews">({c.reviewCount || 0})</span>
                   </span>
                 </div>
               ))}
-              <div className="dx-comp dx-comp--you">
-                <span className="dx-comp-name">{companyName} (tú)</span>
-                <span className="dx-comp-rating">
-                  <span style={{ color: "#94a3b8" }}>★</span>
-                  {userRating ? userRating.toFixed(1) : "N/A"}
-                  <span className="dx-comp-reviews">({enrich.reviewCount || 0})</span>
-                </span>
-              </div>
-              {total > teaserComp.length && (
-                <div className="dx-gated dx-teaser-more" aria-hidden="true">
-                  <div className="dx-comp"><span className="dx-comp-name">•••••••••••</span><span className="dx-comp-rating">★ •.•</span></div>
-                  <div className="dx-comp"><span className="dx-comp-name">••••••••</span><span className="dx-comp-rating">★ •.•</span></div>
-                </div>
-              )}
             </div>
-            {gaps.length > 0 && (
-              <p className="dx-teaser-cta">
-                Tienes {gaps.length} mejora{gaps.length > 1 ? "s" : ""} priorizada{gaps.length > 1 ? "s" : ""} y la comparación completa con tus {total} competidores — desbloquéalas abajo.
-              </p>
-            )}
-          </div>
+            {rankText && <div className={"dx-ranking " + rankClass}>{rankText}</div>}
+          </>
         )}
-
-        {!unlocked && (
-          <div className="dx-gate-overlay" ref={gateFormRef}>
-            <div className="dx-gate-lock">🔒</div>
-            <h3 className="dx-gate-title">Desbloquea tu plan de mejora</h3>
-            <p className="dx-gate-sub">
-              Tus mejoras priorizadas{total > 0 ? " y la comparación completa con tu competencia" : ""} — al instante.
-            </p>
-            <div style={{ textAlign: "left" }}>
-              {error && <div className="dx-error">{error}</div>}
-              <div className="dx-name-row">
-                <div className="dx-field"><label>Nombre</label><input type="text" placeholder="Nombre" value={form.first_name} onChange={set("first_name")} data-clarity-mask="true" /></div>
-                <div className="dx-field"><label>Apellido</label><input type="text" placeholder="Apellido" value={form.last_name} onChange={set("last_name")} data-clarity-mask="true" /></div>
-              </div>
-              <div className="dx-field"><label>Email</label><input type="email" placeholder="tu@restaurante.com" value={form.email} onChange={set("email")} data-clarity-mask="true" /></div>
-              <div className="dx-field">
-                <label>WhatsApp</label>
-                <div className="dx-phone-row">
-                  <select value={form.country_code} onChange={set("country_code")}>
-                    <option value="+52">+52</option><option value="+57">+57</option>
-                    <option value="+56">+56</option><option value="+51">+51</option>
-                    <option value="+54">+54</option><option value="+1">+1</option>
-                    <option value="+593">+593</option><option value="+502">+502</option>
-                  </select>
-                  <input type="tel" inputMode="numeric" maxLength={14} placeholder="55 1234 5678"
-                    data-clarity-mask="true" value={form.phone} onChange={(e) => {
-                      const raw = e.target.value.replace(/[^\d\s\-()]/g, "");
-                      if (raw.replace(/\D/g, "").length > maxDigits) return;
-                      setForm({ ...form, phone: raw }); setPhoneError("");
-                    }} onBlur={validatePhone} />
-                </div>
-                {phoneError && <div className="dx-phone-error">{phoneError}</div>}
-              </div>
-              <div className="dx-checkbox">
-                <input type="checkbox" id="wa-opt-gate" checked={form.whatsapp_optin}
-                  onChange={(e) => setForm({ ...form, whatsapp_optin: e.target.checked })} />
-                <label htmlFor="wa-opt-gate">Acepto recibir mensajes por WhatsApp. Máximo 4/mes.</label>
-              </div>
-              <button className="dx-btn dx-btn--dark" disabled={!canSubmit || submitting} onClick={handleGateSubmit}>
-                {submitting ? "Desbloqueando..." : "Ver mi plan de mejora →"}
-              </button>
-              <div className="dx-legal">Al enviar aceptas nuestra política de privacidad.</div>
-            </div>
-          </div>
-        )}
-
-        {/* Stage 2 — improvements + competitors, gated behind a booked demo */}
-        {unlocked && hasDeep && (
-          <div className="dx-deep" ref={demoGateRef}>
-            {showCalendar ? (
-              <div className="dx-demo-gate">
-                {!fullUnlocked && (
-                  <>
-                    <div className="dx-gate-lock">🔒</div>
-                    <h3 className="dx-gate-title">Tu plan de mejora está listo</h3>
-                    <p className="dx-gate-sub">
-                      Agenda una demo de 20 min para ver tus mejoras priorizadas{total > 0 ? " y la comparación con tus " + total + " competidores cercanos" : ""}.
-                    </p>
-                  </>
-                )}
-                <CalendarBooking
-                  firstName={form.first_name} lastName={form.last_name}
-                  email={form.email} phone={form.phone} companyName={companyName}
-                  assignedAE={assignedAE} calendarUrl={calendarUrl}
-                  sessionId={SESSION_ID} placeId={placeId}
-                  onBooked={() => { setFullUnlocked(true); fireFullReveal(); }} />
-              </div>
-            ) : (!fullUnlocked && (
-              <div className="dx-demo-gate">
-                <div className="dx-gate-lock">🔒</div>
-                <h3 className="dx-gate-title">Tu plan de mejora está listo</h3>
-                <p className="dx-gate-sub">Habla con un experto para ver tus mejoras y la comparación con tu competencia.</p>
-                <a href={waExpertUrl} className="dx-btn dx-btn--dark" target="_blank" rel="noopener" style={{ textDecoration: "none" }}
-                  onClick={() => { setFullUnlocked(true); fireFullReveal(); }}>
-                  Hablar con un experto →
-                </a>
-              </div>
-            ))}
-            <div className={"dx-gated" + (fullUnlocked ? " dx-gated--revealed" : "")}>
-              {evaluation.topRec && (
-                <div className="dx-eval-rec">
-                  <div className="dx-eval-rec-label">Acción #1</div>
-                  <p className="dx-eval-rec-text">{evaluation.topRec}</p>
-                </div>
-              )}
-              {total > 0 && (
-                <>
-                  <div className="dx-divider">Tu vs tu zona</div>
-                  <div style={{ marginBottom: 16 }}>
-                    {sortedComp.map((c, i) => (
-                      <div className="dx-comp" key={i}>
-                        <span className="dx-comp-name">{c.name}</span>
-                        <span className="dx-comp-rating">
-                          <span style={{ color: c.rating >= (enrich.rating || 0) ? "#f59e0b" : "#94a3b8" }}>★</span>
-                          {c.rating ? c.rating.toFixed(1) : "N/A"}
-                          <span className="dx-comp-reviews">({c.reviewCount || 0})</span>
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  {rankText && <div className={"dx-ranking " + rankClass}>{rankText}</div>}
-                </>
-              )}
-            </div>
-            {fullUnlocked && scoreTier === "low" && (
-              <div style={{ marginTop: 8 }}>
-                <div className="dx-warm-title">Lo bueno: todo esto se puede mejorar</div>
-                <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, margin: "0 0 16px" }}>
-                  Muchos de nuestros clientes empezaron con un perfil similar al tuyo. Con las acciones correctas, los resultados llegan rápido.
-                </p>
-                <a href={"https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, acabo de hacer el diagnóstico de " + companyName + " y quiero mejorar mi presencia digital")}
-                  className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
-                  Habla con un experto por WhatsApp
-                </a>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* No deep content (new/unverified profile) — let qualified leads book directly */}
-        {unlocked && !hasDeep && (
+        {scoreTier === "low" && (
           <div style={{ marginTop: 8 }}>
-            {showCalendar ? (
-              <div style={{ paddingTop: 8 }}>
-                <CalendarBooking
-                  firstName={form.first_name} lastName={form.last_name}
-                  email={form.email} phone={form.phone} companyName={companyName}
-                  assignedAE={assignedAE} calendarUrl={calendarUrl}
-                  sessionId={SESSION_ID} placeId={placeId}
-                  onBooked={() => { setFullUnlocked(true); fireFullReveal(); }} />
-              </div>
-            ) : (
-              <>
-                <p className="dx-summary" style={{ margin: "8px 0 16px" }}>Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
-                <a href={waExpertUrl} className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
-                  Habla con un experto por WhatsApp
-                </a>
-              </>
-            )}
-          </div>
-        )}
-
-        <div className="dx-sticky-cta">
-          {!unlocked ? (
-            <button className="dx-btn" onClick={() => {
-              if (gateFormRef.current) gateFormRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-            }}>
-              Desbloquea tu plan →
-            </button>
-          ) : (!fullUnlocked && hasDeep && showCalendar) ? (
-            <button className="dx-btn" onClick={() => {
-              if (demoGateRef.current) demoGateRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-            }}>Agenda tu demo para ver todo →</button>
-          ) : scoreTier === "low" ? (
+            <div className="dx-warm-title">Lo bueno: todo esto se puede mejorar</div>
+            <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, margin: "0 0 16px" }}>
+              Muchos de nuestros clientes empezaron con un perfil similar al tuyo. Con las acciones correctas, los resultados llegan rápido.
+            </p>
             <a href={"https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, acabo de hacer el diagnóstico de " + companyName + " y quiero mejorar mi presencia digital")}
               className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
               Habla con un experto por WhatsApp
             </a>
-          ) : (
-            <a href={waExpertUrl} className="dx-btn" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
-              Habla con un experto →
-            </a>
-          )}
-        </div>
+          </div>
+        )}
+      </div>
+    );
+
+    return (
+      <div className="dx-card dx-scorecard-pad">
+        <button className="dx-back" onClick={() => { setStep("search"); setUnlocked(false); setFullUnlocked(false); setPlanOpen(false); fullRevealedRef.current = false; }}>← Cambiar restaurante</button>
+
+        {/* ───────── SCREEN 1 — Tu diagnóstico (free hook, fits the phone) ───────── */}
+        {!unlocked && !planOpen && (
+          <>
+            {scoreHeader}
+            <div className="dx-eval-block">
+              {hasAnyData ? (
+                <div className="dx-eval-summary">
+                  <div className="dx-eval-headline">{evaluation.summaryHeadline}</div>
+                  <p className="dx-eval-body">{evaluation.summaryBody}</p>
+                </div>
+              ) : (
+                <div className="dx-eval-summary">
+                  <div className="dx-eval-headline">No pudimos obtener todos los datos de tu perfil</div>
+                  <p className="dx-eval-body">Esto puede pasar si tu perfil de Google Business es nuevo o no está verificado. Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
+                </div>
+              )}
+            </div>
+
+            {/* Competitor loss-aversion teaser — the hook that drives the unlock */}
+            {teaserComp.length > 0 && (
+              <div className="dx-teaser">
+                <div className="dx-divider">Tu zona</div>
+                {losingToNames.length >= 1 ? (
+                  <div className="dx-ranking dx-ranking--bad">
+                    Estás por debajo de {losingToNames.join(" y ")} en tu zona.
+                  </div>
+                ) : isLeader ? (
+                  <div className="dx-ranking">
+                    Vas a la cabeza de tu zona — mira cuánta ventaja tienes y cómo mantenerla.
+                  </div>
+                ) : (
+                  <div className="dx-ranking dx-ranking--warn">
+                    La competencia en tu zona está muy cerca. Mira dónde te superan.
+                  </div>
+                )}
+                <div>
+                  {teaserComp.map((c, i) => (
+                    <div className="dx-comp" key={i}>
+                      <span className="dx-comp-name">{c.name}</span>
+                      <span className="dx-comp-rating">
+                        <span style={{ color: (c.rating || 0) >= userRating ? "#f59e0b" : "#94a3b8" }}>★</span>
+                        {c.rating ? c.rating.toFixed(1) : "N/A"}
+                        <span className="dx-comp-reviews">({c.reviewCount || 0})</span>
+                      </span>
+                    </div>
+                  ))}
+                  <div className="dx-comp dx-comp--you">
+                    <span className="dx-comp-name">{companyName} (tú)</span>
+                    <span className="dx-comp-rating">
+                      <span style={{ color: "#94a3b8" }}>★</span>
+                      {userRating ? userRating.toFixed(1) : "N/A"}
+                      <span className="dx-comp-reviews">({enrich.reviewCount || 0})</span>
+                    </span>
+                  </div>
+                  {total > teaserComp.length && (
+                    <div className="dx-gated dx-teaser-more" aria-hidden="true">
+                      <div className="dx-comp"><span className="dx-comp-name">•••••••••••</span><span className="dx-comp-rating">★ •.•</span></div>
+                      <div className="dx-comp"><span className="dx-comp-name">••••••••</span><span className="dx-comp-rating">★ •.•</span></div>
+                    </div>
+                  )}
+                </div>
+                {gaps.length > 0 && (
+                  <p className="dx-teaser-cta">
+                    Tienes {gaps.length} mejora{gaps.length > 1 ? "s" : ""} priorizada{gaps.length > 1 ? "s" : ""} y la comparación completa con tus {total} competidores — desbloquéalas en el siguiente paso.
+                  </p>
+                )}
+              </div>
+            )}
+
+            <button className="dx-btn dx-btn--dark" onClick={() => setPlanOpen(true)}>
+              Ver mi plan completo →
+            </button>
+          </>
+        )}
+
+        {/* ───────── SCREEN 2 — Desbloquea tu plan (gate / contact) ───────── */}
+        {!unlocked && planOpen && (
+          <div ref={gateFormRef}>
+            {scoreMini}
+            <div className="dx-gate-overlay">
+              <div className="dx-gate-lock">🔒</div>
+              <h3 className="dx-gate-title">Desbloquea tu plan de mejora</h3>
+              <p className="dx-gate-sub">
+                Tus mejoras priorizadas{total > 0 ? " y la comparación completa con tu competencia" : ""} — al instante.
+              </p>
+              {hasAnyData && (
+                <div className="dx-gated dx-gate-preview" aria-hidden="true">{detailedVerdicts}</div>
+              )}
+              <div style={{ textAlign: "left" }}>
+                {error && <div className="dx-error">{error}</div>}
+                <div className="dx-name-row">
+                  <div className="dx-field"><label>Nombre</label><input type="text" placeholder="Nombre" value={form.first_name} onChange={set("first_name")} data-clarity-mask="true" /></div>
+                  <div className="dx-field"><label>Apellido</label><input type="text" placeholder="Apellido" value={form.last_name} onChange={set("last_name")} data-clarity-mask="true" /></div>
+                </div>
+                <div className="dx-field"><label>Email</label><input type="email" placeholder="tu@restaurante.com" value={form.email} onChange={set("email")} data-clarity-mask="true" /></div>
+                <div className="dx-field">
+                  <label>WhatsApp</label>
+                  <div className="dx-phone-row">
+                    <select value={form.country_code} onChange={set("country_code")}>
+                      <option value="+52">+52</option><option value="+57">+57</option>
+                      <option value="+56">+56</option><option value="+51">+51</option>
+                      <option value="+54">+54</option><option value="+1">+1</option>
+                      <option value="+593">+593</option><option value="+502">+502</option>
+                    </select>
+                    <input type="tel" inputMode="numeric" maxLength={14} placeholder="55 1234 5678"
+                      data-clarity-mask="true" value={form.phone} onChange={(e) => {
+                        const raw = e.target.value.replace(/[^\d\s\-()]/g, "");
+                        if (raw.replace(/\D/g, "").length > maxDigits) return;
+                        setForm({ ...form, phone: raw }); setPhoneError("");
+                      }} onBlur={validatePhone} />
+                  </div>
+                  {phoneError && <div className="dx-phone-error">{phoneError}</div>}
+                </div>
+                <div className="dx-checkbox">
+                  <input type="checkbox" id="wa-opt-gate" checked={form.whatsapp_optin}
+                    onChange={(e) => setForm({ ...form, whatsapp_optin: e.target.checked })} />
+                  <label htmlFor="wa-opt-gate">Acepto recibir mensajes por WhatsApp. Máximo 4/mes.</label>
+                </div>
+                <button className="dx-btn dx-btn--dark" disabled={!canSubmit || submitting} onClick={handleGateSubmit}>
+                  {submitting ? "Desbloqueando..." : "Ver mi plan de mejora →"}
+                </button>
+                <div className="dx-legal">Al enviar aceptas nuestra política de privacidad.</div>
+              </div>
+            </div>
+            <button className="dx-back-link" onClick={() => setPlanOpen(false)}>← Volver a mi diagnóstico</button>
+          </div>
+        )}
+
+        {/* ───────── SCREEN 3+4 — Agenda demo → reveal (qualified, has deep content) ───────── */}
+        {unlocked && hasDeep && showCalendar && (
+          <div className="dx-deep" ref={demoGateRef}>
+            {fullUnlocked ? scoreHeader : scoreMini}
+            <div className="dx-demo-gate">
+              {!fullUnlocked && (
+                <>
+                  <div className="dx-gate-lock">🔒</div>
+                  <h3 className="dx-gate-title">Tu plan de mejora está listo</h3>
+                  <p className="dx-gate-sub">
+                    Agenda una demo de 20 min para ver tus mejoras priorizadas{total > 0 ? " y la comparación con tus " + total + " competidores cercanos" : ""}.
+                  </p>
+                </>
+              )}
+              <CalendarBooking
+                firstName={form.first_name} lastName={form.last_name}
+                email={form.email} phone={form.phone} companyName={companyName}
+                assignedAE={assignedAE} calendarUrl={calendarUrl}
+                sessionId={SESSION_ID} placeId={placeId}
+                onBooked={() => { setFullUnlocked(true); fireFullReveal(); }} />
+            </div>
+            {fullUnlocked && revealedPlan}
+          </div>
+        )}
+
+        {/* Qualified but no deep content — book directly */}
+        {unlocked && !hasDeep && showCalendar && (
+          <div className="dx-deep">
+            {fullUnlocked ? scoreHeader : scoreMini}
+            <div className="dx-demo-gate">
+              {!fullUnlocked && (
+                <>
+                  <div className="dx-gate-lock">🔒</div>
+                  <h3 className="dx-gate-title">Agenda tu demo</h3>
+                  <p className="dx-gate-sub">Un experto revisará tu perfil y te dará recomendaciones personalizadas.</p>
+                </>
+              )}
+              <CalendarBooking
+                firstName={form.first_name} lastName={form.last_name}
+                email={form.email} phone={form.phone} companyName={companyName}
+                assignedAE={assignedAE} calendarUrl={calendarUrl}
+                sessionId={SESSION_ID} placeId={placeId}
+                onBooked={() => { setFullUnlocked(true); fireFullReveal(); }} />
+            </div>
+          </div>
+        )}
+
+        {/* Not qualified (no calendar) — reveal what we have + talk to an expert */}
+        {unlocked && !showCalendar && (
+          <div className="dx-deep">
+            {scoreHeader}
+            {hasDeep && revealedPlan}
+            <div style={{ marginTop: 16 }}>
+              <p className="dx-summary" style={{ margin: "8px 0 16px" }}>Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
+              <a href={waExpertUrl} className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
+                Habla con un experto por WhatsApp
+              </a>
+            </div>
+          </div>
+        )}
       </div>
     );
   };
