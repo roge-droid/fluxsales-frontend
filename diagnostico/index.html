@@ -1088,7 +1088,7 @@ function DiagnosticoApp() {
         body: JSON.stringify({
           first_name: form.first_name.trim(), last_name: form.last_name.trim(),
           email: form.email.trim(), phone: fullPhone,
-          company_name: companyName, sucursales: "1", plataformas: "dueno",
+          company_name: companyName, sucursales: sucursales || "1", plataformas: plataformas || "dueno",
           place_id: placeId || undefined, place_address: placeAddress || undefined,
           source: form.source || "diagnostico", whatsapp_optin: form.whatsapp_optin,
         }),
@@ -1130,7 +1130,7 @@ function DiagnosticoApp() {
         body: JSON.stringify({
           first_name: form.first_name.trim(), last_name: form.last_name.trim(),
           email: form.email.trim(), phone: fullPhone,
-          company_name: companyName, sucursales: "1", plataformas: "dueno",
+          company_name: companyName, sucursales: sucursales || "1", plataformas: plataformas || "dueno",
           place_id: placeId || undefined, place_address: placeAddress || undefined,
           source: "diagnostico", whatsapp_optin: form.whatsapp_optin,
         }),
