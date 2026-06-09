@@ -23,6 +23,10 @@
       "destination": "/diagnostico/index.html"
     },
     {
+      "source": "/guias/:slug",
+      "destination": "/guias/:slug/index.html"
+    },
+    {
       "source": "/dashboards/:path*",
       "destination": "/dashboards/:path*"
     },
