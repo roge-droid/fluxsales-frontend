@@ -1,2 +1,5 @@
 .vercel
 .gstack/
+
+# Reels/media are work product — host for Blotato via a bucket/Blotato upload, not the repo.
+media/
