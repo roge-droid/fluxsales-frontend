@@ -60,10 +60,6 @@
       "destination": "/p/index.html"
     },
     {
-      "source": "/media/:file*",
-      "destination": "/media/:file*"
-    },
-    {
       "source": "/(.*)",
       "destination": "/landing/$1"
     }
