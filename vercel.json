@@ -7,7 +7,12 @@
     },
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "case.fluxsales.co" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "case.fluxsales.co"
+        }
+      ],
       "destination": "/case/:path*"
     },
     {
@@ -55,6 +60,10 @@
       "destination": "/p/index.html"
     },
     {
+      "source": "/media/:file*",
+      "destination": "/media/:file*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/landing/$1"
     }
@@ -63,7 +72,10 @@
     {
       "source": "/landing/assets/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     }
   ]
