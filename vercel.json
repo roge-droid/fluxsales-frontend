@@ -28,6 +28,10 @@
       "destination": "/diagnostico/index.html"
     },
     {
+      "source": "/repartidores",
+      "destination": "/repartidores/index.html"
+    },
+    {
       "source": "/guias/:slug",
       "destination": "/guias/:slug/index.html"
     },
