@@ -811,7 +811,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
         body: JSON.stringify({
           ae: assignedAE, start: selectedSlot.start, end: selectedSlot.end,
           first_name: firstName, last_name: lastName, email, phone, company_name: companyName,
-          session_id: sessionId, source: "diagnostico", place_id: placeId || undefined,
+          session_id: sessionId, source: "repartidores", funnel: "drivers", place_id: placeId || undefined,
         }),
       });
       const result = await res.json();
