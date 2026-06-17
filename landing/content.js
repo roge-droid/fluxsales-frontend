@@ -398,7 +398,7 @@ window.COPY = {
       ],
       company: "Empresa",
       companyLinks: [
-        { label: "Sobre nosotros", href: "/#stories" },
+        { label: "Sobre nosotros", href: "/about" },
         { label: "Historias de clientes", href: "/casos" },
         { label: "Blog", href: "/blog" },
       ],
@@ -806,7 +806,7 @@ window.COPY = {
       ],
       company: "Company",
       companyLinks: [
-        { label: "About", href: "/#stories" },
+        { label: "About", href: "/about" },
         { label: "Customer stories", href: "/casos" },
         { label: "Blog", href: "/blog" },
       ],
