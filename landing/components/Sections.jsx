@@ -66,9 +66,10 @@ function Pricing({ lang }) {
           <h2 className="display h2">{t.title}</h2>
           <p className="lead">{t.subtitle}</p>
         </div>
-        <div className="plans plans-2">
+        <div className="plans plans-4">
           {t.plans.map((p, i) => (
             <div key={i} className={"plan" + (p.popular ? " pop" : "")}>
+              {p.badge && <div className="plan-pop-badge">{p.badge}</div>}
               <div className="plan-name">{p.name}</div>
               <div className="plan-tag">{p.tag}</div>
               <div className="plan-price">
@@ -78,6 +79,11 @@ function Pricing({ lang }) {
                 <div className="plan-fee">{p.fee}</div>
                 <div className="plan-taxes">{p.taxes}</div>
               </div>
+              {p.features && (
+                <ul className="plan-feats">
+                  {p.features.map((f, fi) => <li key={fi}>{f}</li>)}
+                </ul>
+              )}
               <button className={p.popular ? "btn btn-green" : "btn btn-secondary"}>
                 {p.cta} <span className="arr">→</span>
               </button>

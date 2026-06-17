@@ -1131,6 +1131,10 @@ input[type=range]::-moz-range-thumb {
   grid-template-columns: repeat(2, 1fr);
   max-width: 900px; margin-left: auto; margin-right: auto;
 }
+.plans-4 {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
 .plan-price-meta {
   margin-top: 10px;
   display: flex; flex-direction: column;
@@ -1463,6 +1467,7 @@ footer {
 @media (max-width: 1000px) {
   .hero-grid, .tab-panel, .roi-grid, .founders-grid, .faq-grid, .t-card { grid-template-columns: 1fr; gap: 40px; }
   .problem-grid, .how-steps, .plans { grid-template-columns: 1fr; }
+  .plans.plans-4 { grid-template-columns: repeat(2, 1fr); }
   .hiw-row, .hiw-row.reverse { grid-template-columns: 1fr; gap: 32px; padding: 56px 0; }
   .hiw-row.reverse .hiw-text { order: 1; }
   .hiw-row.reverse .hiw-art-wrap { order: 2; }
@@ -1484,6 +1489,7 @@ footer {
 /* Responsive — phone */
 @media (max-width: 640px) {
   html, body { overflow-x: hidden; }
+  .plans.plans-4 { grid-template-columns: 1fr; }
 
   /* Nav: hide login, compact CTA */
   .nav-inner { height: 56px; }
