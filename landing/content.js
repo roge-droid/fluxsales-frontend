@@ -404,7 +404,7 @@ window.COPY = {
       ],
       resources: "Recursos",
       resourcesLinks: [
-        { label: "Academia Fluxsales", href: "/guias/comisiones" },
+        { label: "Academia Fluxsales", href: "/guias" },
         { label: "Contacto", href: "https://wa.me/5214421716825" },
       ],
       legal: "© 2026 Fluxsales. Hecho con cariño en CDMX.",
@@ -812,7 +812,7 @@ window.COPY = {
       ],
       resources: "Resources",
       resourcesLinks: [
-        { label: "Fluxsales Academy", href: "/guias/commissions" },
+        { label: "Fluxsales Academy", href: "/guias" },
         { label: "Contact", href: "https://wa.me/5214421716825" },
       ],
       legal: "© 2026 Fluxsales. Made with cariño in CDMX.",
