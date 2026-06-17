@@ -1,0 +1,156 @@
+<!doctype html>
+<!--
+  CASE STUDY TEMPLATE — Brooklyn Burgers. Structure follows docs/CASE-STUDY-SPEC.md (flux-automation).
+  Data: 4 locales, Veracruz; ~$700K MXN/mes en ventas por Uber Eats a ~35% comisión (≈$245K/mes
+  recuperados); canal UE reemplazado en <3 meses; ~200 órdenes/día; quote from co-founder Axel.
+  Figures + quote provided by FluxSales; customer (Axel / Brooklyn Burgers) consented to public
+  publication 2026-06-17. LIVE (indexable, in sitemap).
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Caso de éxito: Brooklyn Burgers — FluxSales</title>
+<meta name="description" content="Cómo Brooklyn Burgers redujo su dependencia de las apps de delivery y construyó su canal de pedidos directos con FluxSales.">
+<meta property="og:type" content="article" />
+<meta property="og:image" content="/og-image.png" />
+<meta property="og:title" content="Caso de éxito: Brooklyn Burgers — FluxSales">
+<meta property="og:description" content="Cómo Brooklyn Burgers dejó de depender de las apps de delivery con FluxSales.">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://fluxsales.co/casos/brooklyn-burgers" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/landing/styles.css" />
+
+<!-- Structured data — shared entity + the case study as an Article. No metrics in JSON-LD until verified. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://fluxsales.co/#organization",
+      "name": "FluxSales",
+      "url": "https://fluxsales.co/",
+      "logo": "https://fluxsales.co/og-image.png",
+      "sameAs": ["https://twitter.com/fluxsales"]
+    },
+    {
+      "@type": "Article",
+      "headline": "Caso de éxito: Brooklyn Burgers",
+      "url": "https://fluxsales.co/casos/brooklyn-burgers",
+      "inLanguage": "es",
+      "about": "Reducción de dependencia de apps de delivery y construcción de canal de pedidos directos con FluxSales",
+      "publisher": { "@id": "https://fluxsales.co/#organization" }
+    }
+  ]
+}
+</script>
+
+<style>
+  .cs-wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  .cs-hero { padding: 64px 0 24px; }
+  .cs-snapshot { display: flex; flex-wrap: wrap; gap: 20px 40px; margin: 24px 0 8px; padding: 20px 0; border-top: 1px solid rgba(13,44,32,.12); border-bottom: 1px solid rgba(13,44,32,.12); }
+  .cs-snapshot .k { font: 600 12px/1 "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: #2f7a5e; margin-bottom: 6px; }
+  .cs-snapshot .v { font-size: 16px; font-weight: 600; }
+  .cs-results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 16px 0; }
+  .cs-metric { padding: 24px; border-radius: 16px; background: rgba(16,185,129,.07); border: 1px solid rgba(16,185,129,.22); text-align: center; }
+  .cs-metric .big { font-family: Fraunces, serif; font-size: 40px; line-height: 1; color: #0d2c20; }
+  .cs-metric .lbl { font-size: 14px; opacity: .8; margin-top: 8px; }
+  .cs-section { padding: 28px 0; }
+  .cs-section h2 { font-family: Fraunces, serif; font-size: 28px; margin: 0 0 12px; }
+  .cs-section p { font-size: 17px; line-height: 1.6; }
+  .cs-quote { margin: 8px 0; padding: 28px; border-radius: 18px; background: #0d2c20; color: #eef6f0; }
+  .cs-quote blockquote { font-family: Fraunces, serif; font-size: 22px; line-height: 1.4; margin: 0 0 16px; }
+  .cs-quote .who { font-size: 14px; opacity: .85; }
+  .todo { color: #b45309; background: #fff7ed; border: 1px dashed #f59e0b; padding: 1px 6px; border-radius: 5px; font-size: .9em; }
+  .cs-cta { text-align: center; padding: 40px 0 80px; }
+  @media (max-width: 760px) { .cs-results { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=590520096533350&ev=PageView&noscript=1" /></noscript>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="logo">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor">
+          <rect x="54" y="40" width="50" height="172" rx="6"/><rect x="54" y="40" width="150" height="46" rx="6"/>
+          <rect x="54" y="108" width="98" height="38" rx="6"/>
+          <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+        </g></svg>
+      </span>
+      <span>Fluxsales</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/casos">Casos</a>
+      <a href="/pricing">Precios</a>
+      <a href="/blog">Blog</a>
+    </nav>
+    <div class="nav-right">
+      <a href="/demo" class="btn btn-primary">Agenda una demo <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main class="cs-wrap">
+  <section class="cs-hero">
+    <span class="eyebrow">Caso de éxito</span>
+    <h1 class="display h1" style="margin:12px 0 8px">Brooklyn Burgers dejó de depender de Uber Eats.</h1>
+    <p class="lead">Cómo reemplazaron por completo el canal de Uber Eats del que dependían — en menos de 3 meses — con su propio canal de pedidos directos.</p>
+
+    <div class="cs-snapshot">
+      <div><div class="k">Cliente</div><div class="v">Brooklyn Burgers</div></div>
+      <div><div class="k">Segmento</div><div class="v">Hamburguesas · QSR</div></div>
+      <div><div class="k">Ubicación</div><div class="v">Veracruz, México</div></div>
+      <div><div class="k">Tamaño</div><div class="v">4 locales</div></div>
+    </div>
+  </section>
+
+  <!-- RESULTS first (Hormozi + case-study research: lead with quantified outcomes). -->
+  <section class="cs-section">
+    <h2>Resultados</h2>
+    <div class="cs-results">
+      <div class="cs-metric"><div class="big">~$245K</div><div class="lbl">MXN/mes en comisión de Uber Eats que dejaron de pagar</div></div>
+      <div class="cs-metric"><div class="big">&lt;3 meses</div><div class="lbl">para apagar el canal del que dependían</div></div>
+      <div class="cs-metric"><div class="big">~$700K</div><div class="lbl">MXN/mes en ventas liberadas de Uber Eats</div></div>
+    </div>
+    <p>Brooklyn movía cerca de <b>$700,000 MXN al mes</b> por el canal de Uber Eats, con una comisión promedio cercana al <b>35%</b> — unos <b>~$245,000 MXN al mes</b> que se iban en comisión. El canal directo se levantó en paralelo: al día 30 ya superaba el 25% del mix, al día 60 Uber Eats iba en caída, y al día 90 lo apagaron por completo. Hoy la red opera ~200 órdenes diarias sin comisión de Uber Eats — y esa comisión se queda en la casa.</p>
+  </section>
+
+  <section class="cs-section">
+    <h2>El reto</h2>
+    <p>Brooklyn Burgers operaba sus 4 locales en Veracruz sobre dos canales de delivery — Uber Eats y Rappi. Dependían de Uber Eats para cerca de <b>$700,000 MXN al mes</b> en ventas, con una comisión promedio cercana al <b>35%</b> por orden: cada mes, una parte enorme del margen se iba en comisión, y la relación con el cliente vivía en la plataforma, no en el restaurante.</p>
+  </section>
+
+  <section class="cs-section">
+    <h2>La solución</h2>
+    <p>Con FluxSales levantaron su propio canal de pedidos directos en paralelo a las apps — sitio, pedidos en línea y marketing — sin apagar nada de golpe. A medida que el canal directo ganaba mix, fueron retirando su dependencia de Uber Eats hasta apagar ese canal por completo en el mes tres, conservando Rappi solo como secundario.</p>
+  </section>
+
+  <section class="cs-section">
+    <div class="cs-quote">
+      <blockquote>"Llegó un momento en que veíamos la cuenta de Uber Eats y nos preguntábamos quién era el dueño del negocio, ellos o nosotros. Apagamos el canal en el mes tres. El cliente siguió llegando — solo que ahora la comisión se queda en la casa."</blockquote>
+      <div class="who">Axel · Co-fundador, Brooklyn Burgers · 4 locales, Veracruz</div>
+    </div>
+  </section>
+
+  <section class="cs-cta">
+    <h2 class="display h2" style="margin-bottom:16px">¿Tu restaurante con la misma mecánica?</h2>
+    <a class="btn btn-primary" href="/demo">Agenda una demo <span class="arr">→</span></a>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-legal" style="border-top:1px solid rgba(13,44,32,.1);padding-top:24px;margin-top:24px">
+      <span>© 2026 Fluxsales. Hecho con cariño en CDMX.</span>
+      <span>CDMX · Monterrey · Guadalajara</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
