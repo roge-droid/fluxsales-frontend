@@ -36,6 +36,22 @@
       "destination": "/guias/:slug/index.html"
     },
     {
+      "source": "/pricing",
+      "destination": "/pricing/index.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog/index.html"
+    },
+    {
+      "source": "/casos",
+      "destination": "/casos/index.html"
+    },
+    {
+      "source": "/casos/:slug",
+      "destination": "/casos/:slug/index.html"
+    },
+    {
       "source": "/dashboards/:path*",
       "destination": "/dashboards/:path*"
     },

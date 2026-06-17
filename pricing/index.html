@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Precios — FluxSales | El sistema operativo con IA para restaurantes</title>
+<meta name="description" content="Precios de FluxSales: 4 planes, desde entregas on-demand hasta tu operación completa en automático con IA. Sin comisiones de marketplace, mes a mes y sin contratos anuales.">
+<meta name="author" content="FluxSales" />
+
+<meta property="og:type" content="website" />
+<meta property="og:image" content="/og-image.png" />
+<meta property="og:title" content="Precios — FluxSales">
+<meta property="og:description" content="4 planes, desde entregas on-demand hasta tu operación completa en automático con IA. Sin comisiones de marketplace.">
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@fluxsales" />
+<meta name="twitter:image" content="/og-image.png" />
+<meta name="twitter:title" content="Precios — FluxSales">
+<meta name="twitter:description" content="4 planes, desde entregas on-demand hasta tu operación completa en automático con IA. Sin comisiones de marketplace.">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" href="/favicon.svg">
+<link rel="canonical" href="https://fluxsales.co/pricing" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/landing/styles.css" />
+
+<!-- Meta Pixel Code -->
+<script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '590520096533350');
+  fbq('track', 'PageView');
+</script>
+
+<!-- Structured data (SEO + AEO). Entity + 4-rung pricing + FAQ.
+     KEEP PRICES IN SYNC with /landing/content.js (pricing.plans) and the SoT
+     config/company_profile.json. See flux-automation docs/SEO-AEO-POSITIONING.md. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://fluxsales.co/#organization",
+      "name": "FluxSales",
+      "url": "https://fluxsales.co/",
+      "logo": "https://fluxsales.co/og-image.png",
+      "description": "FluxSales is the AI operating system for restaurants: direct online ordering without marketplace commissions, loyalty, marketing automation, and local SEO.",
+      "sameAs": ["https://twitter.com/fluxsales"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "FluxSales",
+      "applicationCategory": "BusinessApplication",
+      "applicationSubCategory": "Restaurant management software",
+      "operatingSystem": "Web, iOS, Android",
+      "url": "https://fluxsales.co/pricing",
+      "publisher": { "@id": "https://fluxsales.co/#organization" },
+      "description": "The AI operating system for restaurants — direct online ordering, on-demand delivery, loyalty, and marketing automation. Four plans from delivery-only to full autopilot.",
+      "offers": {
+        "@type": "AggregateOffer",
+        "priceCurrency": "MXN",
+        "lowPrice": "1499",
+        "highPrice": "7499",
+        "offerCount": "4",
+        "url": "https://fluxsales.co/pricing"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "¿Cuánto tiempo toma implementar Fluxsales?", "acceptedAnswer": { "@type": "Answer", "text": "En promedio, 48 horas. Conectamos tu POS, WhatsApp Business y redes. Tú ves resultados en la primera semana." } },
+        { "@type": "Question", "name": "¿Necesito saber de tecnología?", "acceptedAnswer": { "@type": "Answer", "text": "No. Fluxsales está diseñado para restauranteros, no para ingenieros. Si sabes usar WhatsApp, sabes usar Fluxsales." } },
+        { "@type": "Question", "name": "¿Funciona con mi POS actual?", "acceptedAnswer": { "@type": "Answer", "text": "Nos integramos con Soft Restaurant, Parrot, NCR Aloha, Toast y 30+ sistemas más. Si usas otro, tenemos API." } },
+        { "@type": "Question", "name": "¿Los datos de mis clientes son míos?", "acceptedAnswer": { "@type": "Answer", "text": "100%. A diferencia de Rappi o Uber Eats, tú eres dueño de tu base de clientes. Puedes exportarla cuando quieras." } },
+        { "@type": "Question", "name": "¿Tienen contrato mínimo?", "acceptedAnswer": { "@type": "Answer", "text": "No. Mensualidades sin compromiso. El plan anual tiene 20% de descuento, pero no es obligatorio." } },
+        { "@type": "Question", "name": "¿Atienden fuera de México?", "acceptedAnswer": { "@type": "Answer", "text": "Sí — actualmente operamos en México, Colombia, Chile y Perú. El producto está localizado para cada mercado." } }
+      ]
+    }
+  ]
+}
+</script>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="/landing/content.js"></script>
+</head>
+<body>
+<noscript>
+  <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=590520096533350&ev=PageView&noscript=1" />
+  <!-- Static price fallback for crawlers / no-JS. Mirror /landing/content.js pricing.plans. -->
+  <main style="max-width:880px;margin:0 auto;padding:48px 20px;font-family:Inter,system-ui,sans-serif">
+    <h1>Precios de FluxSales</h1>
+    <p>El sistema operativo con IA para restaurantes. Un plan para cada etapa — mes a mes, sin contratos anuales (+ IVA).</p>
+    <ul>
+      <li><strong>Flotilla — $1,499/mes</strong> + costo de envío directo. Entregas on-demand en 30 min, $0 comisión de entrega. Solo entregas.</li>
+      <li><strong>Flexible — $2,499/mes</strong> + 5% comisión por orden. Plataforma completa con tu marca; pago por uso.</li>
+      <li><strong>Sin comisiones — $5,499/mes</strong> (Más popular). Toda la plataforma sin comisión por orden; costo fijo al escalar.</li>
+      <li><strong>Flux Higher — $7,499/mes</strong>. Todo incluido: plataforma + Flotilla + Mesero IA (toma pedidos por WhatsApp 24/7) + success manager.</li>
+    </ul>
+    <p>Tarifas especiales disponibles para multi-sucursal. <a href="/demo">Agenda una demo</a>.</p>
+  </main>
+</noscript>
+<div id="root"></div>
+
+<script type="text/babel" src="/landing/components/Sections.jsx"></script>
+
+<script type="text/babel">
+function LogoMark() {
+  return (
+    <span className="logo-mark" aria-hidden="true">
+      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+        <g fill="currentColor">
+          <rect x="54" y="40" width="50" height="172" rx="6"/>
+          <rect x="54" y="40" width="150" height="46" rx="6"/>
+          <rect x="54" y="108" width="98" height="38" rx="6"/>
+          <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+        </g>
+      </svg>
+    </span>
+  );
+}
+
+function Nav({ lang, setLang }) {
+  const t = window.COPY[lang].nav;
+  return (
+    <header className="nav">
+      <div className="wrap nav-inner">
+        <a href="/" className="logo">
+          <LogoMark />
+          <span>Fluxsales</span>
+        </a>
+        <nav className="nav-links">
+          <a href="/#product">{t.product}</a>
+          <a href="/#how">{t.howItWorks}</a>
+          <a href="/pricing">{t.pricing}</a>
+          <a href="/#stories">{t.stories}</a>
+          <a href="/#faq">{lang === "es" ? "Preguntas" : "FAQ"}</a>
+        </nav>
+        <div className="nav-right">
+          <div className="lang-toggle" role="group" aria-label="language">
+            <button className={lang === "es" ? "on" : ""} onClick={() => setLang("es")}>ES</button>
+            <button className={lang === "en" ? "on" : ""} onClick={() => setLang("en")}>EN</button>
+          </div>
+          <a href="/demo" className="btn btn-primary">{t.cta} <span className="arr">→</span></a>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function PricingCTA({ lang }) {
+  const t = window.COPY[lang].cta;
+  return (
+    <section className="endcta" id="demo">
+      <div className="wrap">
+        <span className="eyebrow" style={{ color: "#0d2c20" }}>{lang === "es" ? "Último paso" : "Last step"}</span>
+        <h2 className="display h2" style={{ margin: "16px auto 16px", maxWidth: "14ch" }}>{t.title}</h2>
+        <p>{t.subtitle}</p>
+        <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+          <a className="btn btn-primary" href="/demo">{t.primary} →</a>
+          <a className="btn btn-secondary" href="https://wa.me/5214421716825">{t.secondary}</a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Footer({ lang }) {
+  const t = window.COPY[lang].footer;
+  return (
+    <footer>
+      <div className="wrap">
+        <div className="foot-grid">
+          <div className="foot-brand">
+            <a href="/" className="logo"><LogoMark /><span>Fluxsales</span></a>
+            <p>{t.tagline}</p>
+          </div>
+          <div className="foot-col">
+            <h4>{t.product}</h4>
+            <ul>{t.productLinks.map((l, i) => <li key={i}><a href={l.href}>{l.label}</a></li>)}</ul>
+          </div>
+          <div className="foot-col">
+            <h4>{t.company}</h4>
+            <ul>{t.companyLinks.map((l, i) => <li key={i}><a href={l.href}>{l.label}</a></li>)}</ul>
+          </div>
+          <div className="foot-col">
+            <h4>{t.resources}</h4>
+            <ul>{t.resourcesLinks.map((l, i) => <li key={i}><a href={l.href}>{l.label}</a></li>)}</ul>
+          </div>
+        </div>
+        <div className="foot-legal">
+          <span>{t.legal}</span>
+          <span>CDMX · Monterrey · Guadalajara</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+function App() {
+  const [lang, setLang] = React.useState(() => {
+    try { return localStorage.getItem("flux_lang") || "es"; } catch { return "es"; }
+  });
+  React.useEffect(() => {
+    try { localStorage.setItem("flux_lang", lang); document.documentElement.lang = lang; } catch {}
+  }, [lang]);
+
+  return (
+    <>
+      <Nav lang={lang} setLang={setLang} />
+      <main style={{ paddingTop: 24 }}>
+        <Pricing lang={lang} />
+        <FAQ lang={lang} />
+      </main>
+      <PricingCTA lang={lang} />
+      <Footer lang={lang} />
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>

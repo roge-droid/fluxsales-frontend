@@ -13,10 +13,10 @@ window.COPY = {
       cta: "Agenda una demo",
     },
     hero: {
-      eyebrow: "Para restauranteros en México",
+      eyebrow: "Para restaurantes ambiciosos",
       title: "Superpoderes para tu restaurante.",
       subtitle:
-        "Más tráfico en Google, más ventas directas y más clientes que regresan. Fluxsales es el sistema operativo que tu restaurante necesita — en español, hecho para LATAM.",
+        "Fluxsales es el sistema operativo con IA para restaurantes: más tráfico en Google, más ventas directas y más clientes que regresan.",
       primary: "Agenda una demo",
       secondary: "Ver producto",
       trust: "Más de 1,400 restaurantes confían en Fluxsales",
@@ -36,7 +36,7 @@ window.COPY = {
     venues: {
       eyebrow: "Nuestros clientes",
       title: "Solo falta el tuyo.",
-      subtitle: "Restaurantes ambiciosos en toda LATAM ya están creciendo con Fluxsales. Pulsa o arrastra para ver más.",
+      subtitle: "Restaurantes ambiciosos ya están creciendo con Fluxsales. Pulsa o arrastra para ver más.",
       cta: "Empieza con Fluxsales",
       count: "1,400+ restaurantes activos",
       items: [
@@ -77,7 +77,7 @@ window.COPY = {
       eyebrow: "La plataforma",
       title: "Un solo lugar para crecer tu restaurante.",
       subtitle:
-        "Sitio web, pedidos directos, lealtad y marketing — conectados, en automático, y en español.",
+        "Sitio web, pedidos directos, lealtad y marketing — conectados y en automático.",
       tabs: [
         {
           key: "sitio",
@@ -123,7 +123,7 @@ window.COPY = {
             "Fluxsales aprende quién es tu cliente ideal y manda WhatsApp, SMS y emails en los momentos correctos. Tú apruebas desde el celular, nosotros enviamos.",
           bullets: [
             "Segmentación por hábito de consumo",
-            "Copywriting generado por IA en español mexicano",
+            "Copywriting generado por IA con tono local",
             "A/B testing automático de asuntos y ofertas",
           ],
         },
@@ -204,6 +204,7 @@ window.COPY = {
     testimonials: {
       eyebrow: "Historias",
       title: "Restauranteros hablando de restauranteros.",
+      caseLink: { label: "Ver el caso completo: Brooklyn Burgers", href: "/casos/brooklyn-burgers" },
       items: [
         {
           quote:
@@ -299,6 +300,12 @@ window.COPY = {
         },
       ],
       multiNote: "Tarifas especiales disponibles para multi-sucursal",
+      valueAnchor: "Una orden de $350 en una app de delivery te cuesta ~$105 de comisión. En los planes sin comisión, eso es $0 — el plan se paga solo.",
+      guarantee: {
+        badge: "Garantía de 60 días",
+        text: "Si en 60 días no recuperas lo que inviertes, seguimos trabajando contigo sin costo hasta que lo logres.",
+      },
+      scarcity: "Onboarding done-for-you con cupo limitado cada mes — para garantizar tu lanzamiento en 48 horas.",
       includedTitle: "La plataforma completa — incluida en Flexible, Sin comisiones y Flux Higher",
       included: [
         { t: "Sitio web AI-optimizado", d: "Construido para rankear en Google. Restaurantes promedio ven 20% más tráfico SEO en 30 días." },
@@ -380,13 +387,26 @@ window.COPY = {
       secondary: "Hablar por WhatsApp",
     },
     footer: {
-      tagline: "La plataforma #1 para restaurantes en LATAM.",
+      tagline: "El sistema operativo con IA para restaurantes.",
       product: "Producto",
-      productLinks: ["Sitio + SEO", "Pedidos directos", "Lealtad", "Marketing automático", "Integraciones"],
+      productLinks: [
+        { label: "Sitio + SEO", href: "/#product" },
+        { label: "Pedidos directos", href: "/#product" },
+        { label: "Lealtad", href: "/#product" },
+        { label: "Marketing automático", href: "/#product" },
+        { label: "Integraciones", href: "/#integrations" },
+      ],
       company: "Empresa",
-      companyLinks: ["Sobre nosotros", "Historias de clientes", "Blog", "Trabaja con nosotros", "Prensa"],
+      companyLinks: [
+        { label: "Sobre nosotros", href: "/#stories" },
+        { label: "Historias de clientes", href: "/casos" },
+        { label: "Blog", href: "/blog" },
+      ],
       resources: "Recursos",
-      resourcesLinks: ["Centro de ayuda", "Academia Fluxsales", "Estado del sistema", "API docs", "Contacto"],
+      resourcesLinks: [
+        { label: "Academia Fluxsales", href: "/guias/comisiones" },
+        { label: "Contacto", href: "https://wa.me/5214421716825" },
+      ],
       legal: "© 2026 Fluxsales. Hecho con cariño en CDMX.",
     },
   },
@@ -401,10 +421,10 @@ window.COPY = {
       cta: "Book a demo",
     },
     hero: {
-      eyebrow: "For restaurant operators in Mexico",
+      eyebrow: "For ambitious restaurants",
       title: "Superpowers for your restaurant.",
       subtitle:
-        "More Google traffic, more direct sales, more guests who return. Fluxsales is the operating system your restaurant needs — in Spanish, built for LATAM.",
+        "Fluxsales is the AI operating system for restaurants: more Google traffic, more direct sales, and more guests who return.",
       primary: "Book a demo",
       secondary: "See the product",
       trust: "1,400+ restaurants run on Fluxsales",
@@ -424,7 +444,7 @@ window.COPY = {
     venues: {
       eyebrow: "Our customers",
       title: "Only yours is missing.",
-      subtitle: "Ambitious restaurants across LATAM are already growing with Fluxsales. Tap or drag to see more.",
+      subtitle: "Ambitious restaurants are already growing with Fluxsales. Tap or drag to see more.",
       cta: "Start with Fluxsales",
       count: "1,400+ active restaurants",
       items: [
@@ -465,7 +485,7 @@ window.COPY = {
       eyebrow: "The platform",
       title: "One place to grow your restaurant.",
       subtitle:
-        "Website, direct orders, loyalty, and marketing — connected, automatic, and in Spanish.",
+        "Website, direct orders, loyalty, and marketing — connected and automatic.",
       tabs: [
         {
           key: "sitio",
@@ -511,7 +531,7 @@ window.COPY = {
             "Fluxsales learns your ideal guest and sends WhatsApp, SMS, and email at the right moments. You approve from your phone — we send.",
           bullets: [
             "Segmentation by dining habits",
-            "Copy generated in Mexican Spanish by AI",
+            "Copy generated by AI in your local voice",
             "Automatic A/B testing of subject lines and offers",
           ],
         },
@@ -592,6 +612,7 @@ window.COPY = {
     testimonials: {
       eyebrow: "Stories",
       title: "Operators talking to operators.",
+      caseLink: { label: "See the full case: Brooklyn Burgers", href: "/casos/brooklyn-burgers" },
       items: [
         {
           quote:
@@ -687,6 +708,12 @@ window.COPY = {
         },
       ],
       multiNote: "Special rates available for multi-location",
+      valueAnchor: "A $350 order on a delivery app costs you ~$105 in commission. On the no-commission plans that's $0 — the plan pays for itself.",
+      guarantee: {
+        badge: "60-day guarantee",
+        text: "If you don't recover your investment within 60 days, we keep working with you at no cost until you do.",
+      },
+      scarcity: "Done-for-you onboarding with limited monthly slots — so we can launch you in 48 hours.",
       includedTitle: "The full platform — included on Flexible, Flat rate and Flux Higher",
       included: [
         { t: "AI-optimized website", d: "Built to rank on Google. Restaurants see 20% more SEO traffic in 30 days on average." },
@@ -768,13 +795,26 @@ window.COPY = {
       secondary: "WhatsApp us",
     },
     footer: {
-      tagline: "The #1 platform for restaurants in LATAM.",
+      tagline: "The AI operating system for restaurants.",
       product: "Product",
-      productLinks: ["Website + SEO", "Direct ordering", "Loyalty", "Automated marketing", "Integrations"],
+      productLinks: [
+        { label: "Website + SEO", href: "/#product" },
+        { label: "Direct ordering", href: "/#product" },
+        { label: "Loyalty", href: "/#product" },
+        { label: "Automated marketing", href: "/#product" },
+        { label: "Integrations", href: "/#integrations" },
+      ],
       company: "Company",
-      companyLinks: ["About", "Customer stories", "Blog", "Careers", "Press"],
+      companyLinks: [
+        { label: "About", href: "/#stories" },
+        { label: "Customer stories", href: "/casos" },
+        { label: "Blog", href: "/blog" },
+      ],
       resources: "Resources",
-      resourcesLinks: ["Help center", "Fluxsales Academy", "System status", "API docs", "Contact"],
+      resourcesLinks: [
+        { label: "Fluxsales Academy", href: "/guias/commissions" },
+        { label: "Contact", href: "https://wa.me/5214421716825" },
+      ],
       legal: "© 2026 Fluxsales. Made with cariño in CDMX.",
     },
   },

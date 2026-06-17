@@ -1557,3 +1557,57 @@ footer {
   /* Logos */
   .logos { gap: 12px 24px; }
 }
+
+/* ── Hormozi offer reinforcement: value anchor · guarantee · scarcity · case link ── */
+.pricing-value-anchor {
+  margin: 14px auto 0;
+  max-width: 640px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: #1a2332;
+  opacity: .82;
+}
+.pricing-assurance {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 28px auto 0;
+  max-width: 760px;
+  text-align: center;
+}
+.assurance-guarantee {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px 12px;
+  padding: 14px 22px;
+  border-radius: 14px;
+  background: rgba(16, 185, 129, .08);
+  border: 1px solid rgba(16, 185, 129, .28);
+}
+.assurance-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: #0d2c20;
+  white-space: nowrap;
+}
+.assurance-text { color: #1a2332; opacity: .9; }
+.assurance-scarcity { font-size: 14px; opacity: .68; }
+.testimonials-case-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  font-weight: 600;
+  color: #2f7a5e;
+  text-decoration: none;
+}
+.testimonials-case-link:hover { text-decoration: underline; }
+
+/* Footer links (now real anchors) */
+.foot-col a { color: inherit; text-decoration: none; opacity: .85; transition: opacity .15s ease; }
+.foot-col a:hover { opacity: 1; text-decoration: underline; }
