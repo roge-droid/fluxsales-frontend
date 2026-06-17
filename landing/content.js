@@ -293,7 +293,7 @@ window.COPY = {
           features: [
             "Todo lo de Sin comisiones",
             "Flotilla de entregas incluida (30 min, $0 comisión de entrega)",
-            "Agente IA Cajero: toma pedidos por WhatsApp 24/7, sin una persona",
+            "Mesero IA: toma pedidos por WhatsApp 24/7, sin una persona",
             "Onboarding prioritario + success manager dedicado",
           ],
         },
@@ -681,7 +681,7 @@ window.COPY = {
           features: [
             "Everything in Flat rate",
             "Flotilla delivery included (30 min, $0 delivery commission)",
-            "Cajero AI agent: takes WhatsApp orders 24/7, no human needed",
+            "Mesero AI: takes WhatsApp orders 24/7, no human needed",
             "Priority onboarding + dedicated success manager",
           ],
         },
