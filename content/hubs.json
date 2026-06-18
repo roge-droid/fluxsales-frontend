@@ -1,0 +1,44 @@
+{
+  "_README": "Single source of truth for the hub library cards (/guias, /blog, /casos). Add a new page's card here, then run `node scripts/gen-hubs.mjs` to regenerate the static hub HTML. The hubs stay static (crawlable) — this only automates the card list. Newest entries first.",
+  "guias": [
+    {
+      "url": "/guias/ia-para-restaurantes",
+      "tag": "Inteligencia Artificial",
+      "title": "Cómo los restaurantes usan IA para vender más (sin ser McDonald's)",
+      "blurb": "McDonald's cambia su menú según la demanda y Starbucks personaliza con IA. Qué hace la IA hoy y cómo empezar con tus propios datos — sin presupuesto de corporativo.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/comisiones",
+      "tag": "Comisiones",
+      "title": "5 formas de recuperar el 15–30% que te quitan las apps de delivery",
+      "blurb": "Rappi, Uber Eats y DiDi Food se llevan 15–30% de cada pedido. Cinco formas concretas de recuperar ese margen sin dejar de usar las apps.",
+      "read": "Leer la guía →"
+    }
+  ],
+  "blog": [
+    {
+      "url": "/guias/ia-para-restaurantes",
+      "tag": "Inteligencia Artificial",
+      "title": "Cómo los restaurantes usan IA para vender más (sin ser McDonald's)",
+      "blurb": "McDonald's cambia su menú según la demanda y Starbucks personaliza con IA. Qué hace la IA hoy y cómo empezar con tus propios datos — sin presupuesto de corporativo.",
+      "read": "Leer →"
+    },
+    {
+      "url": "/guias/comisiones",
+      "tag": "Comisiones",
+      "title": "5 formas de recuperar el 15–30% que te quitan las apps de delivery",
+      "blurb": "Rappi, Uber Eats y DiDi Food se llevan 15–30% de cada pedido. Cinco formas concretas de recuperar ese margen sin dejar de usar las apps.",
+      "read": "Leer →"
+    }
+  ],
+  "casos": [
+    {
+      "url": "/casos/brooklyn-burgers",
+      "tag": "Hamburguesas · Veracruz",
+      "title": "Brooklyn Burgers dejó de depender de Uber Eats",
+      "blurb": "4 locales en Veracruz. Reemplazaron el canal de Uber Eats del que dependían — en menos de 3 meses — con su propio canal directo.",
+      "read": "Ver el caso →"
+    }
+  ]
+}
