@@ -32,6 +32,10 @@
       "destination": "/repartidores/index.html"
     },
     {
+      "source": "/oferta",
+      "destination": "/oferta/index.html"
+    },
+    {
       "source": "/guias",
       "destination": "/guias/index.html"
     },
