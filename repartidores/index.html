@@ -28,6 +28,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
+<link rel="canonical" href="https://fluxsales.co/repartidores" />
+<!-- Structured data — shared FluxSales entity (same @id sitewide) + the on-demand delivery service. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://fluxsales.co/#organization",
+      "name": "FluxSales",
+      "url": "https://fluxsales.co/",
+      "logo": "https://fluxsales.co/og-image.png",
+      "description": "FluxSales is the AI operating system for restaurants: direct online ordering without marketplace commissions, loyalty, marketing automation, and local SEO.",
+      "sameAs": ["https://twitter.com/fluxsales"]
+    },
+    {
+      "@type": "Service",
+      "name": "Repartidores on-demand para restaurantes",
+      "serviceType": "On-demand restaurant delivery",
+      "provider": { "@id": "https://fluxsales.co/#organization" },
+      "url": "https://fluxsales.co/repartidores",
+      "description": "Flotilla de repartidores on-demand para restaurantes: entrega en 30 minutos, $0 comisión de entrega y sin contratar nómina — tu marca y tus datos en cada entrega."
+    }
+  ]
+}
+</script>
+
 <!-- Meta Pixel -->
 <script>
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?

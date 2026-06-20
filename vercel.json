@@ -36,8 +36,32 @@
       "destination": "/oferta/index.html"
     },
     {
+      "source": "/guias",
+      "destination": "/guias/index.html"
+    },
+    {
       "source": "/guias/:slug",
       "destination": "/guias/:slug/index.html"
+    },
+    {
+      "source": "/pricing",
+      "destination": "/pricing/index.html"
+    },
+    {
+      "source": "/about",
+      "destination": "/about/index.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog/index.html"
+    },
+    {
+      "source": "/casos",
+      "destination": "/casos/index.html"
+    },
+    {
+      "source": "/casos/:slug",
+      "destination": "/casos/:slug/index.html"
     },
     {
       "source": "/dashboards/:path*",

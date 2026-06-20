@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Functional / private surfaces — not for indexing
+Disallow: /proposal
+Disallow: /p/
+Disallow: /dashboards/
+
+Sitemap: https://fluxsales.co/sitemap.xml

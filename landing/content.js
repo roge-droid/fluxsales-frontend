@@ -13,10 +13,10 @@ window.COPY = {
       cta: "Agenda una demo",
     },
     hero: {
-      eyebrow: "Para restauranteros en México",
+      eyebrow: "Para restaurantes ambiciosos",
       title: "Superpoderes para tu restaurante.",
       subtitle:
-        "Más tráfico en Google, más ventas directas y más clientes que regresan. Fluxsales es el sistema operativo que tu restaurante necesita — en español, hecho para LATAM.",
+        "Fluxsales es el sistema operativo con IA para restaurantes: más tráfico en Google, más ventas directas y más clientes que regresan.",
       primary: "Agenda una demo",
       secondary: "Ver producto",
       trust: "Más de 1,400 restaurantes confían en Fluxsales",
@@ -36,7 +36,7 @@ window.COPY = {
     venues: {
       eyebrow: "Nuestros clientes",
       title: "Solo falta el tuyo.",
-      subtitle: "Restaurantes ambiciosos en toda LATAM ya están creciendo con Fluxsales. Pulsa o arrastra para ver más.",
+      subtitle: "Restaurantes ambiciosos ya están creciendo con Fluxsales. Pulsa o arrastra para ver más.",
       cta: "Empieza con Fluxsales",
       count: "1,400+ restaurantes activos",
       items: [
@@ -77,7 +77,7 @@ window.COPY = {
       eyebrow: "La plataforma",
       title: "Un solo lugar para crecer tu restaurante.",
       subtitle:
-        "Sitio web, pedidos directos, lealtad y marketing — conectados, en automático, y en español.",
+        "Sitio web, pedidos directos, lealtad y marketing — conectados y en automático.",
       tabs: [
         {
           key: "sitio",
@@ -123,7 +123,7 @@ window.COPY = {
             "Fluxsales aprende quién es tu cliente ideal y manda WhatsApp, SMS y emails en los momentos correctos. Tú apruebas desde el celular, nosotros enviamos.",
           bullets: [
             "Segmentación por hábito de consumo",
-            "Copywriting generado por IA en español mexicano",
+            "Copywriting generado por IA con tono local",
             "A/B testing automático de asuntos y ofertas",
           ],
         },
@@ -204,6 +204,7 @@ window.COPY = {
     testimonials: {
       eyebrow: "Historias",
       title: "Restauranteros hablando de restauranteros.",
+      caseLink: { label: "Ver el caso completo: Brooklyn Burgers", href: "/casos/brooklyn-burgers" },
       items: [
         {
           quote:
@@ -233,30 +234,79 @@ window.COPY = {
     },
     pricing: {
       eyebrow: "Precios",
-      title: "Precio simple, hecho para tu restaurante.",
-      subtitle: "Toda la plataforma de Fluxsales. Mes a mes, sin contratos anuales.",
+      title: "Un plan para cada etapa de tu restaurante.",
+      subtitle: "Desde solo entregas hasta tu operación completa en automático. Mes a mes, sin contratos anuales.",
       perMonth: "/mes",
       plans: [
         {
-          name: "Flexible",
-          tag: "Suscripción más baja con una pequeña comisión por orden. Tus costos suben solo cuando tus ventas suben.",
-          price: 2499,
-          fee: "+ 5% comisión por transacción",
+          name: "Flotilla",
+          tag: "Entrega tus pedidos con repartidores on-demand, sin pagar 30% de comisión y sin contratar a nadie.",
+          price: 1499,
+          fee: "+ costo de envío directo al repartidor",
           taxes: "+ IVA",
           cta: "Agenda una demo",
+          features: [
+            "Repartidores on-demand con un clic — entregas en 30 min",
+            "$0 comisión de entrega (vs. ~30% de las apps)",
+            "Dispatch y tracking en vivo",
+            "Tu marca y tus datos en cada entrega",
+            "Onboarding done-for-you en 48h",
+            "Solo entregas — sin plataforma de pedidos en línea",
+          ],
+        },
+        {
+          name: "Flexible",
+          tag: "Tu canal propio completo con una pequeña comisión por orden. Tus costos suben solo cuando tus ventas suben.",
+          price: 2499,
+          fee: "+ 5% comisión por orden",
+          taxes: "+ IVA",
+          cta: "Agenda una demo",
+          features: [
+            "Plataforma completa: web, pedidos en línea y app con tu marca",
+            "Lealtad, recompensas y marketing con IA",
+            "Pago por uso: 5% comisión por orden",
+            "Ideal para lanzar tu canal propio",
+          ],
         },
         {
           name: "Sin comisiones",
           tag: "Costo predecible, cero comisiones por orden. Mejor si ya facturas $25,000+/mes en órdenes en línea.",
           price: 5499,
-          fee: "Sin comisiones adicionales",
+          fee: "Sin comisiones por orden",
           taxes: "+ IVA",
           cta: "Agenda una demo",
           popular: true,
+          badge: "Más popular",
+          features: [
+            "Toda la plataforma, sin comisión por orden",
+            "Costo fijo y predecible al escalar",
+            "Lealtad, recompensas y marketing con IA",
+            "Migración y soporte 24/7 incluidos",
+          ],
+        },
+        {
+          name: "Flux Higher",
+          tag: "Tu restaurante operando solo: vende, entrega y responde — todo en automático, 24/7.",
+          price: 7499,
+          fee: "Todo incluido, sin comisiones",
+          taxes: "+ IVA",
+          cta: "Agenda una demo",
+          features: [
+            "Todo lo de Sin comisiones",
+            "Flotilla de entregas incluida (30 min, $0 comisión de entrega)",
+            "Mesero IA: toma pedidos por WhatsApp 24/7, sin una persona",
+            "Onboarding prioritario + success manager dedicado",
+          ],
         },
       ],
       multiNote: "Tarifas especiales disponibles para multi-sucursal",
-      includedTitle: "Incluido en ambos planes",
+      valueAnchor: "Una orden de $350 en una app de delivery te cuesta ~$105 de comisión. En los planes sin comisión, eso es $0 — el plan se paga solo.",
+      guarantee: {
+        badge: "Garantía de 60 días",
+        text: "Si en 60 días no recuperas lo que inviertes, seguimos trabajando contigo sin costo hasta que lo logres.",
+      },
+      scarcity: "Onboarding done-for-you con cupo limitado cada mes — para garantizar tu lanzamiento en 48 horas.",
+      includedTitle: "La plataforma completa — incluida en Flexible, Sin comisiones y Flux Higher",
       included: [
         { t: "Sitio web AI-optimizado", d: "Construido para rankear en Google. Restaurantes promedio ven 20% más tráfico SEO en 30 días." },
         { t: "Pedidos en línea directos", d: "Convierte hasta 80% más visitantes en clientes vs. el sitio promedio de un restaurante." },
@@ -337,13 +387,26 @@ window.COPY = {
       secondary: "Hablar por WhatsApp",
     },
     footer: {
-      tagline: "La plataforma #1 para restaurantes en LATAM.",
+      tagline: "El sistema operativo con IA para restaurantes.",
       product: "Producto",
-      productLinks: ["Sitio + SEO", "Pedidos directos", "Lealtad", "Marketing automático", "Integraciones"],
+      productLinks: [
+        { label: "Sitio + SEO", href: "/#product" },
+        { label: "Pedidos directos", href: "/#product" },
+        { label: "Lealtad", href: "/#product" },
+        { label: "Marketing automático", href: "/#product" },
+        { label: "Integraciones", href: "/#integrations" },
+      ],
       company: "Empresa",
-      companyLinks: ["Sobre nosotros", "Historias de clientes", "Blog", "Trabaja con nosotros", "Prensa"],
+      companyLinks: [
+        { label: "Sobre nosotros", href: "/about" },
+        { label: "Historias de clientes", href: "/casos" },
+        { label: "Blog", href: "/blog" },
+      ],
       resources: "Recursos",
-      resourcesLinks: ["Centro de ayuda", "Academia Fluxsales", "Estado del sistema", "API docs", "Contacto"],
+      resourcesLinks: [
+        { label: "Academia Fluxsales", href: "/guias" },
+        { label: "Contacto", href: "https://wa.me/5214421716825" },
+      ],
       legal: "© 2026 Fluxsales. Hecho con cariño en CDMX.",
     },
   },
@@ -358,10 +421,10 @@ window.COPY = {
       cta: "Book a demo",
     },
     hero: {
-      eyebrow: "For restaurant operators in Mexico",
+      eyebrow: "For ambitious restaurants",
       title: "Superpowers for your restaurant.",
       subtitle:
-        "More Google traffic, more direct sales, more guests who return. Fluxsales is the operating system your restaurant needs — in Spanish, built for LATAM.",
+        "Fluxsales is the AI operating system for restaurants: more Google traffic, more direct sales, and more guests who return.",
       primary: "Book a demo",
       secondary: "See the product",
       trust: "1,400+ restaurants run on Fluxsales",
@@ -381,7 +444,7 @@ window.COPY = {
     venues: {
       eyebrow: "Our customers",
       title: "Only yours is missing.",
-      subtitle: "Ambitious restaurants across LATAM are already growing with Fluxsales. Tap or drag to see more.",
+      subtitle: "Ambitious restaurants are already growing with Fluxsales. Tap or drag to see more.",
       cta: "Start with Fluxsales",
       count: "1,400+ active restaurants",
       items: [
@@ -422,7 +485,7 @@ window.COPY = {
       eyebrow: "The platform",
       title: "One place to grow your restaurant.",
       subtitle:
-        "Website, direct orders, loyalty, and marketing — connected, automatic, and in Spanish.",
+        "Website, direct orders, loyalty, and marketing — connected and automatic.",
       tabs: [
         {
           key: "sitio",
@@ -468,7 +531,7 @@ window.COPY = {
             "Fluxsales learns your ideal guest and sends WhatsApp, SMS, and email at the right moments. You approve from your phone — we send.",
           bullets: [
             "Segmentation by dining habits",
-            "Copy generated in Mexican Spanish by AI",
+            "Copy generated by AI in your local voice",
             "Automatic A/B testing of subject lines and offers",
           ],
         },
@@ -549,6 +612,7 @@ window.COPY = {
     testimonials: {
       eyebrow: "Stories",
       title: "Operators talking to operators.",
+      caseLink: { label: "See the full case: Brooklyn Burgers", href: "/casos/brooklyn-burgers" },
       items: [
         {
           quote:
@@ -578,30 +642,79 @@ window.COPY = {
     },
     pricing: {
       eyebrow: "Pricing",
-      title: "Simple pricing that fits your restaurant.",
-      subtitle: "The complete Fluxsales platform. Pay month-to-month with no long-term contracts.",
+      title: "A plan for every stage of your restaurant.",
+      subtitle: "From delivery-only to your whole operation on autopilot. Month-to-month, no annual contracts.",
       perMonth: "/mo",
       plans: [
         {
-          name: "Flexible",
-          tag: "Lower subscription with a small per-order fee. Your costs scale with your sales.",
-          price: 2499,
-          fee: "+ 5% platform fee per order",
+          name: "Flotilla",
+          tag: "Deliver your own orders with on-demand drivers — no 30% commission, no one to hire.",
+          price: 1499,
+          fee: "+ delivery cost paid directly to the driver",
           taxes: "+ VAT",
           cta: "Book a demo",
+          features: [
+            "On-demand drivers in one click — 30-min deliveries",
+            "$0 delivery commission (vs. ~30% on the apps)",
+            "One-click dispatch + live tracking",
+            "Your brand and your data on every delivery",
+            "Done-for-you onboarding in 48h",
+            "Delivery only — no online-ordering platform",
+          ],
+        },
+        {
+          name: "Flexible",
+          tag: "Your full owned channel with a small per-order fee. Your costs scale with your sales.",
+          price: 2499,
+          fee: "+ 5% fee per order",
+          taxes: "+ VAT",
+          cta: "Book a demo",
+          features: [
+            "Full platform: website, online ordering and branded app",
+            "Loyalty, rewards and AI marketing",
+            "Pay-as-you-grow: 5% per order",
+            "Best way to launch your owned channel",
+          ],
         },
         {
           name: "Flat rate",
           tag: "Predictable cost and no per-order fees. Best for restaurants at $25k+/mo in online sales.",
           price: 5499,
-          fee: "with no additional fees",
+          fee: "No per-order fees",
           taxes: "+ VAT",
           cta: "Book a demo",
           popular: true,
+          badge: "Most popular",
+          features: [
+            "The full platform, with no per-order fee",
+            "Fixed, predictable cost as you scale",
+            "Loyalty, rewards and AI marketing",
+            "Migration and 24/7 support included",
+          ],
+        },
+        {
+          name: "Flux Higher",
+          tag: "Your restaurant running itself: sell, deliver and reply — all automatic, 24/7.",
+          price: 7499,
+          fee: "Everything included, no commissions",
+          taxes: "+ VAT",
+          cta: "Book a demo",
+          features: [
+            "Everything in Flat rate",
+            "Flotilla delivery included (30 min, $0 delivery commission)",
+            "Mesero AI: takes WhatsApp orders 24/7, no human needed",
+            "Priority onboarding + dedicated success manager",
+          ],
         },
       ],
       multiNote: "Special rates available for multi-location",
-      includedTitle: "Included on both plans",
+      valueAnchor: "A $350 order on a delivery app costs you ~$105 in commission. On the no-commission plans that's $0 — the plan pays for itself.",
+      guarantee: {
+        badge: "60-day guarantee",
+        text: "If you don't recover your investment within 60 days, we keep working with you at no cost until you do.",
+      },
+      scarcity: "Done-for-you onboarding with limited monthly slots — so we can launch you in 48 hours.",
+      includedTitle: "The full platform — included on Flexible, Flat rate and Flux Higher",
       included: [
         { t: "AI-optimized website", d: "Built to rank on Google. Restaurants see 20% more SEO traffic in 30 days on average." },
         { t: "Direct online ordering", d: "Turn up to 80% more visitors into customers vs. the average restaurant site." },
@@ -682,13 +795,26 @@ window.COPY = {
       secondary: "WhatsApp us",
     },
     footer: {
-      tagline: "The #1 platform for restaurants in LATAM.",
+      tagline: "The AI operating system for restaurants.",
       product: "Product",
-      productLinks: ["Website + SEO", "Direct ordering", "Loyalty", "Automated marketing", "Integrations"],
+      productLinks: [
+        { label: "Website + SEO", href: "/#product" },
+        { label: "Direct ordering", href: "/#product" },
+        { label: "Loyalty", href: "/#product" },
+        { label: "Automated marketing", href: "/#product" },
+        { label: "Integrations", href: "/#integrations" },
+      ],
       company: "Company",
-      companyLinks: ["About", "Customer stories", "Blog", "Careers", "Press"],
+      companyLinks: [
+        { label: "About", href: "/about" },
+        { label: "Customer stories", href: "/casos" },
+        { label: "Blog", href: "/blog" },
+      ],
       resources: "Resources",
-      resourcesLinks: ["Help center", "Fluxsales Academy", "System status", "API docs", "Contact"],
+      resourcesLinks: [
+        { label: "Fluxsales Academy", href: "/guias" },
+        { label: "Contact", href: "https://wa.me/5214421716825" },
+      ],
       legal: "© 2026 Fluxsales. Made with cariño in CDMX.",
     },
   },

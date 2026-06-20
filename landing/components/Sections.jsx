@@ -13,6 +13,11 @@ function Testimonials({ lang }) {
         <div className="testimonials-head">
           <span className="eyebrow">{t.eyebrow}</span>
           <h2 className="display h2" style={{ marginTop: 16 }}>{t.title}</h2>
+          {t.caseLink && (
+            <a className="testimonials-case-link" href={t.caseLink.href}>
+              {t.caseLink.label} <span className="arr">→</span>
+            </a>
+          )}
         </div>
         <div className="carousel">
           <div className="carousel-track" style={{ transform: `translateX(-${i * 100}%)` }}>
@@ -65,10 +70,12 @@ function Pricing({ lang }) {
           <span className="eyebrow" style={{ display: "inline-flex", marginBottom: 0 }}>{t.eyebrow}</span>
           <h2 className="display h2">{t.title}</h2>
           <p className="lead">{t.subtitle}</p>
+          {t.valueAnchor && <p className="pricing-value-anchor">{t.valueAnchor}</p>}
         </div>
-        <div className="plans plans-2">
+        <div className="plans plans-4">
           {t.plans.map((p, i) => (
             <div key={i} className={"plan" + (p.popular ? " pop" : "")}>
+              {p.badge && <div className="plan-pop-badge">{p.badge}</div>}
               <div className="plan-name">{p.name}</div>
               <div className="plan-tag">{p.tag}</div>
               <div className="plan-price">
@@ -78,14 +85,34 @@ function Pricing({ lang }) {
                 <div className="plan-fee">{p.fee}</div>
                 <div className="plan-taxes">{p.taxes}</div>
               </div>
-              <button className={p.popular ? "btn btn-green" : "btn btn-secondary"}>
+              {p.features && (
+                <ul className="plan-feats">
+                  {p.features.map((f, fi) => <li key={fi}>{f}</li>)}
+                </ul>
+              )}
+              <a href="/demo" className={p.popular ? "btn btn-green" : "btn btn-secondary"}>
                 {p.cta} <span className="arr">→</span>
-              </button>
+              </a>
             </div>
           ))}
         </div>
 
         {t.multiNote && <div className="plans-multi-note">{t.multiNote}</div>}
+
+        {(t.guarantee || t.scarcity) && (
+          <div className="pricing-assurance">
+            {t.guarantee && (
+              <div className="assurance-guarantee">
+                <span className="assurance-badge">
+                  <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M12 2l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V5l7-3z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                  {t.guarantee.badge}
+                </span>
+                <span className="assurance-text">{t.guarantee.text}</span>
+              </div>
+            )}
+            {t.scarcity && <div className="assurance-scarcity">{t.scarcity}</div>}
+          </div>
+        )}
 
         <div className="included">
           <h3 className="included-title">{t.includedTitle}</h3>
