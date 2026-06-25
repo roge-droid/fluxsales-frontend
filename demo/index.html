@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Agenda una demo — Fluxsales</title>
-<meta name="description" content="Demo gratuita de 20 minutos. Te mostramos cómo Fluxsales hace crecer tu restaurante con tus propios números.">
+<meta name="description" content="Demo gratuita de 30 minutos. Te mostramos cómo Fluxsales hace crecer tu restaurante con tus propios números.">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1096,7 +1096,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
           Tu restaurante califica para una demo personalizada.
         </p>
         <a href={calendarUrl} className="demo-calendar-btn" style={{ display: "flex", width: "100%", justifyContent: "center", marginTop: 16 }}>
-          Agendar mi demo de 20 min <span>{"→"}</span>
+          Agendar mi demo de 30 min <span>{"→"}</span>
         </a>
         <p style={{ marginTop: 12, fontSize: 12, color: "var(--ink-muted)", textAlign: "center" }}>
           <a href="https://wa.me/5214421716825" style={{ color: "var(--green-ink)", textDecoration: "underline" }}>WhatsApp</a>
@@ -1124,7 +1124,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
     <>
       <div className="bk-header">
         <div className="bk-title">Elige tu horario</div>
-        <div className="bk-subtitle">Demo personalizada de 20 min por Google Meet</div>
+        <div className="bk-subtitle">Demo personalizada de 30 min por Google Meet</div>
       </div>
 
       {error && error !== "fallback" && <div className="demo-error">{error}</div>}
@@ -1296,8 +1296,8 @@ function DemoForm() {
       const result = await res.json();
       setShowCalendar(result.showCalendar === true);
       const AE_CALENDARS = {
-        "Mariana": "https://calendar.app.google/PNn3ykthv5gY8SMN8",
-        "Ayline": "https://calendar.app.google/Z1PUtkg8xErSkLPr7",
+        "Mariana": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
+        "Ayline": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
       };
       setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
       setAssignedAE(result.assignedAE || "Mariana");
@@ -1576,7 +1576,7 @@ function App() {
             Dale <em>superpoderes</em> a tu restaurante.
           </h1>
           <p className="lead">
-            Demo gratuita de 20 minutos. Te mostramos resultados con los números
+            Demo gratuita de 30 minutos. Te mostramos resultados con los números
             reales de tu restaurante — sin compromiso, sin contrato.
           </p>
           <div className="trust">
