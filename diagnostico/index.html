@@ -856,7 +856,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
       <div style={{ textAlign: "center" }}>
         <p style={{ fontSize: 16, color: "#2563eb", fontWeight: 600, margin: "0 0 16px" }}>Tu restaurante califica para una demo personalizada.</p>
         <a href={calendarUrl} target="_blank" rel="noopener" className="dx-btn" style={{ display: "flex", textDecoration: "none" }}
-          onClick={() => { if (onBooked) onBooked(); }}>Agendar mi demo de 20 min →</a>
+          onClick={() => { if (onBooked) onBooked(); }}>Agendar mi demo de 30 min →</a>
         <div className="dx-bk-links" style={{ marginTop: 12 }}>
           <a href="https://wa.me/5214421716825">WhatsApp</a>
         </div>
@@ -873,7 +873,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
     <>
       <div className="dx-bk-header">
         <div className="dx-bk-title">Elige tu horario</div>
-        <div className="dx-bk-sub">Demo de 20 min por Google Meet</div>
+        <div className="dx-bk-sub">Demo de 30 min por Google Meet</div>
       </div>
       {error && error !== "fallback" && <div className="dx-error">{error}</div>}
       <div className="dx-bk-dates">
@@ -1124,8 +1124,8 @@ function DiagnosticoApp() {
       const result = await res.json();
       setShowCalendar(result.showCalendar === true);
       const AE_CALENDARS = {
-        "Mariana": "https://calendar.app.google/PNn3ykthv5gY8SMN8",
-        "Ayline": "https://calendar.app.google/Z1PUtkg8xErSkLPr7",
+        "Mariana": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
+        "Ayline": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
       };
       setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
       setAssignedAE(result.assignedAE || "Mariana");
@@ -1173,8 +1173,8 @@ function DiagnosticoApp() {
       // Non-qualified leads get the full diagnostic now (no demo gate).
       if (!qualified) { setFullUnlocked(true); fireFullReveal(); }
       const AE_CALENDARS = {
-        "Mariana": "https://calendar.app.google/PNn3ykthv5gY8SMN8",
-        "Ayline": "https://calendar.app.google/Z1PUtkg8xErSkLPr7",
+        "Mariana": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
+        "Ayline": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
       };
       setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
       setAssignedAE(result.assignedAE || "Mariana");
@@ -1577,7 +1577,7 @@ function DiagnosticoApp() {
                   <div className="dx-gate-lock">🔒</div>
                   <h3 className="dx-gate-title">Tu plan de mejora está listo</h3>
                   <p className="dx-gate-sub">
-                    Agenda una demo de 20 min para ver tus mejoras priorizadas{total > 0 ? " y la comparación con tus " + total + " competidores cercanos" : ""}.
+                    Agenda una demo de 30 min para ver tus mejoras priorizadas{total > 0 ? " y la comparación con tus " + total + " competidores cercanos" : ""}.
                   </p>
                 </>
               )}
