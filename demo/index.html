@@ -3,25 +3,40 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Agenda una demo — Fluxsales</title>
-<meta name="description" content="Demo gratuita de 30 minutos. Te mostramos cómo Fluxsales hace crecer tu restaurante con tus propios números.">
+<title>Diagnóstico Digital Gratuito — Fluxsales</title>
+<meta name="description" content="Descubre la salud digital de tu restaurante en 30 segundos. Calificación, reseñas, presencia web y competidores — gratis, sin compromiso.">
+<meta property="og:title" content="Diagnóstico Digital Gratuito — Fluxsales">
+<meta property="og:description" content="Descubre la salud digital de tu restaurante en 30 segundos.">
+<meta property="og:type" content="website">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;700&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../landing/styles.css" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
 <link rel="canonical" href="https://fluxsales.co/demo" />
-<!-- Structured data — shared FluxSales entity (same @id sitewide for entity consolidation). -->
+<!-- Structured data — shared FluxSales entity (same @id sitewide for entity consolidation) + this page. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  "@id": "https://fluxsales.co/#organization",
-  "name": "FluxSales",
-  "url": "https://fluxsales.co/",
-  "logo": "https://fluxsales.co/og-image.png",
-  "description": "FluxSales is the AI operating system for restaurants: direct online ordering without marketplace commissions, loyalty, marketing automation, and local SEO.",
-  "sameAs": ["https://twitter.com/fluxsales"]
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://fluxsales.co/#organization",
+      "name": "FluxSales",
+      "url": "https://fluxsales.co/",
+      "logo": "https://fluxsales.co/og-image.png",
+      "description": "FluxSales is the AI operating system for restaurants: direct online ordering without marketplace commissions, loyalty, marketing automation, and local SEO.",
+      "sameAs": ["https://twitter.com/fluxsales"]
+    },
+    {
+      "@type": "WebPage",
+      "name": "Diagnóstico Digital Gratuito para tu restaurante",
+      "url": "https://fluxsales.co/demo",
+      "inLanguage": "es",
+      "about": { "@id": "https://fluxsales.co/#organization" },
+      "description": "Diagnóstico gratuito de la salud digital de un restaurante en 30 segundos: calificación, reseñas, presencia web y competidores."
+    }
+  ]
 }
 </script>
 
@@ -35,569 +50,550 @@ document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','590520096533350');fbq('track','PageView');
 </script>
 
+<!-- Microsoft Clarity -->
+<script type="text/javascript">
+(function(c,l,a,r,i,t,y){
+c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+})(window,document,"clarity","script","r358ye498l");
+</script>
+
 <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=q+"="+Date.now();e.set("libraries","places");e.set("key","AIzaSyCZYhvVAGdg4ss9WISSXUp83KWyvTUq02U");e.set("language","es");e.set("region","MX");e.set("v","quarterly");h=e.toString();d[l]?0:(d[l]=(f,...n)=>r.add(f)&&u&&(u=!1,g=m.createElement("script"),g.src="https://maps.googleapis.com/maps/api/js?"+h,g.onerror=()=>u=!0,m.head.append(g))&&d[l](f,...n)||new Promise((x,y)=>{r=new Proxy(r,{add(v,w){return x({})}})}));d[l]("places")})()</script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 
 <style>
-.demo-page { min-height: 100vh; background: var(--cream); overflow-x: hidden; }
+:root {
+  --diag-navy: #1a2332;
+  --diag-blue: #2563eb;
+  --diag-blue-hover: #1d4ed8;
+  --diag-green: #10b981;
+  --diag-yellow: #f59e0b;
+  --diag-red: #ef4444;
+  --diag-bg: #f8fafc;
+  --diag-card: #ffffff;
+  --diag-border: #e2e8f0;
+  --diag-muted: #64748b;
+  --diag-subtle: #64748b;
+  --diag-rule: #f1f5f9;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Inter", -apple-system, system-ui, sans-serif;
+  background: var(--diag-bg); color: var(--diag-navy);
+  -webkit-font-smoothing: antialiased; font-size: 15px; line-height: 1.5;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-.demo-layout {
-  display: grid; grid-template-columns: 1fr 1fr;
-  grid-template-rows: auto;
-  max-width: var(--max); margin: 0 auto; padding: 0 28px;
-  min-height: calc(100vh - 70px); align-items: center; gap: 40px 80px;
+.dx-page { min-height: 100vh; display: flex; flex-direction: column; }
+.dx-nav {
+  display: flex; align-items: center; justify-content: center;
+  height: 56px; border-bottom: 1px solid var(--diag-border);
+  background: var(--diag-card);
 }
-.demo-hero {
-  grid-column: 1; grid-row: 1;
+.dx-logo {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 20px;
+  color: var(--diag-navy); text-decoration: none;
 }
-.demo-form-col {
-  grid-column: 2; grid-row: 1 / 3;
+.dx-logo svg { width: 24px; height: 24px; }
+.dx-main {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 32px 16px;
 }
-.demo-covers {
-  grid-column: 1; grid-row: 2;
-  align-self: start;
+.dx-container { width: 100%; max-width: 440px; }
+
+.dx-hero { text-align: center; margin-bottom: 24px; }
+.dx-hero h1 {
+  font-family: "DM Sans", sans-serif; font-weight: 700;
+  font-size: 28px; line-height: 1.15; margin: 0 0 8px; color: var(--diag-navy);
+}
+.dx-hero p {
+  font-size: 15px; color: var(--diag-subtle); margin: 0; line-height: 1.5;
+}
+.dx-hero-badge {
+  display: inline-block; font-size: 12px; font-weight: 600;
+  color: var(--diag-blue); background: #eff6ff; border: 1px solid #dbeafe;
+  border-radius: 20px; padding: 4px 12px; margin: 0 0 12px;
+}
+.dx-hero-note {
+  font-size: 13px; color: var(--diag-muted); margin-top: 10px !important;
+  font-weight: 500;
 }
 
-.demo-hero { padding: 60px 0 0; }
-.demo-hero h1 {
-  font-family: var(--serif); font-variation-settings: "opsz" 144, "SOFT" 30;
-  font-size: clamp(36px, 4vw, 56px); line-height: 1.02;
-  letter-spacing: -0.028em; color: var(--ink-soft); font-weight: 400;
-  margin: 0 0 20px;
-}
-.demo-hero h1 em {
-  font-style: italic; color: var(--green-ink);
-  font-variation-settings: "opsz" 144, "SOFT" 80;
-}
-.demo-hero .lead {
-  font-size: 17px; color: var(--ink-muted); line-height: 1.55;
-  max-width: 48ch; margin: 0 0 36px;
-}
-.demo-hero .trust {
-  font-family: var(--mono); font-size: 12px; letter-spacing: .06em;
-  color: var(--ink-muted); margin-bottom: 32px;
-}
-.demo-hero .trust b { color: var(--ink); }
-.demo-covers { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.demo-cover {
-  padding: 18px; border-radius: var(--radius);
-  border: 1px solid var(--rule); background: var(--card);
-}
-.demo-cover .icon {
-  font-size: 18px; margin-bottom: 8px; display: block;
-}
-.demo-cover h4 {
-  font-family: var(--serif); font-size: 16px; margin: 0 0 4px;
-  font-variation-settings: "opsz" 144; letter-spacing: -0.01em;
-}
-.demo-cover p {
-  font-size: 13px; color: var(--ink-muted); margin: 0; line-height: 1.45;
+.dx-card {
+  background: var(--diag-card); border: 1px solid var(--diag-border);
+  border-radius: 16px; padding: 28px 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
 }
 
-.demo-card {
-  background: var(--card); border: 1px solid var(--rule);
-  border-radius: var(--radius-lg); padding: 40px;
-  box-shadow: var(--shadow);
-  box-sizing: border-box; max-width: 100%; overflow: hidden;
+.dx-field { margin-bottom: 20px; }
+.dx-field label {
+  display: block; font-size: 13px; font-weight: 500;
+  color: var(--diag-subtle); margin-bottom: 6px;
 }
-.demo-step {
-  font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
-  text-transform: uppercase; color: var(--ink-muted); margin-bottom: 8px;
+.dx-field input, .dx-field select {
+  width: 100%; padding: 12px 14px; font-size: 15px;
+  border: 1px solid var(--diag-border); border-radius: 10px;
+  background: var(--diag-bg); color: var(--diag-navy);
+  font-family: inherit; outline: none; transition: border-color .2s;
 }
-.demo-card h2 {
-  font-family: var(--serif); font-size: 26px; font-weight: 400;
-  font-variation-settings: "opsz" 144, "SOFT" 30;
-  letter-spacing: -0.015em; margin: 0 0 28px; color: var(--ink);
+.dx-field input:focus, .dx-field select:focus { border-color: var(--diag-blue); }
+.dx-field input::placeholder { color: var(--diag-muted); }
+
+.dx-ac { width: 100%; position: relative; }
+.dx-ac-input {
+  width: 100%; padding: 12px 14px; font-size: 15px; box-sizing: border-box;
+  border: 1px solid var(--diag-border); border-radius: 10px;
+  background: var(--diag-bg); color: var(--diag-navy);
+  font-family: inherit; outline: none; transition: border-color .2s;
 }
-.demo-field { margin-bottom: 22px; }
-.demo-field:last-of-type { margin-bottom: 28px; }
-.demo-field label {
-  display: block; font-size: 14px; color: var(--ink-soft); margin-bottom: 8px;
+.dx-ac-input:focus { border-color: var(--diag-blue); }
+select.dx-ac-input { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+select.dx-ac-input:invalid, select.dx-ac-input option[value=""] { color: var(--diag-muted); }
+.dx-ac-list {
+  list-style: none; margin: 6px 0 0; padding: 4px;
+  position: absolute; left: 0; right: 0; top: 100%; z-index: 30;
+  background: #fff; border: 1px solid var(--diag-border); border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, .12);
+  max-height: 280px; overflow-y: auto;
 }
-.demo-field input, .demo-field select {
-  width: 100%; padding: 14px 16px; font-size: 15px;
-  border: 1px solid var(--rule); border-radius: 10px;
-  background: var(--cream); color: var(--ink);
-  font-family: var(--sans); outline: none;
-  transition: border-color .2s;
+.dx-ac-item {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 10px 12px; border-radius: 8px; cursor: pointer;
 }
-.demo-field input:focus, .demo-field select:focus {
-  border-color: var(--green);
+.dx-ac-item.active, .dx-ac-item:hover { background: #f1f5f9; }
+.dx-ac-main { font-size: 14px; color: var(--diag-navy); font-weight: 500; }
+.dx-ac-sec { font-size: 12px; color: var(--diag-muted); }
+.dx-place-ok {
+  display: flex; align-items: center; gap: 6px;
+  margin-top: 6px; padding: 6px 10px;
+  background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px;
+  font-size: 12px; color: #166534;
 }
-.demo-field input::placeholder { color: var(--ink-muted); }
-.demo-submit {
-  width: 100%; padding: 16px; font-size: 15px; font-weight: 500;
-  background: var(--ink); color: var(--cream);
-  border: none; border-radius: 999px; cursor: pointer;
-  font-family: var(--sans); transition: .2s;
+.dx-place-ok .dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--diag-green); flex-shrink: 0;
+}
+
+.dx-btn {
+  width: 100%; padding: 14px; font-size: 15px; font-weight: 600;
+  background: var(--diag-blue); color: #fff;
+  border: none; border-radius: 12px; cursor: pointer;
+  font-family: "DM Sans", sans-serif; transition: .2s;
   display: flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: 48px;
 }
-.demo-submit:hover { background: var(--green-ink); transform: translateY(-1px); }
-.demo-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-.demo-legal {
-  font-size: 12px; color: var(--ink-muted); text-align: center;
-  margin-top: 16px; line-height: 1.5;
+.dx-btn:hover { background: var(--diag-blue-hover); transform: translateY(-1px); }
+.dx-btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.dx-btn--green { background: #25d366; }
+.dx-btn--green:hover { background: #20bd5a; }
+.dx-btn--dark { background: var(--diag-navy); }
+.dx-btn--dark:hover { background: #0f172a; }
+.dx-btn--ghost {
+  background: transparent; color: var(--diag-blue);
+  font-size: 13px; font-weight: 500; padding: 10px;
 }
-.demo-success {
-  text-align: center; padding: 40px 20px;
-  box-sizing: border-box; max-width: 100%;
-}
-.demo-success .check {
-  width: 64px; height: 64px; border-radius: 50%;
-  background: var(--green); color: #0d2c20;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px; margin: 0 auto 20px;
-}
-.demo-success h2 {
-  font-family: var(--serif); font-size: 28px; margin: 0 0 12px;
-  font-variation-settings: "opsz" 144, "SOFT" 40;
-}
-.demo-success p { color: var(--ink-muted); font-size: 15px; margin: 0; }
-.demo-error {
-  background: rgba(196,90,42,.08); border: 1px solid rgba(196,90,42,.3);
-  border-radius: 8px; padding: 12px 16px; margin-bottom: 16px;
-  font-size: 13px; color: #c45a2a;
-}
-.demo-back {
-  font-size: 13px; color: var(--green-ink); cursor: pointer;
-  background: none; border: none; font-family: var(--sans);
-  margin-bottom: 16px; padding: 0;
-}
-.demo-back:hover { text-decoration: underline; }
+.dx-btn--ghost:hover { background: transparent; text-decoration: underline; transform: none; }
 
-.demo-name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.demo-checkbox { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 22px; }
-.demo-checkbox input[type=checkbox] {
-  width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0;
-  accent-color: var(--green-ink);
+.dx-error {
+  background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: 8px; padding: 10px 14px; margin-bottom: 16px;
+  font-size: 13px; color: #991b1b;
 }
-.demo-checkbox label {
-  font-size: 13px; color: var(--ink-muted); line-height: 1.45; cursor: pointer;
+.dx-back {
+  font-size: 13px; color: var(--diag-blue); cursor: pointer;
+  background: none; border: none; margin-bottom: 12px; padding: 0;
 }
-.demo-testimonial {
-  margin-top: 28px; padding: 24px 28px;
-  background: var(--card); border: 1px solid var(--rule);
-  border-radius: var(--radius); text-align: center;
-  box-sizing: border-box; max-width: 100%; overflow: hidden;
-}
-.demo-testimonial blockquote {
-  font-family: var(--serif); font-size: 16px; font-style: italic;
-  font-variation-settings: "opsz" 144, "SOFT" 60;
-  color: var(--ink-soft); margin: 0 0 12px; line-height: 1.5;
-}
-.demo-testimonial cite {
-  font-style: normal; font-size: 13px; color: var(--ink-muted);
-  font-family: var(--sans);
-}
-.demo-calendar-btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  gap: 8px; margin-top: 20px; padding: 14px 28px;
-  font-size: 15px; font-weight: 500; background: var(--green-ink);
-  color: var(--cream); border: none; border-radius: 999px;
-  text-decoration: none; font-family: var(--sans); transition: .2s;
-}
-.demo-calendar-btn:hover { opacity: .9; transform: translateY(-1px); }
+.dx-back:hover { text-decoration: underline; }
 
-.demo-nav {
-  display: flex; align-items: center; justify-content: space-between;
-  max-width: var(--max); margin: 0 auto; padding: 0 28px; height: 70px;
-}
-.demo-nav .logo {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--serif); font-size: 22px;
-  font-variation-settings: "opsz" 144, "SOFT" 20;
-  letter-spacing: -0.02em; color: var(--ink);
-  text-decoration: none;
-}
-.demo-nav .logo-mark {
-  width: 26px; height: 26px; display: inline-flex;
-}
-
-gmp-place-autocomplete {
-  width: 100%; font-family: var(--sans);
-}
-gmp-place-autocomplete input {
-  width: 100%; padding: 14px 16px; font-size: 15px;
-  border: 1px solid var(--rule); border-radius: 10px;
-  background: var(--cream); color: var(--ink);
-  font-family: var(--sans); outline: none;
-  transition: border-color .2s;
-}
-gmp-place-autocomplete input:focus {
-  border-color: var(--green);
-}
-.demo-place-info {
-  display: flex; align-items: center; gap: 8px;
-  margin-top: 8px; padding: 8px 12px;
-  background: var(--green-100); border: 1px solid var(--green-wash);
-  border-radius: 8px; font-size: 12px; color: var(--green-ink);
-  font-family: var(--mono); letter-spacing: .03em;
-}
-.demo-place-info .dot {
-  width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0;
-}
-
-/* Inline calendar booking */
-.demo-success { overflow: hidden; }
-.demo-card *, .demo-card *::before, .demo-card *::after { box-sizing: border-box; }
-.bk-header {
-  text-align: center; margin-bottom: 24px;
-}
-.bk-title {
-  font-family: var(--serif); font-size: 22px; font-weight: 400;
-  font-variation-settings: "opsz" 144, "SOFT" 40;
-  color: var(--ink); margin: 0 0 4px;
-}
-.bk-subtitle {
-  font-size: 14px; color: var(--ink-muted); margin: 0;
-}
-.bk-dates {
-  display: flex; gap: 2px; overflow-x: auto; padding: 4px 0 16px;
-  scrollbar-width: none; -webkit-overflow-scrolling: touch;
-  max-width: 100%; border-bottom: 1px solid var(--rule);
-  margin-bottom: 16px;
-}
-.bk-dates::-webkit-scrollbar { display: none; }
-.bk-date {
-  flex: 0 0 auto; padding: 10px 6px; min-width: 56px;
-  border-radius: 12px; border: none; background: transparent;
-  cursor: pointer; text-align: center; transition: .15s;
-}
-.bk-date:hover { background: var(--cream-3); }
-.bk-date.on {
-  background: var(--green-ink);
-  box-shadow: 0 2px 8px rgba(45,90,60,.25);
-}
-.bk-date-day {
-  display: block; font-family: var(--mono); font-size: 10px;
-  letter-spacing: .06em; text-transform: uppercase;
-  color: var(--ink-muted);
-}
-.bk-date.on .bk-date-day { color: rgba(255,255,255,.7); }
-.bk-date-num {
-  display: block; font-size: 20px; font-weight: 600; color: var(--ink);
-  margin-top: 2px; line-height: 1.2;
-}
-.bk-date.on .bk-date-num { color: white; }
-.bk-slots-wrap {
-  position: relative;
-}
-.bk-slots-wrap::after {
-  content: ""; position: absolute; bottom: 0; left: 0; right: 0;
-  height: 32px; pointer-events: none;
-  background: linear-gradient(transparent, var(--card));
-}
-.bk-slots {
-  max-height: 280px; overflow-y: auto; margin-top: 0;
-  scrollbar-width: thin; scrollbar-color: var(--rule) transparent;
-  display: flex; flex-direction: column; gap: 8px;
-  padding-bottom: 8px;
-}
-.bk-slot {
-  width: 100%; padding: 15px 16px; border-radius: 10px;
-  border: 1px solid var(--green); background: transparent;
-  color: var(--green-ink); font-size: 15px; font-weight: 500;
-  font-family: var(--sans); cursor: pointer; text-align: center;
-  transition: .15s; flex-shrink: 0;
-}
-.bk-slot:hover { background: var(--green-100); }
-.bk-slot.on {
-  background: var(--green-ink); color: white; border-color: var(--green-ink);
-  box-shadow: 0 2px 8px rgba(45,90,60,.25);
-}
-.bk-empty {
-  text-align: center; padding: 24px 0; color: var(--ink-muted); font-size: 14px;
-}
-.bk-cta {
-  margin-top: 20px;
-}
-.bk-fallback {
-  font-size: 12px; color: var(--ink-muted); text-align: center; margin-top: 12px;
-}
-.bk-fallback a { color: var(--green-ink); text-decoration: underline; }
-.bk-booked-check {
-  width: 56px; height: 56px; border-radius: 50%;
-  background: var(--green); color: #0d2c20;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 24px; margin: 0 auto 16px;
-}
-.bk-booked-title {
-  font-family: var(--serif); font-size: 24px; font-weight: 400;
-  margin: 0 0 8px; text-align: center;
-  font-variation-settings: "opsz" 144, "SOFT" 40;
-}
-.bk-booked-time {
-  color: var(--ink-muted); text-align: center; font-size: 15px; margin: 0 0 20px;
-}
-.bk-booked-email {
-  font-size: 13px; color: var(--ink-muted); text-align: center; margin-top: 16px;
-}
-/* Phone input with country code */
-.phone-row {
-  display: flex; gap: 0; border: 1px solid var(--rule); border-radius: 10px;
-  overflow: hidden; background: var(--cream);
-  transition: border-color .2s;
-}
-.phone-row:focus-within { border-color: var(--green); }
-.phone-row > .phone-country {
-  flex: 0 0 80px; width: 80px; max-width: 80px; padding: 14px 8px 14px 12px; font-size: 14px;
-  border: none; border-right: 1px solid var(--rule); border-radius: 0;
-  background: var(--cream-2); color: var(--ink); font-family: var(--sans);
-  outline: none; cursor: pointer;
-}
-.phone-row > .phone-number {
-  flex: 1 1 auto; min-width: 0; width: auto; padding: 14px 16px; font-size: 15px;
-  border: none; border-radius: 0; background: transparent; color: var(--ink);
-  font-family: var(--sans); outline: none;
-}
-.phone-number::placeholder { color: var(--ink-muted); }
-.phone-error {
-  font-size: 12px; color: var(--tomato-ink); margin-top: 4px;
-}
-
-/* ── Diagnostic Scorecard ── */
-.diag-card {
-  background: #f8fafc; border: 1px solid #e2e8f0;
-  border-radius: 16px; padding: 32px 24px;
-  box-sizing: border-box; max-width: 100%;
-}
-.diag-name {
-  font-family: "DM Sans", var(--sans); font-weight: 700; font-size: 16px;
-  color: #1a2332; text-align: center; margin: 0 0 24px;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.diag-score-section {
-  display: flex; flex-direction: column; align-items: center; margin-bottom: 16px;
-}
-.diag-ring-wrap {
+/* Scorecard styles (reused from demo) */
+.dx-score-section { display: flex; flex-direction: column; align-items: center; margin-bottom: 16px; }
+.dx-ring-wrap {
   position: relative; display: inline-flex;
   align-items: center; justify-content: center;
 }
-.diag-ring-wrap svg { display: block; }
-.diag-score-inner {
+.dx-ring-wrap svg { display: block; }
+.dx-score-inner {
   position: absolute; inset: 0;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
 }
-.diag-score-num {
-  font-family: "DM Sans", var(--sans); font-weight: 700; font-size: 48px;
+.dx-score-num {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 48px;
   line-height: 1; transition: color .3s;
 }
-.diag-score-of {
-  font-family: "Inter", var(--sans); font-size: 13px; color: #94a3b8;
-  margin-top: 2px;
+.dx-score-of { font-size: 13px; color: var(--diag-muted); margin-top: 2px; }
+.dx-name {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 16px;
+  color: var(--diag-navy); text-align: center; margin: 0 0 20px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.diag-summary {
-  font-size: 14px; color: #64748b; text-align: center;
+.dx-summary {
+  font-size: 14px; color: var(--diag-subtle); text-align: center;
   margin: 12px 0 24px; line-height: 1.5;
 }
-.diag-metrics {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
-  margin-bottom: 24px;
+.dx-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; }
+.dx-metric {
+  background: var(--diag-bg); border: 1px solid var(--diag-border); border-radius: 8px;
+  padding: 12px; display: flex; flex-direction: column; gap: 4px;
 }
-.diag-metric {
-  background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
-  padding: 12px; min-height: 72px;
-  display: flex; flex-direction: column; gap: 4px;
+.dx-metric-icon { font-size: 16px; line-height: 1; }
+.dx-metric-val {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 18px;
+  color: var(--diag-navy); line-height: 1.2;
 }
-.diag-metric-icon { font-size: 16px; line-height: 1; }
-.diag-metric-val {
-  font-family: "DM Sans", var(--sans); font-weight: 700; font-size: 18px;
-  color: #1a2332; line-height: 1.2;
-}
-.diag-metric-label {
-  font-size: 12px; color: #94a3b8; line-height: 1.3;
-}
-.diag-metric--good { border-left: 3px solid #10b981; }
-.diag-metric--warn { border-left: 3px solid #f59e0b; }
-.diag-metric--bad  { border-left: 3px solid #ef4444; }
-
-.diag-divider {
+.dx-metric-label { font-size: 12px; color: var(--diag-muted); line-height: 1.3; }
+.dx-metric--good { background: #f0fdf4; }
+.dx-metric--warn { background: #fffbeb; }
+.dx-metric--bad  { background: #fef2f2; }
+.dx-divider {
   display: flex; align-items: center; gap: 12px;
-  margin: 0 0 16px; color: #94a3b8; font-size: 12px;
-  font-family: "DM Sans", var(--sans); font-weight: 500;
+  margin: 0 0 16px; color: var(--diag-muted); font-size: 12px;
+  font-family: "DM Sans", sans-serif; font-weight: 500;
   text-transform: uppercase; letter-spacing: .06em;
 }
-.diag-divider::before, .diag-divider::after {
-  content: ""; flex: 1; height: 1px; background: #e2e8f0;
+.dx-divider::before, .dx-divider::after {
+  content: ""; flex: 1; height: 1px; background: var(--diag-border);
 }
-.diag-competitors { margin-bottom: 16px; }
-.diag-comp {
+.dx-comp {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 0; border-bottom: 1px solid #f1f5f9;
+  padding: 10px 0; border-bottom: 1px solid var(--diag-rule);
 }
-.diag-comp:last-child { border-bottom: none; }
-.diag-comp-name {
-  font-size: 14px; color: #1a2332; font-weight: 500;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  max-width: 55%;
+.dx-comp:last-child { border-bottom: none; }
+.dx-comp-name {
+  font-size: 14px; color: var(--diag-navy); font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 55%;
 }
-.diag-comp-rating {
-  font-family: "DM Sans", var(--sans); font-size: 14px; font-weight: 700;
+.dx-comp-rating {
+  font-family: "DM Sans", sans-serif; font-size: 14px; font-weight: 700;
   display: flex; align-items: center; gap: 4px;
 }
-.diag-comp-reviews {
-  font-size: 12px; color: #94a3b8; font-weight: 400;
-}
-.diag-ranking {
-  text-align: center; padding: 8px 16px; margin-bottom: 24px;
+.dx-comp-reviews { font-size: 12px; color: var(--diag-muted); font-weight: 400; }
+.dx-ranking {
+  text-align: center; padding: 8px 16px; margin-bottom: 20px;
   background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px;
   font-size: 13px; font-weight: 500; color: #166534;
 }
-.diag-ranking--warn {
-  background: #fffbeb; border-color: #fde68a; color: #92400e;
-}
-.diag-ranking--bad {
-  background: #fef2f2; border-color: #fecaca; color: #991b1b;
-}
-.diag-cta {
-  width: 100%; padding: 16px; font-size: 15px; font-weight: 600;
-  background: #2563eb; color: #fff;
-  border: none; border-radius: 12px; cursor: pointer;
-  font-family: "DM Sans", var(--sans); transition: .2s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  min-height: 48px;
-}
-.diag-cta:hover { background: #1d4ed8; transform: translateY(-1px); }
+.dx-ranking--warn { background: #fffbeb; border-color: #fde68a; color: #92400e; }
+.dx-ranking--bad { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+/* Competitor loss-aversion teaser (pre-gate) */
+.dx-teaser { margin: 0 0 24px; }
+.dx-comp--you { background: #f1f5f9; border-radius: 8px; padding-left: 10px; padding-right: 10px; }
+.dx-comp--you .dx-comp-name { color: var(--diag-blue); font-weight: 700; }
+.dx-teaser-more { margin-top: 2px; }
+.dx-teaser-cta { font-size: 13px; color: var(--diag-subtle); line-height: 1.5; margin: 14px 0 0; text-align: center; }
+/* Step-based screens */
+.dx-score-mini { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; margin-bottom: 18px; background: #f8fafc; border: 1px solid var(--diag-border); border-radius: 10px; }
+.dx-score-mini-name { font-weight: 600; color: var(--diag-navy); font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dx-score-mini-num { font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 22px; color: var(--diag-blue); white-space: nowrap; }
+.dx-score-mini-num span { font-size: 13px; color: var(--diag-muted); font-weight: 500; }
+.dx-back-link { background: none; border: none; color: var(--diag-blue); font-size: 13px; cursor: pointer; margin: 16px auto 0; display: block; padding: 8px; }
+.dx-gate-preview { max-height: 108px; overflow: hidden; margin-bottom: 18px; border-radius: 10px; -webkit-mask-image: linear-gradient(to bottom, #000 35%, transparent); mask-image: linear-gradient(to bottom, #000 35%, transparent); }
 
-/* Warm landing (score < 40) */
-.diag-warm-section { margin-top: 24px; }
-.diag-warm-title {
-  font-family: "DM Sans", var(--sans); font-weight: 700; font-size: 16px;
-  color: #1a2332; margin: 0 0 12px;
+.dx-warm-title {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 16px;
+  color: var(--diag-navy); margin: 24px 0 12px;
 }
-.diag-tip {
+.dx-tip {
   display: flex; gap: 10px; padding: 10px 0;
-  border-bottom: 1px solid #f1f5f9;
+  border-bottom: 1px solid var(--diag-rule);
 }
-.diag-tip:last-child { border-bottom: none; }
-.diag-tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
-.diag-tip-text { font-size: 13px; color: #475569; line-height: 1.5; }
-.diag-wa-cta {
-  width: 100%; padding: 14px; font-size: 15px; font-weight: 600;
-  background: #25d366; color: #fff;
-  border: none; border-radius: 12px; cursor: pointer;
-  font-family: "DM Sans", var(--sans); transition: .2s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-top: 16px; text-decoration: none; min-height: 48px;
-}
-.diag-wa-cta:hover { background: #20bd5a; }
-.diag-secondary {
-  display: block; width: 100%; text-align: center;
-  font-size: 13px; color: #2563eb; cursor: pointer;
-  background: none; border: none; font-family: var(--sans);
-  margin-top: 12px; padding: 8px;
-}
-.diag-secondary:hover { text-decoration: underline; }
+.dx-tip:last-child { border-bottom: none; }
+.dx-tip-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.dx-tip-text { font-size: 13px; color: #475569; line-height: 1.5; }
 
-/* ── Evaluation Report ── */
-.diag-eval-summary {
+/* Evaluation Report */
+.dx-eval-summary {
   background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
   padding: 16px; margin-bottom: 16px;
 }
-.diag-eval-headline {
+.dx-eval-headline {
   font-family: "DM Sans", var(--sans); font-weight: 700; font-size: 15px;
   color: #1a2332; margin: 0 0 4px;
 }
-.diag-eval-body {
+.dx-eval-body {
   font-size: 13px; color: #64748b; line-height: 1.5; margin: 0;
 }
-.diag-eval-items { margin-bottom: 16px; }
-.diag-eval-item {
+.dx-eval-items { margin-bottom: 16px; }
+.dx-eval-item {
   padding: 12px; margin-bottom: 8px;
   background: #fff; border: 1px solid #e2e8f0; border-radius: 8px;
 }
-.diag-eval-item--good { border-left: 3px solid #10b981; }
-.diag-eval-item--warn { border-left: 3px solid #f59e0b; }
-.diag-eval-item--bad  { border-left: 3px solid #ef4444; }
-.diag-eval-verdict {
+.dx-eval-item--good { background: #f0fdf4; }
+.dx-eval-item--warn { background: #fffbeb; }
+.dx-eval-item--bad  { background: #fef2f2; }
+.dx-eval-verdict {
   display: flex; align-items: center; gap: 6px;
   font-family: "DM Sans", var(--sans); font-weight: 600; font-size: 14px;
   color: #1a2332; margin-bottom: 4px;
 }
-.diag-eval-detail {
+.dx-eval-detail {
   font-size: 13px; color: #475569; line-height: 1.5; margin: 0;
   padding-left: 22px;
 }
-.diag-eval-rec {
+.dx-eval-rec {
   background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px;
   padding: 14px; margin-bottom: 20px;
 }
-.diag-eval-rec-label {
+.dx-eval-rec-label {
   font-family: var(--mono, monospace); font-size: 10px;
   letter-spacing: .08em; text-transform: uppercase;
   color: #166534; margin-bottom: 6px;
 }
-.diag-eval-rec-text {
+.dx-eval-rec-text {
   font-size: 13px; color: #166534; line-height: 1.5; margin: 0;
 }
 @media (max-width: 640px) {
-  .diag-eval-item { padding: 10px; }
-  .diag-eval-summary { padding: 14px; }
-  .diag-eval-rec { padding: 12px; }
+  .dx-eval-item { padding: 10px; }
+  .dx-eval-summary { padding: 14px; }
+  .dx-eval-rec { padding: 12px; }
 }
 
-/* Skeleton loader */
-@keyframes diag-pulse {
+/* Skeleton */
+@keyframes dx-pulse {
   0%, 100% { opacity: .4; }
   50% { opacity: .15; }
 }
-.diag-skel { animation: diag-pulse 1.5s ease-in-out infinite; background: #e2e8f0; border-radius: 8px; }
-.diag-skel-ring {
+.dx-skel { animation: dx-pulse 1.5s ease-in-out infinite; background: var(--diag-border); border-radius: 8px; }
+.dx-skel-ring {
   width: 120px; height: 120px; border-radius: 50%;
-  margin: 0 auto 16px; animation: diag-pulse 1.5s ease-in-out infinite;
-  background: #e2e8f0;
+  margin: 0 auto 16px; animation: dx-pulse 1.5s ease-in-out infinite; background: var(--diag-border);
 }
-.diag-skel-text {
+.dx-skel-text {
   height: 14px; border-radius: 4px; margin: 0 auto 24px;
-  animation: diag-pulse 1.5s ease-in-out infinite; background: #e2e8f0;
+  animation: dx-pulse 1.5s ease-in-out infinite; background: var(--diag-border);
 }
-.diag-skel-cards {
-  display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px;
-}
-.diag-skel-card {
-  height: 72px; border-radius: 8px;
-  animation: diag-pulse 1.5s ease-in-out infinite; background: #e2e8f0;
-}
-.diag-skel-bar {
+.dx-skel-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 24px; }
+.dx-skel-card { height: 72px; border-radius: 8px; animation: dx-pulse 1.5s ease-in-out infinite; background: var(--diag-border); }
+.dx-skel-bar {
   height: 14px; border-radius: 4px; margin-bottom: 10px;
-  animation: diag-pulse 1.5s ease-in-out infinite; background: #e2e8f0;
+  animation: dx-pulse 1.5s ease-in-out infinite; background: var(--diag-border);
 }
 
+/* Contact form extras */
+.dx-name-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.dx-phone-row {
+  display: flex; gap: 0; border: 1px solid var(--diag-border); border-radius: 10px;
+  overflow: hidden; background: var(--diag-bg); transition: border-color .2s;
+}
+.dx-phone-row:focus-within { border-color: var(--diag-blue); }
+.dx-phone-row > select {
+  flex: 0 0 74px; padding: 12px 6px 12px 10px; font-size: 14px;
+  border: none; border-right: 1px solid var(--diag-border); border-radius: 0;
+  background: #f1f5f9; color: var(--diag-navy); outline: none;
+}
+.dx-phone-row > input {
+  flex: 1; min-width: 0; padding: 12px 14px; font-size: 15px;
+  border: none; border-radius: 0; background: transparent;
+  color: var(--diag-navy); outline: none;
+}
+.dx-phone-error { font-size: 12px; color: var(--diag-red); margin-top: 4px; }
+.dx-checkbox { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+.dx-checkbox input[type=checkbox] {
+  width: 18px; height: 18px; margin-top: 2px; flex-shrink: 0;
+  accent-color: var(--diag-blue);
+}
+.dx-checkbox label { font-size: 13px; color: var(--diag-subtle); line-height: 1.45; cursor: pointer; }
+.dx-legal {
+  font-size: 12px; color: var(--diag-muted); text-align: center;
+  margin-top: 14px; line-height: 1.5;
+}
+
+/* Calendar (shared) */
+.dx-bk-header { text-align: center; margin-bottom: 20px; }
+.dx-bk-title { font-family: "DM Sans", sans-serif; font-size: 20px; font-weight: 700; margin: 0 0 4px; }
+.dx-bk-sub { font-size: 14px; color: var(--diag-muted); margin: 0; }
+.dx-bk-dates {
+  display: flex; gap: 2px; overflow-x: auto; padding: 4px 0 14px;
+  scrollbar-width: none; border-bottom: 1px solid var(--diag-border); margin-bottom: 14px;
+}
+.dx-bk-dates::-webkit-scrollbar { display: none; }
+.dx-bk-date {
+  flex: 0 0 auto; padding: 10px 8px; min-width: 50px; min-height: 48px;
+  border-radius: 10px; text-align: center; transition: .15s;
+}
+.dx-bk-date:hover { background: var(--diag-rule); }
+.dx-bk-date.on { background: var(--diag-blue); box-shadow: 0 2px 8px rgba(37,99,235,.25); }
+.dx-bk-day { display: block; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--diag-muted); }
+.dx-bk-date.on .dx-bk-day { color: rgba(255,255,255,.7); }
+.dx-bk-num { display: block; font-size: 18px; font-weight: 600; color: var(--diag-navy); margin-top: 2px; }
+.dx-bk-date.on .dx-bk-num { color: #fff; }
+.dx-bk-slots { max-height: 240px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; }
+.dx-bk-slot {
+  width: 100%; padding: 13px; border-radius: 10px;
+  border: 1px solid var(--diag-blue); background: transparent;
+  color: var(--diag-blue); font-size: 15px; font-weight: 500;
+  text-align: center; transition: .15s;
+}
+.dx-bk-slot:hover { background: #eff6ff; }
+.dx-bk-slot.on { background: var(--diag-blue); color: #fff; border-color: var(--diag-blue); }
+.dx-bk-empty { text-align: center; padding: 20px 0; color: var(--diag-muted); font-size: 14px; }
+.dx-bk-booked-check {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--diag-green); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin: 0 auto 14px;
+}
+.dx-bk-booked-title {
+  font-family: "DM Sans", sans-serif; font-size: 22px; font-weight: 700;
+  margin: 0 0 8px; text-align: center;
+}
+.dx-bk-links { font-size: 12px; color: var(--diag-muted); text-align: center; margin-top: 12px; }
+.dx-bk-links a { color: var(--diag-blue); text-decoration: underline; }
+
+.dx-footer {
+  text-align: center; padding: 16px;
+  font-size: 12px; color: var(--diag-muted);
+}
+.dx-footer a { color: var(--diag-blue); text-decoration: underline; }
+
+.dx-sticky-cta {
+  display: none;
+}
 @media (max-width: 640px) {
-  .bk-date { min-width: 46px; padding: 8px 4px; }
-  .bk-date-num { font-size: 18px; }
-  .bk-slots { max-height: 220px; }
-  .bk-slot { padding: 14px 12px; font-size: 15px; }
-  .bk-cta { margin-top: 16px; }
-  .phone-row > .phone-country { flex: 0 0 70px; width: 70px; max-width: 70px; padding: 14px 6px 14px 10px; font-size: 14px; }
-  .diag-card { padding: 24px 16px; }
-  .diag-score-num { font-size: 42px; }
-}
-
-@media (max-width: 900px) {
-  .demo-layout {
-    grid-template-columns: 1fr;
-    gap: 24px;
+  .dx-sticky-cta {
+    display: block;
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,.95);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border-top: 1px solid var(--diag-border);
+    padding: 12px 16px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    z-index: 100;
   }
-  .demo-hero { grid-column: 1; grid-row: 1; padding: 40px 0 0; }
-  .demo-form-col { grid-column: 1; grid-row: 2; }
-  .demo-covers { grid-column: 1; grid-row: 3; grid-template-columns: 1fr 1fr; }
+  .dx-sticky-cta .dx-btn { margin: 0; }
+  .dx-scorecard-pad { padding-bottom: 24px; }
 }
-@media (max-width: 640px) {
-  .demo-layout { padding: 0 16px; gap: 20px; }
-  .demo-hero { padding: 28px 0 0; }
-  .demo-hero h1 { font-size: clamp(28px, 8vw, 40px); }
-  .demo-hero .lead { font-size: 15px; margin-bottom: 20px; }
-  .demo-card { padding: 28px 20px; }
-  .demo-card h2 { font-size: 22px; margin-bottom: 20px; }
-  .demo-nav { padding: 0 16px; height: 56px; }
-  .demo-covers { grid-template-columns: 1fr; gap: 10px; }
-  .demo-cover { padding: 14px; }
-  .demo-cover h4 { font-size: 14px; }
-  .demo-testimonial { padding: 18px 20px; }
+@media (max-width: 480px) {
+  .dx-card { padding: 24px 18px; }
+  .dx-hero h1 { font-size: 24px; }
+  .dx-score-num { font-size: 42px; }
+}
+
+/* Scorecard gating */
+.dx-gated {
+  position: relative;
+  filter: blur(6px);
+  user-select: none;
+  pointer-events: none;
+  transition: filter 0.6s ease, opacity 0.6s ease;
+}
+.dx-gated--revealed {
+  filter: blur(0);
+  user-select: auto;
+  pointer-events: auto;
+}
+.dx-metric-val--blurred {
+  filter: blur(5px);
+  user-select: none;
+  transition: filter 0.6s ease;
+}
+.dx-gate-overlay {
+  position: relative;
+  margin: 0 -24px;
+  padding: 0 24px 24px;
+  background: linear-gradient(to bottom, rgba(248,250,252,0) 0%, var(--diag-card) 20%);
+  text-align: center;
+  z-index: 10;
+}
+.dx-gate-lock {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: var(--diag-blue);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+  margin: 0 auto 14px;
+  box-shadow: 0 4px 14px rgba(37,99,235,.25);
+}
+.dx-gate-title {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 700; font-size: 19px;
+  color: var(--diag-navy);
+  margin: 0 0 6px;
+}
+.dx-gate-sub {
+  font-size: 14px; color: var(--diag-subtle);
+  margin: 0 0 20px; line-height: 1.5;
+}
+.dx-deep { margin-top: 4px; }
+.dx-demo-gate {
+  border: 1px solid var(--diag-border);
+  background: #f8fafc;
+  border-radius: 14px;
+  padding: 20px 18px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.dx-demo-gate .dx-bk-header, .dx-demo-gate .dx-bk-dates,
+.dx-demo-gate .dx-bk-slots { text-align: left; }
+@media (max-width: 480px) {
+  .dx-gate-overlay { margin: 0 -18px; padding: 0 18px 18px; }
+  .dx-demo-gate { padding: 18px 14px; }
+}
+
+/* Trust bar */
+.dx-trust-bar {
+  display: flex; justify-content: center; gap: 24px;
+  margin: -8px 0 20px; padding: 0;
+  flex-wrap: wrap;
+}
+.dx-trust-item {
+  font-size: 13px; color: var(--diag-subtle);
+  font-weight: 500; white-space: nowrap;
+}
+.dx-trust-item strong {
+  color: var(--diag-navy); font-weight: 700;
+}
+
+/* Testimonials */
+.dx-testimonials {
+  display: flex; flex-direction: column; gap: 16px;
+  max-width: 520px; margin: 24px auto 0; padding: 0 20px;
+}
+.dx-testi {
+  background: var(--diag-card);
+  border: 1px solid var(--diag-border);
+  border-radius: 12px; padding: 20px;
+}
+.dx-testi-quote {
+  font-size: 14px; color: var(--diag-navy);
+  line-height: 1.6; margin: 0 0 12px;
+  font-style: italic;
+}
+.dx-testi-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; flex-wrap: wrap;
+}
+.dx-testi-id {
+  display: flex; align-items: center; gap: 10px;
+}
+.dx-testi-photo {
+  width: 44px; height: 44px; border-radius: 10px;
+  object-fit: cover; flex-shrink: 0;
+  border: 1px solid var(--diag-border);
+}
+.dx-testi-who {
+  font-size: 13px; color: var(--diag-subtle); line-height: 1.4;
+}
+.dx-testi-name {
+  font-weight: 600; color: var(--diag-navy);
+}
+.dx-testi-metric {
+  font-size: 12px; font-weight: 600;
+  color: var(--diag-green); background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 20px; padding: 4px 12px;
+  white-space: nowrap;
+}
+@media (max-width: 480px) {
+  .dx-trust-bar { gap: 12px; }
+  .dx-trust-item { font-size: 12px; }
+  .dx-testimonials { padding: 0; }
 }
 </style>
 </head>
@@ -607,11 +603,16 @@ gmp-place-autocomplete input:focus {
 const API_URL = "/api/demo-page/lead-intake";
 const SESSION_ID = "sess_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
 
+// v3: free score + metrics + evaluation; only improvements + competitors gated.
+// Bumped from v2-demogate so this redesign's events don't pollute the v2 A/B.
+// Event NAMES kept stable (scorecard_unlocked etc.) to avoid breaking dashboards.
+const FUNNEL_VERSION = "v3-freescore";
+
 function fireEvent(eventType, placeId) {
   fetch("/api/diagnostico/event", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ event_type: eventType, place_id: placeId, session_id: SESSION_ID }),
+    body: JSON.stringify({ event_type: eventType, place_id: placeId, session_id: SESSION_ID, funnel_version: FUNNEL_VERSION }),
   }).catch(() => {});
 }
 
@@ -626,27 +627,23 @@ function computeDigitalScore(enrich, competitors) {
     if (enrich.rating) {
       const diff = enrich.rating - avg;
       score += diff > 0.5 ? 15 : diff > 0 ? 12 : diff > -0.3 ? 8 : 4;
-    } else {
-      score += 4;
-    }
-  } else {
-    score += 8;
-  }
+    } else { score += 4; }
+  } else { score += 8; }
   return Math.round(score);
 }
 
 function getGaps(enrich, competitors) {
   const gaps = [];
   if (!enrich.rating || enrich.rating < 4.0)
-    gaps.push({ key: "rating", label: "Calificación Google", icon: "★", tip: "Responde a todas las reseñas de Google. Cada respuesta mejora tu calificación y muestra que te importa." });
+    gaps.push({ key: "rating", icon: "★", tip: "Responde a todas las reseñas de Google. Cada respuesta mejora tu calificación y muestra que te importa." });
   if (!enrich.reviewCount || enrich.reviewCount < 50)
-    gaps.push({ key: "reviews", label: "Reseñas de clientes", icon: "💬", tip: "Pide reseñas a clientes satisfechos. Un QR en la mesa funciona muy bien." });
+    gaps.push({ key: "reviews", icon: "💬", tip: "Pide reseñas a clientes satisfechos. Un QR en la mesa funciona muy bien." });
   if (!enrich.websiteUri)
-    gaps.push({ key: "website", label: "Presencia web", icon: "🌐", tip: "Crea un sitio web con tu menú y ubicación. Es lo primero que buscan tus clientes." });
+    gaps.push({ key: "website", icon: "🌐", tip: "Crea un sitio web con tu menú y ubicación. Es lo primero que buscan tus clientes." });
   if (competitors && competitors.length > 0) {
     const avg = competitors.reduce((s, c) => s + (c.rating || 0), 0) / competitors.length;
     if (enrich.rating && enrich.rating < avg)
-      gaps.push({ key: "competition", label: "Competitividad local", icon: "📊", tip: "Analiza qué hacen bien tus competidores y adapta lo mejor a tu restaurante." });
+      gaps.push({ key: "competition", icon: "📊", tip: "Analiza qué hacen bien tus competidores y adapta lo mejor a tu restaurante." });
   }
   return gaps;
 }
@@ -755,25 +752,9 @@ function getScoreColor(score) {
   return "#ef4444";
 }
 
-function LogoMark() {
-  return (
-    <span className="logo-mark">
-      <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg" style={{width:"100%",height:"100%"}}>
-        <g fill="currentColor">
-          <rect x="54" y="40" width="50" height="172" rx="6"/>
-          <rect x="54" y="40" width="150" height="46" rx="6"/>
-          <rect x="54" y="108" width="98" height="38" rx="6"/>
-          <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
-        </g>
-      </svg>
-    </span>
-  );
-}
-
 function ScoreRing({ score, size = 120, strokeWidth = 8 }) {
   const [progress, setProgress] = React.useState(0);
   const [revealed, setRevealed] = React.useState(false);
-
   React.useEffect(() => {
     const duration = 2000;
     const start = performance.now();
@@ -788,231 +769,29 @@ function ScoreRing({ score, size = 120, strokeWidth = 8 }) {
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [score]);
-
   const r = (size - strokeWidth) / 2;
   const circ = 2 * Math.PI * r;
   const offset = circ * (1 - (progress * score / 100));
   const display = Math.round(progress * score);
   const finalColor = getScoreColor(score);
   const color = revealed ? finalColor : "#2563eb";
-
   return (
-    <div className="diag-ring-wrap" role="img" aria-label={"Puntuación: " + score + " de 100"} style={{ width: size, height: size }}>
+    <div className="dx-ring-wrap" role="img" aria-label={"Puntuación: " + score + " de 100"} style={{ width: size, height: size }}>
       <svg width={size} height={size} viewBox={"0 0 " + size + " " + size} style={{ transform: "rotate(-90deg)" }}>
         <circle cx={size/2} cy={size/2} r={r} fill="none" stroke="#e2e8f0" strokeWidth={strokeWidth} />
         <circle cx={size/2} cy={size/2} r={r} fill="none" stroke={color} strokeWidth={strokeWidth}
           strokeDasharray={circ} strokeDashoffset={offset}
           strokeLinecap="round" style={{ transition: "stroke 0.3s ease" }} />
       </svg>
-      <div className="diag-score-inner">
-        <span className="diag-score-num" style={{ color: revealed ? finalColor : "#1a2332" }}>{display}</span>
-        <span className="diag-score-of">/100</span>
+      <div className="dx-score-inner">
+        <span className="dx-score-num" style={{ color: revealed ? finalColor : "#1a2332" }}>{display}</span>
+        <span className="dx-score-of">/100</span>
       </div>
     </div>
   );
 }
 
-function SkeletonLoader() {
-  return (
-    <div className="diag-card">
-      <div className="diag-skel-ring" />
-      <div className="diag-skel-text" style={{ width: "60%" }} />
-      <div className="diag-skel-cards">
-        <div className="diag-skel-card" />
-        <div className="diag-skel-card" />
-        <div className="diag-skel-card" />
-        <div className="diag-skel-card" />
-      </div>
-      <div className="diag-skel-text" style={{ width: "40%", marginBottom: 16 }} />
-      <div className="diag-skel-bar" style={{ width: "90%" }} />
-      <div className="diag-skel-bar" style={{ width: "75%" }} />
-      <div className="diag-skel-bar" style={{ width: "85%" }} />
-    </div>
-  );
-}
-
-function DiagnosticScorecard({ companyName, placeId, onContinue, onBack }) {
-  const [loading, setLoading] = React.useState(true);
-  const [enrich, setEnrich] = React.useState(null);
-  const [competitors, setCompetitors] = React.useState([]);
-  const [failed, setFailed] = React.useState(false);
-
-  React.useEffect(() => {
-    let cancelled = false;
-    const timeout = setTimeout(() => {
-      if (!cancelled && loading) { setFailed(true); setLoading(false); }
-    }, 8000);
-
-    Promise.all([
-      fetch("/api/diagnostico/enrich?place_id=" + encodeURIComponent(placeId)).then(r => r.ok ? r.json() : null),
-      fetch("/api/diagnostico/nearby?place_id=" + encodeURIComponent(placeId)).then(r => r.ok ? r.json() : null),
-    ]).then(([enrichRes, nearbyRes]) => {
-      if (cancelled) return;
-      clearTimeout(timeout);
-      if (!enrichRes) { setFailed(true); setLoading(false); return; }
-      setEnrich(enrichRes);
-      setCompetitors(nearbyRes?.competitors || []);
-      setLoading(false);
-      fireEvent("diagnostic_viewed", placeId);
-    }).catch(() => {
-      if (!cancelled) { setFailed(true); setLoading(false); }
-    });
-
-    return () => { cancelled = true; clearTimeout(timeout); };
-  }, [placeId]);
-
-  React.useEffect(() => {
-    if (failed) onContinue();
-  }, [failed]);
-
-  if (loading) return <SkeletonLoader />;
-  if (failed) return null;
-
-  const score = computeDigitalScore(enrich, competitors);
-  const gaps = getGaps(enrich, competitors);
-  const scoreColor = getScoreColor(score);
-  const evaluation = generateEvaluation(enrich, competitors);
-  const hasAnyData = enrich.rating != null || enrich.reviewCount != null || enrich.websiteUri != null;
-
-  const ratingClass = enrich.rating >= 4.0 ? "diag-metric--good" : enrich.rating >= 3.0 ? "diag-metric--warn" : "diag-metric--bad";
-  const reviewClass = enrich.reviewCount >= 100 ? "diag-metric--good" : enrich.reviewCount >= 30 ? "diag-metric--warn" : "diag-metric--bad";
-  const webClass = enrich.websiteUri ? "diag-metric--good" : "diag-metric--bad";
-  const statusClass = enrich.businessStatus === "OPERATIONAL" ? "diag-metric--good" : "diag-metric--bad";
-
-  const betterThan = competitors.filter(c => enrich.rating && c.rating && enrich.rating > c.rating).length;
-  const total = competitors.length;
-  let rankText, rankClass;
-  if (total === 0) {
-    rankText = null;
-  } else if (betterThan === total) {
-    rankText = "Mejor que " + total + " de " + total + " competidores cercanos";
-    rankClass = "";
-  } else if (betterThan > 0) {
-    rankText = "Mejor que " + betterThan + " de " + total + " competidores cercanos";
-    rankClass = betterThan >= total / 2 ? "" : "diag-ranking--warn";
-  } else {
-    rankText = "Por debajo de tus " + total + " competidores cercanos";
-    rankClass = "diag-ranking--bad";
-  }
-
-  const isWarm = score < 40;
-
-  return (
-    <div className="diag-card">
-      <button className="demo-back" onClick={onBack}>{"←"} Cambiar restaurante</button>
-      <div className="diag-name">{companyName}</div>
-
-      <div className="diag-score-section">
-        <ScoreRing score={score} />
-      </div>
-
-      <div className="diag-summary">
-        {gaps.length === 0
-          ? "Tu restaurante tiene una presencia digital sólida."
-          : "Oportunidades de mejora en " + gaps.length + " área" + (gaps.length > 1 ? "s" : "") + "."}
-      </div>
-
-      <div className="diag-metrics">
-        <div className={"diag-metric " + ratingClass}>
-          <span className="diag-metric-icon">{"★"}</span>
-          <span className="diag-metric-val">{enrich.rating ? enrich.rating.toFixed(1) + "/5" : "N/A"}</span>
-          <span className="diag-metric-label">Calificación Google</span>
-        </div>
-        <div className={"diag-metric " + reviewClass}>
-          <span className="diag-metric-icon">{"💬"}</span>
-          <span className="diag-metric-val">{enrich.reviewCount != null ? enrich.reviewCount : "N/A"}</span>
-          <span className="diag-metric-label">Reseñas</span>
-        </div>
-        <div className={"diag-metric " + webClass}>
-          <span className="diag-metric-icon">{"🌐"}</span>
-          <span className="diag-metric-val">{enrich.websiteUri ? "Sí" : "No"}</span>
-          <span className="diag-metric-label">Sitio web</span>
-        </div>
-        <div className={"diag-metric " + statusClass}>
-          <span className="diag-metric-icon">{"✓"}</span>
-          <span className="diag-metric-val">{enrich.businessStatus === "OPERATIONAL" ? "Activo" : "Inactivo"}</span>
-          <span className="diag-metric-label">Estado Google</span>
-        </div>
-      </div>
-
-      <div className="diag-divider">Tu evaluación</div>
-
-      {hasAnyData ? (
-        <>
-          <div className="diag-eval-summary">
-            <div className="diag-eval-headline">{evaluation.summaryHeadline}</div>
-            <p className="diag-eval-body">{evaluation.summaryBody}</p>
-          </div>
-
-          <div className="diag-eval-items">
-            {evaluation.sections.map((s, i) => (
-              <div className={"diag-eval-item diag-eval-item--" + s.status} key={i}>
-                <div className="diag-eval-verdict">
-                  <span>{s.icon}</span> {s.verdict}
-                </div>
-                <p className="diag-eval-detail">{s.detail}</p>
-              </div>
-            ))}
-          </div>
-
-          {evaluation.topRec && (
-            <div className="diag-eval-rec">
-              <div className="diag-eval-rec-label">Acción #1</div>
-              <p className="diag-eval-rec-text">{evaluation.topRec}</p>
-            </div>
-          )}
-        </>
-      ) : (
-        <div className="diag-eval-summary">
-          <div className="diag-eval-headline">No pudimos obtener todos los datos de tu perfil</div>
-          <p className="diag-eval-body">Esto puede pasar si tu perfil de Google Business es nuevo o no está verificado. Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
-        </div>
-      )}
-
-      {total > 0 && (
-        <>
-          <div className="diag-divider">Tu vs tu zona</div>
-          <div className="diag-competitors">
-            {competitors.map((c, i) => (
-              <div className="diag-comp" key={i}>
-                <span className="diag-comp-name">{c.name}</span>
-                <span className="diag-comp-rating">
-                  <span style={{ color: c.rating >= (enrich.rating || 0) ? "#f59e0b" : "#94a3b8" }}>{"★"}</span>
-                  {c.rating ? c.rating.toFixed(1) : "N/A"}
-                  <span className="diag-comp-reviews">({c.reviewCount || 0})</span>
-                </span>
-              </div>
-            ))}
-          </div>
-          {rankText && <div className={"diag-ranking " + rankClass}>{rankText}</div>}
-        </>
-      )}
-
-      {isWarm ? (
-        <>
-          <div className="diag-warm-section">
-            <div className="diag-warm-title">Lo bueno: todo esto se puede mejorar</div>
-            <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, margin: "0 0 16px" }}>
-              Muchos de nuestros clientes empezaron con un perfil similar al tuyo. Con las acciones correctas, los resultados llegan rápido.
-            </p>
-          </div>
-          <a href={"https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, acabo de hacer el diagnóstico de " + companyName + " y quiero mejorar mi presencia digital")} className="diag-wa-cta" target="_blank" rel="noopener">
-            Habla con un experto por WhatsApp
-          </a>
-          <button className="diag-secondary" onClick={onContinue}>
-            Agendar demo de todas formas
-          </button>
-        </>
-      ) : (
-        <button className="diag-cta" onClick={onContinue}>
-          Quiero mejorar mi presencia digital <span>{"→"}</span>
-        </button>
-      )}
-    </div>
-  );
-}
-
-function CalendarBooking({ firstName, lastName, email, phone, companyName, assignedAE, calendarUrl }) {
+function CalendarBooking({ firstName, lastName, email, phone, companyName, assignedAE, calendarUrl, onBooked, sessionId, placeId }) {
   const [loading, setLoading] = React.useState(true);
   const [dates, setDates] = React.useState([]);
   const [selectedDate, setSelectedDate] = React.useState(0);
@@ -1022,7 +801,9 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
   const [error, setError] = React.useState(null);
 
   React.useEffect(() => {
-    fetch(`/api/calendar/available-slots?ae=${encodeURIComponent(assignedAE)}&days=14`)
+    fireEvent("calendar_shown", "");
+    if (window.clarity) window.clarity("set", "funnel_step", "calendar_shown");
+    fetch("/api/calendar/available-slots?ae=" + encodeURIComponent(assignedAE) + "&days=14")
       .then(r => r.json())
       .then(data => {
         if (data.ok && data.dates?.length) setDates(data.dates);
@@ -1034,265 +815,312 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
 
   const handleBook = async () => {
     if (!selectedSlot) return;
-    setBooking(true);
-    setError(null);
+    setBooking(true); setError(null);
     try {
       const res = await fetch("/api/calendar/book-demo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ae: assignedAE,
-          start: selectedSlot.start,
-          end: selectedSlot.end,
-          first_name: firstName,
-          last_name: lastName,
-          email,
-          phone,
-          company_name: companyName,
+          ae: assignedAE, start: selectedSlot.start, end: selectedSlot.end,
+          first_name: firstName, last_name: lastName, email, phone, company_name: companyName,
+          session_id: sessionId, source: "demo", funnel: "demo", place_id: placeId || undefined,
         }),
       });
       const result = await res.json();
-      if (!res.ok) {
-        setError(result.error || "No pudimos agendar tu demo.");
-        return;
-      }
+      if (!res.ok) { setError(result.error || "No pudimos agendar tu demo."); return; }
       setBooked(result);
+      fireEvent("demo_booked", placeId || "");
+      if (onBooked) onBooked();
+      if (window.clarity) window.clarity("set", "funnel_step", "demo_booked");
       if (typeof fbq === "function" && result.eventId) {
-        fbq("track", "Schedule", { content_name: "demo_booking", value: 0, currency: "MXN" }, { eventID: "schedule_" + result.eventId });
+        fbq("track", "Schedule", { content_name: "diagnostico_booking", value: 0, currency: "MXN" }, { eventID: "schedule_" + result.eventId });
       }
-    } catch {
-      setError("No pudimos agendar tu demo. Intenta de nuevo.");
-    } finally {
-      setBooking(false);
-    }
+    } catch { setError("No pudimos agendar. Intenta de nuevo."); }
+    finally { setBooking(false); }
   };
 
   if (booked) {
     return (
-      <>
-        <div className="bk-booked-check">{"✓"}</div>
-        <h3 className="bk-booked-title">
-          Demo agendada, {firstName}
-        </h3>
-        <p className="bk-booked-time">
-          {booked.startFormatted}
-        </p>
-        {booked.meetLink && (
-          <a href={booked.meetLink} target="_blank" rel="noopener" className="demo-calendar-btn" style={{ display: "flex", width: "100%", justifyContent: "center" }}>
-            Abrir Google Meet <span>{"→"}</span>
-          </a>
-        )}
-        <p className="bk-booked-email">
-          Te enviamos confirmación a <strong>{email}</strong>
-        </p>
-      </>
+      <div style={{ textAlign: "center" }}>
+        <div className="dx-bk-booked-check">✓</div>
+        <h3 className="dx-bk-booked-title">Demo agendada, {firstName}</h3>
+        <p style={{ color: "#64748b", fontSize: 15, margin: "0 0 16px" }}>{booked.startFormatted}</p>
+        {booked.meetLink && <a href={booked.meetLink} target="_blank" rel="noopener" className="dx-btn" style={{ marginBottom: 8 }}>Abrir Google Meet →</a>}
+        <p style={{ fontSize: 13, color: "#94a3b8", marginTop: 14 }}>Te enviamos confirmación a <strong>{email}</strong></p>
+      </div>
     );
   }
 
   if (error === "fallback") {
     return (
-      <>
-        <p style={{ fontSize: 17, color: "var(--green-ink)", fontWeight: 500 }}>
-          Tu restaurante califica para una demo personalizada.
-        </p>
-        <a href={calendarUrl} className="demo-calendar-btn" style={{ display: "flex", width: "100%", justifyContent: "center", marginTop: 16 }}>
-          Agendar mi demo de 30 min <span>{"→"}</span>
-        </a>
-        <p style={{ marginTop: 12, fontSize: 12, color: "var(--ink-muted)", textAlign: "center" }}>
-          <a href="https://wa.me/5214421716825" style={{ color: "var(--green-ink)", textDecoration: "underline" }}>WhatsApp</a>
-        </p>
-      </>
-    );
-  }
-
-  if (loading) {
-    return (
-      <div style={{ textAlign: "center", padding: "20px 0" }}>
-        <p style={{ fontSize: 15, color: "var(--green-ink)", fontWeight: 500 }}>Cargando horarios disponibles...</p>
+      <div style={{ textAlign: "center" }}>
+        <p style={{ fontSize: 16, color: "#2563eb", fontWeight: 600, margin: "0 0 16px" }}>Tu restaurante califica para una demo personalizada.</p>
+        <a href={calendarUrl} target="_blank" rel="noopener" className="dx-btn" style={{ display: "flex", textDecoration: "none" }}
+          onClick={() => { if (onBooked) onBooked(); }}>Agendar mi demo de 30 min →</a>
+        <div className="dx-bk-links" style={{ marginTop: 12 }}>
+          <a href="https://wa.me/5214421716825">WhatsApp</a>
+        </div>
       </div>
     );
   }
 
-  const currentDate = dates[selectedDate];
+  if (loading) return <p style={{ textAlign: "center", color: "#2563eb", fontWeight: 500 }}>Cargando horarios...</p>;
 
-  const parseDateLabel = (label) => {
-    const parts = label.split(" ");
-    return { day: parts[0], num: parts[1], month: parts[2] };
-  };
+  const currentDate = dates[selectedDate];
+  const parseLabel = (l) => { const p = l.split(" "); return { day: p[0], num: p[1] }; };
 
   return (
     <>
-      <div className="bk-header">
-        <div className="bk-title">Elige tu horario</div>
-        <div className="bk-subtitle">Demo personalizada de 30 min por Google Meet</div>
+      <div className="dx-bk-header">
+        <div className="dx-bk-title">Elige tu horario</div>
+        <div className="dx-bk-sub">Demo de 30 min por Google Meet</div>
       </div>
-
-      {error && error !== "fallback" && <div className="demo-error">{error}</div>}
-
-      <div className="bk-dates">
+      {error && error !== "fallback" && <div className="dx-error">{error}</div>}
+      <div className="dx-bk-dates">
         {dates.map((d, i) => {
-          const p = parseDateLabel(d.dateLabel);
+          const p = parseLabel(d.dateLabel);
           return (
-            <button
-              key={i}
-              onClick={() => { setSelectedDate(i); setSelectedSlot(null); setError(null); }}
-              className={"bk-date" + (i === selectedDate ? " on" : "")}
-            >
-              <span className="bk-date-day">{p.day}</span>
-              <span className="bk-date-num">{p.num}</span>
+            <button key={i} onClick={() => { setSelectedDate(i); setSelectedSlot(null); setError(null); }}
+              className={"dx-bk-date" + (i === selectedDate ? " on" : "")}>
+              <span className="dx-bk-day">{p.day}</span>
+              <span className="dx-bk-num">{p.num}</span>
             </button>
           );
         })}
       </div>
-
       {currentDate && (
-        <div className="bk-slots-wrap">
-          <div className="bk-slots">
-            {currentDate.slots.length ? currentDate.slots.map((s, i) => (
-              <button
-                key={i}
-                onClick={() => { setSelectedSlot(s); setError(null); }}
-                className={"bk-slot" + (selectedSlot === s ? " on" : "")}
-              >
-                {s.timeLabel}
-              </button>
-            )) : (
-              <div className="bk-empty">No hay horarios disponibles este día.</div>
-            )}
-          </div>
+        <div className="dx-bk-slots">
+          {currentDate.slots.length ? currentDate.slots.map((s, i) => (
+            <button key={i} onClick={() => { setSelectedSlot(s); setError(null); }}
+              className={"dx-bk-slot" + (selectedSlot === s ? " on" : "")}>
+              {s.timeLabel}
+            </button>
+          )) : <div className="dx-bk-empty">No hay horarios este día.</div>}
         </div>
       )}
-
-      <div className="bk-cta">
-        <button
-          className="demo-submit"
-          disabled={!selectedSlot || booking}
-          onClick={handleBook}
-        >
-          {booking ? "Agendando..." : selectedSlot ? `Agendar ${selectedSlot.timeLabel} →` : "Selecciona un horario"}
+      <div style={{ marginTop: 16 }}>
+        <button className="dx-btn dx-btn--dark" disabled={!selectedSlot || booking} onClick={handleBook}>
+          {booking ? "Agendando..." : selectedSlot ? "Agendar " + selectedSlot.timeLabel + " →" : "Selecciona un horario"}
         </button>
       </div>
-
-      <div className="bk-fallback">
-        <a href={calendarUrl}>Agendar en Google Calendar</a>
-        {" · "}
-        <a href="https://wa.me/5214421716825">WhatsApp</a>
+      <div className="dx-bk-links">
+        <a href={calendarUrl}>Google Calendar</a> · <a href="https://wa.me/5214421716825">WhatsApp</a>
       </div>
     </>
   );
 }
 
-function DemoForm() {
-  const [step, setStep] = React.useState("place");
+function DiagnosticoApp() {
+  const [step, setStep] = React.useState("search");
+  const [companyName, setCompanyName] = React.useState("");
+  const [placeId, setPlaceId] = React.useState("");
+  const [placeAddress, setPlaceAddress] = React.useState("");
+  const [sucursales, setSucursales] = React.useState("");
+  const [plataformas, setPlataformas] = React.useState("");
+  const [unlocked, setUnlocked] = React.useState(false);
+  const [fullUnlocked, setFullUnlocked] = React.useState(false);
+  // Step-based scorecard: false = Screen 1 (score), true = Screen 2 (gate/form).
+  const [planOpen, setPlanOpen] = React.useState(false);
+  const [error, setError] = React.useState(null);
+
+  // Scorecard state
+  const [scorecardLoading, setScorecardLoading] = React.useState(false);
+  const [enrich, setEnrich] = React.useState(null);
+  const [competitors, setCompetitors] = React.useState([]);
+  const [scoreFailed, setScoreFailed] = React.useState(false);
+
+  const [scoreFailMsg, setScoreFailMsg] = React.useState(false);
+
+  React.useEffect(() => {
+    if (scoreFailed) {
+      setScoreFailMsg(true);
+      const t = setTimeout(() => { setScoreFailMsg(false); setStep("contact"); }, 3000);
+      return () => clearTimeout(t);
+    }
+  }, [scoreFailed]);
+
+  // Contact form state
+  const [form, setForm] = React.useState({
+    first_name: "", last_name: "", email: "",
+    country_code: "+52", phone: "", source: "", whatsapp_optin: true,
+  });
+  const [phoneError, setPhoneError] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [showCalendar, setShowCalendar] = React.useState(false);
   const [calendarUrl, setCalendarUrl] = React.useState("");
   const [assignedAE, setAssignedAE] = React.useState("Mariana");
-  const [error, setError] = React.useState(null);
 
-  const [form, setForm] = React.useState({
-    company_name: "",
-    place_id: "",
-    place_address: "",
-    role: "dueno",
-    sucursales: "1",
-    first_name: "",
-    last_name: "",
-    email: "",
-    country_code: "+52",
-    phone: "",
-    source: "",
-    whatsapp_optin: true,
-  });
-  const [phoneError, setPhoneError] = React.useState("");
+  const placesRef = React.useRef(null);
+  const placesLibRef = React.useRef(null);
+  const sessionTokenRef = React.useRef(null);
+  const debounceRef = React.useRef(null);
+  const blurTimerRef = React.useRef(null);
+  const [suggestions, setSuggestions] = React.useState([]);
+  const [sugActive, setSugActive] = React.useState(-1);
 
-
-  const placesContainerRef = React.useRef(null);
-  const [placesMounted, setPlacesMounted] = React.useState(false);
-
+  // Load the Places library once we reach the search step.
   React.useEffect(() => {
-    if (step !== "place" || placesMounted) return;
-
-    function tryMount() {
-      const container = placesContainerRef.current;
-      if (!container) return false;
-      if (!window.google?.maps?.places?.PlaceAutocompleteElement) return false;
-
+    if (step !== "search" || placesLibRef.current) return;
+    let cancelled = false;
+    (async () => {
       try {
-        const el = new google.maps.places.PlaceAutocompleteElement({
-          types: ["establishment"],
-          componentRestrictions: { country: ["mx", "co", "cl", "pe"] },
-        });
-        el.style.cssText = "width:100%;font-size:15px;";
-        el.setAttribute("placeholder", "Escribe el nombre de tu restaurante...");
+        const lib = await google.maps.importLibrary("places");
+        if (!cancelled) placesLibRef.current = lib;
+      } catch (err) { console.error("[places] importLibrary failed:", err); }
+    })();
+    return () => { cancelled = true; };
+  }, [step]);
 
-        const reactInput = container.querySelector("input");
-        if (reactInput) reactInput.style.display = "none";
-        container.appendChild(el);
-        setPlacesMounted(true);
+  // Custom autocomplete (owner.com-style): fetch suggestions via the Places
+  // Data API and render them inline, so the field never repositions on mobile
+  // the way Google's drop-in PlaceAutocompleteElement did when its dropdown
+  // opened (it anchored to a full-viewport fixed overlay → jump to top).
+  const runSuggest = (text) => {
+    const lib = placesLibRef.current;
+    const q = (text || "").trim();
+    if (!lib || !lib.AutocompleteSuggestion || q.length < 2) { setSuggestions([]); return; }
+    if (!sessionTokenRef.current) sessionTokenRef.current = new lib.AutocompleteSessionToken();
+    const base = {
+      input: q,
+      sessionToken: sessionTokenRef.current,
+      includedRegionCodes: ["mx", "co", "cl", "pe"],
+      language: "es", region: "mx",
+    };
+    const apply = ({ suggestions }) => {
+      const preds = (suggestions || []).map((s) => s.placePrediction).filter(Boolean).slice(0, 5);
+      setSuggestions(preds);
+      setSugActive(-1);
+    };
+    const AS = lib.AutocompleteSuggestion;
+    // Prefer establishment-only results; if the type filter is rejected, fall
+    // back to an unfiltered query so suggestions still appear.
+    AS.fetchAutocompleteSuggestions({ ...base, includedPrimaryTypes: ["establishment"] })
+      .then(apply)
+      .catch(() => AS.fetchAutocompleteSuggestions(base).then(apply))
+      .catch((err) => { console.error("[places] suggest error:", err); setSuggestions([]); });
+  };
 
-        el.addEventListener("gmp-select", async (e) => {
-          try {
-            const pp = e.placePrediction;
-            if (!pp) return;
-            const place = pp.toPlace();
-            await place.fetchFields({ fields: ["displayName", "formattedAddress"] });
-            const pid = place.id || pp.placeId || "";
-            const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : "";
-            const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
-            if (n || pid) setForm(prev => ({ ...prev, company_name: n || prev.company_name, place_id: pid, place_address: a }));
-          } catch (err) { console.error("[places] gmp-select error:", err); }
-        });
+  const onSearchChange = (val) => {
+    setCompanyName(val);
+    if (placeId) { setPlaceId(""); setPlaceAddress(""); } // editing invalidates prior pick
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => runSuggest(val), 220);
+  };
 
-        return true;
-      } catch (err) { console.error("[places] PlaceAutocompleteElement init error:", err); return false; }
+  const selectSuggestion = async (pred) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    const fallbackName = (pred.text && pred.text.text) || (pred.mainText && pred.mainText.text) || "";
+    try {
+      const place = pred.toPlace();
+      await place.fetchFields({ fields: ["displayName", "formattedAddress"] });
+      const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : fallbackName;
+      const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
+      const pid = place.id || pred.placeId || "";
+      setCompanyName(n); setPlaceId(pid); setPlaceAddress(a);
+    } catch (err) {
+      console.error("[places] fetchFields error:", err);
+      if (fallbackName) setCompanyName(fallbackName);
+      if (pred.placeId) setPlaceId(pred.placeId);
     }
+    sessionTokenRef.current = null; // a selection ends the billing session
+    setSuggestions([]);
+    setSugActive(-1);
+  };
 
-    if (!tryMount()) {
-      const interval = setInterval(() => { if (tryMount()) clearInterval(interval); }, 500);
-      return () => clearInterval(interval);
+  const onSearchKeyDown = (e) => {
+    if (!suggestions.length) return;
+    if (e.key === "ArrowDown") { e.preventDefault(); setSugActive((i) => Math.min(i + 1, suggestions.length - 1)); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); setSugActive((i) => Math.max(i - 1, 0)); }
+    else if (e.key === "Enter" && sugActive >= 0) { e.preventDefault(); selectSuggestion(suggestions[sugActive]); }
+    else if (e.key === "Escape") { setSuggestions([]); }
+  };
+
+  const qualifiedRef = React.useRef(false);
+  const computedScore = enrich ? computeDigitalScore(enrich, competitors) : 0;
+  const isQualified = computedScore >= 40;
+  React.useEffect(() => {
+    if (isQualified && !qualifiedRef.current) {
+      qualifiedRef.current = true;
+      fireEvent("diagnostic_qualified", placeId);
+      if (window.clarity) window.clarity("set", "funnel_step", "diagnostic_qualified");
     }
-  }, [step, placesMounted]);
+  }, [isQualified]);
+
+  // Fires once when the full diagnostic (improvements + competitors) is revealed —
+  // on demo booked (qualified) or on contact submit (non-qualified). New event name,
+  // distinct from scorecard_unlocked, to keep mid-test trend data clean.
+  const demoGateRef = React.useRef(null);
+  const fullRevealedRef = React.useRef(false);
+  const fireFullReveal = () => {
+    if (fullRevealedRef.current) return;
+    fullRevealedRef.current = true;
+    fireEvent("full_diagnostic_revealed", placeId);
+    if (window.clarity) window.clarity("set", "funnel_step", "full_diagnostic_revealed");
+  };
+
+  // Fires once when the competitor loss-aversion teaser first becomes visible
+  // (scorecard loaded with >=1 competitor) — measures hook → contact conversion.
+  const teaserShownRef = React.useRef(false);
+  React.useEffect(() => {
+    if (enrich && competitors.length > 0 && !teaserShownRef.current) {
+      teaserShownRef.current = true;
+      fireEvent("competitor_teaser_shown", placeId);
+      if (window.clarity) window.clarity("set", "funnel_step", "competitor_teaser_shown");
+    }
+  }, [enrich, competitors]);
+
+  const fetchScorecard = () => {
+    setScorecardLoading(true);
+    setPlanOpen(false);
+    setScoreFailed(false);
+    const timeout = setTimeout(() => { setScorecardLoading(false); setScoreFailed(true); }, 8000);
+    Promise.all([
+      fetch("/api/diagnostico/enrich?place_id=" + encodeURIComponent(placeId)).then(r => r.ok ? r.json() : null),
+      fetch("/api/diagnostico/nearby?place_id=" + encodeURIComponent(placeId)).then(r => r.ok ? r.json() : null),
+    ]).then(([eRes, nRes]) => {
+      clearTimeout(timeout);
+      if (!eRes) { setScoreFailed(true); setScorecardLoading(false); return; }
+      setEnrich(eRes);
+      setCompetitors(nRes?.competitors || []);
+      setScorecardLoading(false);
+      fireEvent("diagnostic_viewed", placeId);
+      fireEvent("scorecard_gate_shown", placeId);
+      if (window.clarity) {
+        window.clarity("set", "funnel_step", "diagnostic_viewed");
+        window.clarity("set", "funnel_step", "scorecard_gate_shown");
+      }
+    }).catch(() => { clearTimeout(timeout); setScoreFailed(true); setScorecardLoading(false); });
+  };
 
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value });
   const PHONE_LENGTHS = { "+52": 10, "+57": 10, "+56": 9, "+51": 9, "+54": 10, "+1": 10, "+593": 9, "+502": 8 };
   const maxDigits = PHONE_LENGTHS[form.country_code] || 10;
   const digits = form.phone.replace(/\D/g, "");
   const canSubmit = form.first_name.trim() && form.email.trim() && digits.length >= maxDigits;
-
   const validatePhone = () => {
     const d = form.phone.replace(/\D/g, "");
-    if (d.length < maxDigits) { setPhoneError(`El numero debe tener ${maxDigits} digitos`); return false; }
-    setPhoneError("");
-    return true;
+    if (d.length < maxDigits) { setPhoneError("El número debe tener " + maxDigits + " dígitos"); return false; }
+    setPhoneError(""); return true;
   };
 
   const handleSubmit = async () => {
     if (!validatePhone()) return;
-    setSubmitting(true);
-    setError(null);
+    setSubmitting(true); setError(null);
     try {
       const fullPhone = form.country_code + form.phone.replace(/\D/g, "");
-      const payload = {
-        first_name: form.first_name.trim(),
-        last_name: form.last_name.trim(),
-        email: form.email.trim(),
-        phone: fullPhone,
-        company_name: form.company_name.trim(),
-        sucursales: form.sucursales,
-        plataformas: form.role,
-        place_id: form.place_id || undefined,
-        place_address: form.place_address || undefined,
-        source: form.source || undefined,
-        whatsapp_optin: form.whatsapp_optin,
-      };
       const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          first_name: form.first_name.trim(), last_name: form.last_name.trim(),
+          email: form.email.trim(), phone: fullPhone,
+          company_name: companyName, sucursales: sucursales || "1", plataformas: plataformas || "dueno",
+          place_id: placeId || undefined, place_address: placeAddress || undefined,
+          source: form.source || "demo", funnel: "demo", whatsapp_optin: form.whatsapp_optin,
+        }),
       });
-      if (!res.ok) throw new Error("Error del servidor: " + res.status);
+      if (!res.ok) throw new Error(res.status);
       const result = await res.json();
       setShowCalendar(result.showCalendar === true);
       const AE_CALENDARS = {
@@ -1302,324 +1130,650 @@ function DemoForm() {
       setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
       setAssignedAE(result.assignedAE || "Mariana");
       setSuccess(true);
-      if (typeof fbq === "function" && result.eventId) {
-        fbq("track", "Lead", { content_name: "demo_page", value: 0, currency: "MXN" }, { eventID: result.eventId });
-      } else if (typeof fbq === "function") {
-        fbq("track", "Lead", { content_name: "demo_page", value: 0, currency: "MXN" });
+      fireEvent("contact_submitted", placeId);
+      if (window.clarity) {
+        const s = enrich ? computeDigitalScore(enrich, competitors) : 0;
+        window.clarity("set", "score_tier", s >= 70 ? "high" : s >= 40 ? "mid" : "low");
+        window.clarity("set", "funnel_step", "contact_submitted");
+        window.clarity("set", "demo_booked", result.showCalendar ? "pending" : "no_calendar");
       }
-    } catch (err) {
-      setError("No pudimos enviar tu información. Intenta de nuevo o escríbenos por WhatsApp.");
-    } finally {
-      setSubmitting(false);
-    }
+      if (typeof fbq === "function" && result.eventId) {
+        fbq("track", "Lead", { content_name: "diagnostico_page", value: 0, currency: "MXN" }, { eventID: result.eventId });
+      } else if (typeof fbq === "function") {
+        fbq("track", "Lead", { content_name: "diagnostico_page", value: 0, currency: "MXN" });
+      }
+    } catch { setError("No pudimos enviar tu información. Intenta de nuevo."); }
+    finally { setSubmitting(false); }
   };
 
-  if (success) {
+  const handleGateSubmit = async () => {
+    if (!validatePhone()) return;
+    setSubmitting(true); setError(null);
+    try {
+      const fullPhone = form.country_code + form.phone.replace(/\D/g, "");
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first_name: form.first_name.trim(), last_name: form.last_name.trim(),
+          email: form.email.trim(), phone: fullPhone,
+          company_name: companyName, sucursales: sucursales || "1", plataformas: plataformas || "dueno",
+          place_id: placeId || undefined, place_address: placeAddress || undefined,
+          source: "demo", funnel: "demo", whatsapp_optin: form.whatsapp_optin,
+        }),
+      });
+      if (!res.ok) throw new Error(res.status);
+      const result = await res.json();
+      // Qualification is the BACKEND signal (showCalendar). Branch on the local
+      // result, NOT the showCalendar state (which hasn't updated this tick).
+      const qualified = result.showCalendar === true;
+      setUnlocked(true);
+      setShowCalendar(qualified);
+      // Qualified leads must book a demo to reveal improvements + competitors.
+      // Non-qualified leads get the full diagnostic now (no demo gate).
+      if (!qualified) { setFullUnlocked(true); fireFullReveal(); }
+      const AE_CALENDARS = {
+        "Mariana": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
+        "Ayline": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
+      };
+      setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
+      setAssignedAE(result.assignedAE || "Mariana");
+      fireEvent("scorecard_unlocked", placeId);
+      fireEvent("contact_submitted", placeId);
+      if (window.clarity) {
+        window.clarity("set", "score_tier", computedScore >= 70 ? "high" : computedScore >= 40 ? "mid" : "low");
+        window.clarity("set", "qualified", qualified ? "true" : "false");
+        window.clarity("set", "funnel_step", "scorecard_unlocked");
+      }
+      if (typeof fbq === "function" && result.eventId) {
+        fbq("track", "Lead", { content_name: "diagnostico_gated", value: 0, currency: "MXN" }, { eventID: result.eventId });
+      } else if (typeof fbq === "function") {
+        fbq("track", "Lead", { content_name: "diagnostico_gated", value: 0, currency: "MXN" });
+      }
+    } catch { setError("No pudimos enviar tu información. Intenta de nuevo."); }
+    finally { setSubmitting(false); }
+  };
+
+  const gateFormRef = React.useRef(null);
+
+  // ── Render ──
+
+  const renderSearch = () => (
+    <div className="dx-card">
+      <div className="dx-field">
+        <label>Busca tu restaurante</label>
+        <div ref={placesRef} className="dx-ac">
+          <input type="text" className="dx-ac-input" placeholder="Ej. Bora Bora Pizzas"
+            value={companyName}
+            onChange={(e) => onSearchChange(e.target.value)}
+            onKeyDown={onSearchKeyDown}
+            onBlur={() => {
+              if (blurTimerRef.current) clearTimeout(blurTimerRef.current);
+              blurTimerRef.current = setTimeout(() => setSuggestions([]), 150);
+            }}
+            autoComplete="off" role="combobox" aria-expanded={suggestions.length > 0}
+            aria-autocomplete="list" />
+          {suggestions.length > 0 && (
+            <ul className="dx-ac-list" role="listbox">
+              {suggestions.map((pred, i) => {
+                const main = (pred.mainText && pred.mainText.text) || (pred.text && pred.text.text) || "";
+                const secondary = (pred.secondaryText && pred.secondaryText.text) || "";
+                return (
+                  <li key={pred.placeId || i} role="option" aria-selected={i === sugActive}
+                    className={"dx-ac-item" + (i === sugActive ? " active" : "")}
+                    onMouseDown={(e) => { e.preventDefault(); selectSuggestion(pred); }}
+                    onMouseEnter={() => setSugActive(i)}>
+                    <span className="dx-ac-main">{main}</span>
+                    {secondary && <span className="dx-ac-sec">{secondary}</span>}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+        <div className="dx-field" style={{ marginTop: 14 }}>
+          <label>¿Cuántas sucursales tienes?</label>
+          <select className="dx-ac-input" value={sucursales} onChange={(e) => setSucursales(e.target.value)}>
+            <option value="" disabled>Selecciona…</option>
+            <option value="1">1</option>
+            <option value="2-5">2 a 5</option>
+            <option value="6-20">6 a 20</option>
+            <option value="20+">Más de 20</option>
+          </select>
+        </div>
+        <div className="dx-field" style={{ marginTop: 14 }}>
+          <label>¿Cuál es tu rol?</label>
+          <select className="dx-ac-input" value={plataformas} onChange={(e) => setPlataformas(e.target.value)}>
+            <option value="" disabled>Selecciona…</option>
+            <option value="dueno">Dueño de restaurante</option>
+            <option value="gerente">Gerente</option>
+            <option value="marketing">Marketing</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+        {placeId && (
+          <div className="dx-place-ok">
+            <span className="dot" />
+            <span>{placeAddress}</span>
+          </div>
+        )}
+      </div>
+      {error && <div className="dx-error">{error}</div>}
+      <button className="dx-btn" onClick={() => {
+        const name = companyName.trim();
+        if (!name) { setError("Por favor escribe el nombre de tu restaurante."); return; }
+        if (!sucursales) { setError("Selecciona cuántas sucursales tienes."); return; }
+        if (!plataformas) { setError("Selecciona tu rol."); return; }
+        setError(null);
+        setSuggestions([]);
+        // Fire-and-forget partial capture (quiet Attio record; never blocks the funnel).
+        try {
+          fetch("/api/diagnostico/partial-lead", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              company_name: name, place_id: placeId || undefined, place_address: placeAddress || undefined,
+              sucursales, plataformas, session_id: SESSION_ID, funnel: "demo",
+            }),
+          }).catch(() => {});
+        } catch {}
+        if (placeId) {
+          fireEvent("diagnostic_started", placeId);
+          if (window.clarity) window.clarity("set", "funnel_step", "diagnostic_started");
+          setStep("scorecard");
+          fetchScorecard();
+        } else {
+          setStep("contact");
+        }
+      }}>
+        Ver mi diagnóstico →
+      </button>
+    </div>
+  );
+
+  const renderScorecard = () => {
+    if (scorecardLoading) {
+      return (
+        <div className="dx-card">
+          <div className="dx-skel-ring" />
+          <div className="dx-skel-text" style={{ width: "60%" }} />
+          <div className="dx-skel-cards">
+            <div className="dx-skel-card" /><div className="dx-skel-card" />
+            <div className="dx-skel-card" /><div className="dx-skel-card" />
+          </div>
+          <div className="dx-skel-text" style={{ width: "40%", marginBottom: 16 }} />
+          <div className="dx-skel-bar" style={{ width: "90%" }} />
+          <div className="dx-skel-bar" style={{ width: "75%" }} />
+          <div className="dx-skel-bar" style={{ width: "85%" }} />
+        </div>
+      );
+    }
+    if (scoreFailMsg) return (
+      <div className="dx-card" style={{ textAlign: "center", padding: "40px 24px" }}>
+        <p style={{ fontSize: 15, color: "var(--diag-subtle)", margin: 0 }}>
+          No pudimos cargar tu diagnóstico completo, pero puedes agendar tu demo directamente.
+        </p>
+      </div>
+    );
+    if (scoreFailed || !enrich) return null;
+
+    const score = computedScore;
+    const qualified = isQualified;
+    const gaps = getGaps(enrich, competitors);
+    const evaluation = generateEvaluation(enrich, competitors);
+    const hasAnyData = enrich.rating != null || enrich.reviewCount != null || enrich.websiteUri != null;
+    const rC = enrich.rating >= 4.0 ? "dx-metric--good" : enrich.rating >= 3.0 ? "dx-metric--warn" : "dx-metric--bad";
+    const rvC = (enrich.reviewCount || 0) >= 100 ? "dx-metric--good" : (enrich.reviewCount || 0) >= 30 ? "dx-metric--warn" : "dx-metric--bad";
+    const wC = enrich.websiteUri ? "dx-metric--good" : "dx-metric--bad";
+    const sC = enrich.businessStatus === "OPERATIONAL" ? "dx-metric--good" : "dx-metric--bad";
+    const betterThan = competitors.filter(c => enrich.rating && c.rating && enrich.rating > c.rating).length;
+    const total = competitors.length;
+    // Deep content (improvements + competitors) that sits behind the demo gate.
+    const hasDeep = hasAnyData && (!!evaluation.topRec || total > 0);
+    const waExpertUrl = "https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, hice el diagnóstico de " + companyName + " y quiero ver mis mejoras y comparación con mi competencia");
+    let rankText = null, rankClass = "";
+    if (total > 0) {
+      if (betterThan === total) { rankText = "Mejor que " + total + " de " + total + " competidores"; }
+      else if (betterThan > 0) { rankText = "Mejor que " + betterThan + " de " + total + " competidores"; rankClass = betterThan >= total/2 ? "" : "dx-ranking--warn"; }
+      else { rankText = "Por debajo de tus " + total + " competidores"; rankClass = "dx-ranking--bad"; }
+    }
+    // Competitor loss-aversion teaser (shown before the form). Sort a copy — API order not guaranteed.
+    const sortedComp = [...competitors].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    const teaserComp = sortedComp.filter(c => c.rating).slice(0, 2);
+    const userRating = enrich.rating || 0;
+    const losingToNames = teaserComp.filter(c => (c.rating || 0) > userRating).map(c => c.name);
+    const isLeader = total > 0 && betterThan === total; // already #1 — copy must not claim "por debajo"
+    const scoreTier = score >= 70 ? "high" : score >= 40 ? "mid" : "low";
+    const firstGapSection = evaluation.sections.find(s => s.status === "bad" || s.status === "warn");
+    const biggestGapSection = evaluation.sections.find(s => s.status === "bad") || evaluation.sections.find(s => s.status === "warn");
+    const tierCta = scoreTier === "high"
+      ? ("Tu restaurante ya destaca — pero " + (firstGapSection ? firstGapSection.verdict.toLowerCase() : "hay detalles por pulir") + ". Agenda tu demo para capitalizarlo.")
+      : scoreTier === "mid"
+      ? ((biggestGapSection ? biggestGapSection.verdict : "Presencia digital") + " es tu mayor oportunidad.")
+      : null;
+    const tierBtnText = scoreTier === "high" ? "Agendar mi demo →" : "Quiero mejorar mi presencia digital →";
+
+    // ── Step-based render helpers (one focused screen per step) ──
+    const metricsGrid = (
+      <div className="dx-metrics">
+        <div className={"dx-metric " + rC}><span className="dx-metric-icon">★</span><span className="dx-metric-val">{enrich.rating ? enrich.rating.toFixed(1) + "/5" : "N/A"}</span><span className="dx-metric-label">Calificación</span></div>
+        <div className={"dx-metric " + rvC}><span className="dx-metric-icon">💬</span><span className="dx-metric-val">{enrich.reviewCount != null ? enrich.reviewCount : "N/A"}</span><span className="dx-metric-label">Reseñas</span></div>
+        <div className={"dx-metric " + wC}><span className="dx-metric-icon">🌐</span><span className="dx-metric-val">{enrich.websiteUri ? "Sí" : "No"}</span><span className="dx-metric-label">Sitio web</span></div>
+        <div className={"dx-metric " + sC}><span className="dx-metric-icon">✓</span><span className="dx-metric-val">{enrich.businessStatus === "OPERATIONAL" ? "Activo" : "Inactivo"}</span><span className="dx-metric-label">Estado</span></div>
+      </div>
+    );
+    const scoreHeader = (
+      <>
+        <div className="dx-name">{companyName}</div>
+        <div className="dx-score-section"><ScoreRing score={score} /></div>
+        <div className="dx-summary">
+          {gaps.length === 0 ? "Tu restaurante tiene una presencia digital sólida."
+            : "Oportunidades de mejora en " + gaps.length + " área" + (gaps.length > 1 ? "s" : "") + "."}
+        </div>
+        {metricsGrid}
+      </>
+    );
+    const scoreMini = (
+      <div className="dx-score-mini">
+        <span className="dx-score-mini-name">{companyName}</span>
+        <span className="dx-score-mini-num">{score}<span>/100</span></span>
+      </div>
+    );
+    const detailedVerdicts = hasAnyData ? (
+      <>
+        <div className="dx-divider">Tu evaluación detallada</div>
+        <div className="dx-eval-items">
+          {evaluation.sections.map((s, i) => (
+            <div className={"dx-eval-item dx-eval-item--" + s.status} key={i}>
+              <div className="dx-eval-verdict"><span>{s.icon}</span> {s.verdict}</div>
+              <p className="dx-eval-detail">{s.detail}</p>
+            </div>
+          ))}
+        </div>
+      </>
+    ) : null;
+    // The full plan that unlocks after the demo is booked (verdicts + top action + competitors).
+    const revealedPlan = (
+      <div className="dx-gated dx-gated--revealed" style={{ marginTop: 20 }}>
+        {detailedVerdicts}
+        {evaluation.topRec && (
+          <div className="dx-eval-rec">
+            <div className="dx-eval-rec-label">Acción #1</div>
+            <p className="dx-eval-rec-text">{evaluation.topRec}</p>
+          </div>
+        )}
+        {total > 0 && (
+          <>
+            <div className="dx-divider">Tu vs tu zona</div>
+            <div style={{ marginBottom: 16 }}>
+              {sortedComp.map((c, i) => (
+                <div className="dx-comp" key={i}>
+                  <span className="dx-comp-name">{c.name}</span>
+                  <span className="dx-comp-rating">
+                    <span style={{ color: c.rating >= (enrich.rating || 0) ? "#f59e0b" : "#94a3b8" }}>★</span>
+                    {c.rating ? c.rating.toFixed(1) : "N/A"}
+                    <span className="dx-comp-reviews">({c.reviewCount || 0})</span>
+                  </span>
+                </div>
+              ))}
+            </div>
+            {rankText && <div className={"dx-ranking " + rankClass}>{rankText}</div>}
+          </>
+        )}
+        {scoreTier === "low" && (
+          <div style={{ marginTop: 8 }}>
+            <div className="dx-warm-title">Lo bueno: todo esto se puede mejorar</div>
+            <p style={{ fontSize: 13, color: "#475569", lineHeight: 1.5, margin: "0 0 16px" }}>
+              Muchos de nuestros clientes empezaron con un perfil similar al tuyo. Con las acciones correctas, los resultados llegan rápido.
+            </p>
+            <a href={"https://wa.me/5214421716825?text=" + encodeURIComponent("Hola, acabo de hacer el diagnóstico de " + companyName + " y quiero mejorar mi presencia digital")}
+              className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
+              Habla con un experto por WhatsApp
+            </a>
+          </div>
+        )}
+      </div>
+    );
+
     return (
-      <div className="demo-card">
-        <div className="demo-success">
+      <div className="dx-card dx-scorecard-pad">
+        <button className="dx-back" onClick={() => { setStep("search"); setUnlocked(false); setFullUnlocked(false); setPlanOpen(false); fullRevealedRef.current = false; }}>← Cambiar restaurante</button>
+
+        {/* ───────── SCREEN 1 — Tu diagnóstico (free hook, fits the phone) ───────── */}
+        {!unlocked && !planOpen && (
+          <>
+            {scoreHeader}
+            <div className="dx-eval-block">
+              {hasAnyData ? (
+                <div className="dx-eval-summary">
+                  <div className="dx-eval-headline">{evaluation.summaryHeadline}</div>
+                  <p className="dx-eval-body">{evaluation.summaryBody}</p>
+                </div>
+              ) : (
+                <div className="dx-eval-summary">
+                  <div className="dx-eval-headline">No pudimos obtener todos los datos de tu perfil</div>
+                  <p className="dx-eval-body">Esto puede pasar si tu perfil de Google Business es nuevo o no está verificado. Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
+                </div>
+              )}
+            </div>
+
+            {/* Competitor loss-aversion teaser — the hook that drives the unlock */}
+            {teaserComp.length > 0 && (
+              <div className="dx-teaser">
+                <div className="dx-divider">Tu zona</div>
+                {losingToNames.length >= 1 ? (
+                  <div className="dx-ranking dx-ranking--bad">
+                    Estás por debajo de {losingToNames.join(" y ")} en tu zona.
+                  </div>
+                ) : isLeader ? (
+                  <div className="dx-ranking">
+                    Vas a la cabeza de tu zona — mira cuánta ventaja tienes y cómo mantenerla.
+                  </div>
+                ) : (
+                  <div className="dx-ranking dx-ranking--warn">
+                    La competencia en tu zona está muy cerca. Mira dónde te superan.
+                  </div>
+                )}
+                <div>
+                  {teaserComp.map((c, i) => (
+                    <div className="dx-comp" key={i}>
+                      <span className="dx-comp-name">{c.name}</span>
+                      <span className="dx-comp-rating">
+                        <span style={{ color: (c.rating || 0) >= userRating ? "#f59e0b" : "#94a3b8" }}>★</span>
+                        {c.rating ? c.rating.toFixed(1) : "N/A"}
+                        <span className="dx-comp-reviews">({c.reviewCount || 0})</span>
+                      </span>
+                    </div>
+                  ))}
+                  <div className="dx-comp dx-comp--you">
+                    <span className="dx-comp-name">{companyName} (tú)</span>
+                    <span className="dx-comp-rating">
+                      <span style={{ color: "#94a3b8" }}>★</span>
+                      {userRating ? userRating.toFixed(1) : "N/A"}
+                      <span className="dx-comp-reviews">({enrich.reviewCount || 0})</span>
+                    </span>
+                  </div>
+                  {total > teaserComp.length && (
+                    <div className="dx-gated dx-teaser-more" aria-hidden="true">
+                      <div className="dx-comp"><span className="dx-comp-name">•••••••••••</span><span className="dx-comp-rating">★ •.•</span></div>
+                      <div className="dx-comp"><span className="dx-comp-name">••••••••</span><span className="dx-comp-rating">★ •.•</span></div>
+                    </div>
+                  )}
+                </div>
+                {gaps.length > 0 && (
+                  <p className="dx-teaser-cta">
+                    Tienes {gaps.length} mejora{gaps.length > 1 ? "s" : ""} priorizada{gaps.length > 1 ? "s" : ""} y la comparación completa con tus {total} competidores — desbloquéalas en el siguiente paso.
+                  </p>
+                )}
+              </div>
+            )}
+
+            <button className="dx-btn dx-btn--dark" onClick={() => setPlanOpen(true)}>
+              Ver mi plan completo →
+            </button>
+          </>
+        )}
+
+        {/* ───────── SCREEN 2 — Desbloquea tu plan (gate / contact) ───────── */}
+        {!unlocked && planOpen && (
+          <div ref={gateFormRef}>
+            {scoreMini}
+            <div className="dx-gate-overlay">
+              <div className="dx-gate-lock">🔒</div>
+              <h3 className="dx-gate-title">Desbloquea tu plan de mejora</h3>
+              <p className="dx-gate-sub">
+                Tus mejoras priorizadas{total > 0 ? " y la comparación completa con tu competencia" : ""} — al instante.
+              </p>
+              {hasAnyData && (
+                <div className="dx-gated dx-gate-preview" aria-hidden="true">{detailedVerdicts}</div>
+              )}
+              <div style={{ textAlign: "left" }}>
+                {error && <div className="dx-error">{error}</div>}
+                <div className="dx-name-row">
+                  <div className="dx-field"><label>Nombre</label><input type="text" placeholder="Nombre" value={form.first_name} onChange={set("first_name")} data-clarity-mask="true" /></div>
+                  <div className="dx-field"><label>Apellido</label><input type="text" placeholder="Apellido" value={form.last_name} onChange={set("last_name")} data-clarity-mask="true" /></div>
+                </div>
+                <div className="dx-field"><label>Email</label><input type="email" placeholder="tu@restaurante.com" value={form.email} onChange={set("email")} data-clarity-mask="true" /></div>
+                <div className="dx-field">
+                  <label>WhatsApp</label>
+                  <div className="dx-phone-row">
+                    <select value={form.country_code} onChange={set("country_code")}>
+                      <option value="+52">+52</option><option value="+57">+57</option>
+                      <option value="+56">+56</option><option value="+51">+51</option>
+                      <option value="+54">+54</option><option value="+1">+1</option>
+                      <option value="+593">+593</option><option value="+502">+502</option>
+                    </select>
+                    <input type="tel" inputMode="numeric" maxLength={14} placeholder="55 1234 5678"
+                      data-clarity-mask="true" value={form.phone} onChange={(e) => {
+                        const raw = e.target.value.replace(/[^\d\s\-()]/g, "");
+                        if (raw.replace(/\D/g, "").length > maxDigits) return;
+                        setForm({ ...form, phone: raw }); setPhoneError("");
+                      }} onBlur={validatePhone} />
+                  </div>
+                  {phoneError && <div className="dx-phone-error">{phoneError}</div>}
+                </div>
+                <div className="dx-checkbox">
+                  <input type="checkbox" id="wa-opt-gate" checked={form.whatsapp_optin}
+                    onChange={(e) => setForm({ ...form, whatsapp_optin: e.target.checked })} />
+                  <label htmlFor="wa-opt-gate">Acepto recibir mensajes por WhatsApp. Máximo 4/mes.</label>
+                </div>
+                <button className="dx-btn dx-btn--dark" disabled={!canSubmit || submitting} onClick={handleGateSubmit}>
+                  {submitting ? "Desbloqueando..." : "Ver mi plan de mejora →"}
+                </button>
+                <div className="dx-legal">Al enviar aceptas nuestra política de privacidad.</div>
+              </div>
+            </div>
+            <button className="dx-back-link" onClick={() => setPlanOpen(false)}>← Volver a mi diagnóstico</button>
+          </div>
+        )}
+
+        {/* ───────── SCREEN 3+4 — Agenda demo → reveal (qualified, has deep content) ───────── */}
+        {unlocked && hasDeep && showCalendar && (
+          <div className="dx-deep" ref={demoGateRef}>
+            {fullUnlocked ? scoreHeader : scoreMini}
+            <div className="dx-demo-gate">
+              {!fullUnlocked && (
+                <>
+                  <div className="dx-gate-lock">🔒</div>
+                  <h3 className="dx-gate-title">Tu plan de mejora está listo</h3>
+                  <p className="dx-gate-sub">
+                    Agenda una demo de 30 min para ver tus mejoras priorizadas{total > 0 ? " y la comparación con tus " + total + " competidores cercanos" : ""}.
+                  </p>
+                </>
+              )}
+              <CalendarBooking
+                firstName={form.first_name} lastName={form.last_name}
+                email={form.email} phone={form.phone} companyName={companyName}
+                assignedAE={assignedAE} calendarUrl={calendarUrl}
+                sessionId={SESSION_ID} placeId={placeId}
+                onBooked={() => { setFullUnlocked(true); fireFullReveal(); }} />
+            </div>
+            {fullUnlocked && revealedPlan}
+          </div>
+        )}
+
+        {/* Qualified but no deep content — book directly */}
+        {unlocked && !hasDeep && showCalendar && (
+          <div className="dx-deep">
+            {fullUnlocked ? scoreHeader : scoreMini}
+            <div className="dx-demo-gate">
+              {!fullUnlocked && (
+                <>
+                  <div className="dx-gate-lock">🔒</div>
+                  <h3 className="dx-gate-title">Agenda tu demo</h3>
+                  <p className="dx-gate-sub">Un experto revisará tu perfil y te dará recomendaciones personalizadas.</p>
+                </>
+              )}
+              <CalendarBooking
+                firstName={form.first_name} lastName={form.last_name}
+                email={form.email} phone={form.phone} companyName={companyName}
+                assignedAE={assignedAE} calendarUrl={calendarUrl}
+                sessionId={SESSION_ID} placeId={placeId}
+                onBooked={() => { setFullUnlocked(true); fireFullReveal(); }} />
+            </div>
+          </div>
+        )}
+
+        {/* Not qualified (no calendar) — reveal what we have + talk to an expert */}
+        {unlocked && !showCalendar && (
+          <div className="dx-deep">
+            {scoreHeader}
+            {hasDeep && revealedPlan}
+            <div style={{ marginTop: 16 }}>
+              <p className="dx-summary" style={{ margin: "8px 0 16px" }}>Un experto puede revisar tu caso y darte recomendaciones personalizadas.</p>
+              <a href={waExpertUrl} className="dx-btn dx-btn--green" target="_blank" rel="noopener" style={{ textDecoration: "none" }}>
+                Habla con un experto por WhatsApp
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const renderContact = () => {
+    if (success) {
+      return (
+        <div className="dx-card" style={{ textAlign: "center" }}>
           {showCalendar ? (
-            <CalendarBooking
-              firstName={form.first_name}
-              lastName={form.last_name}
-              email={form.email}
-              phone={form.phone}
-              companyName={form.company_name}
-              assignedAE={assignedAE}
-              calendarUrl={calendarUrl}
-            />
+            <CalendarBooking firstName={form.first_name} lastName={form.last_name}
+              email={form.email} phone={form.phone} companyName={companyName}
+              assignedAE={assignedAE} calendarUrl={calendarUrl}
+              sessionId={SESSION_ID} placeId={placeId} />
           ) : (
             <>
-              <div className="check">{"✓"}</div>
-              <h2>{"¡"}Listo, {form.first_name}!</h2>
-              <p>Recibimos tu información. Nuestro equipo revisará tu perfil y te contactará en las próximas 24 horas con una propuesta personalizada.</p>
-              <p style={{ marginTop: 20, fontSize: 13, color: "var(--green-ink)" }}>
-                {"¿"}Quieres hablar antes?{" "}
-                <a href="https://wa.me/5214421716825" style={{ color: "var(--green-ink)", textDecoration: "underline" }}>Escríbenos por WhatsApp {"→"}</a>
+              <div className="dx-bk-booked-check">✓</div>
+              <h3 className="dx-bk-booked-title">¡Listo, {form.first_name}!</h3>
+              <p style={{ color: "#64748b", fontSize: 15, margin: 0 }}>
+                Nuestro equipo te contactará en las próximas 24 horas.
               </p>
+              <a href="https://wa.me/5214421716825" style={{ display: "inline-block", marginTop: 16, fontSize: 13, color: "#2563eb" }}>
+                Escríbenos por WhatsApp →
+              </a>
             </>
           )}
         </div>
-      </div>
-    );
-  }
+      );
+    }
 
-  if (step === "scorecard") {
     return (
-      <DiagnosticScorecard
-        companyName={form.company_name}
-        placeId={form.place_id}
-        onContinue={() => {
-          fireEvent("contact_form_shown", form.place_id);
-          setStep("contact");
-        }}
-        onBack={() => setStep("place")}
-      />
+      <div className="dx-card">
+        <button className="dx-back" onClick={() => {
+          if (placeId && enrich) setStep("scorecard");
+          else setStep("search");
+        }}>← Volver</button>
+        <h3 style={{ fontFamily: '"DM Sans", sans-serif', fontSize: 20, fontWeight: 700, margin: "0 0 20px" }}>
+          ¿A dónde te enviamos los resultados?
+        </h3>
+        {error && <div className="dx-error">{error}</div>}
+        <div className="dx-name-row">
+          <div className="dx-field"><label>Nombre</label><input type="text" placeholder="Nombre" value={form.first_name} onChange={set("first_name")} data-clarity-mask="true" autoFocus /></div>
+          <div className="dx-field"><label>Apellido</label><input type="text" placeholder="Apellido" value={form.last_name} onChange={set("last_name")} data-clarity-mask="true" /></div>
+        </div>
+        <div className="dx-field"><label>Email</label><input type="email" placeholder="tu@restaurante.com" value={form.email} onChange={set("email")} data-clarity-mask="true" /></div>
+        <div className="dx-field">
+          <label>WhatsApp</label>
+          <div className="dx-phone-row">
+            <select value={form.country_code} onChange={set("country_code")}>
+              <option value="+52">+52</option><option value="+57">+57</option>
+              <option value="+56">+56</option><option value="+51">+51</option>
+              <option value="+54">+54</option><option value="+1">+1</option>
+              <option value="+593">+593</option><option value="+502">+502</option>
+            </select>
+            <input type="tel" inputMode="numeric" maxLength={14} placeholder="55 1234 5678"
+              data-clarity-mask="true" value={form.phone} onChange={(e) => {
+                const raw = e.target.value.replace(/[^\d\s\-()]/g, "");
+                if (raw.replace(/\D/g, "").length > maxDigits) return;
+                setForm({ ...form, phone: raw }); setPhoneError("");
+              }} onBlur={validatePhone} />
+          </div>
+          {phoneError && <div className="dx-phone-error">{phoneError}</div>}
+        </div>
+        <div className="dx-checkbox">
+          <input type="checkbox" id="wa-opt" checked={form.whatsapp_optin}
+            onChange={(e) => setForm({ ...form, whatsapp_optin: e.target.checked })} />
+          <label htmlFor="wa-opt">Acepto recibir mensajes por WhatsApp. Máximo 4/mes.</label>
+        </div>
+        <button className="dx-btn dx-btn--dark" disabled={!canSubmit || submitting} onClick={handleSubmit}>
+          {submitting ? "Enviando..." : "Agenda mi demo →"}
+        </button>
+        <div className="dx-legal">Al enviar aceptas nuestra política de privacidad.</div>
+      </div>
     );
-  }
+  };
 
   return (
-    <div className="demo-card">
-      {step === "place" && <div className="demo-step">Paso 1 de 2</div>}
-      {step === "contact" && <div className="demo-step">Paso 2 de 2</div>}
-
-      {step === "place" && (
-        <>
-          <h2>Cuéntanos de tu restaurante para preparar tu demo.</h2>
-          {error && <div className="demo-error">{error}</div>}
-
-          <div className="demo-field">
-            <label>Busca tu restaurante</label>
-            <div ref={placesContainerRef} style={{ minHeight: 48 }}>
-              <input
-                type="text"
-                placeholder="Ej. Bora Bora Pizzas"
-                value={form.company_name}
-                onChange={set("company_name")}
-                autoFocus
-              />
-            </div>
-            {form.place_id && (
-              <div className="demo-place-info">
-                <span className="dot" />
-                <span>{form.place_address}</span>
-              </div>
-            )}
-          </div>
-
-          <div className="demo-field">
-            <label>Tu rol</label>
-            <select value={form.role} onChange={set("role")}>
-              <option value="dueno">Soy dueño o socio</option>
-              <option value="gerente">Soy gerente u operador</option>
-              <option value="marketing">Marketing o ventas</option>
-              <option value="otro">Otro</option>
-            </select>
-          </div>
-
-          <div className="demo-field">
-            <label>{"¿"}Cuántas sucursales tienes?</label>
-            <select value={form.sucursales} onChange={set("sucursales")}>
-              <option value="1">1 sucursal</option>
-              <option value="2-5">2 a 5 sucursales</option>
-              <option value="6-20">6 a 20 sucursales</option>
-              <option value="20+">Más de 20 sucursales</option>
-            </select>
-          </div>
-
-          <button
-            className="demo-submit"
-            onClick={() => {
-              let name = form.company_name.trim();
-              if (!name) {
-                try {
-                  const gmp = placesContainerRef.current?.querySelector("gmp-place-autocomplete");
-                  if (gmp) {
-                    for (const k in gmp) {
-                      try { if (gmp[k] instanceof HTMLInputElement && gmp[k].value) { name = gmp[k].value.trim(); break; } } catch {}
-                    }
-                  }
-                } catch {}
-              }
-              if (!name) {
-                setError("Por favor escribe el nombre de tu restaurante.");
-                return;
-              }
-              setForm(prev => ({ ...prev, company_name: name }));
-              setError(null);
-              if (form.place_id) {
-                fireEvent("diagnostic_started", form.place_id);
-                setTimeout(() => setStep("scorecard"), 50);
-              } else {
-                setTimeout(() => setStep("contact"), 50);
-              }
-            }}
-          >
-            Continuar <span>{"→"}</span>
-          </button>
-        </>
-      )}
-
-      {step === "contact" && (
-        <>
-          <button className="demo-back" onClick={() => {
-            if (form.place_id) setStep("scorecard");
-            else setStep("place");
-          }}>{"←"} Volver</button>
-          <h2>{"¿"}A dónde te enviamos los resultados?</h2>
-          {error && <div className="demo-error">{error}</div>}
-
-          <div className="demo-name-row">
-            <div className="demo-field">
-              <label>Nombre</label>
-              <input
-                type="text"
-                placeholder="Nombre"
-                value={form.first_name}
-                onChange={set("first_name")}
-                autoFocus
-              />
-            </div>
-            <div className="demo-field">
-              <label>Apellido</label>
-              <input
-                type="text"
-                placeholder="Apellido"
-                value={form.last_name}
-                onChange={set("last_name")}
-              />
-            </div>
-          </div>
-
-          <div className="demo-field">
-            <label>Email</label>
-            <input
-              type="email"
-              placeholder="tu@restaurante.com"
-              value={form.email}
-              onChange={set("email")}
-            />
-          </div>
-
-          <div className="demo-field">
-            <label>WhatsApp</label>
-            <div className="phone-row">
-              <select
-                className="phone-country"
-                value={form.country_code}
-                onChange={set("country_code")}
-              >
-                <option value="+52">+52</option>
-                <option value="+57">+57</option>
-                <option value="+56">+56</option>
-                <option value="+51">+51</option>
-                <option value="+54">+54</option>
-                <option value="+1">+1</option>
-                <option value="+593">+593</option>
-                <option value="+502">+502</option>
-              </select>
-              <input
-                className="phone-number"
-                type="tel"
-                inputMode="numeric"
-                maxLength={14}
-                placeholder="55 1234 5678"
-                value={form.phone}
-                onChange={(e) => {
-                  const raw = e.target.value.replace(/[^\d\s\-()]/g, "");
-                  const digitsOnly = raw.replace(/\D/g, "");
-                  if (digitsOnly.length > maxDigits) return;
-                  setForm({ ...form, phone: raw });
-                  setPhoneError("");
-                }}
-                onBlur={validatePhone}
-              />
-            </div>
-            {phoneError && <div className="phone-error">{phoneError}</div>}
-          </div>
-
-          <div className="demo-field">
-            <label>{"¿"}Cómo nos encontraste?</label>
-            <select value={form.source} onChange={set("source")}>
-              <option value="">Selecciona una opción</option>
-              <option value="Google">Google</option>
-              <option value="Instagram">Instagram</option>
-              <option value="Facebook">Facebook</option>
-              <option value="Recomendación de otro restaurantero">Recomendación de otro restaurantero</option>
-              <option value="Un vendedor me contactó">Un vendedor me contactó</option>
-              <option value="Otro">Otro</option>
-            </select>
-          </div>
-
-          <div className="demo-checkbox">
-            <input
-              type="checkbox"
-              id="whatsapp-optin"
-              checked={form.whatsapp_optin}
-              onChange={(e) => setForm({ ...form, whatsapp_optin: e.target.checked })}
-            />
-            <label htmlFor="whatsapp-optin">
-              Acepto recibir mensajes por WhatsApp para agendar mi demo. Máximo 4 mensajes/mes.
-            </label>
-          </div>
-
-          <button
-            className="demo-submit"
-            disabled={!canSubmit || submitting}
-            onClick={handleSubmit}
-          >
-            {submitting ? "Enviando..." : "Agenda mi demo →"}
-          </button>
-
-          <div className="demo-legal">
-            Al enviar aceptas nuestra política de privacidad.
-            No compartimos tu información con terceros.
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
-function App() {
-  return (
-    <div className="demo-page">
-      <header className="demo-nav">
-        <a href="/" className="logo">
-          <LogoMark />
-          <span>Fluxsales</span>
+    <div className="dx-page">
+      <nav className="dx-nav">
+        <a href="/" className="dx-logo">
+          <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor"><rect x="54" y="40" width="50" height="172" rx="6"/><rect x="54" y="40" width="150" height="46" rx="6"/><rect x="54" y="108" width="98" height="38" rx="6"/><path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/></g></svg>
+          Fluxsales
         </a>
-      </header>
-      <div className="demo-layout">
-        <div className="demo-hero">
-          <h1>
-            Dale <em>superpoderes</em> a tu restaurante.
-          </h1>
-          <p className="lead">
-            Demo gratuita de 30 minutos. Te mostramos resultados con los números
-            reales de tu restaurante — sin compromiso, sin contrato.
-          </p>
-          <div className="trust">
-            <b>4.8 {"★★★★★"}</b> {"·"} Más de 1,400 restaurantes confían en Fluxsales
-          </div>
+      </nav>
+      <div className="dx-main">
+        <div className="dx-container">
+          {step === "search" && (
+            <div className="dx-hero">
+              <span className="dx-hero-badge">Diagnóstico digital gratuito</span>
+              <h1>Descubre cuánto te cuestan las apps de delivery — y cómo recuperar ese margen.</h1>
+              <p>Recibe un diagnóstico de tu presencia digital y un plan para vender más por canal directo, sin regalarle el 30% a Rappi, Uber Eats y DiDi.</p>
+              <p className="dx-hero-note">Gratis · 30 segundos · sin tarjeta</p>
+            </div>
+          )}
+          {step === "search" && (
+            <div className="dx-trust-bar">
+              <span className="dx-trust-item"><strong>1,400+</strong> restaurantes</span>
+              <span className="dx-trust-item"><strong>+38%</strong> ventas en 90 días</span>
+              <span className="dx-trust-item"><strong>3.2x</strong> tasa de retorno</span>
+            </div>
+          )}
+          {step === "search" && renderSearch()}
+          {step === "search" && (
+            <div className="dx-testimonials">
+              <div className="dx-testi">
+                <p className="dx-testi-quote">"Bajamos nuestra dependencia de Rappi del 70% al 28% en cinco meses."</p>
+                <div className="dx-testi-footer">
+                  <div className="dx-testi-id">
+                    <img className="dx-testi-photo" src="/landing/assets/venue-bora-bora.webp" alt="Bora Bora Pizzas" width="44" height="44" loading="lazy" />
+                    <div className="dx-testi-who"><span className="dx-testi-name">Ricardo Mendoza</span><br/>Co-fundador, Bora Bora Pizzas</div>
+                  </div>
+                  <span className="dx-testi-metric">-$412K comisiones/año</span>
+                </div>
+              </div>
+              <div className="dx-testi">
+                <p className="dx-testi-quote">"Ahora Fluxsales hace mis posts por mí y vendemos el doble los martes."</p>
+                <div className="dx-testi-footer">
+                  <div className="dx-testi-id">
+                    <img className="dx-testi-photo" src="/landing/assets/venue-cosi-fan-tutte.webp" alt="Cosi Fan Tutte" width="44" height="44" loading="lazy" />
+                    <div className="dx-testi-who"><span className="dx-testi-name">Andrea Castellanos</span><br/>Dueña, Cosi Fan Tutte</div>
+                  </div>
+                  <span className="dx-testi-metric">2x ventas martes</span>
+                </div>
+              </div>
+              <div className="dx-testi">
+                <p className="dx-testi-quote">"Los clientes reciben un mensaje el día de su cumpleaños y vienen con tres amigos."</p>
+                <div className="dx-testi-footer">
+                  <div className="dx-testi-id">
+                    <img className="dx-testi-photo" src="/landing/assets/venue-dolce-bisquet.webp" alt="Dolce Bisquet" width="44" height="44" loading="lazy" />
+                    <div className="dx-testi-who"><span className="dx-testi-name">Mariana Ortiz</span><br/>Operaciones, Dolce Bisquet</div>
+                  </div>
+                  <span className="dx-testi-metric">3.2x retorno</span>
+                </div>
+              </div>
+            </div>
+          )}
+          {step === "scorecard" && renderScorecard()}
+          {step === "contact" && renderContact()}
         </div>
-        <div className="demo-form-col">
-          <DemoForm />
-          <div className="demo-testimonial">
-            <blockquote>
-              "Fluxsales cambió nuestro negocio. Bajamos la dependencia de Rappi del 70% al 28% en cinco meses."
-            </blockquote>
-            <cite>Ricardo Mendoza — Co-fundador, Bora Bora Pizzas</cite>
-          </div>
-        </div>
-        <div className="demo-covers">
-          <div className="demo-cover">
-            <span className="icon">{"⚡"}</span>
-            <h4>Sitio web + SEO</h4>
-            <p>Más tráfico orgánico desde Google.</p>
-          </div>
-          <div className="demo-cover">
-            <span className="icon">{"⚡"}</span>
-            <h4>Pedidos directos</h4>
-            <p>Cero comisiones vs 30% de apps.</p>
-          </div>
-          <div className="demo-cover">
-            <span className="icon">{"⚡"}</span>
-            <h4>Marketing automático</h4>
-            <p>Campañas que se envían solas.</p>
-          </div>
-          <div className="demo-cover">
-            <span className="icon">{"⚡"}</span>
-            <h4>Lealtad + app</h4>
-            <p>Clientes que regresan 3.2× más.</p>
-          </div>
-        </div>
+      </div>
+      <div className="dx-footer">
+        <a href="/privacy">Privacidad</a> · <a href="/terms">Términos</a> · © 2026 Fluxsales
       </div>
     </div>
   );
 }
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+ReactDOM.createRoot(document.getElementById("root")).render(<DiagnosticoApp />);
 </script>
 </body>
 </html>
