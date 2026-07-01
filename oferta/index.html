@@ -32,7 +32,13 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 })(window,document,"clarity","script","r358ye498l");
 </script>
 
-<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=q+"="+Date.now();e.set("libraries","places");e.set("key","AIzaSyCZYhvVAGdg4ss9WISSXUp83KWyvTUq02U");e.set("language","es");e.set("region","MX");e.set("v","quarterly");h=e.toString();d[l]?0:(d[l]=(f,...n)=>r.add(f)&&u&&(u=!1,g=m.createElement("script"),g.src="https://maps.googleapis.com/maps/api/js?"+h,g.onerror=()=>u=!0,m.head.append(g))&&d[l](f,...n)||new Promise((x,y)=>{r=new Proxy(r,{add(v,w){return x({})}})}));d[l]("places")})()</script>
+<script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
+  key: "AIzaSyCZYhvVAGdg4ss9WISSXUp83KWyvTUq02U",
+  v: "quarterly",
+  language: "es",
+  region: "MX",
+  loading: "async",
+});</script>
 <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
