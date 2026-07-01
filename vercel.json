@@ -28,6 +28,10 @@
       "destination": "/diagnostico/index.html"
     },
     {
+      "source": "/diagnostico-google",
+      "destination": "/diagnostico-google/index.html"
+    },
+    {
       "source": "/repartidores",
       "destination": "/repartidores/index.html"
     },
