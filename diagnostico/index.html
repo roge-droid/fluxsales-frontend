@@ -605,6 +605,23 @@ select.dx-ac-input:invalid, select.dx-ac-input option[value=""] { color: var(--d
 </head>
 <body>
 <div id="root"></div>
+<noscript>
+  <!-- Static fallback for no-JS clients and AEO crawlers that don't execute the React render.
+       Mirrors the on-page hero + flow copy. -->
+  <main style="max-width:880px;margin:0 auto;padding:48px 20px;font-family:Inter,system-ui,sans-serif;line-height:1.6">
+    <p><strong>Diagnóstico digital gratuito</strong></p>
+    <h1>Descubre cuánto te cuestan las apps de delivery — y cómo recuperar ese margen.</h1>
+    <p>Recibe un diagnóstico de tu presencia digital y un plan para vender más por canal directo, sin regalarle el 30% a Rappi, Uber Eats y DiDi. Gratis, en 30 segundos, sin tarjeta.</p>
+    <h2>Qué evalúa el diagnóstico</h2>
+    <ul>
+      <li>Tu calificación y reseñas en Google, y cómo se comparan con tu zona.</li>
+      <li>Tu presencia web: sitio propio, pedidos directos y SEO local.</li>
+      <li>Tus competidores cercanos y qué están haciendo mejor.</li>
+      <li>Cuánto margen se llevan las apps de delivery en tu operación.</li>
+    </ul>
+    <p>El diagnóstico interactivo requiere JavaScript. También puedes <a href="/demo">agendar una demo gratuita de 30 minutos</a> o <a href="/">conocer FluxSales, el sistema operativo con IA para restaurantes</a>.</p>
+  </main>
+</noscript>
 <script type="text/babel">
 const API_URL = "/api/demo-page/lead-intake";
 const SESSION_ID = "sess_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
