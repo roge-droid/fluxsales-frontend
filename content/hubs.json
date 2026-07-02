@@ -2,6 +2,41 @@
   "_README": "Single source of truth for the hub library cards (/guias, /blog, /casos). Add a new page's card here, then run `node scripts/gen-hubs.mjs` to regenerate the static hub HTML. The hubs stay static (crawlable) — this only automates the card list. Newest entries first.",
   "guias": [
     {
+      "url": "/guias/marketing-para-restaurantes",
+      "tag": "Marketing",
+      "title": "Marketing para restaurantes: la guía práctica (sin agencia y sin desperdicio)",
+      "blurb": "El orden correcto: base de clientes → recompra → Google local → redes. Qué automatizar y en qué no gastar.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/app-para-pedidos",
+      "tag": "Pedidos en línea",
+      "title": "App para pedidos de restaurante: qué opciones hay y cuál te conviene",
+      "blurb": "Apps de delivery, app propia o canal directo web: costos reales, pros y contras — y por qué 'sin descarga' gana en restaurantes.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/lealtad-para-restaurantes",
+      "tag": "Lealtad",
+      "title": "Programa de lealtad para restaurantes: la guía para que tus clientes regresen",
+      "blurb": "El dinero más barato es el cliente que ya te conoce. Qué programa funciona (puntos, visitas, cumpleaños), por qué la tarjeta de sellos se queda corta y cómo automatizarlo.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/carta-digital",
+      "tag": "Carta digital",
+      "title": "Carta digital para restaurantes: la guía completa (QR, costos y errores)",
+      "blurb": "Cómo hacer un menú QR que funcione, cuánto cuesta de verdad y el error #1: una carta que se ve bonita pero no vende nada.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/rappi-uber-eats-para-restaurantes",
+      "tag": "Apps de delivery",
+      "title": "Rappi y Uber Eats para restaurantes: comisiones y cómo usarlas a tu favor",
+      "blurb": "Qué cobran las apps (15–30% por pedido), qué te dan a cambio, los 3 errores más caros y la estrategia 80/20 para usarlas sin depender de ellas.",
+      "read": "Leer la guía →"
+    },
+    {
       "url": "/guias/ia-para-restaurantes",
       "tag": "Inteligencia Artificial",
       "title": "Cómo los restaurantes usan IA para vender más (sin ser McDonald's)",
@@ -17,6 +52,41 @@
     }
   ],
   "blog": [
+    {
+      "url": "/guias/marketing-para-restaurantes",
+      "tag": "Marketing",
+      "title": "Marketing para restaurantes: la guía práctica (sin agencia y sin desperdicio)",
+      "blurb": "El orden correcto: base de clientes → recompra → Google local → redes. Qué automatizar y en qué no gastar.",
+      "read": "Leer →"
+    },
+    {
+      "url": "/guias/app-para-pedidos",
+      "tag": "Pedidos en línea",
+      "title": "App para pedidos de restaurante: qué opciones hay y cuál te conviene",
+      "blurb": "Apps de delivery, app propia o canal directo web: costos reales, pros y contras.",
+      "read": "Leer →"
+    },
+    {
+      "url": "/guias/lealtad-para-restaurantes",
+      "tag": "Lealtad",
+      "title": "Programa de lealtad para restaurantes: la guía para que tus clientes regresen",
+      "blurb": "El dinero más barato es el cliente que ya te conoce. Qué programa funciona, por qué la tarjeta de sellos se queda corta y cómo automatizarlo.",
+      "read": "Leer →"
+    },
+    {
+      "url": "/guias/carta-digital",
+      "tag": "Carta digital",
+      "title": "Carta digital para restaurantes: la guía completa (QR, costos y errores)",
+      "blurb": "Cómo hacer un menú QR que funcione, cuánto cuesta de verdad y el error #1: una carta que se ve bonita pero no vende nada.",
+      "read": "Leer →"
+    },
+    {
+      "url": "/guias/rappi-uber-eats-para-restaurantes",
+      "tag": "Apps de delivery",
+      "title": "Rappi y Uber Eats para restaurantes: comisiones y cómo usarlas a tu favor",
+      "blurb": "Qué cobran las apps, qué te dan a cambio, los 3 errores más caros y la estrategia 80/20 para usarlas sin depender de ellas.",
+      "read": "Leer →"
+    },
     {
       "url": "/guias/ia-para-restaurantes",
       "tag": "Inteligencia Artificial",
