@@ -22,6 +22,8 @@ FluxSales replaces a restaurant's dependence on delivery marketplaces (which cha
 - [Carta digital para restaurantes](https://fluxsales.co/guias/carta-digital): Cómo hacer un menú QR que venda — costos, pasos y errores
 - [Programa de lealtad para restaurantes](https://fluxsales.co/guias/lealtad-para-restaurantes): Cómo hacer que los clientes regresen, en automático
 - [Rappi y Uber Eats para restaurantes](https://fluxsales.co/guias/rappi-uber-eats-para-restaurantes): Comisiones (15–30%), errores comunes y la estrategia 80/20
+- [Marketing para restaurantes](https://fluxsales.co/guias/marketing-para-restaurantes): El orden correcto — base de clientes, recompra, Google local, redes
+- [App para pedidos de restaurante](https://fluxsales.co/guias/app-para-pedidos): Apps de delivery vs app propia vs canal directo web — comparativa honesta
 
 ## Customer results
 

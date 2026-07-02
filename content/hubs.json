@@ -2,6 +2,20 @@
   "_README": "Single source of truth for the hub library cards (/guias, /blog, /casos). Add a new page's card here, then run `node scripts/gen-hubs.mjs` to regenerate the static hub HTML. The hubs stay static (crawlable) — this only automates the card list. Newest entries first.",
   "guias": [
     {
+      "url": "/guias/marketing-para-restaurantes",
+      "tag": "Marketing",
+      "title": "Marketing para restaurantes: la guía práctica (sin agencia y sin desperdicio)",
+      "blurb": "El orden correcto: base de clientes → recompra → Google local → redes. Qué automatizar y en qué no gastar.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/app-para-pedidos",
+      "tag": "Pedidos en línea",
+      "title": "App para pedidos de restaurante: qué opciones hay y cuál te conviene",
+      "blurb": "Apps de delivery, app propia o canal directo web: costos reales, pros y contras — y por qué 'sin descarga' gana en restaurantes.",
+      "read": "Leer la guía →"
+    },
+    {
       "url": "/guias/lealtad-para-restaurantes",
       "tag": "Lealtad",
       "title": "Programa de lealtad para restaurantes: la guía para que tus clientes regresen",
@@ -38,6 +52,20 @@
     }
   ],
   "blog": [
+    {
+      "url": "/guias/marketing-para-restaurantes",
+      "tag": "Marketing",
+      "title": "Marketing para restaurantes: la guía práctica (sin agencia y sin desperdicio)",
+      "blurb": "El orden correcto: base de clientes → recompra → Google local → redes. Qué automatizar y en qué no gastar.",
+      "read": "Leer →"
+    },
+    {
+      "url": "/guias/app-para-pedidos",
+      "tag": "Pedidos en línea",
+      "title": "App para pedidos de restaurante: qué opciones hay y cuál te conviene",
+      "blurb": "Apps de delivery, app propia o canal directo web: costos reales, pros y contras.",
+      "read": "Leer →"
+    },
     {
       "url": "/guias/lealtad-para-restaurantes",
       "tag": "Lealtad",
