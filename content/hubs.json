@@ -2,6 +2,13 @@
   "_README": "Single source of truth for the hub library cards (/guias, /blog, /casos). Add a new page's card here, then run `node scripts/gen-hubs.mjs` to regenerate the static hub HTML. The hubs stay static (crawlable) — this only automates the card list. Newest entries first.",
   "guias": [
     {
+      "url": "/guias/calculadora-comisiones",
+      "tag": "Calculadora",
+      "title": "Calculadora de comisiones de delivery (Rappi, Uber Eats, DiDi)",
+      "blurb": "Ingresa tu ticket y tus pedidos y ve, en vivo, cuánto pagas en comisiones al mes y al año — y cuánto recuperarías con tu canal directo a 0%.",
+      "read": "Usar la calculadora →"
+    },
+    {
       "url": "/guias/marketing-para-restaurantes",
       "tag": "Marketing",
       "title": "Marketing para restaurantes: la guía práctica (sin agencia y sin desperdicio)",
