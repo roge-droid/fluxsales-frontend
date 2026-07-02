@@ -26,6 +26,12 @@ FluxSales replaces a restaurant's dependence on delivery marketplaces (which cha
 - [App para pedidos de restaurante](https://fluxsales.co/guias/app-para-pedidos): Apps de delivery vs app propia vs canal directo web — comparativa honesta
 - [Calculadora de comisiones de delivery](https://fluxsales.co/guias/calculadora-comisiones): Calcula cuánto pagas a Rappi/Uber Eats/DiDi al mes y al año, y cuánto recuperarías con canal directo a 0%
 
+## Comparisons
+
+- [FluxSales vs OlaClick](https://fluxsales.co/guias/fluxsales-vs-olaclick): Herramienta autoservicio con límites por plan vs canal directo done-for-you en 48 h — precios verificados julio 2026
+- [FluxSales vs Justo](https://fluxsales.co/guias/fluxsales-vs-justo): Cuota anual + 10–13% de comisión por venta vs plan fijo a 0% de comisión de marketplace
+- [FluxSales vs Soft Restaurant](https://fluxsales.co/guias/fluxsales-vs-soft-restaurant): POS de operación interna vs canal directo de clientes — categorías distintas que se complementan
+
 ## Customer results
 
 - [Casos de éxito](https://fluxsales.co/casos): Real restaurants, real results
