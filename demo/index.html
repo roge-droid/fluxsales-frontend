@@ -605,6 +605,14 @@ select.dx-ac-input:invalid, select.dx-ac-input option[value=""] { color: var(--d
 </head>
 <body>
 <div id="root"></div>
+<noscript>
+  <!-- Static fallback for no-JS clients and AEO crawlers that don't execute the React render. -->
+  <main style="max-width:880px;margin:0 auto;padding:48px 20px;font-family:Inter,system-ui,sans-serif;line-height:1.6">
+    <h1>Agenda tu demo de FluxSales</h1>
+    <p>Demo gratuita de 30 minutos por Google Meet. Te mostramos, con tus propios números, cómo FluxSales hace crecer tu restaurante y recupera el margen que se llevan las apps de delivery: pedidos directos sin comisión de marketplace, repartidores on-demand, lealtad y marketing automático.</p>
+    <p>El agendado interactivo requiere JavaScript. También puedes <a href="/diagnostico">hacer el diagnóstico digital gratuito</a>, <a href="/pricing">ver precios</a> o <a href="/">conocer FluxSales</a>.</p>
+  </main>
+</noscript>
 <script type="text/babel">
 const API_URL = "/api/demo-page/lead-intake";
 const SESSION_ID = "sess_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);

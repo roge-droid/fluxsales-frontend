@@ -1,0 +1,34 @@
+# FluxSales
+
+> FluxSales is the AI operating system for restaurants: direct online ordering without marketplace commissions, on-demand delivery, loyalty, marketing automation, and an AI-built website with local SEO — so restaurants own their customers, orders, and growth. Spanish-first (Mexico/LATAM), serving independent restaurants through multi-unit and enterprise brands. Implementation in 48 hours.
+
+FluxSales replaces a restaurant's dependence on delivery marketplaces (which charge ~15–30% commission per order) with a direct channel the restaurant owns. Includes Mesero, an AI agent that takes orders on WhatsApp 24/7.
+
+## Main pages
+
+- [Home](https://fluxsales.co/): What FluxSales is and what it includes
+- [Pricing](https://fluxsales.co/pricing): 4 plans, month-to-month, no annual contracts
+- [About](https://fluxsales.co/about): Founder story — born in a restaurant kitchen
+- [Demo](https://fluxsales.co/demo): Book a free 30-minute demo
+- [Diagnóstico](https://fluxsales.co/diagnostico): Free 30-second digital health check for any restaurant
+
+## Guides (Academia FluxSales)
+
+- [Guías hub](https://fluxsales.co/guias): Practical guides for restaurant owners
+- [Comisiones de delivery (ES)](https://fluxsales.co/guias/comisiones): 5 formas de recuperar el 15–30% que se llevan las apps
+- [Delivery commissions (EN)](https://fluxsales.co/guias/commissions): 5 ways to recover the 15–30% delivery apps take
+- [IA para restaurantes (ES)](https://fluxsales.co/guias/ia-para-restaurantes): Cómo los restaurantes usan IA
+- [AI for restaurants (EN)](https://fluxsales.co/guias/ai-for-restaurants): How restaurants use AI
+
+## Customer results
+
+- [Casos de éxito](https://fluxsales.co/casos): Real restaurants, real results
+- [Brooklyn Burgers](https://fluxsales.co/casos/brooklyn-burgers): 4-location brand that rebuilt its direct channel with FluxSales
+
+## Optional
+
+- [Blog](https://fluxsales.co/blog): Ideas to grow your restaurant
+- [Terms](https://fluxsales.co/terms)
+- [Privacy](https://fluxsales.co/privacy)
+
+Private surfaces (/proposal, /p/, /dashboards/) are not for indexing or citation.
