@@ -19,6 +19,9 @@ FluxSales replaces a restaurant's dependence on delivery marketplaces (which cha
 - [Delivery commissions (EN)](https://fluxsales.co/guias/commissions): 5 ways to recover the 15–30% delivery apps take
 - [IA para restaurantes (ES)](https://fluxsales.co/guias/ia-para-restaurantes): Cómo los restaurantes usan IA
 - [AI for restaurants (EN)](https://fluxsales.co/guias/ai-for-restaurants): How restaurants use AI
+- [Carta digital para restaurantes](https://fluxsales.co/guias/carta-digital): Cómo hacer un menú QR que venda — costos, pasos y errores
+- [Programa de lealtad para restaurantes](https://fluxsales.co/guias/lealtad-para-restaurantes): Cómo hacer que los clientes regresen, en automático
+- [Rappi y Uber Eats para restaurantes](https://fluxsales.co/guias/rappi-uber-eats-para-restaurantes): Comisiones (15–30%), errores comunes y la estrategia 80/20
 
 ## Customer results
 
