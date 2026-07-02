@@ -1001,6 +1001,14 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
   const [booking, setBooking] = React.useState(false);
   const [booked, setBooked] = React.useState(null);
   const [error, setError] = React.useState(null);
+  // null = show the choice (book a demo vs talk on WhatsApp); "demo" = show the slot picker.
+  const [bookingChoice, setBookingChoice] = React.useState(null);
+
+  // Campaign E: qualified Google Ads leads choose between booking a demo (roge@'s
+  // calendar) or talking to an expert now on WhatsApp (+5214421716825).
+  const waExpertUrl = "https://wa.me/5214421716825?text=" + encodeURIComponent(
+    "Hola, soy " + (firstName || "") + " de " + (companyName || "mi restaurante") + ", quiero hablar con un asesor sobre Fluxsales."
+  );
 
   React.useEffect(() => {
     fireEvent("calendar_shown", "");
@@ -1059,16 +1067,34 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
     return (
       <div style={{ textAlign: "center" }}>
         <p style={{ fontSize: 16, color: "#2563eb", fontWeight: 600, margin: "0 0 16px" }}>Tu restaurante califica para una demo personalizada.</p>
-        <a href={calendarUrl} target="_blank" rel="noopener" className="dx-btn" style={{ display: "flex", textDecoration: "none" }}
-          onClick={() => { if (onBooked) onBooked(); }}>Agendar mi demo de 30 min →</a>
-        <div className="dx-bk-links" style={{ marginTop: 12 }}>
-          <a href="https://wa.me/5214421716825">WhatsApp</a>
-        </div>
+        <a href={waExpertUrl} target="_blank" rel="noopener" className="dx-btn" style={{ display: "flex", textDecoration: "none", justifyContent: "center" }}
+          onClick={() => { fireEvent("ae_whatsapp_chosen", placeId || ""); if (onBooked) onBooked(); }}>💬 Habla con un experto por WhatsApp</a>
       </div>
     );
   }
 
   if (loading) return <p style={{ textAlign: "center", color: "#2563eb", fontWeight: 500 }}>Cargando horarios...</p>;
+
+  // Qualified → let the lead choose: book a demo (roge@'s calendar) or talk on WhatsApp now.
+  if (bookingChoice !== "demo") {
+    return (
+      <div style={{ textAlign: "center" }}>
+        <div className="dx-bk-header">
+          <div className="dx-bk-title">Tu restaurante califica 🎉</div>
+          <div className="dx-bk-sub">¿Cómo prefieres avanzar?</div>
+        </div>
+        <button className="dx-btn dx-btn--dark" style={{ width: "100%", marginBottom: 10 }}
+          onClick={() => setBookingChoice("demo")}>
+          📅 Agenda una demo de 30 min →
+        </button>
+        <a href={waExpertUrl} target="_blank" rel="noopener" className="dx-btn"
+          style={{ display: "flex", textDecoration: "none", justifyContent: "center" }}
+          onClick={() => { fireEvent("ae_whatsapp_chosen", placeId || ""); if (window.clarity) window.clarity("set", "funnel_step", "ae_whatsapp_chosen"); }}>
+          💬 Habla con un experto por WhatsApp
+        </a>
+      </div>
+    );
+  }
 
   const currentDate = dates[selectedDate];
   const parseLabel = (l) => { const p = l.split(" "); return { day: p[0], num: p[1] }; };
@@ -1076,6 +1102,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
   return (
     <>
       <div className="dx-bk-header">
+        <button className="dx-back" onClick={() => setBookingChoice(null)} style={{ marginBottom: 8 }}>← Volver</button>
         <div className="dx-bk-title">Elige tu horario</div>
         <div className="dx-bk-sub">Demo de 30 min por Google Meet</div>
       </div>
@@ -1108,7 +1135,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
         </button>
       </div>
       <div className="dx-bk-links">
-        <a href={calendarUrl}>Google Calendar</a> · <a href="https://wa.me/5214421716825">WhatsApp</a>
+        <a href="https://wa.me/5214421716825">¿Prefieres WhatsApp?</a>
       </div>
     </>
   );
