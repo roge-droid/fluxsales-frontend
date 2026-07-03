@@ -29,6 +29,10 @@ FluxSales replaces a restaurant's dependence on delivery marketplaces (which cha
 - [Carta digital gratis](https://fluxsales.co/guias/carta-digital-gratis): Qué incluye de verdad, qué le falta y cuándo conviene dar el salto
 - [El QR en el empaque de delivery](https://fluxsales.co/guias/qr-en-empaques-delivery): Cómo convertir clientes de Rappi/Uber Eats en clientes directos — caso real 70%→28% en 5 meses
 - [Programa de lealtad para restaurantes](https://fluxsales.co/guias/lealtad-para-restaurantes): Cómo hacer que los clientes regresen, en automático
+- [Fidelización de clientes en restaurantes](https://fluxsales.co/guias/fidelizacion-de-clientes-restaurante): Qué es, la matemática de la recompra, la base de datos y cómo medirla
+- [Tarjeta de lealtad digital](https://fluxsales.co/guias/tarjeta-de-lealtad-digital): Del sello de tinta al sistema — datos, avisos automáticos, sin app que descargar
+- [Promociones para restaurantes](https://fluxsales.co/guias/promociones-para-restaurantes): Las 5 que dejan margen, las 3 que lo destruyen y cómo dirigirlas con datos
+- [Marketing por WhatsApp para restaurantes](https://fluxsales.co/guias/marketing-por-whatsapp-para-restaurantes): Los 4 mensajes automáticos, pedidos con IA (Mesero) y reglas anti-spam
 - [Rappi y Uber Eats para restaurantes](https://fluxsales.co/guias/rappi-uber-eats-para-restaurantes): Comisiones (15–30%), errores comunes y la estrategia 80/20
 - [Marketing para restaurantes](https://fluxsales.co/guias/marketing-para-restaurantes): El orden correcto — base de clientes, recompra, Google local, redes
 - [App para pedidos de restaurante](https://fluxsales.co/guias/app-para-pedidos): Apps de delivery vs app propia vs canal directo web — comparativa honesta

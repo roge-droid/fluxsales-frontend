@@ -2,6 +2,34 @@
   "_README": "Single source of truth for the hub library cards (/guias, /blog, /casos). Add a new page's card here, then run `node scripts/gen-hubs.mjs` to regenerate the static hub HTML. The hubs stay static (crawlable) — this only automates the card list. Newest entries first.",
   "guias": [
     {
+      "url": "/guias/fidelizacion-de-clientes-restaurante",
+      "tag": "Lealtad",
+      "title": "Fidelización de clientes en un restaurante: la guía práctica",
+      "blurb": "Fidelizar no es regalar descuentos — es un sistema de tres piezas: capturar el contacto, dar una razón para volver y recordarlo a tiempo. Qué es y cómo medirla.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/tarjeta-de-lealtad-digital",
+      "tag": "Lealtad",
+      "title": "Tarjeta de lealtad digital: del sello de tinta al sistema",
+      "blurb": "El cartón se pierde, no deja datos y no avisa nada. Qué gana tu restaurante al pasarla al celular — sin pedirle a nadie que descargue una app.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/promociones-para-restaurantes",
+      "tag": "Lealtad",
+      "title": "Promociones que sí dejan margen (y las que lo destruyen)",
+      "blurb": "Una promoción compra un comportamiento que no iba a pasar; lo demás es descuento disfrazado. Las 5 que funcionan, las 3 que duelen y cómo dirigirlas con datos.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/marketing-por-whatsapp-para-restaurantes",
+      "tag": "Lealtad",
+      "title": "Marketing por WhatsApp para restaurantes (sin volverte spam)",
+      "blurb": "El canal donde tu cliente sí lee — y donde más rápido te bloquean. Los 4 mensajes automáticos, pedidos tomados por IA en el chat y las reglas del juego limpio.",
+      "read": "Leer la guía →"
+    },
+    {
       "url": "/guias/cuanto-cobran-las-apps-de-delivery",
       "tag": "Comisiones",
       "title": "¿Cuánto cobran Rappi, Uber Eats y DiDi Food a un restaurante?",
