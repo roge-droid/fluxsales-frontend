@@ -112,6 +112,36 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 32px 16px;
 }
 .dx-container { width: 100%; max-width: 440px; }
+.dx-container--wide { max-width: 440px; }
+.dx-hero-layout { display: block; }
+.dx-hero-right { width: 100%; }
+
+@media (min-width: 768px) {
+  .dx-container--wide { max-width: 600px; }
+  .dx-hero h1 { font-size: 32px; }
+}
+
+@media (min-width: 1000px) {
+  .dx-main { align-items: flex-start; padding: 56px 24px; }
+  .dx-container--wide { max-width: 1080px; }
+  .dx-hero-layout {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-areas:
+      "hero  card"
+      "trust card"
+      "testi card";
+    column-gap: 48px;
+    row-gap: 18px;
+    align-items: start;
+  }
+  .dx-hero-layout .dx-hero { grid-area: hero; text-align: left; margin-bottom: 4px; }
+  .dx-hero-layout .dx-hero h1 { font-size: 40px; }
+  .dx-hero-layout .dx-hero p { font-size: 17px; }
+  .dx-hero-layout .dx-hero-right { grid-area: card; align-self: start; position: sticky; top: 56px; }
+  .dx-hero-layout .dx-trust-bar { grid-area: trust; justify-content: flex-start; margin: 0; }
+  .dx-hero-layout .dx-testimonials { grid-area: testi; max-width: none; margin: 8px 0 0; padding: 0; }
+}
 
 .dx-hero { text-align: center; margin-bottom: 24px; }
 .dx-hero h1 {
@@ -1725,24 +1755,21 @@ function DiagnosticoApp() {
         </a>
       </nav>
       <div className="dx-main">
-        <div className="dx-container">
+        <div className={"dx-container" + (step === "search" ? " dx-container--wide" : "")}>
           {step === "search" && (
+            <div className="dx-hero-layout">
             <div className="dx-hero">
               <span className="dx-hero-badge">Demo personalizada · gratis</span>
               <h1>Descubre cuánto te cuestan las apps de delivery — y cómo recuperar ese margen.</h1>
               <p>Agenda una demo de 30 min y te mostramos, con tus propios números, cómo vender más por tu canal directo sin regalarle el 30% a Rappi, Uber Eats y DiDi.</p>
               <p className="dx-hero-note">Demo de 30 min · gratis · sin compromiso</p>
             </div>
-          )}
-          {step === "search" && (
             <div className="dx-trust-bar">
               <span className="dx-trust-item"><strong>1,400+</strong> restaurantes</span>
               <span className="dx-trust-item"><strong>+38%</strong> ventas en 90 días</span>
               <span className="dx-trust-item"><strong>3.2x</strong> tasa de retorno</span>
             </div>
-          )}
-          {step === "search" && renderSearch()}
-          {step === "search" && (
+            <div className="dx-hero-right">{renderSearch()}</div>
             <div className="dx-testimonials">
               <div className="dx-testi">
                 <p className="dx-testi-quote">"Bajamos nuestra dependencia de Rappi del 70% al 28% en cinco meses."</p>
@@ -1774,6 +1801,7 @@ function DiagnosticoApp() {
                   <span className="dx-testi-metric">3.2x retorno</span>
                 </div>
               </div>
+            </div>
             </div>
           )}
           {step === "scorecard" && renderScorecard()}
