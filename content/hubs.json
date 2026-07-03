@@ -2,6 +2,34 @@
   "_README": "Single source of truth for the hub library cards (/guias, /blog, /casos). Add a new page's card here, then run `node scripts/gen-hubs.mjs` to regenerate the static hub HTML. The hubs stay static (crawlable) — this only automates the card list. Newest entries first.",
   "guias": [
     {
+      "url": "/guias/como-hacer-menu-qr",
+      "tag": "Carta digital",
+      "title": "Cómo hacer un menú QR para tu restaurante: paso a paso",
+      "blurb": "Los 3 pasos para montar tu código QR de menú sin saber de tecnología — tamaños, pruebas y los errores que hacen que la mitad de los QR no sirvan.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/menu-digital-vs-pdf",
+      "tag": "Carta digital",
+      "title": "Menú digital vs PDF con QR: cuál le conviene a tu restaurante",
+      "blurb": "Por fuera se ven iguales; por dentro uno es una foto y el otro una herramienta de ventas. Lo que el PDF te cuesta sin que lo veas, lado a lado.",
+      "read": "Leer la comparación →"
+    },
+    {
+      "url": "/guias/carta-digital-gratis",
+      "tag": "Carta digital",
+      "title": "Carta digital gratis: qué incluye de verdad y cuándo conviene",
+      "blurb": "Sí existen y para empezar están bien. Qué te dan, qué les falta (pedidos, datos, medición) y cuál 'gratis' termina siendo la más cara de todas.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/qr-en-empaques-delivery",
+      "tag": "Carta digital",
+      "title": "El QR en el empaque: convierte pedidos de Rappi en clientes directos",
+      "blurb": "La jugada más rentable de la carta digital, con números reales: un caso que bajó su dependencia de Rappi del 70% al 28% en cinco meses.",
+      "read": "Leer la guía →"
+    },
+    {
       "url": "/guias/fluxsales-vs-olaclick",
       "tag": "Comparación",
       "title": "FluxSales vs OlaClick: la comparación honesta",
