@@ -1424,6 +1424,7 @@ function DiagnosticoApp() {
       } else if (typeof fbq === "function") {
         fbq("track", "Lead", { content_name: "diagnostico_gated", value: 0, currency: "MXN" });
       }
+      gadsConvert("lead");   // Google Ads lead conversion (Campaign E)
     } catch { setError("No pudimos enviar tu información. Intenta de nuevo."); }
     finally { setSubmitting(false); }
   };
