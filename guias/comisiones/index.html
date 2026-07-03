@@ -143,6 +143,16 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document
 
 .guide-hr{ border:none; border-top:1px solid var(--rule); margin:48px 0; }
 
+/* Related-articles block (cluster interlinking) */
+.guide-related{ background:var(--green-100); border:1px solid var(--green-wash); border-radius:var(--radius);
+  padding:24px 28px; margin:40px 0; }
+.guide-related .related-label{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--green-ink); margin-bottom:12px; }
+.guide-related ul{ margin:0; }
+.guide-related ul li{ padding:6px 0 6px 26px; }
+.guide-related ul li::before{ top:15px; }
+.guide-related a{ color:var(--green-ink); text-decoration:underline; text-underline-offset:3px; }
+
 /* FAQ */
 .guide-faq{ margin:8px 0 0; }
 .guide-faq details{ border-bottom:1px solid var(--rule); padding:6px 0; }
@@ -289,6 +299,17 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document
         <div class="case-label">Lo que hacemos en FluxSales</div>
         <p class="case-quote">Reunimos tus apps de delivery, tu canal propio de pedidos y tu programa de lealtad en una sola plataforma — para que el margen, los datos y la relación se queden contigo.</p>
         <div class="case-meta">Restaurantes en CDMX, Monterrey y Guadalajara ya lo están usando.</div>
+      </div>
+
+      <div class="guide-related">
+        <div class="related-label">Profundiza en esta serie</div>
+        <ul>
+          <li><a href="/guias/cuanto-cobran-las-apps-de-delivery">¿Cuánto cobran Rappi, Uber Eats y DiDi Food a un restaurante?</a></li>
+          <li><a href="/guias/subir-precios-en-apps-delivery">¿Subir precios en las apps para cubrir la comisión? La cuenta correcta</a></li>
+          <li><a href="/guias/delivery-propio-vs-apps">Delivery propio vs apps: flotilla, marketplace o repartidores on-demand</a></li>
+          <li><a href="/guias/como-depender-menos-de-rappi">Cómo depender menos de Rappi (sin salirte)</a></li>
+          <li><a href="/guias/calculadora-comisiones">Calculadora: tu número exacto de comisiones al mes y al año</a></li>
+        </ul>
       </div>
 
       <hr class="guide-hr">

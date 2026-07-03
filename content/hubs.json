@@ -2,6 +2,34 @@
   "_README": "Single source of truth for the hub library cards (/guias, /blog, /casos). Add a new page's card here, then run `node scripts/gen-hubs.mjs` to regenerate the static hub HTML. The hubs stay static (crawlable) — this only automates the card list. Newest entries first.",
   "guias": [
     {
+      "url": "/guias/cuanto-cobran-las-apps-de-delivery",
+      "tag": "Comisiones",
+      "title": "¿Cuánto cobran Rappi, Uber Eats y DiDi Food a un restaurante?",
+      "blurb": "15–30% por pedido es solo el inicio: la anatomía completa del cobro — comisión, cuotas, publicidad interna, promos cofinanciadas — y la cuenta mensual real.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/subir-precios-en-apps-delivery",
+      "tag": "Comisiones",
+      "title": "¿Subir precios en las apps para cubrir la comisión? La cuenta correcta",
+      "blurb": "Para recuperar una comisión del 30% no basta subir 30% — necesitas ~43%. La matemática exacta, los riesgos y la estrategia de dos precios bien hecha.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/delivery-propio-vs-apps",
+      "tag": "Comisiones",
+      "title": "Delivery propio vs apps: flotilla, marketplace o repartidores on-demand",
+      "blurb": "Tres formas de entregar: comisión por venta, costos fijos de flotilla o tarifa por entrega. Qué compra cada una y el híbrido que mejor funciona.",
+      "read": "Leer la comparación →"
+    },
+    {
+      "url": "/guias/como-depender-menos-de-rappi",
+      "tag": "Comisiones",
+      "title": "Cómo depender menos de Rappi (sin salirte)",
+      "blurb": "El playbook completo: mide tu % de dependencia, monta el canal directo, migra a tus frecuentes y retenlos. Caso real: de 70% a 28% en cinco meses.",
+      "read": "Leer la guía →"
+    },
+    {
       "url": "/guias/como-hacer-menu-qr",
       "tag": "Carta digital",
       "title": "Cómo hacer un menú QR para tu restaurante: paso a paso",
