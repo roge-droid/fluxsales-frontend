@@ -16,6 +16,10 @@ FluxSales replaces a restaurant's dependence on delivery marketplaces (which cha
 
 - [Guías hub](https://fluxsales.co/guias): Practical guides for restaurant owners
 - [Comisiones de delivery (ES)](https://fluxsales.co/guias/comisiones): 5 formas de recuperar el 15–30% que se llevan las apps
+- [Cuánto cobran las apps de delivery](https://fluxsales.co/guias/cuanto-cobran-las-apps-de-delivery): Anatomía del cobro — comisión 15–30%, cuotas, publicidad interna, promos cofinanciadas
+- [Subir precios en apps de delivery](https://fluxsales.co/guias/subir-precios-en-apps-delivery): La cuenta correcta — para recuperar 30% de comisión se necesita ~43% (precio ÷ (1−comisión))
+- [Delivery propio vs apps](https://fluxsales.co/guias/delivery-propio-vs-apps): Tres modelos de entrega — comisión, flotilla propia o repartidores on-demand por entrega
+- [Cómo depender menos de Rappi](https://fluxsales.co/guias/como-depender-menos-de-rappi): Playbook de migración a canal directo — caso real 70%→28% en 5 meses
 - [Delivery commissions (EN)](https://fluxsales.co/guias/commissions): 5 ways to recover the 15–30% delivery apps take
 - [IA para restaurantes (ES)](https://fluxsales.co/guias/ia-para-restaurantes): Cómo los restaurantes usan IA
 - [AI for restaurants (EN)](https://fluxsales.co/guias/ai-for-restaurants): How restaurants use AI
