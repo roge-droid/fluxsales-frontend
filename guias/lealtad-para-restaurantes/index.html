@@ -140,6 +140,16 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document
 
 .guide-hr{ border:none; border-top:1px solid var(--rule); margin:48px 0; }
 
+/* Related-articles block (cluster interlinking) */
+.guide-related{ background:var(--green-100); border:1px solid var(--green-wash); border-radius:var(--radius);
+  padding:24px 28px; margin:40px 0; }
+.guide-related .related-label{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--green-ink); margin-bottom:12px; }
+.guide-related ul{ margin:0; }
+.guide-related ul li{ padding:6px 0 6px 26px; }
+.guide-related ul li::before{ top:15px; }
+.guide-related a{ color:var(--green-ink); text-decoration:underline; text-underline-offset:3px; }
+
 /* FAQ */
 .guide-faq{ margin:8px 0 0; }
 .guide-faq details{ border-bottom:1px solid var(--rule); padding:6px 0; }
@@ -273,6 +283,16 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document
       <div class="guide-callout">
         <div class="kpi">3.2x</div>
         <div class="kpi-note">Tasa de retorno de clientes en restaurantes que operan su canal directo con lealtad y marketing automático en FluxSales.</div>
+      </div>
+
+      <div class="guide-related">
+        <div class="related-label">Profundiza en esta serie</div>
+        <ul>
+          <li><a href="/guias/fidelizacion-de-clientes-restaurante">Fidelización de clientes: qué es, qué necesitas y cómo medirla</a></li>
+          <li><a href="/guias/tarjeta-de-lealtad-digital">Tarjeta de lealtad digital: del sello de tinta al sistema</a></li>
+          <li><a href="/guias/promociones-para-restaurantes">Promociones que sí dejan margen (y las que lo destruyen)</a></li>
+          <li><a href="/guias/marketing-por-whatsapp-para-restaurantes">Marketing por WhatsApp: los 4 mensajes, pedidos con IA y las reglas anti-spam</a></li>
+        </ul>
       </div>
 
       <hr class="guide-hr">
