@@ -139,6 +139,16 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document
   font-size:clamp(22px,2.8vw,30px); line-height:1.25; letter-spacing:-0.01em; color:var(--cream); margin:0; }
 .guide-case .case-meta{ font-size:14px; color:rgba(255,255,255,.6); margin-top:16px; }
 
+/* Related-articles block (cluster interlinking) */
+.guide-related{ background:var(--green-100); border:1px solid var(--green-wash); border-radius:var(--radius);
+  padding:24px 28px; margin:40px 0; }
+.guide-related .related-label{ font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--green-ink); margin-bottom:12px; }
+.guide-related ul{ margin:0; }
+.guide-related ul li{ padding:6px 0 6px 26px; }
+.guide-related ul li::before{ top:15px; }
+.guide-related a{ color:var(--green-ink); text-decoration:underline; text-underline-offset:3px; }
+
 .guide-hr{ border:none; border-top:1px solid var(--rule); margin:48px 0; }
 
 /* FAQ */
@@ -269,6 +279,16 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document
         <div class="case-label">Caso real</div>
         <p class="case-quote">"Bajamos nuestra dependencia de Rappi del 70% al 28% en cinco meses."</p>
         <div class="case-meta">Ricardo Mendoza, co-fundador de Bora Bora Pizzas — el QR en el empaque y el canal directo hicieron el trabajo.</div>
+      </div>
+
+      <div class="guide-related">
+        <div class="related-label">Profundiza en esta serie</div>
+        <ul>
+          <li><a href="/guias/como-hacer-menu-qr">Cómo hacer un menú QR: paso a paso (tamaños, pruebas y errores)</a></li>
+          <li><a href="/guias/menu-digital-vs-pdf">Menú digital vs PDF con QR: la comparación lado a lado</a></li>
+          <li><a href="/guias/carta-digital-gratis">Carta digital gratis: qué incluye de verdad y cuándo conviene</a></li>
+          <li><a href="/guias/qr-en-empaques-delivery">El QR en el empaque: convierte pedidos de apps en clientes directos</a></li>
+        </ul>
       </div>
 
       <hr class="guide-hr">
