@@ -2,6 +2,34 @@
   "_README": "Single source of truth for the hub library cards (/guias, /blog, /casos). Add a new page's card here, then run `node scripts/gen-hubs.mjs` to regenerate the static hub HTML. The hubs stay static (crawlable) — this only automates the card list. Newest entries first.",
   "guias": [
     {
+      "url": "/guias/software-para-restaurantes-cdmx",
+      "tag": "Local",
+      "title": "Software para restaurantes en CDMX: el sistema completo",
+      "blurb": "Pedidos directos sin comisión de marketplace, carta digital con QR, lealtad y mesero de IA en WhatsApp — para competir en la plaza más densa del país. Implementado en 48 h.",
+      "read": "Ver cómo funciona →"
+    },
+    {
+      "url": "/guias/software-para-restaurantes-monterrey",
+      "tag": "Local",
+      "title": "Software para restaurantes en Monterrey: el sistema completo",
+      "blurb": "En la plaza más leal de México, cada cliente frecuente que pide por app te cuesta 15–30% una y otra vez. Canal directo, lealtad y WhatsApp con IA — en 48 h.",
+      "read": "Ver cómo funciona →"
+    },
+    {
+      "url": "/guias/software-para-restaurantes-guadalajara",
+      "tag": "Local",
+      "title": "Software para restaurantes en Guadalajara: el sistema completo",
+      "blurb": "La clientela que tu cocina se ganó en años no debería rentarse a una app pedido por pedido. Canal directo, carta digital con QR y lealtad para la ZMG — en 48 h.",
+      "read": "Ver cómo funciona →"
+    },
+    {
+      "url": "/guias/software-para-restaurantes-queretaro",
+      "tag": "Local",
+      "title": "Software para restaurantes en Querétaro: el sistema completo",
+      "blurb": "En la ciudad que más rápido crece, el restaurante que captura primero la relación directa con sus clientes se queda con la década siguiente. El sistema, en 48 h.",
+      "read": "Ver cómo funciona →"
+    },
+    {
       "url": "/guias/fidelizacion-de-clientes-restaurante",
       "tag": "Lealtad",
       "title": "Fidelización de clientes en un restaurante: la guía práctica",

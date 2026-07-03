@@ -44,6 +44,13 @@ FluxSales replaces a restaurant's dependence on delivery marketplaces (which cha
 - [FluxSales vs Justo](https://fluxsales.co/guias/fluxsales-vs-justo): Cuota anual + 10–13% de comisión por venta vs plan fijo a 0% de comisión de marketplace
 - [FluxSales vs Soft Restaurant](https://fluxsales.co/guias/fluxsales-vs-soft-restaurant): POS de operación interna vs canal directo de clientes — categorías distintas que se complementan
 
+## Local (Mexico)
+
+- [Software para restaurantes en CDMX](https://fluxsales.co/guias/software-para-restaurantes-cdmx): Canal directo sin comisión de marketplace, carta digital, lealtad y mesero de IA — todas las alcaldías, implementación remota en 48 h
+- [Software para restaurantes en Monterrey](https://fluxsales.co/guias/software-para-restaurantes-monterrey): El sistema completo para el área metropolitana regia — San Pedro, Guadalupe, Apodaca y más
+- [Software para restaurantes en Guadalajara](https://fluxsales.co/guias/software-para-restaurantes-guadalajara): Canal directo para la ZMG — Guadalajara, Zapopan, Tlaquepaque, Tonalá y Tlajomulco
+- [Software para restaurantes en Querétaro](https://fluxsales.co/guias/software-para-restaurantes-queretaro): Del Centro Histórico a Juriquilla — captura la relación directa con clientes desde el día uno
+
 ## Customer results
 
 - [Casos de éxito](https://fluxsales.co/casos): Real restaurants, real results
