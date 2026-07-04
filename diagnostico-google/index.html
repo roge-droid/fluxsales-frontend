@@ -742,7 +742,7 @@ function gadsConvert(kind) {
 // See google-ads-launch-manifest.md §10.
 const HERO_VARIANT = (() => {
   const w = (_adsQS.get("w") || "").toLowerCase();
-  if (w === "menu" || w === "lealtad" || w === "conquest" || w === "gestion") return w;
+  if (w === "menu" || w === "lealtad" || w === "reparto" || w === "conquest" || w === "gestion") return w;
   const c = (ADS.utm_campaign || "").toLowerCase();
   if (c.includes("e-1") || c.includes("menu")) return "menu";
   if (c.includes("e-2") || c.includes("lealtad") || c.includes("fidel")) return "lealtad";
@@ -772,6 +772,14 @@ const HERO_COPY = ({
     testiOrder: [2, 1, 0],
     stackOrder: [4, 5, 3, 0, 1, 2],
   },
+  reparto: {
+    badge: "Diagnóstico digital gratuito",
+    h1: "Entregas a domicilio en 30 min — sin pagar comisiones.",
+    p: "Repartidores on-demand para tu restaurante: un repartidor llega a tu local y tu cliente recibe en ~30 minutos. Recibe un diagnóstico gratis de tu canal de entregas.",
+    valueLine: "Tu servicio a domicilio, tu marca: repartidores a pedido y $0 comisión por entrega.",
+    testiOrder: [0, 1, 2],
+    stackOrder: [1, 0, 3, 5, 4, 2],
+  },
   conquest: {
     badge: "Diagnóstico digital gratuito",
     h1: "Descubre cuánto te cuestan las apps de delivery — y cómo recuperar ese margen.",
@@ -791,7 +799,7 @@ const HERO_COPY = ({
 })[HERO_VARIANT];
 try {
   document.title = ({ menu: "Carta digital con pedidos", lealtad: "Programa de lealtad para tu restaurante",
-    conquest: "Recupera el margen de las apps de delivery", gestion: "Tu propio canal de pedidos" }[HERO_VARIANT]) + " — Fluxsales";
+    reparto: "Reparto a domicilio sin comisiones", conquest: "Recupera el margen de las apps de delivery", gestion: "Tu propio canal de pedidos" }[HERO_VARIANT]) + " — Fluxsales";
 } catch (e) {}
 
 // The offer stack — the wedge is the hook; this is the full FluxSales platform revealed below it
