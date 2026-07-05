@@ -14,7 +14,6 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="canonical" href="https://fluxsales.co/calificador" />
-<!-- Structured data — shared FluxSales entity (same @id sitewide) + this page + FAQ (methodology disclosure). -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -39,30 +38,9 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "¿Cómo se calcula la Calificación Digital?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Usamos únicamente los datos públicos de tu propio perfil de Google (calificación, número de reseñas, fotos, horarios, teléfono, sitio web y canales de pedido) y los comparamos con el promedio de restaurantes cercanos. No entramos ni rastreamos tu sitio web ni el de nadie más. La calificación va de 0 a 100 sobre seis dimensiones."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿El estimado de dinero perdido es exacto?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Es un estimado, no una promesa. Lo calculamos a partir de la diferencia de reseñas con tu zona (asumiendo ~1 reseña pública por cada ~30 pedidos, acumulada en ~24 meses) y de las señales que faltan en tu perfil. Se muestra siempre como un rango."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "¿Qué hacen con mis datos?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Usamos tu nombre, WhatsApp y correo para enviarte tu análisis y, si calificas, coordinar una demo. No los vendemos. Puedes ver nuestro aviso de privacidad en fluxsales.co/privacy."
-          }
-        }
+        { "@type": "Question", "name": "¿Cómo se calcula la Calificación Digital?", "acceptedAnswer": { "@type": "Answer", "text": "Usamos únicamente los datos públicos de tu propio perfil de Google (calificación, número de reseñas, fotos, horarios, teléfono, sitio web y canales de pedido) y los comparamos con el promedio de restaurantes cercanos. No entramos ni rastreamos tu sitio web ni el de nadie más. La calificación va de 0 a 100 sobre tres áreas: presencia y posición, experiencia del cliente y perfil local." } },
+        { "@type": "Question", "name": "¿El estimado de dinero perdido es exacto?", "acceptedAnswer": { "@type": "Answer", "text": "Es un estimado, no una promesa. Lo calculamos a partir de la diferencia de reseñas con tu zona (asumiendo ~1 reseña pública por cada ~30 pedidos, acumulada en ~24 meses) y de las señales que faltan en tu perfil. Se muestra siempre como un rango." } },
+        { "@type": "Question", "name": "¿Qué hacen con mis datos?", "acceptedAnswer": { "@type": "Answer", "text": "Usamos tu nombre, WhatsApp y correo para enviarte tu análisis y, si calificas, coordinar una demo. No los vendemos. Puedes ver nuestro aviso de privacidad en fluxsales.co/privacy." } }
       ]
     }
   ]
@@ -103,9 +81,10 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 
 <style>
 :root{
-  --ink:#0f172a; --muted:#64748b; --line:#e2e8f0; --bg:#f8fafc;
-  --brand:#4f46e5; --brand-d:#4338ca; --good:#16a34a; --warn:#d97706; --bad:#dc2626;
-  --shadow:0 10px 40px rgba(15,23,42,.08);
+  --ink:#0f172a; --muted:#64748b; --line:#e6e3dc; --bg:#faf8f4; --panel:#fff;
+  --brand:#166534; --brand-d:#14532d; --accent:#c2410c;
+  --good:#16a34a; --warn:#d97706; --bad:#dc2626;
+  --shadow:0 10px 40px rgba(15,23,42,.07);
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -113,123 +92,143 @@ body{font-family:'Inter',system-ui,sans-serif;color:var(--ink);background:var(--
   -webkit-font-smoothing:antialiased;line-height:1.5}
 h1,h2,h3{font-family:'DM Sans',sans-serif;margin:0}
 a{color:inherit}
-.cx-wrap{max-width:560px;margin:0 auto;padding:20px 18px 64px;min-height:100vh}
-.cx-top{display:flex;align-items:center;justify-content:center;gap:8px;padding:6px 0 22px}
-.cx-logo{font-family:'DM Sans';font-weight:700;font-size:19px;letter-spacing:-.02em}
+.cx-nav{display:flex;align-items:center;justify-content:space-between;max-width:1080px;margin:0 auto;padding:16px 20px}
+.cx-logo{font-family:'DM Sans';font-weight:700;font-size:20px;letter-spacing:-.02em}
 .cx-logo span{color:var(--brand)}
-.cx-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px 20px;box-shadow:var(--shadow)}
-
-/* hero */
-.cx-hero h1{font-size:29px;line-height:1.15;letter-spacing:-.02em;text-align:center;margin-bottom:10px}
-.cx-hero .cx-sub{text-align:center;color:var(--muted);font-size:15px;margin-bottom:20px}
-.cx-ac{position:relative}
-.cx-input{width:100%;font-size:16px;padding:15px 16px;border:1.5px solid var(--line);border-radius:14px;
-  outline:none;font-family:inherit;transition:border-color .15s}
-.cx-input:focus{border-color:var(--brand)}
-.cx-suggest{position:absolute;top:calc(100% + 6px);left:0;right:0;background:#fff;border:1px solid var(--line);
-  border-radius:14px;box-shadow:var(--shadow);z-index:20;overflow:hidden;list-style:none;margin:0;padding:6px}
-.cx-suggest li{padding:11px 12px;border-radius:10px;cursor:pointer;font-size:14px}
-.cx-suggest li:hover,.cx-suggest li[aria-selected=true]{background:#eef2ff}
-.cx-suggest .cx-sg-main{font-weight:600}
-.cx-suggest .cx-sg-sub{color:var(--muted);font-size:12px}
-.cx-cards{display:grid;grid-template-columns:1fr;gap:10px;margin-top:22px}
-.cx-benefit{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);
-  border-radius:14px;padding:13px 14px}
-.cx-benefit .cx-ic{font-size:20px;line-height:1}
-.cx-benefit b{font-size:14px}
-.cx-benefit p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
-.cx-trust{text-align:center;color:var(--muted);font-size:12.5px;margin-top:18px}
-
-/* quiz */
-.cx-progress{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:18px}
-.cx-progress i{display:block;height:100%;background:var(--brand);border-radius:99px;transition:width .3s}
-.cx-step-label{font-size:12.5px;color:var(--muted);font-weight:600;letter-spacing:.02em;text-transform:uppercase;margin-bottom:6px}
-.cx-q h2{font-size:21px;margin-bottom:16px;letter-spacing:-.01em}
-.cx-opts{display:grid;gap:10px}
-.cx-opt{text-align:left;font-size:15px;padding:15px 16px;border:1.5px solid var(--line);border-radius:14px;
-  background:#fff;cursor:pointer;font-family:inherit;transition:all .12s}
-.cx-opt:hover{border-color:var(--brand)}
-.cx-opt.cx-on{border-color:var(--brand);background:#eef2ff;font-weight:600}
-.cx-field{margin-bottom:13px}
-.cx-field label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
-.cx-restaurant-chip{display:flex;align-items:center;gap:8px;background:#eef2ff;border:1px solid #c7d2fe;
-  border-radius:12px;padding:10px 13px;font-size:14px;font-weight:600;margin-bottom:16px}
+.cx-login{font-size:14px;color:var(--muted);border:1px solid var(--line);border-radius:10px;padding:8px 16px;text-decoration:none}
+.cx-card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:24px 20px;box-shadow:var(--shadow)}
 .cx-btn{width:100%;font-family:'DM Sans';font-weight:700;font-size:16px;color:#fff;background:var(--brand);
   border:none;border-radius:14px;padding:15px;cursor:pointer;transition:background .15s;margin-top:6px}
 .cx-btn:hover{background:var(--brand-d)}
 .cx-btn:disabled{opacity:.55;cursor:default}
-.cx-btn--ghost{background:#fff;color:var(--brand);border:1.5px solid var(--brand)}
 .cx-btn--wa{background:#25d366}.cx-btn--wa:hover{background:#1eb858}
-.cx-back{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;padding:8px 0;margin-top:4px}
 .cx-err{color:var(--bad);font-size:13px;margin:10px 0 0;text-align:center}
-.cx-legal{font-size:11px;color:#94a3b8;text-align:center;margin-top:14px;line-height:1.4}
+.cx-legal{font-size:11px;color:#94a3b8;text-align:center;margin-top:12px;line-height:1.4}
 .cx-legal a{color:#94a3b8;text-decoration:underline}
+.cx-input{width:100%;font-size:16px;padding:14px 15px;border:1.5px solid var(--line);border-radius:13px;
+  outline:none;font-family:inherit;background:#fff;transition:border-color .15s}
+.cx-input:focus{border-color:var(--brand)}
+
+/* hero */
+.cx-hero{max-width:640px;margin:0 auto;padding:56px 20px 60px;text-align:center}
+.cx-hero h1{font-size:34px;line-height:1.12;letter-spacing:-.02em;margin-bottom:12px}
+.cx-hero .cx-sub{color:var(--muted);font-size:16px;margin-bottom:26px}
+.cx-ac{position:relative;text-align:left}
+.cx-ac .cx-searchwrap{position:relative}
+.cx-ac .cx-input{padding:17px 52px 17px 17px;font-size:17px;border-radius:16px;box-shadow:var(--shadow)}
+.cx-ac .cx-go{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:none;
+  border-radius:50%;background:var(--brand);color:#fff;font-size:17px;cursor:pointer}
+.cx-suggest{position:absolute;bottom:calc(100% + 8px);left:0;right:0;background:#fff;border:1px solid var(--line);
+  border-radius:16px;box-shadow:var(--shadow);z-index:20;overflow:hidden;list-style:none;margin:0;padding:6px}
+.cx-suggest li{padding:12px 14px;border-radius:11px;cursor:pointer}
+.cx-suggest li:hover,.cx-suggest li[aria-selected=true]{background:#f0fdf4}
+.cx-suggest .cx-sg-main{font-weight:600;font-size:15px}
+.cx-suggest .cx-sg-sub{color:var(--muted);font-size:12.5px}
+.cx-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
+.cx-chip{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:99px;
+  padding:8px 15px;font-size:13.5px;color:var(--ink);font-weight:500}
+.cx-chip .d{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
 
 /* scan */
-.cx-scan{text-align:center;padding:14px 0}
-.cx-spinner{width:56px;height:56px;border:5px solid var(--line);border-top-color:var(--brand);
-  border-radius:50%;margin:8px auto 20px;animation:cx-spin 1s linear infinite}
-@keyframes cx-spin{to{transform:rotate(360deg)}}
-.cx-scan h2{font-size:20px;margin-bottom:18px}
-.cx-scan-item{display:flex;align-items:center;gap:10px;font-size:14.5px;color:var(--muted);
-  padding:7px 0;opacity:.4;transition:opacity .3s}
-.cx-scan-item.cx-active{opacity:1;color:var(--ink);font-weight:500}
-.cx-scan-item .cx-chk{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:0 0 auto;
+.cx-scan{max-width:440px;margin:0 auto;padding:70px 20px}
+.cx-scan h2{font-size:20px;margin-bottom:6px}
+.cx-scan .cx-scan-sub{color:var(--muted);font-size:13.5px;margin-bottom:26px}
+.cx-scan-item{display:flex;align-items:center;gap:12px;font-size:15px;color:#94a3b8;padding:9px 0;transition:color .3s}
+.cx-scan-item.cx-active{color:var(--ink);font-weight:500}
+.cx-scan-item .cx-chk{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:0 0 auto;
   display:flex;align-items:center;justify-content:center;font-size:12px}
-.cx-scan-item.cx-done .cx-chk{background:var(--good);border-color:var(--good);color:#fff}
+.cx-scan-item.cx-active .cx-chk{border-color:var(--brand)}
+.cx-scan-item.cx-done .cx-chk{background:var(--brand);border-color:var(--brand);color:#fff}
+.cx-scan-item .cx-mini{width:15px;height:15px;border:2px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:cx-spin .8s linear infinite}
+.cx-scan-bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin:24px 0 10px}
+.cx-scan-bar i{display:block;height:100%;background:var(--brand);border-radius:99px;transition:width .5s}
+.cx-scan-eta{font-size:13px;color:var(--muted);text-align:center}
+@keyframes cx-spin{to{transform:rotate(360deg)}}
 
 /* report */
-.cx-dial{text-align:center;margin-bottom:6px}
+.cx-report{max-width:1080px;margin:0 auto;padding:24px 18px 70px}
+.cx-report-grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:900px){.cx-report-grid{grid-template-columns:300px 1fr;align-items:start}
+  .cx-scorepanel{position:sticky;top:20px}}
+.cx-scorepanel{background:linear-gradient(180deg,#fef2f2,#fff);border:1px solid var(--line);border-radius:20px;padding:24px 20px;text-align:center}
+.cx-dial{position:relative;width:180px;height:180px;margin:0 auto}
 .cx-dial svg{transform:rotate(-90deg)}
-.cx-dial-val{font-family:'DM Sans';font-weight:700;font-size:44px;letter-spacing:-.02em}
-.cx-dial-max{color:var(--muted);font-size:18px;font-weight:600}
-.cx-badge{display:inline-block;font-weight:700;font-size:13px;padding:5px 14px;border-radius:99px;margin-top:2px}
-.cx-b-critico{background:#fee2e2;color:#b91c1c}.cx-b-bajo{background:#ffedd5;color:#c2410c}
-.cx-b-regular{background:#fef9c3;color:#a16207}.cx-b-bueno{background:#dcfce7;color:#15803d}
-.cx-b-excelente{background:#d1fae5;color:#047857}
-.cx-biz{text-align:center;color:var(--muted);font-size:13px;margin:4px 0 20px}
-.cx-loss{background:linear-gradient(135deg,#fef2f2,#fff);border:1px solid #fecaca;border-radius:16px;
-  padding:16px;text-align:center;margin:18px 0}
-.cx-loss .cx-loss-lbl{font-size:12.5px;color:#b91c1c;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
-.cx-loss .cx-loss-amt{font-family:'DM Sans';font-weight:700;font-size:26px;color:#dc2626;margin:4px 0}
-.cx-loss small{font-size:11px;color:#94a3b8}
-.cx-sec-title{font-family:'DM Sans';font-weight:700;font-size:15px;margin:22px 0 12px}
-.cx-issue{display:flex;gap:11px;padding:12px;border:1px solid var(--line);border-radius:13px;margin-bottom:9px}
+.cx-dial-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.cx-dial-val{font-family:'DM Sans';font-weight:700;font-size:46px;letter-spacing:-.02em;line-height:1}
+.cx-dial-max{color:var(--muted);font-size:13px;margin-top:2px}
+.cx-grade-lbl{color:var(--muted);font-size:12.5px;margin-top:12px}
+.cx-grade{font-family:'DM Sans';font-weight:700;font-size:22px;margin-top:2px}
+.cx-subs{margin-top:22px;text-align:left}
+.cx-sub-row{margin-bottom:15px}
+.cx-sub-top{display:flex;justify-content:space-between;align-items:baseline;font-size:13.5px;margin-bottom:5px}
+.cx-sub-top b{font-weight:600}
+.cx-sub-grade{font-size:12px;font-weight:700}
+.cx-sub-pts{color:var(--muted);font-size:12px}
+.cx-sub-bar{height:7px;background:var(--line);border-radius:99px;overflow:hidden}
+.cx-sub-bar i{display:block;height:100%;border-radius:99px}
+.cx-g-good{color:var(--good)}.cx-g-regular{color:var(--warn)}.cx-g-critico{color:var(--bad)}
+
+.cx-biz{font-size:13px;color:var(--muted);margin:14px 0 0;padding-top:14px;border-top:1px solid var(--line)}
+
+/* cards */
+.cx-cardrow{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:640px){.cx-cardrow{grid-template-columns:1fr 1fr}}
+.cx-panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+.cx-panel h3{font-size:16px;letter-spacing:-.01em;margin-bottom:4px}
+.cx-panel .cx-panel-lead{font-size:13px;color:var(--muted);margin:0 0 14px}
+.cx-loss-amt{font-family:'DM Sans';font-weight:700;font-size:24px;color:var(--accent)}
+.cx-issue{display:flex;gap:10px;padding:11px 0;border-top:1px solid var(--line)}
+.cx-issue:first-of-type{border-top:none}
 .cx-issue .cx-sev{width:8px;height:8px;border-radius:50%;flex:0 0 auto;margin-top:6px}
 .cx-sev-alta{background:var(--bad)}.cx-sev-media{background:var(--warn)}.cx-sev-baja{background:#94a3b8}
-.cx-issue b{font-size:14px}.cx-issue p{margin:3px 0 0;font-size:12.5px;color:var(--muted)}
-.cx-comp{display:flex;align-items:center;gap:10px;margin-bottom:9px;font-size:13px}
-.cx-comp .cx-comp-name{width:120px;flex:0 0 auto;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cx-bar{flex:1;height:8px;background:var(--line);border-radius:99px;overflow:hidden}
-.cx-bar i{display:block;height:100%;border-radius:99px}
-.cx-comp .cx-comp-v{width:70px;flex:0 0 auto;text-align:right;color:var(--muted);font-size:12px}
-.cx-cta{background:#0f172a;color:#fff;border-radius:18px;padding:20px;text-align:center;margin-top:24px}
-.cx-cta h3{color:#fff;font-size:19px;margin-bottom:6px}
-.cx-cta p{color:#cbd5e1;font-size:13.5px;margin:0 0 16px}
-.cx-cta .cx-btn{background:var(--brand)}
-.cx-cta .cx-btn:hover{background:var(--brand-d)}
+.cx-issue b{font-size:14px}.cx-issue p{margin:2px 0 0;font-size:12.5px;color:var(--muted)}
+.cx-comp{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:13.5px}
+.cx-comp:first-of-type{border-top:none}
+.cx-comp .cx-comp-rank{width:26px;height:26px;border-radius:8px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex:0 0 auto}
+.cx-comp .cx-comp-name{flex:1;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cx-comp .cx-comp-v{color:var(--muted);font-size:12.5px;white-space:nowrap}
+.cx-comp.cx-you{background:#f0fdf4;margin:0 -20px;padding:10px 20px;border:none}
 
-/* calendar */
+.cx-sec-title{font-family:'DM Sans';font-weight:700;font-size:15px;margin:6px 0 12px}
+.cx-loss-foot{font-size:11px;color:#94a3b8;margin-top:12px}
+
+/* lock + unlock */
+.cx-locked{filter:blur(7px);pointer-events:none;user-select:none;opacity:.9}
+.cx-unlock{background:#0f172a;color:#fff;border-radius:20px;padding:26px 22px;text-align:center;box-shadow:var(--shadow)}
+.cx-unlock .cx-lock-ic{font-size:26px}
+.cx-unlock h3{color:#fff;font-size:21px;margin:8px 0 6px}
+.cx-unlock p{color:#cbd5e1;font-size:13.5px;margin:0 auto 18px;max-width:420px}
+.cx-unlock .cx-input{margin-bottom:10px}
+.cx-unlock .cx-selrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cx-unlock select.cx-input{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center}
+.cx-unlock .cx-btn{background:#22c55e;margin-top:6px}
+.cx-unlock .cx-btn:hover{background:#16a34a}
+.cx-unlock .cx-legal{color:#64748b}
+.cx-unlock .cx-legal a{color:#94a3b8}
+
+/* demo cta */
+.cx-cta{background:linear-gradient(135deg,#166534,#14532d);color:#fff;border-radius:20px;padding:24px;margin-top:18px}
+.cx-cta h3{color:#fff;font-size:20px;margin-bottom:6px}
+.cx-cta p{color:#d1fae5;font-size:13.5px;margin:0 0 16px}
 .cx-cal-dates{display:flex;gap:8px;overflow-x:auto;padding:2px 0 10px}
-.cx-cal-date{flex:0 0 auto;padding:9px 13px;border:1.5px solid var(--line);border-radius:12px;background:#fff;
-  cursor:pointer;font-size:13px;font-family:inherit;text-align:center;min-width:64px}
-.cx-cal-date.cx-on{border-color:var(--brand);background:#eef2ff;font-weight:600}
+.cx-cal-date{flex:0 0 auto;padding:9px 13px;border:1.5px solid rgba(255,255,255,.3);border-radius:12px;background:rgba(255,255,255,.08);
+  color:#fff;cursor:pointer;font-size:13px;font-family:inherit;text-align:center;min-width:64px}
+.cx-cal-date.cx-on{background:#fff;color:var(--brand-d);font-weight:700}
 .cx-cal-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
-.cx-slot{padding:11px 4px;border:1.5px solid var(--line);border-radius:11px;background:#fff;cursor:pointer;
-  font-size:13.5px;font-family:inherit}
-.cx-slot.cx-on{border-color:var(--brand);background:#eef2ff;font-weight:600}
-.cx-booked{text-align:center;padding:10px 0}
-.cx-booked .cx-check{width:56px;height:56px;border-radius:50%;background:var(--good);color:#fff;font-size:28px;
-  display:flex;align-items:center;justify-content:center;margin:0 auto 14px}
+.cx-slot{padding:11px 4px;border:1.5px solid rgba(255,255,255,.3);border-radius:11px;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;font-size:13.5px;font-family:inherit}
+.cx-slot.cx-on{background:#fff;color:var(--brand-d);font-weight:700}
+.cx-cta .cx-btn{background:#fff;color:var(--brand-d)}
+.cx-cta .cx-btn:hover{background:#ecfdf5}
+.cx-booked{text-align:center;color:#fff;padding:8px 0}
+.cx-booked .cx-check{width:52px;height:52px;border-radius:50%;background:#fff;color:var(--brand);font-size:26px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
 
-.cx-faq{margin-top:30px}
-.cx-faq details{border-top:1px solid var(--line);padding:13px 2px}
+.cx-faq{max-width:640px;margin:34px auto 0}
+.cx-faq details{border-top:1px solid var(--line);padding:14px 2px}
 .cx-faq summary{font-weight:600;font-size:14px;cursor:pointer;list-style:none}
 .cx-faq summary::-webkit-details-marker{display:none}
 .cx-faq p{font-size:13px;color:var(--muted);margin:8px 0 0}
 .cx-foot{text-align:center;font-size:11.5px;color:#94a3b8;margin-top:26px}
 .cx-foot a{text-decoration:underline}
-@media(min-width:560px){.cx-hero h1{font-size:33px}}
 </style>
 </head>
 <body>
@@ -247,20 +246,27 @@ const { useState, useRef, useEffect } = React;
 
 const MOCK = new URLSearchParams(location.search).get("mock") === "1";
 const SESSION_ID = "grader-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
-const FUNNEL_VERSION = "v1-calificador";
+const FUNNEL_VERSION = "v2-calificador-scan";
 
-// ── analytics ────────────────────────────────────────────────────────────────
 function fireEvent(eventType, placeId) {
   fetch("/api/diagnostico/event", {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ event_type: eventType, place_id: placeId || "", session_id: SESSION_ID, funnel: "grader", funnel_version: FUNNEL_VERSION }),
   }).catch(() => {});
 }
-function clarityStep(step) { if (window.clarity) window.clarity("set", "funnel_step", step); }
-
-const MXN = (n) => "$" + Math.round(n).toLocaleString("es-MX") + " MXN";
-const badgeClass = (label) => "cx-b-" + { "Crítico": "critico", "Bajo": "bajo", "Regular": "regular", "Bueno": "bueno", "Excelente": "excelente" }[label];
+function clarityStep(s) { if (window.clarity) window.clarity("set", "funnel_step", s); }
+const MXN = (n) => "$" + Math.round(n).toLocaleString("es-MX");
 const dialColor = (v) => v >= 75 ? "#16a34a" : v >= 60 ? "#65a30d" : v >= 40 ? "#d97706" : "#dc2626";
+
+// 3 weighted areas derived from the 6 API dimensions (Owner-style: Search / Guest / Local).
+function subScores(bd) {
+  const g = (pts, max) => { const p = pts / max; return { pts, max, grade: p >= 0.75 ? "Bueno" : p >= 0.5 ? "Regular" : "Crítico", cls: p >= 0.75 ? "good" : p >= 0.5 ? "regular" : "critico", color: p >= 0.75 ? "#16a34a" : p >= 0.5 ? "#d97706" : "#dc2626", pct: Math.round(p * 100) }; };
+  return [
+    { key: "Presencia y posición", ...g((bd.competencia || 0) + (bd.web || 0), 25) },
+    { key: "Experiencia del cliente", ...g((bd.reputacion || 0) + (bd.resenas || 0), 50) },
+    { key: "Perfil local", ...g((bd.perfil || 0) + (bd.canales || 0), 25) },
+  ];
+}
 
 const MOCK_SCORE = {
   ok: true,
@@ -271,25 +277,24 @@ const MOCK_SCORE = {
     { id: "pocas_resenas_vs_zona", severity: "alta", title: "Tienes menos reseñas que tu competencia", detail: "Tienes 48 reseñas; los restaurantes de tu zona promedian 180. Más reseñas = más visibilidad." },
     { id: "pocas_fotos", severity: "media", title: "Tu perfil tiene pocas fotos", detail: "Los perfiles con 5+ fotos reciben muchas más visitas." },
     { id: "delivery_no_confirmado", severity: "media", title: "No tienes entrega a domicilio confirmada", detail: "Según tu perfil de Google no aparece delivery." },
+    { id: "sin_horarios", severity: "baja", title: "Faltan tus horarios en Google", detail: "Sin horarios, Google no muestra que estás abierto." },
   ],
-  competitors: { count: 3, avgRating: 4.4, avgReviews: 180, betterThan: 0 },
+  competitors: { count: 3, avgRating: 4.4, avgReviews: 180, betterThan: 0,
+    list: [ { name: "El Fogón de la Abuela", rating: 4.6, reviewCount: 320 }, { name: "Birria y Más", rating: 4.5, reviewCount: 210 }, { name: "La Taquería del Centro", rating: 4.3, reviewCount: 150 } ] },
   revenueLoss: { lowMxn: 8000, highMxn: 19000 },
 };
 
-// ── Places autocomplete hook (ported from /diagnostico) ──────────────────────
+// ── Places autocomplete ──────────────────────────────────────────────────────
 function usePlaces(active) {
   const libRef = useRef(null), tokenRef = useRef(null), debRef = useRef(null);
   const [suggestions, setSuggestions] = useState([]);
   useEffect(() => {
     if (!active || libRef.current || MOCK) return;
     let cancelled = false;
-    (async () => {
-      try { const lib = await google.maps.importLibrary("places"); if (!cancelled) libRef.current = lib; }
-      catch (e) { console.error("[places] importLibrary failed:", e); }
-    })();
+    (async () => { try { const lib = await google.maps.importLibrary("places"); if (!cancelled) libRef.current = lib; } catch (e) { console.error("[places] importLibrary failed:", e); } })();
     return () => { cancelled = true; };
   }, [active]);
-  const suggest = (text, cb) => {
+  const suggest = (text) => {
     if (debRef.current) clearTimeout(debRef.current);
     debRef.current = setTimeout(() => {
       const lib = libRef.current, q = (text || "").trim();
@@ -312,16 +317,12 @@ function usePlaces(active) {
       const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
       tokenRef.current = null;
       return { name: n, placeId: place.id || pred.placeId || "", address: a };
-    } catch (e) {
-      console.error("[places] fetchFields error:", e);
-      tokenRef.current = null;
-      return { name: fallback, placeId: pred.placeId || "", address: "" };
-    }
+    } catch (e) { console.error("[places] fetchFields error:", e); tokenRef.current = null; return { name: fallback, placeId: pred.placeId || "", address: "" }; }
   };
   return { suggestions, setSuggestions, suggest, resolve };
 }
 
-// ── Hero: restaurant name first ──────────────────────────────────────────────
+// ── Hero ─────────────────────────────────────────────────────────────────────
 function Hero({ onSelect }) {
   const places = usePlaces(true);
   const [val, setVal] = useState("");
@@ -330,24 +331,31 @@ function Hero({ onSelect }) {
 
   const pick = async (pred) => {
     places.setSuggestions([]);
-    if (MOCK) { onSelect({ name: MOCK_SCORE.business.displayName, placeId: "mock", address: "CDMX" }); return; }
+    if (MOCK || !pred) { onSelect({ name: MOCK_SCORE.business.displayName, placeId: "mock", address: "CDMX" }); return; }
     const r = await places.resolve(pred);
     setVal(r.name);
-    // Fire-and-forget partial capture on selection (contactless retargeting record).
-    fetch("/api/diagnostico/partial-lead", {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ company_name: r.name, place_id: r.placeId || undefined, place_address: r.address || undefined, session_id: SESSION_ID, funnel: "grader" }),
-    }).catch(() => {});
+    fetch("/api/diagnostico/partial-lead", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ company_name: r.name, place_id: r.placeId || undefined, place_address: r.address || undefined, session_id: SESSION_ID, funnel: "grader" }) }).catch(() => {});
     onSelect(r);
   };
 
   return (
     <div className="cx-hero">
-      <div className="cx-card">
-        <h1>¿Cuánto dinero deja tu restaurante en Google?</h1>
-        <p className="cx-sub">Escribe el nombre de tu restaurante y obtén tu Calificación Digital en segundos. Gratis.</p>
-        <div className="cx-ac">
-          <input className="cx-input" placeholder="Ej. Tacos Don Lupe" value={val} autoFocus
+      <h1>Escribe el nombre de tu restaurante<br/>y descubre tu Calificación Digital</h1>
+      <p className="cx-sub">Analizamos tu presencia en Google en segundos y te decimos cómo te ganan tus competidores.</p>
+      <div className="cx-ac">
+        {places.suggestions.length > 0 && (
+          <ul className="cx-suggest">
+            {places.suggestions.map((p, i) => (
+              <li key={p.placeId || i} role="option" aria-selected={i === active} onMouseDown={(e) => { e.preventDefault(); pick(p); }}>
+                <div className="cx-sg-main">{(p.mainText && p.mainText.text) || (p.text && p.text.text)}</div>
+                {p.secondaryText && <div className="cx-sg-sub">{p.secondaryText.text}</div>}
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="cx-searchwrap">
+          <input className="cx-input" placeholder="Busca tu restaurante" value={val} autoFocus
             onChange={(e) => { setVal(e.target.value); setActive(-1); places.suggest(e.target.value); }}
             onKeyDown={(e) => {
               if (!places.suggestions.length) { if (e.key === "Enter" && MOCK) pick(null); return; }
@@ -356,276 +364,246 @@ function Hero({ onSelect }) {
               else if (e.key === "Enter" && active >= 0) { e.preventDefault(); pick(places.suggestions[active]); }
               else if (e.key === "Escape") places.setSuggestions([]);
             }} />
-          {places.suggestions.length > 0 && (
-            <ul className="cx-suggest">
-              {places.suggestions.map((p, i) => (
-                <li key={p.placeId || i} role="option" aria-selected={i === active} onMouseDown={(e) => { e.preventDefault(); pick(p); }}>
-                  <div className="cx-sg-main">{(p.mainText && p.mainText.text) || (p.text && p.text.text)}</div>
-                  {p.secondaryText && <div className="cx-sg-sub">{p.secondaryText.text}</div>}
-                </li>
-              ))}
-            </ul>
-          )}
+          <button className="cx-go" onClick={() => { if (MOCK) pick(null); else if (active >= 0) pick(places.suggestions[active]); else if (places.suggestions[0]) pick(places.suggestions[0]); }}>↑</button>
         </div>
-        {MOCK && <button className="cx-btn" style={{ marginTop: 14 }} onClick={() => pick(null)}>Ver ejemplo (modo demo)</button>}
       </div>
-      <div className="cx-cards">
-        <div className="cx-benefit"><div className="cx-ic">🔎</div><div><b>Tu posición en Google</b><p>Qué tan visible eres cuando un cliente busca dónde comer cerca.</p></div></div>
-        <div className="cx-benefit"><div className="cx-ic">🩺</div><div><b>Los problemas de tu perfil</b><p>Fotos, reseñas, sitio web y horarios que te están costando pedidos.</p></div></div>
-        <div className="cx-benefit"><div className="cx-ic">📊</div><div><b>Comparación con tu zona</b><p>Cómo te ves frente a los restaurantes que compiten contigo.</p></div></div>
+      <div className="cx-chips">
+        <span className="cx-chip"><span className="d" style={{ background: "#dcfce7" }}>🔎</span>¿Cómo estoy en Google?</span>
+        <span className="cx-chip"><span className="d" style={{ background: "#ffedd5" }}>🩺</span>¿Qué le falta a mi perfil?</span>
+        <span className="cx-chip"><span className="d" style={{ background: "#fef9c3" }}>👑</span>¿Quién me está ganando?</span>
       </div>
-      <p className="cx-trust">Con datos reales de Google · Sin tarjeta · Sin compromiso</p>
     </div>
   );
 }
 
-// ── Quiz: 4 steps (Owner-style) ──────────────────────────────────────────────
-const ROLES = [["dueno", "Soy dueño(a)"], ["gerente", "Soy gerente"], ["marketing", "Marketing"], ["otro", "Otro"]];
-const SUCS = [["1", "1 sucursal"], ["2-5", "2 a 5"], ["6-20", "6 a 20"], ["20+", "Más de 20"]];
-const SOURCES = [["instagram", "Instagram"], ["google", "Google"], ["recomendacion", "Recomendación"], ["otro", "Otro"]];
-
-function Quiz({ restaurant, onDone }) {
-  const [i, setI] = useState(0);
-  const [plataformas, setPlataformas] = useState("");
-  const [sucursales, setSucursales] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [source, setSource] = useState("");
-  const [err, setErr] = useState(null);
-  const total = 4;
-
-  const next = () => { setErr(null); setI((x) => x + 1); };
-  const submit = () => {
-    if (!firstName.trim()) return setErr("Escribe tu nombre.");
-    if (!phone.trim() || phone.replace(/\D/g, "").length < 10) return setErr("Escribe un WhatsApp válido (10 dígitos).");
-    if (!email.trim() || !/.+@.+\..+/.test(email)) return setErr("Escribe un correo válido.");
-    setErr(null);
-    fireEvent("contact_submitted", restaurant.placeId);
-    clarityStep("contact_submitted");
-    onDone({ plataformas, sucursales, first_name: firstName.trim(), last_name: lastName.trim(), phone: phone.trim(), email: email.trim(), source });
-  };
-
-  return (
-    <div className="cx-card cx-q">
-      <div className="cx-progress"><i style={{ width: ((i + 1) / total) * 100 + "%" }} /></div>
-      <div className="cx-step-label">Paso {i + 1} de {total}</div>
-      <div className="cx-restaurant-chip"><span>📍</span><span>{restaurant.name}</span></div>
-
-      {i === 0 && (<>
-        <h2>¿Cuál es tu rol en el restaurante?</h2>
-        <div className="cx-opts">{ROLES.map(([v, l]) => (
-          <button key={v} className={"cx-opt" + (plataformas === v ? " cx-on" : "")} onClick={() => { setPlataformas(v); setI(1); }}>{l}</button>
-        ))}</div>
-      </>)}
-
-      {i === 1 && (<>
-        <h2>¿Cuántas sucursales tienes?</h2>
-        <div className="cx-opts">{SUCS.map(([v, l]) => (
-          <button key={v} className={"cx-opt" + (sucursales === v ? " cx-on" : "")} onClick={() => { setSucursales(v); setI(2); }}>{l}</button>
-        ))}</div>
-        <button className="cx-back" onClick={() => setI(0)}>← Atrás</button>
-      </>)}
-
-      {i === 2 && (<>
-        <h2>¿A dónde te enviamos tu Calificación?</h2>
-        <div className="cx-field"><label>Nombre</label><input className="cx-input" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Tu nombre" autoFocus /></div>
-        <div className="cx-field"><label>WhatsApp</label><input className="cx-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="10 dígitos" inputMode="tel" /></div>
-        <div className="cx-field"><label>Correo</label><input className="cx-input" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="tucorreo@ejemplo.com" inputMode="email" /></div>
-        {err && <div className="cx-err">{err}</div>}
-        <button className="cx-btn" onClick={() => { if (!firstName.trim()) return setErr("Escribe tu nombre."); if (!phone.trim() || phone.replace(/\D/g, "").length < 10) return setErr("Escribe un WhatsApp válido."); if (!email.trim() || !/.+@.+\..+/.test(email)) return setErr("Escribe un correo válido."); next(); }}>Continuar →</button>
-        <button className="cx-back" onClick={() => setI(1)}>← Atrás</button>
-        <p className="cx-legal">Al continuar aceptas recibir tu análisis por WhatsApp y correo. Consulta nuestro <a href="/privacy" target="_blank" rel="noopener">aviso de privacidad</a>.</p>
-      </>)}
-
-      {i === 3 && (<>
-        <h2>Última pregunta: ¿cómo nos encontraste?</h2>
-        <div className="cx-opts">{SOURCES.map(([v, l]) => (
-          <button key={v} className={"cx-opt" + (source === v ? " cx-on" : "")} onClick={() => setSource(v)}>{l}</button>
-        ))}</div>
-        {err && <div className="cx-err">{err}</div>}
-        <button className="cx-btn" onClick={submit}>Ver mi Calificación →</button>
-        <button className="cx-back" onClick={() => setI(2)}>← Atrás</button>
-      </>)}
-    </div>
-  );
-}
-
-// ── Scan animation while lead-intake + score resolve ─────────────────────────
-const SCAN_STEPS = ["Analizando tu perfil de Google…", "Contando tus reseñas y fotos…", "Comparando con restaurantes de tu zona…", "Calculando tu Calificación Digital…"];
-function Scan() {
+// ── Scan (runs immediately on selection, before any contact) ─────────────────
+function Scan({ restaurantName }) {
+  const STEPS = [
+    restaurantName + " y sus competidores",
+    "Perfil de Google Business",
+    "Sentimiento de tus reseñas",
+    "Cantidad y calidad de fotos",
+    "Sitio web",
+    "Experiencia móvil",
+  ];
   const [active, setActive] = useState(0);
+  const [pct, setPct] = useState(6);
   useEffect(() => {
-    const t = setInterval(() => setActive((a) => Math.min(a + 1, SCAN_STEPS.length - 1)), 900);
-    return () => clearInterval(t);
+    const t = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), 750);
+    const p = setInterval(() => setPct((x) => Math.min(x + 6, 96)), 300);
+    return () => { clearInterval(t); clearInterval(p); };
   }, []);
+  const eta = Math.max(2, Math.round((100 - pct) / 5));
   return (
-    <div className="cx-card cx-scan">
-      <div className="cx-spinner" />
-      <h2>Generando tu Calificación…</h2>
-      {SCAN_STEPS.map((s, i) => (
-        <div key={i} className={"cx-scan-item" + (i <= active ? " cx-active" : "") + (i < active ? " cx-done" : "")}>
-          <span className="cx-chk">{i < active ? "✓" : ""}</span><span>{s}</span>
+    <div className="cx-scan">
+      <h2>Analizando tu restaurante…</h2>
+      <p className="cx-scan-sub">Estamos revisando tu presencia digital con datos reales de Google.</p>
+      {STEPS.map((s, i) => (
+        <div key={i} className={"cx-scan-item" + (i < active ? " cx-done" : i === active ? " cx-active" : "")}>
+          <span className="cx-chk">{i < active ? "✓" : i === active ? <span className="cx-mini" /> : ""}</span>
+          <span>{s}</span>
         </div>
       ))}
+      <div className="cx-scan-bar"><i style={{ width: pct + "%" }} /></div>
+      <div className="cx-scan-eta">{eta} segundos restantes</div>
     </div>
   );
 }
 
-// ── Score dial ───────────────────────────────────────────────────────────────
-function Dial({ value, label }) {
-  const R = 62, C = 2 * Math.PI * R, off = C * (1 - value / 100), col = dialColor(value);
+// ── Score panel (left, always visible — the hook) ────────────────────────────
+function ScorePanel({ score, business }) {
+  const v = score.value, R = 78, C = 2 * Math.PI * R, off = C * (1 - v / 100), col = dialColor(v);
+  const subs = subScores(score.breakdown || {});
   return (
-    <div className="cx-dial">
-      <svg width="160" height="160" viewBox="0 0 160 160">
-        <circle cx="80" cy="80" r={R} fill="none" stroke="#e2e8f0" strokeWidth="12" />
-        <circle cx="80" cy="80" r={R} fill="none" stroke={col} strokeWidth="12" strokeLinecap="round"
-          strokeDasharray={C} strokeDashoffset={off} style={{ transition: "stroke-dashoffset 1s ease" }} />
-      </svg>
-      <div style={{ marginTop: -108, marginBottom: 58 }}>
-        <span className="cx-dial-val" style={{ color: col }}>{value}</span><span className="cx-dial-max">/100</span>
+    <div className="cx-scorepanel">
+      <div className="cx-dial">
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          <circle cx="90" cy="90" r={R} fill="none" stroke="#e6e3dc" strokeWidth="13" />
+          <circle cx="90" cy="90" r={R} fill="none" stroke={col} strokeWidth="13" strokeLinecap="round" strokeDasharray={C} strokeDashoffset={off} style={{ transition: "stroke-dashoffset 1s ease" }} />
+        </svg>
+        <div className="cx-dial-center">
+          <div className="cx-dial-val" style={{ color: col }}>{v}</div>
+          <div className="cx-dial-max">de 100</div>
+        </div>
       </div>
-      <div className={"cx-badge " + badgeClass(label)}>{label}</div>
+      <div className="cx-grade-lbl">Calificación de salud digital</div>
+      <div className="cx-grade" style={{ color: col }}>{score.label}</div>
+      <div className="cx-subs">
+        {subs.map((s) => (
+          <div className="cx-sub-row" key={s.key}>
+            <div className="cx-sub-top">
+              <b>{s.key}</b>
+              <span><span className={"cx-sub-grade cx-g-" + s.cls}>{s.grade}</span> <span className="cx-sub-pts">{s.pts}/{s.max}</span></span>
+            </div>
+            <div className="cx-sub-bar"><i style={{ width: s.pct + "%", background: s.color }} /></div>
+          </div>
+        ))}
+      </div>
+      <div className="cx-biz">{business.displayName}{business.rating != null ? ` · ${business.rating.toFixed(1)}★ · ${business.reviewCount ?? 0} reseñas` : ""}</div>
     </div>
   );
 }
 
-// ── Calendar (ported shape from /diagnostico) ────────────────────────────────
+// ── Calendar ─────────────────────────────────────────────────────────────────
 function Calendar({ ae, lead }) {
-  const [dates, setDates] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [dates, setDates] = useState([]), [loading, setLoading] = useState(true);
   const [di, setDi] = useState(0), [slot, setSlot] = useState(null);
   const [booking, setBooking] = useState(false), [booked, setBooked] = useState(null), [err, setErr] = useState(null);
   useEffect(() => {
     fireEvent("calendar_shown", ""); clarityStep("calendar_shown");
     if (MOCK) { setDates([{ dateLabel: "Hoy", slots: [{ start: "1", end: "2", timeLabel: "10:00" }, { start: "3", end: "4", timeLabel: "12:30" }] }]); setLoading(false); return; }
-    fetch("/api/calendar/available-slots?ae=" + encodeURIComponent(ae) + "&days=14")
-      .then((r) => r.json()).then((d) => { if (d.ok && d.dates?.length) setDates(d.dates); else setErr("fallback"); })
-      .catch(() => setErr("fallback")).finally(() => setLoading(false));
+    fetch("/api/calendar/available-slots?ae=" + encodeURIComponent(ae) + "&days=14").then((r) => r.json())
+      .then((d) => { if (d.ok && d.dates?.length) setDates(d.dates); else setErr("fallback"); }).catch(() => setErr("fallback")).finally(() => setLoading(false));
   }, [ae]);
-
   const book = async () => {
-    if (!slot) return;
-    setBooking(true); setErr(null);
+    if (!slot) return; setBooking(true); setErr(null);
     if (MOCK) { setBooked({ startFormatted: "Hoy 10:00", meetLink: "#" }); setBooking(false); return; }
     try {
-      const res = await fetch("/api/calendar/book-demo", {
-        method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ae, start: slot.start, end: slot.end, first_name: lead.first_name, last_name: lead.last_name, email: lead.email, phone: lead.phone, company_name: lead.company_name, session_id: SESSION_ID, funnel: "grader", place_id: lead.place_id || undefined }),
-      });
+      const res = await fetch("/api/calendar/book-demo", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ae, start: slot.start, end: slot.end, first_name: lead.first_name, last_name: lead.last_name, email: lead.email, phone: lead.phone, company_name: lead.company_name, session_id: SESSION_ID, funnel: "grader", place_id: lead.place_id || undefined }) });
       const result = await res.json();
       if (!res.ok) { setErr(result.error || "No pudimos agendar."); return; }
       setBooked(result); fireEvent("demo_booked", lead.place_id || ""); clarityStep("demo_booked");
       if (typeof fbq === "function" && result.eventId) fbq("track", "Schedule", { content_name: "grader_booking", value: 0, currency: "MXN" }, { eventID: "schedule_" + result.eventId });
     } catch { setErr("No pudimos agendar. Intenta de nuevo."); } finally { setBooking(false); }
   };
-
-  if (booked) return (
-    <div className="cx-booked">
-      <div className="cx-check">✓</div>
-      <h3>Demo agendada, {lead.first_name}</h3>
-      <p style={{ color: "var(--muted)", fontSize: 14 }}>{booked.startFormatted}</p>
-      {booked.meetLink && <a href={booked.meetLink} target="_blank" rel="noopener" className="cx-btn" style={{ display: "inline-block", width: "auto", padding: "12px 22px", marginTop: 8 }}>Abrir Google Meet →</a>}
-    </div>
-  );
-  if (loading) return <p style={{ textAlign: "center", color: "var(--muted)" }}>Cargando horarios…</p>;
-  if (err === "fallback") return (
-    <div style={{ textAlign: "center" }}>
-      <p style={{ color: "var(--muted)", fontSize: 14 }}>Escríbenos por WhatsApp y te agendamos al instante.</p>
-      <a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 22px" }} href={"https://wa.me/5214425975307?text=" + encodeURIComponent("Hola, quiero agendar una demo (Calificación Digital)")} target="_blank" rel="noopener">Agendar por WhatsApp</a>
-    </div>
-  );
+  if (booked) return (<div className="cx-booked"><div className="cx-check">✓</div><h3 style={{ color: "#fff" }}>Demo agendada, {lead.first_name}</h3><p style={{ color: "#d1fae5", fontSize: 14 }}>{booked.startFormatted}</p>{booked.meetLink && <a href={booked.meetLink} target="_blank" rel="noopener" className="cx-btn" style={{ display: "inline-block", width: "auto", padding: "12px 22px", marginTop: 8 }}>Abrir Google Meet →</a>}</div>);
+  if (loading) return <p style={{ color: "#d1fae5", textAlign: "center" }}>Cargando horarios…</p>;
+  if (err === "fallback") return (<div style={{ textAlign: "center" }}><p style={{ color: "#d1fae5", fontSize: 14 }}>Escríbenos por WhatsApp y te agendamos al instante.</p><a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 22px" }} href={"https://wa.me/5214425975307?text=" + encodeURIComponent("Hola, quiero agendar una demo (Calificación Digital)")} target="_blank" rel="noopener">Agendar por WhatsApp</a></div>);
   const day = dates[di] || { slots: [] };
   return (
     <div>
-      <div className="cx-cal-dates">
-        {dates.map((d, i) => <button key={i} className={"cx-cal-date" + (i === di ? " cx-on" : "")} onClick={() => { setDi(i); setSlot(null); }}>{d.dateLabel}</button>)}
-      </div>
-      <div className="cx-cal-slots">
-        {day.slots.map((s, i) => <button key={i} className={"cx-slot" + (slot === s ? " cx-on" : "")} onClick={() => setSlot(s)}>{s.timeLabel}</button>)}
-      </div>
-      {err && <div className="cx-err">{err}</div>}
+      <div className="cx-cal-dates">{dates.map((d, i) => <button key={i} className={"cx-cal-date" + (i === di ? " cx-on" : "")} onClick={() => { setDi(i); setSlot(null); }}>{d.dateLabel}</button>)}</div>
+      <div className="cx-cal-slots">{day.slots.map((s, i) => <button key={i} className={"cx-slot" + (slot === s ? " cx-on" : "")} onClick={() => setSlot(s)}>{s.timeLabel}</button>)}</div>
+      {err && <div className="cx-err" style={{ color: "#fecaca" }}>{err}</div>}
       <button className="cx-btn" style={{ marginTop: 16 }} disabled={!slot || booking} onClick={book}>{booking ? "Agendando…" : "Confirmar demo gratuita"}</button>
     </div>
   );
 }
 
-// ── Report ───────────────────────────────────────────────────────────────────
-function Report({ score, intake, lead }) {
-  const s = score, b = s.business, comp = s.competitors || {};
-  const ownReviews = b.reviewCount || 0;
+// ── Unlock gate (contact capture over the blurred report) ────────────────────
+const ROLES = [["dueno", "Dueño(a)"], ["gerente", "Gerente"], ["marketing", "Marketing"], ["otro", "Otro"]];
+const SUCS = [["1", "1 sucursal"], ["2-5", "2 a 5"], ["6-20", "6 a 20"], ["20+", "20+"]];
+function Unlock({ topCompetitor, onUnlock }) {
+  const [firstName, setFirstName] = useState(""), [phone, setPhone] = useState(""), [email, setEmail] = useState("");
+  const [plataformas, setPlataformas] = useState("dueno"), [sucursales, setSucursales] = useState("1");
+  const [err, setErr] = useState(null), [busy, setBusy] = useState(false);
+  const submit = () => {
+    if (!firstName.trim()) return setErr("Escribe tu nombre.");
+    if (!phone.trim() || phone.replace(/\D/g, "").length < 10) return setErr("Escribe un WhatsApp válido (10 dígitos).");
+    if (!email.trim() || !/.+@.+\..+/.test(email)) return setErr("Escribe un correo válido.");
+    setErr(null); setBusy(true);
+    onUnlock({ first_name: firstName.trim(), last_name: "", phone: phone.trim(), email: email.trim(), plataformas, sucursales });
+  };
   return (
-    <div>
-      <div className="cx-card">
-        <Dial value={s.score.value} label={s.score.label} />
-        <p className="cx-biz">{b.displayName || lead.company_name}{b.rating != null ? ` · ${b.rating.toFixed(1)}★ · ${b.reviewCount ?? 0} reseñas` : ""}</p>
-
-        {s.revenueLoss && (
-          <div className="cx-loss">
-            <div className="cx-loss-lbl">Dinero que podrías estar dejando en la mesa</div>
-            <div className="cx-loss-amt">{MXN(s.revenueLoss.lowMxn)} – {MXN(s.revenueLoss.highMxn)}<span style={{ fontSize: 14 }}>/mes*</span></div>
-            <small>*Estimado con base en tu diferencia de reseñas vs. tu zona y las señales que faltan en tu perfil. Ver metodología abajo.</small>
-          </div>
-        )}
-
-        <div className="cx-sec-title">Lo que encontramos ({s.issues.length})</div>
-        {s.issues.map((it) => (
-          <div className="cx-issue" key={it.id}>
-            <span className={"cx-sev cx-sev-" + it.severity} />
-            <div><b>{it.title}</b><p>{it.detail}</p></div>
-          </div>
-        ))}
-
-        {comp.count > 0 && comp.avgRating != null && (<>
-          <div className="cx-sec-title">Tú vs. tu zona</div>
-          <div className="cx-comp">
-            <span className="cx-comp-name">Tú</span>
-            <span className="cx-bar"><i style={{ width: Math.min(100, (ownReviews / Math.max(ownReviews, comp.avgReviews)) * 100) + "%", background: dialColor(s.score.value) }} /></span>
-            <span className="cx-comp-v">{ownReviews} reseñas</span>
-          </div>
-          <div className="cx-comp">
-            <span className="cx-comp-name">Tu zona (prom.)</span>
-            <span className="cx-bar"><i style={{ width: "100%", background: "#94a3b8" }} /></span>
-            <span className="cx-comp-v">{comp.avgReviews} reseñas</span>
-          </div>
-          <p style={{ fontSize: 12, color: "var(--muted)", marginTop: 4 }}>{comp.betterThan > 0 ? `Superas a ${comp.betterThan} de ${comp.count} competidores cercanos en calificación.` : `${comp.count} restaurantes cerca de ti te superan en calificación.`}</p>
-        </>)}
+    <div className="cx-unlock">
+      <div className="cx-lock-ic">🔒</div>
+      <h3>Desbloquea tu reporte completo</h3>
+      <p>{topCompetitor ? `Ve por qué ${topCompetitor} te está ganando en Google y qué hacer para superarlo.` : "Ve la lista completa de problemas, tus competidores y cuánto podrías recuperar."}</p>
+      <input className="cx-input" placeholder="Tu nombre" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+      <input className="cx-input" placeholder="WhatsApp (10 dígitos)" value={phone} onChange={(e) => setPhone(e.target.value)} inputMode="tel" />
+      <input className="cx-input" placeholder="Correo" value={email} onChange={(e) => setEmail(e.target.value)} inputMode="email" />
+      <div className="cx-selrow">
+        <select className="cx-input" value={plataformas} onChange={(e) => setPlataformas(e.target.value)}>{ROLES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select>
+        <select className="cx-input" value={sucursales} onChange={(e) => setSucursales(e.target.value)}>{SUCS.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select>
       </div>
+      {err && <div className="cx-err" style={{ color: "#fecaca" }}>{err}</div>}
+      <button className="cx-btn" disabled={busy} onClick={submit}>{busy ? "Desbloqueando…" : "Ver mi reporte completo →"}</button>
+      <p className="cx-legal">Al continuar aceptas recibir tu análisis por WhatsApp y correo. <a href="/privacy" target="_blank" rel="noopener">Aviso de privacidad</a>.</p>
+    </div>
+  );
+}
 
-      <div className="cx-cta">
-        {intake.showCalendar ? (<>
-          <h3>Arreglemos esto juntos</h3>
-          <p>Agenda una demo gratuita de 20 min. Te mostramos cómo subir tu Calificación y dejar de pagar comisiones.</p>
-          <Calendar ae={intake.assignedAE || "Mariana"} lead={lead} />
-        </>) : (<>
-          <h3>Te preparamos un plan</h3>
-          <p>Un especialista revisa tu caso y te escribe por WhatsApp con los primeros pasos para subir tu Calificación.</p>
-          <a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 24px" }}
-            href={"https://wa.me/" + (intake.aeWhatsapp || "5214425975307") + "?text=" + encodeURIComponent(`Hola, acabo de sacar mi Calificación Digital (${s.score.value}/100) para ${b.displayName || lead.company_name}`)}
-            target="_blank" rel="noopener">Hablar por WhatsApp</a>
-        </>)}
+// ── Report (score always visible; details gated behind Unlock) ───────────────
+function Report({ score, restaurant, onLeadReady }) {
+  const s = score, b = s.business, comp = s.competitors || {};
+  const [unlocked, setUnlocked] = useState(false);
+  const [intake, setIntake] = useState(null), [lead, setLead] = useState(null);
+  const below = Math.max(0, (comp.count || 0) - (comp.betterThan || 0));
+  const compList = comp.list || [];
+  const topCompetitor = compList[0] && compList[0].name;
+
+  const doUnlock = (form) => {
+    const fullLead = { ...form, company_name: b.displayName || restaurant.name, place_id: restaurant.placeId, aeWhatsapp: "5214425975307" };
+    setLead(fullLead); setUnlocked(true);
+    fireEvent("contact_submitted", restaurant.placeId); clarityStep("report_unlocked");
+    fireEvent("full_diagnostic_revealed", restaurant.placeId);
+    if (typeof fbq === "function") fbq("track", "Lead", { content_name: "grader_landing" });
+    if (MOCK) { setIntake({ ok: true, showCalendar: true, assignedAE: "Mariana", aeWhatsapp: "5214425975307" }); return; }
+    fetch("/api/demo-page/lead-intake", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...form, company_name: fullLead.company_name, place_id: restaurant.placeId || undefined, place_address: restaurant.address || undefined, funnel: "grader", session_id: SESSION_ID }) })
+      .then((r) => r.json()).then((ik) => { setIntake(ik); if (ik && ik.aeWhatsapp) fullLead.aeWhatsapp = ik.aeWhatsapp; })
+      .catch(() => setIntake({ ok: true, showCalendar: false, aeWhatsapp: "5214425975307" }));
+  };
+
+  const lockCls = unlocked ? "" : " cx-locked";
+  const shownIssues = unlocked ? s.issues : s.issues.slice(0, 1);
+
+  return (
+    <div className="cx-report">
+      <div className="cx-report-grid">
+        <ScorePanel score={s.score} business={b} />
+        <div>
+          <div className="cx-cardrow">
+            <div className="cx-panel">
+              <h3>Podrías estar perdiendo dinero</h3>
+              <p className="cx-panel-lead">{s.revenueLoss ? `Por ${s.issues.length} problemas en tu presencia digital` : `${s.issues.length} problemas detectados en tu perfil`}</p>
+              {s.revenueLoss && <div className="cx-loss-amt">{MXN(s.revenueLoss.lowMxn)} – {MXN(s.revenueLoss.highMxn)} <span style={{ fontSize: 14, color: "var(--muted)" }}>/mes*</span></div>}
+              <div style={{ marginTop: 12 }} className={lockCls}>
+                {shownIssues.map((it) => (
+                  <div className="cx-issue" key={it.id}><span className={"cx-sev cx-sev-" + it.severity} /><div><b>{it.title}</b><p>{it.detail}</p></div></div>
+                ))}
+              </div>
+              {s.revenueLoss && <div className="cx-loss-foot">*Estimado con datos de Google (tu diferencia de reseñas vs. tu zona + señales que faltan en tu perfil). Ver metodología abajo.</div>}
+            </div>
+
+            <div className="cx-panel">
+              <h3>{below > 0 ? `${below} restaurante${below > 1 ? "s" : ""} de tu zona te gana${below > 1 ? "n" : ""}` : "Tú vs. tu zona"}</h3>
+              <p className="cx-panel-lead">Comparado con los restaurantes mejor calificados cerca de ti.</p>
+              <div className={lockCls}>
+                <div className="cx-comp cx-you"><span className="cx-comp-rank">Tú</span><span className="cx-comp-name">{b.displayName}</span><span className="cx-comp-v">{b.rating != null ? b.rating.toFixed(1) + "★" : "—"} · {b.reviewCount ?? 0}</span></div>
+                {(unlocked ? compList : compList.slice(0, 1)).map((c, i) => (
+                  <div className="cx-comp" key={i}><span className="cx-comp-rank">{i + 1}</span><span className="cx-comp-name">{c.name}</span><span className="cx-comp-v">{c.rating != null ? c.rating.toFixed(1) + "★" : "—"} · {c.reviewCount ?? 0}</span></div>
+                ))}
+                {!compList.length && comp.avgReviews != null && <div className="cx-comp"><span className="cx-comp-rank">~</span><span className="cx-comp-name">Promedio de tu zona</span><span className="cx-comp-v">{comp.avgRating}★ · {comp.avgReviews}</span></div>}
+              </div>
+            </div>
+          </div>
+
+          {!unlocked && <div style={{ marginTop: 18 }}><Unlock topCompetitor={topCompetitor} onUnlock={doUnlock} /></div>}
+
+          {unlocked && intake && (
+            <div className="cx-cta">
+              {intake.showCalendar ? (<>
+                <h3>Arreglemos esto juntos</h3>
+                <p>Agenda una demo gratuita de 20 min. Te mostramos cómo subir tu Calificación y dejar de pagar comisiones.</p>
+                <Calendar ae={intake.assignedAE || "Mariana"} lead={lead} />
+              </>) : (<>
+                <h3>Te preparamos un plan</h3>
+                <p>Un especialista revisa tu caso y te escribe por WhatsApp con los primeros pasos.</p>
+                <a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 24px" }} href={"https://wa.me/" + (lead.aeWhatsapp || "5214425975307") + "?text=" + encodeURIComponent(`Hola, saqué mi Calificación Digital (${s.score.value}/100) para ${b.displayName || restaurant.name}`)} target="_blank" rel="noopener">Hablar por WhatsApp</a>
+              </>)}
+            </div>
+          )}
+          {unlocked && !intake && <p style={{ textAlign: "center", color: "var(--muted)", marginTop: 18 }}>Preparando tu plan…</p>}
+        </div>
       </div>
-
       <Faq />
       <div className="cx-foot">FluxSales — el sistema operativo con IA para restaurantes · <a href="/">Conócenos</a></div>
     </div>
   );
 }
 
-// ── Manual-review close (unscoreable / not found / error) ────────────────────
-function ManualClose({ lead, reason }) {
-  const msg = reason === "not_restaurant"
-    ? "No pudimos identificar tu restaurante en Google. Escríbenos y lo revisamos contigo."
-    : "Tu perfil necesita una revisión manual. Un especialista lo analiza y te manda tu Calificación por WhatsApp.";
+function ManualClose({ restaurant, reason }) {
+  const msg = reason === "not_restaurant" ? "No pudimos identificar tu restaurante en Google. Escríbenos y lo revisamos contigo." : "Tu perfil necesita una revisión manual. Un especialista lo analiza y te manda tu Calificación por WhatsApp.";
   return (
-    <div className="cx-card" style={{ textAlign: "center" }}>
-      <div style={{ fontSize: 40, marginBottom: 8 }}>🔍</div>
-      <h2 style={{ fontSize: 20, marginBottom: 8 }}>Necesitamos revisar tu caso</h2>
-      <p style={{ color: "var(--muted)", fontSize: 14, marginBottom: 18 }}>{msg}</p>
-      <a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 24px" }}
-        href={"https://wa.me/" + (lead.aeWhatsapp || "5214425975307") + "?text=" + encodeURIComponent(`Hola, quiero mi Calificación Digital para ${lead.company_name}`)}
-        target="_blank" rel="noopener">Escribir por WhatsApp</a>
+    <div className="cx-report">
+      <div className="cx-panel" style={{ maxWidth: 480, margin: "40px auto", textAlign: "center" }}>
+        <div style={{ fontSize: 40, marginBottom: 8 }}>🔍</div>
+        <h2 style={{ fontSize: 21, marginBottom: 8 }}>Necesitamos revisar tu caso</h2>
+        <p style={{ color: "var(--muted)", fontSize: 14, marginBottom: 18 }}>{msg}</p>
+        <a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 24px" }} href={"https://wa.me/5214425975307?text=" + encodeURIComponent(`Hola, quiero mi Calificación Digital para ${restaurant.name}`)} target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      </div>
       <Faq />
     </div>
   );
@@ -634,67 +612,47 @@ function ManualClose({ lead, reason }) {
 function Faq() {
   return (
     <div className="cx-faq">
-      <details><summary>¿Cómo se calcula la Calificación Digital?</summary><p>Usamos solo los datos públicos de tu propio perfil de Google (calificación, reseñas, fotos, horarios, teléfono, sitio web y canales de pedido) y los comparamos con el promedio de restaurantes cercanos. No entramos ni rastreamos ningún sitio web. La calificación va de 0 a 100 sobre seis dimensiones.</p></details>
+      <details><summary>¿Cómo se calcula la Calificación Digital?</summary><p>Usamos solo los datos públicos de tu propio perfil de Google (calificación, reseñas, fotos, horarios, teléfono, sitio web y canales de pedido) y los comparamos con el promedio de restaurantes cercanos. No entramos ni rastreamos ningún sitio web. La calificación va de 0 a 100 sobre tres áreas: presencia y posición, experiencia del cliente y perfil local.</p></details>
       <details><summary>¿El dinero perdido es exacto?</summary><p>Es un estimado, no una promesa. Lo calculamos a partir de tu diferencia de reseñas vs. tu zona (asumiendo ~1 reseña pública por cada ~30 pedidos, en ~24 meses) y de las señales que faltan en tu perfil. Siempre se muestra como un rango.</p></details>
       <details><summary>¿Qué hacen con mis datos?</summary><p>Usamos tu nombre, WhatsApp y correo para enviarte tu análisis y coordinar una demo si calificas. No los vendemos. Consulta el <a href="/privacy" target="_blank" rel="noopener">aviso de privacidad</a>.</p></details>
     </div>
   );
 }
 
-// ── App orchestrator ─────────────────────────────────────────────────────────
+// ── App: hero → scan (score runs now) → report(teaser→unlock→full) ───────────
 function App() {
-  const [step, setStep] = useState("hero");   // hero | quiz | scan | report | manual
+  const [step, setStep] = useState("hero");  // hero | scan | report | manual
   const [restaurant, setRestaurant] = useState(null);
   const [score, setScore] = useState(null);
-  const [intake, setIntake] = useState(null);
-  const [lead, setLead] = useState(null);
   const [manualReason, setManualReason] = useState(null);
-
   useEffect(() => { window.scrollTo(0, 0); }, [step]);
 
-  const onQuizDone = (form) => {
-    const fullLead = { ...form, company_name: restaurant.name, place_id: restaurant.placeId, aeWhatsapp: "5214425975307" };
-    setLead(fullLead);
-    setStep("scan");
-
+  const onSelect = (r) => {
+    setRestaurant(r); setStep("scan");
     const started = Date.now();
-    const scorePromise = MOCK
-      ? Promise.resolve(MOCK_SCORE)
-      : fetch("/api/grader/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ place_id: restaurant.placeId, session_id: SESSION_ID, funnel_version: FUNNEL_VERSION }) }).then((r) => r.json()).catch(() => ({ ok: false, reason: "error" }));
-
-    const intakePromise = MOCK
-      ? Promise.resolve({ ok: true, showCalendar: true, assignedAE: "Mariana", aeWhatsapp: "5214425975307", enrichment: {} })
-      : fetch("/api/demo-page/lead-intake", { method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...form, company_name: restaurant.name, place_id: restaurant.placeId || undefined, place_address: restaurant.address || undefined, funnel: "grader", session_id: SESSION_ID }) })
-          .then((r) => r.json()).catch(() => ({ ok: true, showCalendar: false, aeWhatsapp: "5214425975307" }));
-
-    Promise.all([scorePromise, intakePromise]).then(([sc, ik]) => {
-      const wait = Math.max(0, 3600 - (Date.now() - started));   // let the scan breathe
+    const scorePromise = MOCK ? Promise.resolve(MOCK_SCORE)
+      : fetch("/api/grader/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ place_id: r.placeId, session_id: SESSION_ID, funnel_version: FUNNEL_VERSION }) }).then((res) => res.json()).catch(() => ({ ok: false, reason: "error" }));
+    // Enrich competitor names for the report card (names come from /nearby, not /score).
+    const nearbyPromise = MOCK ? Promise.resolve(null)
+      : fetch("/api/diagnostico/nearby?place_id=" + encodeURIComponent(r.placeId)).then((res) => res.ok ? res.json() : null).catch(() => null);
+    Promise.all([scorePromise, nearbyPromise]).then(([sc, nb]) => {
+      const wait = Math.max(0, 4200 - (Date.now() - started));
       setTimeout(() => {
-        setIntake(ik);
-        if (ik && ik.aeWhatsapp) fullLead.aeWhatsapp = ik.aeWhatsapp;
         if (sc && sc.ok) {
-          setScore({ ...sc, placeId: restaurant.placeId });
-          fireEvent("full_diagnostic_revealed", restaurant.placeId);
-          clarityStep("report");
-          if (typeof fbq === "function") fbq("track", "Lead", { content_name: "grader_landing" });
-          setStep("report");
-        } else {
-          setManualReason(sc && sc.reason);
-          setStep("manual");
-        }
+          if (nb && nb.competitors) sc.competitors = { ...sc.competitors, list: nb.competitors.filter((c) => c.placeId) };
+          setScore(sc); clarityStep("report"); setStep("report");
+        } else { setManualReason(sc && sc.reason); setStep("manual"); }
       }, wait);
     });
   };
 
   return (
-    <div className="cx-wrap">
-      <div className="cx-top"><span className="cx-logo">Flux<span>Sales</span></span></div>
-      {step === "hero" && <Hero onSelect={(r) => { setRestaurant(r); setStep("quiz"); }} />}
-      {step === "quiz" && <Quiz restaurant={restaurant} onDone={onQuizDone} />}
-      {step === "scan" && <Scan />}
-      {step === "report" && score && <Report score={score} intake={intake} lead={lead} />}
-      {step === "manual" && <ManualClose lead={lead} reason={manualReason} />}
+    <div>
+      <div className="cx-nav"><span className="cx-logo">Flux<span>Sales</span></span><a className="cx-login" href="/">Iniciar sesión</a></div>
+      {step === "hero" && <Hero onSelect={onSelect} />}
+      {step === "scan" && <Scan restaurantName={restaurant.name} />}
+      {step === "report" && score && <Report score={score} restaurant={restaurant} />}
+      {step === "manual" && <ManualClose restaurant={restaurant} reason={manualReason} />}
     </div>
   );
 }
