@@ -284,6 +284,16 @@ const MOCK_SCORE = {
   revenueLoss: { lowMxn: 8000, highMxn: 19000 },
 };
 
+// Demo-only suggestions so the dropdown is visible on ?mock=1 (the real Google
+// Places autocomplete is off in mock mode and is referrer-locked to fluxsales.co).
+const MOCK_SUGGEST = [
+  { placeId: "mock-1", mainText: { text: "Tacos Don Lupe" }, secondaryText: { text: "Av. Insurgentes, Roma Norte, CDMX" }, text: { text: "Tacos Don Lupe" } },
+  { placeId: "mock-2", mainText: { text: "Birria y Más" }, secondaryText: { text: "Calz. de Tlalpan, CDMX" }, text: { text: "Birria y Más" } },
+  { placeId: "mock-3", mainText: { text: "El Fogón de la Abuela" }, secondaryText: { text: "Av. Chapultepec, Guadalajara" }, text: { text: "El Fogón de la Abuela" } },
+  { placeId: "mock-4", mainText: { text: "Mariscos El Puerto" }, secondaryText: { text: "Zapopan, Jalisco" }, text: { text: "Mariscos El Puerto" } },
+  { placeId: "mock-5", mainText: { text: "La Taquería del Centro" }, secondaryText: { text: "Centro Histórico, CDMX" }, text: { text: "La Taquería del Centro" } },
+];
+
 // ── Places autocomplete ──────────────────────────────────────────────────────
 function usePlaces(active) {
   const libRef = useRef(null), tokenRef = useRef(null), debRef = useRef(null);
@@ -297,7 +307,15 @@ function usePlaces(active) {
   const suggest = (text) => {
     if (debRef.current) clearTimeout(debRef.current);
     debRef.current = setTimeout(() => {
-      const lib = libRef.current, q = (text || "").trim();
+      const q = (text || "").trim();
+      if (MOCK) {
+        if (q.length < 1) { setSuggestions([]); return; }
+        const ql = q.toLowerCase();
+        const hits = MOCK_SUGGEST.filter((s) => s.mainText.text.toLowerCase().includes(ql));
+        setSuggestions(hits.length ? hits : MOCK_SUGGEST);
+        return;
+      }
+      const lib = libRef.current;
       if (!lib || !lib.AutocompleteSuggestion || q.length < 2) { setSuggestions([]); return; }
       if (!tokenRef.current) tokenRef.current = new lib.AutocompleteSessionToken();
       const base = { input: q, sessionToken: tokenRef.current, includedRegionCodes: ["mx", "co", "cl", "pe"], language: "es", region: "mx" };
@@ -331,7 +349,12 @@ function Hero({ onSelect }) {
 
   const pick = async (pred) => {
     places.setSuggestions([]);
-    if (MOCK || !pred) { onSelect({ name: MOCK_SCORE.business.displayName, placeId: "mock", address: "CDMX" }); return; }
+    if (MOCK || !pred) {
+      const name = (pred && pred.mainText && pred.mainText.text) || MOCK_SCORE.business.displayName;
+      const address = (pred && pred.secondaryText && pred.secondaryText.text) || "CDMX";
+      onSelect({ name, placeId: "mock", address });
+      return;
+    }
     const r = await places.resolve(pred);
     setVal(r.name);
     fetch("/api/diagnostico/partial-lead", { method: "POST", headers: { "Content-Type": "application/json" },
@@ -629,6 +652,7 @@ function App() {
 
   const onSelect = (r) => {
     setRestaurant(r); setStep("scan");
+    if (MOCK) MOCK_SCORE.business.displayName = r.name;  // demo report reflects the picked restaurant
     const started = Date.now();
     const scorePromise = MOCK ? Promise.resolve(MOCK_SCORE)
       : fetch("/api/grader/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ place_id: r.placeId, session_id: SESSION_ID, funnel_version: FUNNEL_VERSION }) }).then((res) => res.json()).catch(() => ({ ok: false, reason: "error" }));
