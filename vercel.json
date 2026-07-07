@@ -93,6 +93,10 @@
       "destination": "/repartidores/index.html"
     },
     {
+      "source": "/calificador",
+      "destination": "/calificador/index.html"
+    },
+    {
       "source": "/oferta",
       "destination": "/oferta/index.html"
     },
