@@ -429,11 +429,13 @@ function Scan({ restaurantName }) {
   const [active, setActive] = useState(0);
   const [pct, setPct] = useState(6);
   useEffect(() => {
-    const t = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), 750);
-    const p = setInterval(() => setPct((x) => Math.min(x + 6, 96)), 300);
+    // The wait is VARIABLE: v1 resolves in ~3s; v2 waits on PageSpeed (up to ~12s).
+    // The bar eases toward a 92% ceiling so it never sits at "96% · 2s restantes"
+    // during a long tail; App jumps to the report when the score actually arrives.
+    const t = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), 1100);
+    const p = setInterval(() => setPct((x) => Math.min(92, x + Math.max(0.7, (92 - x) * 0.06))), 300);
     return () => { clearInterval(t); clearInterval(p); };
   }, []);
-  const eta = Math.max(2, Math.round((100 - pct) / 5));
   return (
     <div className="cx-scan">
       <h2>Analizando tu restaurante…</h2>
@@ -445,7 +447,7 @@ function Scan({ restaurantName }) {
         </div>
       ))}
       <div className="cx-scan-bar"><i style={{ width: pct + "%" }} /></div>
-      <div className="cx-scan-eta">{eta} segundos restantes</div>
+      <div className="cx-scan-eta">{pct >= 80 ? "Casi listo…" : `${Math.max(3, Math.round((92 - pct) / 4))} segundos restantes`}</div>
     </div>
   );
 }
