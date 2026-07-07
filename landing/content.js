@@ -18,7 +18,7 @@ window.COPY = {
       subtitle:
         "Fluxsales es el sistema operativo con IA para restaurantes: más tráfico en Google, más ventas directas y más clientes que regresan.",
       primary: "Agenda una demo",
-      secondary: "Ver producto",
+      secondary: "Obtén tu Calificación Digital gratis",
       trust: "Más de 1,400 restaurantes confían en Fluxsales",
     },
     logos: {
@@ -426,7 +426,7 @@ window.COPY = {
       subtitle:
         "Fluxsales is the AI operating system for restaurants: more Google traffic, more direct sales, and more guests who return.",
       primary: "Book a demo",
-      secondary: "See the product",
+      secondary: "Get your free Digital Grade",
       trust: "1,400+ restaurants run on Fluxsales",
     },
     logos: {
