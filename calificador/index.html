@@ -38,7 +38,7 @@
     {
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "¿Cómo se calcula la Calificación Digital?", "acceptedAnswer": { "@type": "Answer", "text": "Usamos únicamente los datos públicos de tu propio perfil de Google (calificación, número de reseñas, fotos, horarios, teléfono, sitio web y canales de pedido) y los comparamos con el promedio de restaurantes cercanos. No entramos ni rastreamos tu sitio web ni el de nadie más. La calificación va de 0 a 100 sobre tres áreas: presencia y posición, experiencia del cliente y perfil local." } },
+        { "@type": "Question", "name": "¿Cómo se calcula la Calificación Digital?", "acceptedAnswer": { "@type": "Answer", "text": "Usamos los datos públicos de tu perfil de Google (calificación, reseñas, fotos, horarios, teléfono, canales de pedido) y, con tu permiso, analizamos tu propio sitio web: velocidad y experiencia móvil con la API oficial de Google PageSpeed, y su SEO en la página. Comparamos con el promedio público de restaurantes cercanos. Nunca rastreamos ni calificamos el sitio web de otro restaurante. La calificación va de 0 a 100 sobre tres áreas: presencia en buscadores, experiencia del cliente y perfil local." } },
         { "@type": "Question", "name": "¿El estimado de dinero perdido es exacto?", "acceptedAnswer": { "@type": "Answer", "text": "Es un estimado, no una promesa. Lo calculamos a partir de la diferencia de reseñas con tu zona (asumiendo ~1 reseña pública por cada ~30 pedidos, acumulada en ~24 meses) y de las señales que faltan en tu perfil. Se muestra siempre como un rango." } },
         { "@type": "Question", "name": "¿Qué hacen con mis datos?", "acceptedAnswer": { "@type": "Answer", "text": "Usamos tu nombre, WhatsApp y correo para enviarte tu análisis y, si calificas, coordinar una demo. No los vendemos. Puedes ver nuestro aviso de privacidad en fluxsales.co/privacy." } }
       ]
@@ -259,9 +259,17 @@ function clarityStep(s) { if (window.clarity) window.clarity("set", "funnel_step
 const MXN = (n) => "$" + Math.round(n).toLocaleString("es-MX");
 const dialColor = (v) => v >= 75 ? "#16a34a" : v >= 60 ? "#65a30d" : v >= 40 ? "#d97706" : "#dc2626";
 
-// 3 weighted areas derived from the 6 API dimensions (Owner-style: Search / Guest / Local).
+// 3 weighted areas (Owner-style: Search / Guest / Local). v2 returns them directly
+// (40/40/20); v1 recombines its 6 dimensions (25/50/25) as a fallback.
 function subScores(bd) {
-  const g = (pts, max) => { const p = pts / max; return { pts, max, grade: p >= 0.75 ? "Bueno" : p >= 0.5 ? "Regular" : "Crítico", cls: p >= 0.75 ? "good" : p >= 0.5 ? "regular" : "critico", color: p >= 0.75 ? "#16a34a" : p >= 0.5 ? "#d97706" : "#dc2626", pct: Math.round(p * 100) }; };
+  const g = (pts, max) => { const p = max ? pts / max : 0; return { pts, max, grade: p >= 0.75 ? "Bueno" : p >= 0.5 ? "Regular" : "Crítico", cls: p >= 0.75 ? "good" : p >= 0.5 ? "regular" : "critico", color: p >= 0.75 ? "#16a34a" : p >= 0.5 ? "#d97706" : "#dc2626", pct: Math.round(p * 100) }; };
+  if (bd.presenciaBuscadores != null || bd.experienciaCliente != null || bd.perfilLocal != null) {
+    return [
+      { key: "Presencia en buscadores", ...g(bd.presenciaBuscadores || 0, 40) },
+      { key: "Experiencia del cliente", ...g(bd.experienciaCliente || 0, 40) },
+      { key: "Perfil local", ...g(bd.perfilLocal || 0, 20) },
+    ];
+  }
   return [
     { key: "Presencia y posición", ...g((bd.competencia || 0) + (bd.web || 0), 25) },
     { key: "Experiencia del cliente", ...g((bd.reputacion || 0) + (bd.resenas || 0), 50) },
@@ -271,18 +279,26 @@ function subScores(bd) {
 
 const MOCK_SCORE = {
   ok: true,
-  business: { displayName: "Tacos Don Lupe", rating: 4.1, reviewCount: 48, photoCount: 3, websiteUri: null, priceLevel: "PRICE_LEVEL_INEXPENSIVE", businessStatus: "OPERATIONAL", primaryTypeDisplayName: "Restaurante mexicano", googleMapsUri: "#" },
-  score: { value: 46, label: "Bajo", breakdown: { reputacion: 14, resenas: 8, competencia: 3, web: 0, perfil: 8, canales: 5 } },
+  version: "v2",
+  business: { displayName: "Tacos Don Lupe", rating: 4.1, reviewCount: 48, photoCount: 3, websiteUri: "https://tacosdonlupe.mx", priceLevel: "PRICE_LEVEL_INEXPENSIVE", businessStatus: "OPERATIONAL", primaryTypeDisplayName: "Restaurante mexicano", googleMapsUri: "#" },
+  score: { value: 46, label: "Bajo", breakdown: { presenciaBuscadores: 11, experienciaCliente: 27, perfilLocal: 8 } },
   issues: [
-    { id: "sin_sitio_web", severity: "alta", title: "No tienes un sitio web propio", detail: "Tus clientes te encuentran en Google pero no tienen dónde pedirte directo. Cada pedido se va por una app que te cobra 25-30% de comisión." },
+    { id: "sitio_no_movil", severity: "alta", title: "Tu sitio no está optimizado para móvil", detail: "Tu página no declara un viewport móvil. Más del 70% de tus clientes te buscan desde el celular; sin diseño móvil, se van." },
     { id: "pocas_resenas_vs_zona", severity: "alta", title: "Tienes menos reseñas que tu competencia", detail: "Tienes 48 reseñas; los restaurantes de tu zona promedian 180. Más reseñas = más visibilidad." },
+    { id: "sitio_lento", severity: "media", title: "Tu sitio web carga lento", detail: "Tu sitio tarda ~4.8s en cargar en móvil (medido por Google). Cada segundo extra pierde pedidos." },
+    { id: "sin_meta_description", severity: "media", title: "Falta la descripción para Google (meta description)", detail: "Sin meta description, Google inventa el texto que aparece en los resultados." },
     { id: "pocas_fotos", severity: "media", title: "Tu perfil tiene pocas fotos", detail: "Los perfiles con 5+ fotos reciben muchas más visitas." },
-    { id: "delivery_no_confirmado", severity: "media", title: "No tienes entrega a domicilio confirmada", detail: "Según tu perfil de Google no aparece delivery." },
-    { id: "sin_horarios", severity: "baja", title: "Faltan tus horarios en Google", detail: "Sin horarios, Google no muestra que estás abierto." },
   ],
   competitors: { count: 3, avgRating: 4.4, avgReviews: 180, betterThan: 0,
     list: [ { name: "El Fogón de la Abuela", rating: 4.6, reviewCount: 320 }, { name: "Birria y Más", rating: 4.5, reviewCount: 210 }, { name: "La Taquería del Centro", rating: 4.3, reviewCount: 150 } ] },
   revenueLoss: { lowMxn: 8000, highMxn: 19000 },
+  siteAudit: { ok: true, finalUrl: "https://tacosdonlupe.mx", seo: { hasH1: true, hasTitle: true, titleMatchesGbp: true, metaDescription: { present: false, length: 0 }, openGraph: { title: false, description: false, image: false }, twitterCard: false, imgAltCoverage: 0.2 }, content: { hasPhone: true, hasAddressHint: false, hasOnlineOrderingCta: false, hasFavicon: true, hasSocialLinks: true }, usability: { hasViewportMeta: false } },
+  pageSpeed: { perfScore: 34, lcpMs: 4800, fcpMs: 2600, clsScore: 0.31, ttfbMs: 900, inpMs: 420, mobileFriendly: false },
+  serpRanks: [
+    { keyword: "mejores tacos en Roma Norte", top1Name: "El Fogón de la Abuela", mapRank: null, organicRank: null },
+    { keyword: "tacos en Roma Norte", top1Name: "Birria y Más", mapRank: 6, organicRank: null },
+    { keyword: "mejores tacos al pastor en Roma Norte", top1Name: "El Fogón de la Abuela", mapRank: null, organicRank: 8 },
+  ],
 };
 
 // Demo-only suggestions so the dropdown is visible on ?mock=1 (the real Google
@@ -404,24 +420,26 @@ function Hero({ onSelect }) {
 function Scan({ restaurantName }) {
   const STEPS = [
     restaurantName + " y sus competidores",
-    "Perfil de Google Business",
-    "Sentimiento de tus reseñas",
-    "Cantidad y calidad de fotos",
-    "Sitio web",
-    "Experiencia móvil",
+    "Tu perfil de Google",
+    "Reseñas y calificación",
+    "Fotos y datos de tu perfil",
+    "Tu sitio web (SEO)",
+    "Velocidad y experiencia móvil",
   ];
   const [active, setActive] = useState(0);
   const [pct, setPct] = useState(6);
   useEffect(() => {
-    const t = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), 750);
-    const p = setInterval(() => setPct((x) => Math.min(x + 6, 96)), 300);
+    // The wait is VARIABLE: v1 resolves in ~3s; v2 waits on PageSpeed (up to ~12s).
+    // The bar eases toward a 92% ceiling so it never sits at "96% · 2s restantes"
+    // during a long tail; App jumps to the report when the score actually arrives.
+    const t = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), 1100);
+    const p = setInterval(() => setPct((x) => Math.min(92, x + Math.max(0.7, (92 - x) * 0.06))), 300);
     return () => { clearInterval(t); clearInterval(p); };
   }, []);
-  const eta = Math.max(2, Math.round((100 - pct) / 5));
   return (
     <div className="cx-scan">
       <h2>Analizando tu restaurante…</h2>
-      <p className="cx-scan-sub">Estamos revisando tu presencia digital con datos reales de Google.</p>
+      <p className="cx-scan-sub">Analizamos tu perfil de Google y —con tu permiso— tu propio sitio web. Nunca rastreamos el sitio de otro restaurante.</p>
       {STEPS.map((s, i) => (
         <div key={i} className={"cx-scan-item" + (i < active ? " cx-done" : i === active ? " cx-active" : "")}>
           <span className="cx-chk">{i < active ? "✓" : i === active ? <span className="cx-mini" /> : ""}</span>
@@ -429,7 +447,7 @@ function Scan({ restaurantName }) {
         </div>
       ))}
       <div className="cx-scan-bar"><i style={{ width: pct + "%" }} /></div>
-      <div className="cx-scan-eta">{eta} segundos restantes</div>
+      <div className="cx-scan-eta">{pct >= 80 ? "Casi listo…" : `${Math.max(3, Math.round((92 - pct) / 4))} segundos restantes`}</div>
     </div>
   );
 }
@@ -538,6 +556,60 @@ function Unlock({ topCompetitor, onUnlock }) {
   );
 }
 
+// ── v2 cards: own-site speed + SEO + keyword ranking (render only when present) ─
+function V2Cards({ s, lockCls }) {
+  const ps = s.pageSpeed, site = s.siteAudit && s.siteAudit.ok ? s.siteAudit : null, serp = s.serpRanks;
+  if (!ps && !site && !(serp && serp.length)) return null;
+  const Row = ({ ok, label }) => (
+    <div className="cx-comp"><span className="cx-comp-rank">{ok ? "✓" : "✗"}</span><span className="cx-comp-name">{label}</span><span className="cx-comp-v" style={{ color: ok ? "#16a34a" : "#dc2626" }}>{ok ? "Bien" : "Mejora"}</span></div>
+  );
+  return (
+    <>
+      {(ps || site) && (
+        <div className="cx-cardrow" style={{ marginTop: 14 }}>
+          {ps && (
+            <div className="cx-panel">
+              <h3>Velocidad de tu sitio</h3>
+              <p className="cx-panel-lead">Medido por Google en móvil (PageSpeed).</p>
+              <div className={lockCls}>
+                {ps.lcpMs != null && <Row ok={ps.lcpMs <= 2500} label={`Carga principal (LCP): ${(ps.lcpMs / 1000).toFixed(1)}s`} />}
+                {ps.mobileFriendly != null && <Row ok={ps.mobileFriendly} label="Apto para móvil" />}
+                {ps.perfScore != null && <Row ok={ps.perfScore >= 50} label={`Rendimiento: ${ps.perfScore}/100`} />}
+              </div>
+            </div>
+          )}
+          {site && (
+            <div className="cx-panel">
+              <h3>SEO de tu sitio</h3>
+              <p className="cx-panel-lead">Qué tan fácil te encuentra Google.</p>
+              <div className={lockCls}>
+                <Row ok={site.seo.hasH1} label="Título principal (H1)" />
+                <Row ok={site.seo.metaDescription.present} label="Descripción para Google" />
+                <Row ok={site.seo.openGraph.title && site.seo.openGraph.image} label="Vista previa al compartir" />
+                <Row ok={(site.seo.imgAltCoverage ?? 0) >= 0.5} label="Texto alt en tus fotos" />
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      {serp && serp.length > 0 && (
+        <div className="cx-panel" style={{ marginTop: 14 }}>
+          <h3>Dónde apareces cuando te buscan</h3>
+          <p className="cx-panel-lead">Tu posición en Google para búsquedas de tu zona, junto a quien va #1.</p>
+          <div className={lockCls}>
+            {serp.map((k, i) => (
+              <div className="cx-comp" key={i}>
+                <span className="cx-comp-name">{k.keyword}<br /><small style={{ color: "var(--muted)" }}>#1: {k.top1Name || "—"}</small></span>
+                <span className="cx-comp-v">{k.mapRank ? `#${k.mapRank} mapa` : "Sin aparecer"} · {k.organicRank ? `#${k.organicRank} orgánico` : "—"}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 // ── Report (score always visible; details gated behind Unlock) ───────────────
 function Report({ score, restaurant, onLeadReady }) {
   const s = score, b = s.business, comp = s.competitors || {};
@@ -594,6 +666,8 @@ function Report({ score, restaurant, onLeadReady }) {
             </div>
           </div>
 
+          <V2Cards s={s} lockCls={lockCls} />
+
           {!unlocked && <div style={{ marginTop: 18 }}><Unlock topCompetitor={topCompetitor} onUnlock={doUnlock} /></div>}
 
           {unlocked && intake && (
@@ -636,7 +710,7 @@ function ManualClose({ restaurant, reason }) {
 function Faq() {
   return (
     <div className="cx-faq">
-      <details><summary>¿Cómo se calcula la Calificación Digital?</summary><p>Usamos solo los datos públicos de tu propio perfil de Google (calificación, reseñas, fotos, horarios, teléfono, sitio web y canales de pedido) y los comparamos con el promedio de restaurantes cercanos. No entramos ni rastreamos ningún sitio web. La calificación va de 0 a 100 sobre tres áreas: presencia y posición, experiencia del cliente y perfil local.</p></details>
+      <details><summary>¿Cómo se calcula la Calificación Digital?</summary><p>Usamos los datos públicos de tu perfil de Google (calificación, reseñas, fotos, horarios, teléfono, canales de pedido) y, con tu permiso, analizamos tu propio sitio web: velocidad y experiencia móvil con la API oficial de Google PageSpeed, y su SEO en la página. Comparamos con el promedio público de restaurantes cercanos. Nunca rastreamos ni calificamos el sitio web de otro restaurante. La calificación va de 0 a 100 sobre tres áreas: presencia en buscadores, experiencia del cliente y perfil local.</p></details>
       <details><summary>¿El dinero perdido es exacto?</summary><p>Es un estimado, no una promesa. Lo calculamos a partir de tu diferencia de reseñas vs. tu zona (asumiendo ~1 reseña pública por cada ~30 pedidos, en ~24 meses) y de las señales que faltan en tu perfil. Siempre se muestra como un rango.</p></details>
       <details><summary>¿Qué hacen con mis datos?</summary><p>Usamos tu nombre, WhatsApp y correo para enviarte tu análisis y coordinar una demo si calificas. No los vendemos. Consulta el <a href="/privacy" target="_blank" rel="noopener">aviso de privacidad</a>.</p></details>
     </div>
@@ -656,7 +730,7 @@ function App() {
     if (MOCK) MOCK_SCORE.business.displayName = r.name;  // demo report reflects the picked restaurant
     const started = Date.now();
     const scorePromise = MOCK ? Promise.resolve(MOCK_SCORE)
-      : fetch("/api/grader/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ place_id: r.placeId, session_id: SESSION_ID, funnel_version: FUNNEL_VERSION }) }).then((res) => res.json()).catch(() => ({ ok: false, reason: "error" }));
+      : fetch("/api/grader/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ place_id: r.placeId, session_id: SESSION_ID, funnel_version: FUNNEL_VERSION, zone: ((r.address || "").split(",").slice(1).join(",").trim() || (r.address || "")) }) }).then((res) => res.json()).catch(() => ({ ok: false, reason: "error" }));
     // Enrich competitor names for the report card (names come from /nearby, not /score).
     const nearbyPromise = MOCK ? Promise.resolve(null)
       : fetch("/api/diagnostico/nearby?place_id=" + encodeURIComponent(r.placeId)).then((res) => res.ok ? res.json() : null).catch(() => null);
