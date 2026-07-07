@@ -145,21 +145,99 @@ a{color:inherit}
 .cx-ac--up .cx-suggest{top:auto;bottom:calc(100% + 8px)}
 @keyframes cx-fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-/* scan */
-.cx-scan{max-width:440px;margin:0 auto;padding:70px 20px}
-.cx-scan h2{font-size:20px;margin-bottom:6px}
-.cx-scan .cx-scan-sub{color:var(--muted);font-size:13.5px;margin-bottom:26px}
-.cx-scan-item{display:flex;align-items:center;gap:12px;font-size:15px;color:#94a3b8;padding:9px 0;transition:color .3s}
+/* scan — Owner-style theater: checklist rail + stage visuals through a scanner line */
+.cx-scan{max-width:1120px;margin:0 auto;padding:14px 16px 30px;display:grid;gap:14px}
+@media(min-width:900px){.cx-scan{grid-template-columns:300px 1fr;height:calc(100vh - 86px);padding-bottom:10px}}
+.cx-scan-rail{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px 20px 16px;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+.cx-scan-rail h2{font-size:19px;margin-bottom:4px}
+.cx-scan .cx-scan-sub{color:var(--muted);font-size:12.5px;margin-bottom:16px;line-height:1.45}
+.cx-scan-steps{flex:1}
+.cx-scan-item{display:flex;align-items:center;gap:12px;font-size:14px;color:#94a3b8;padding:6px 0 0;transition:color .3s}
 .cx-scan-item.cx-active{color:var(--ink);font-weight:500}
-.cx-scan-item .cx-chk{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);flex:0 0 auto;
-  display:flex;align-items:center;justify-content:center;font-size:12px}
+.cx-scan-item .cx-chk{width:21px;height:21px;border-radius:50%;border:2px solid var(--line);flex:0 0 auto;
+  display:flex;align-items:center;justify-content:center;font-size:11px}
 .cx-scan-item.cx-active .cx-chk{border-color:var(--brand)}
-.cx-scan-item.cx-done .cx-chk{background:var(--brand);border-color:var(--brand);color:#fff}
-.cx-scan-item .cx-mini{width:15px;height:15px;border:2px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:cx-spin .8s linear infinite}
-.cx-scan-bar{height:6px;background:var(--line);border-radius:99px;overflow:hidden;margin:24px 0 10px}
-.cx-scan-bar i{display:block;height:100%;background:var(--brand);border-radius:99px;transition:width .5s}
-.cx-scan-eta{font-size:13px;color:var(--muted);text-align:center}
+.cx-scan-item.cx-done .cx-chk{background:#111;border-color:#111;color:#fff}
+.cx-scan-item .cx-mini{width:14px;height:14px;border:2px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:cx-spin .8s linear infinite}
+.cx-conn{width:1.5px;height:9px;background:#111;border-radius:99px;margin:1px 0 0 10px;transform-origin:top;animation:cx-grow .35s ease-out forwards}
+.cx-conn--idle{background:var(--line);animation:none}
+.cx-scan-bar{height:5px;background:var(--line);border-radius:99px;overflow:hidden;margin:18px 0 10px}
+.cx-scan-bar i{display:block;height:100%;background:#111;border-radius:99px;transition:width .3s linear}
+.cx-scan-eta{font-size:12.5px;color:var(--ink);font-weight:600;display:flex;align-items:center;gap:8px}
+.cx-scan-eta .cx-mini{width:13px;height:13px;border:2px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:cx-spin .8s linear infinite;display:inline-block}
 @keyframes cx-spin{to{transform:rotate(360deg)}}
+@keyframes cx-grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+/* stage area + scanner line */
+.cx-stagewrap{position:relative;border-radius:20px;overflow:hidden;min-height:52vh}
+.cx-scanline{position:absolute;left:0;right:0;top:55%;height:2px;z-index:3;pointer-events:none;transform-origin:center;
+  background:linear-gradient(90deg,transparent,rgba(22,163,74,.65) 16%,#15803d 50%,rgba(22,163,74,.65) 84%,transparent);
+  animation:cx-linein .8s ease-out}
+.cx-scanline::after{content:"";position:absolute;left:6%;right:6%;top:-30px;height:62px;
+  background:radial-gradient(ellipse at 50% 50%,rgba(22,163,74,.14),transparent 70%);filter:blur(5px)}
+@keyframes cx-linein{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.cx-osc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:1;
+  animation:cx-oscillate 4s ease-in-out infinite}
+@keyframes cx-oscillate{0%,100%{transform:translateY(-13%)}50%{transform:translateY(13%)}}
+.cx-stage-in{animation:cx-fadein .5s ease}
+/* stage 1: simulated maps search */
+.cx-map{position:absolute;inset:0;background:#e9e7e1;z-index:1}
+.cx-map::before{content:"";position:absolute;inset:0;opacity:.6;background:
+  repeating-linear-gradient(0deg,transparent 0 84px,#dedbd2 84px 88px),
+  repeating-linear-gradient(90deg,transparent 0 108px,#dedbd2 108px 112px)}
+.cx-map-search{position:absolute;top:20px;left:50%;transform:translateX(-50%);width:min(430px,82%);background:#fff;
+  border-radius:14px;box-shadow:var(--shadow);padding:12px 16px;font-size:15px;display:flex;gap:9px;align-items:center;z-index:2}
+.cx-map-search .q{color:#94a3b8}
+.cx-caret{display:inline-block;width:1.5px;height:16px;background:#111;animation:cx-blink 1s steps(2) infinite}
+@keyframes cx-blink{50%{opacity:0}}
+.cx-pin{position:absolute;background:#fff;border-radius:99px;padding:9px 15px;font-size:13px;font-weight:600;
+  box-shadow:0 8px 26px rgba(15,23,42,.14);animation:cx-drop .5s ease-out backwards;z-index:2}
+@keyframes cx-drop{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
+/* stage 2: GBP knowledge-panel card */
+.cx-gbp{width:min(530px,90%);background:#fff;border-radius:26px;box-shadow:0 18px 50px rgba(15,23,42,.13);overflow:hidden;padding:8px}
+.cx-gbp-photos{display:grid;grid-template-columns:1fr 1fr;gap:2px;height:150px;border-radius:18px 18px 4px 4px;overflow:hidden;background:#f1f0ec}
+.cx-gbp-photos img{width:100%;height:100%;object-fit:cover;display:block}
+.cx-gbp-body{padding:12px 14px 10px}
+.cx-gbp-body h3{font-size:20px;margin-bottom:3px}
+.cx-gbp-meta{display:flex;align-items:center;gap:7px;font-size:13.5px;color:var(--muted)}
+.cx-stars{color:#f59e0b;letter-spacing:1px;font-size:13px}
+.cx-stars .off{color:#d9d6cd}
+.cx-gbp-sum{font-size:13px;color:var(--muted);margin-top:7px;line-height:1.5}
+/* stage 3: review cards */
+.cx-revs{width:min(500px,92%);display:flex;flex-direction:column;gap:12px}
+.cx-rev{background:#fff;border-radius:16px;box-shadow:0 10px 30px rgba(15,23,42,.10);padding:13px 16px}
+.cx-rev:nth-child(2n){transform:rotate(-1.6deg)}
+.cx-rev:nth-child(3n){transform:rotate(1.3deg)}
+.cx-rev-top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.cx-rev-av{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;font-weight:700;font-size:14px;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;flex:0 0 auto}
+.cx-rev-av img{width:100%;height:100%;object-fit:cover}
+.cx-rev-who{flex:1;min-width:0}
+.cx-rev-who b{font-size:14px;display:block}
+.cx-rev-who span{font-size:12px;color:var(--muted)}
+.cx-rev-txt{font-size:13px;color:#475569;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cx-rev-txt .more{color:var(--muted)}
+/* stage 4: photo polaroids */
+.cx-pols{position:relative;width:min(560px,94%);height:420px}
+.cx-pol{position:absolute;background:#fff;padding:7px;border-radius:6px;box-shadow:0 12px 34px rgba(15,23,42,.16);animation:cx-drop .6s ease-out backwards}
+.cx-pol img{display:block;width:150px;height:118px;object-fit:cover;border-radius:2px}
+/* stage 5: browser frame */
+.cx-browser{width:min(560px,92%);background:#fff;border-radius:16px;box-shadow:0 18px 50px rgba(15,23,42,.13);overflow:hidden}
+.cx-browser-bar{display:flex;align-items:center;gap:10px;background:#f1f0ec;padding:10px 14px}
+.cx-dot{width:10px;height:10px;border-radius:50%;background:#d9d6cd}
+.cx-url{flex:1;background:#fff;border-radius:8px;padding:5px 12px;font-size:12px;color:var(--muted);text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cx-browser-body{padding:18px;display:flex;flex-direction:column;gap:12px;min-height:210px}
+.cx-browser-body img{width:100%;max-height:280px;object-fit:cover;object-position:top;display:block;border-radius:8px}
+.cx-skel{height:12px;border-radius:6px;background:linear-gradient(90deg,#ecebe6 25%,#f7f6f2 40%,#ecebe6 60%);
+  background-size:200% 100%;animation:cx-shimmer 1.4s infinite}
+.cx-skel--hero{height:110px;border-radius:10px}
+@keyframes cx-shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+/* stage 6: phone frame */
+.cx-phone{width:225px;height:460px;border-radius:34px;background:#fff;border:1.5px solid #d9d6cd;
+  box-shadow:0 24px 60px rgba(15,23,42,.17);overflow:hidden;padding:7px}
+.cx-phone-screen{width:100%;height:100%;border-radius:27px;overflow:hidden;background:#f4f3ef;display:flex;flex-direction:column;gap:10px;padding:0}
+.cx-phone-screen img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.cx-phone-skel{padding:16px;display:flex;flex-direction:column;gap:10px}
 
 /* report */
 .cx-report{max-width:1080px;margin:0 auto;padding:24px 18px 70px}
@@ -308,7 +386,7 @@ const MOCK_SCORE = {
     list: [ { name: "El Fogón de la Abuela", rating: 4.6, reviewCount: 320 }, { name: "Birria y Más", rating: 4.5, reviewCount: 210 }, { name: "La Taquería del Centro", rating: 4.3, reviewCount: 150 } ] },
   revenueLoss: { lowMxn: 8000, highMxn: 19000 },
   siteAudit: { ok: true, finalUrl: "https://tacosdonlupe.mx", seo: { hasH1: true, hasTitle: true, titleMatchesGbp: true, metaDescription: { present: false, length: 0 }, openGraph: { title: false, description: false, image: false }, twitterCard: false, imgAltCoverage: 0.2 }, content: { hasPhone: true, hasAddressHint: false, hasOnlineOrderingCta: false, hasFavicon: true, hasSocialLinks: true }, usability: { hasViewportMeta: false } },
-  pageSpeed: { perfScore: 34, lcpMs: 4800, fcpMs: 2600, clsScore: 0.31, ttfbMs: 900, inpMs: 420, mobileFriendly: false },
+  pageSpeed: { perfScore: 34, lcpMs: 4800, fcpMs: 2600, clsScore: 0.31, ttfbMs: 900, inpMs: 420, mobileFriendly: false, screenshot: null },
   serpRanks: [
     { keyword: "mejores tacos en Roma Norte", top1Name: "El Fogón de la Abuela", mapRank: null, organicRank: null },
     { keyword: "tacos en Roma Norte", top1Name: "Birria y Más", mapRank: 6, organicRank: null },
@@ -325,6 +403,25 @@ const MOCK_SUGGEST = [
   { placeId: "mock-4", mainText: { text: "Mariscos El Puerto" }, secondaryText: { text: "Zapopan, Jalisco" }, text: { text: "Mariscos El Puerto" } },
   { placeId: "mock-5", mainText: { text: "La Taquería del Centro" }, secondaryText: { text: "Centro Histórico, CDMX" }, text: { text: "La Taquería del Centro" } },
 ];
+
+// Mock media for the scan stage visuals (real runs use Places photos/reviews).
+const mockPhoto = (emoji, bg) => "data:image/svg+xml;utf8," + encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' width='400' height='300'><rect width='400' height='300' fill='${bg}'/><text x='200' y='168' font-size='90' text-anchor='middle'>${emoji}</text></svg>`);
+const MOCK_PLACE = {
+  rating: 4.1, reviewCount: 48, priceLevel: "MODERATE", category: "Restaurante mexicano",
+  summary: "Taquería tradicional con tacos al pastor, especialidades caseras y ambiente familiar.",
+  photoUrls: [mockPhoto("🌮", "#fde9c8"), mockPhoto("🥘", "#f8d8cc"), mockPhoto("🍹", "#d8ecdf"), mockPhoto("🫓", "#e8e0f4"), mockPhoto("🍮", "#fbe3ec")],
+  reviews: [
+    { author: "María Fernanda", avatar: null, rating: 5, when: "hace un mes", text: "Los mejores tacos al pastor de la zona, la salsa de la casa es increíble. El servicio siempre amable y rápido." },
+    { author: "Carlos Hernández", avatar: null, rating: 5, when: "hace 2 meses", text: "Fuimos en familia y todo espectacular. Las porciones generosas y los precios justos. Muy recomendado." },
+    { author: "Ana Sofía R.", avatar: null, rating: 4, when: "hace un mes", text: "Muy rica la comida y buen ambiente. A veces hay que esperar mesa el fin de semana, pero vale la pena." },
+    { author: "Jorge Luis", avatar: null, rating: 3, when: "hace 3 meses", text: "La comida bien, aunque el lugar estaba lleno y tardaron con la orden. Le falta opción de pedir en línea." },
+    { author: "Lucía Gómez", avatar: null, rating: 5, when: "hace 2 semanas", text: "El pastor y las gringas son otro nivel. Siempre que venimos a la colonia caemos aquí." },
+  ],
+};
+const MOCK_SITE_SHOT = "data:image/svg+xml;utf8," + encodeURIComponent(
+  `<svg xmlns='http://www.w3.org/2000/svg' width='360' height='720'><rect width='360' height='720' fill='#faf9f6'/><rect width='360' height='64' fill='#14532d'/><text x='18' y='40' font-size='18' fill='#fff' font-family='sans-serif' font-weight='bold'>Tacos Don Lupe</text><rect x='18' y='90' width='324' height='160' rx='10' fill='#fde9c8'/><text x='180' y='185' font-size='64' text-anchor='middle'>🌮</text><rect x='18' y='274' width='220' height='16' rx='8' fill='#d9d6cd'/><rect x='18' y='300' width='300' height='12' rx='6' fill='#e5e2da'/><rect x='18' y='320' width='260' height='12' rx='6' fill='#e5e2da'/><rect x='18' y='356' width='150' height='38' rx='19' fill='#16a34a'/><text x='93' y='381' font-size='14' fill='#fff' text-anchor='middle' font-family='sans-serif'>Ver menú</text></svg>`);
+MOCK_SCORE.pageSpeed.screenshot = MOCK_SITE_SHOT; // declared above MOCK_SITE_SHOT, wired here
 
 // ── Places autocomplete ──────────────────────────────────────────────────────
 function usePlaces(active) {
@@ -360,13 +457,39 @@ function usePlaces(active) {
   };
   const resolve = async (pred) => {
     const fallback = (pred.text && pred.text.text) || (pred.mainText && pred.mainText.text) || "";
+    const txt = (v) => (v == null ? "" : typeof v === "object" ? v.text || "" : String(v));
     try {
       const place = pred.toPlace();
-      await place.fetchFields({ fields: ["displayName", "formattedAddress"] });
-      const n = place.displayName ? (typeof place.displayName === "object" ? place.displayName.text : String(place.displayName)) : fallback;
-      const a = place.formattedAddress ? (typeof place.formattedAddress === "object" ? place.formattedAddress.text : String(place.formattedAddress)) : "";
+      // Rich fields feed the scan-phase stage visuals (photos / reviews / GBP card).
+      // If the richer mask fails (older SDK / SKU), fall back to the basic pair so
+      // the funnel never breaks — the scan just shows skeletons instead.
+      let rich = true;
+      try {
+        await place.fetchFields({ fields: ["displayName", "formattedAddress", "rating", "userRatingCount", "priceLevel", "photos", "reviews", "editorialSummary", "primaryTypeDisplayName"] });
+      } catch (e) {
+        rich = false;
+        await place.fetchFields({ fields: ["displayName", "formattedAddress"] });
+      }
       tokenRef.current = null;
-      return { name: n, placeId: place.id || pred.placeId || "", address: a };
+      const base = { name: txt(place.displayName) || fallback, placeId: place.id || pred.placeId || "", address: txt(place.formattedAddress) };
+      if (!rich) return base;
+      const photoUrls = (place.photos || []).slice(0, 6).map((ph) => { try { return ph.getURI({ maxWidth: 800 }); } catch (e) { return null; } }).filter(Boolean);
+      const reviews = (place.reviews || []).slice(0, 5).map((rv) => ({
+        author: (rv.authorAttribution && rv.authorAttribution.displayName) || "Cliente",
+        avatar: (rv.authorAttribution && rv.authorAttribution.photoURI) || null,
+        rating: rv.rating || null,
+        when: rv.relativePublishTimeDescription || "",
+        text: txt(rv.text),
+      }));
+      return {
+        ...base,
+        rating: place.rating || null,
+        reviewCount: place.userRatingCount || null,
+        priceLevel: place.priceLevel || null,
+        category: txt(place.primaryTypeDisplayName),
+        summary: txt(place.editorialSummary),
+        photoUrls, reviews,
+      };
     } catch (e) { console.error("[places] fetchFields error:", e); tokenRef.current = null; return { name: fallback, placeId: pred.placeId || "", address: "" }; }
   };
   return { suggestions, setSuggestions, suggest, resolve };
@@ -401,7 +524,7 @@ function Hero({ onSelect }) {
     if (MOCK || !pred) {
       const name = (pred && pred.mainText && pred.mainText.text) || MOCK_SCORE.business.displayName;
       const address = (pred && pred.secondaryText && pred.secondaryText.text) || "CDMX";
-      onSelect({ name, placeId: "mock", address });
+      onSelect({ name, placeId: "mock", address, ...MOCK_PLACE });
       return;
     }
     const r = await places.resolve(pred);
@@ -465,9 +588,21 @@ function Hero({ onSelect }) {
 }
 
 // ── Scan (runs immediately on selection, before any contact) ─────────────────
-function Scan({ restaurantName }) {
+// Owner-style scan theater: left checklist rail + one stage visual per step in
+// the main area, everything oscillating through a green "scanner line"
+// (translateY 4s ease-in-out infinite — measured on grader.owner.com). Visuals
+// use the restaurant's REAL Google data (photos/reviews fetched client-side on
+// pick); the phone stage shows the PSI screenshot once the score response lands.
+const SCAN_STEP_MS = 3500;               // 6 stages × 3.5s ≈ 21s of theater
+const SCAN_MIN_MS = SCAN_STEP_MS * 6 + 600;
+function Stars({ rating }) {
+  const full = Math.round(rating || 0);
+  return <span className="cx-stars">{[0,1,2,3,4].map((i) => <span key={i} className={i < full ? "" : "off"}>★</span>)}</span>;
+}
+function Scan({ restaurant, score }) {
+  const name = restaurant.name;
   const STEPS = [
-    restaurantName + " y sus competidores",
+    name + " y sus competidores",
     "Tu perfil de Google",
     "Reseñas y calificación",
     "Fotos y datos de tu perfil",
@@ -475,27 +610,115 @@ function Scan({ restaurantName }) {
     "Velocidad y experiencia móvil",
   ];
   const [active, setActive] = useState(0);
-  const [pct, setPct] = useState(6);
+  const [pct, setPct] = useState(3);
+  const [typed, setTyped] = useState("");
   useEffect(() => {
-    // The wait is VARIABLE: v1 resolves in ~3s; v2 waits on PageSpeed (up to ~12s).
-    // The bar eases toward a 92% ceiling so it never sits at "96% · 2s restantes"
-    // during a long tail; App jumps to the report when the score actually arrives.
-    const t = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), 1100);
-    const p = setInterval(() => setPct((x) => Math.min(92, x + Math.max(0.7, (92 - x) * 0.06))), 300);
+    const t = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), SCAN_STEP_MS);
+    const p = setInterval(() => setPct((x) => Math.min(97, x + Math.max(0.3, (97 - x) * 0.022))), 300);
     return () => { clearInterval(t); clearInterval(p); };
   }, []);
+  useEffect(() => {  // stage-1 typewriter (simulated Google search)
+    if (active !== 0) return;
+    let i = 0;
+    const ty = setInterval(() => { i++; setTyped(name.slice(0, i)); if (i >= name.length) clearInterval(ty); }, 85);
+    return () => clearInterval(ty);
+  }, [active, name]);
+
+  const photos = restaurant.photoUrls || [];
+  const reviews = restaurant.reviews || [];
+  const shot = score && score.pageSpeed && score.pageSpeed.screenshot;
+  const site = score && score.business && score.business.websiteUri;
+  const domain = site ? site.replace(/^https?:\/\//, "").replace(/\/.*$/, "") : "tu sitio web";
+  const price = { FREE: "$", INEXPENSIVE: "$", MODERATE: "$$", EXPENSIVE: "$$$", VERY_EXPENSIVE: "$$$$" }[restaurant.priceLevel] || null;
+  const POL_POS = [
+    { left: "6%", top: "2%", rotate: "-5deg", delay: 0 },
+    { left: "38%", top: "10%", rotate: "3deg", delay: 0.15 },
+    { left: "66%", top: "0%", rotate: "6deg", delay: 0.3 },
+    { left: "18%", top: "44%", rotate: "2deg", delay: 0.45 },
+    { left: "52%", top: "50%", rotate: "-4deg", delay: 0.6 },
+    { left: "80%", top: "42%", rotate: "-2deg", delay: 0.75 },
+  ];
+
+  const skeletons = (n) => Array.from({ length: n }, (_, i) => <div key={i} className="cx-skel" style={{ width: (88 - i * 14) + "%" }} />);
+  const STAGES = [
+    // 1 — simulated Maps search with competitor pills dropping
+    <div className="cx-map cx-stage-in" key="map">
+      <div className="cx-map-search">🔎 <span>{typed}<span className="cx-caret" /></span></div>
+      <span className="cx-pin" style={{ left: "22%", top: "46%", animationDelay: ".8s" }}>Competidor</span>
+      <span className="cx-pin" style={{ left: "58%", top: "72%", animationDelay: "1.5s" }}>Competidor</span>
+      <span className="cx-pin" style={{ left: "68%", top: "30%", animationDelay: "2.2s" }}>Competidor</span>
+    </div>,
+    // 2 — GBP knowledge-panel card
+    <div className="cx-gbp cx-stage-in" key="gbp">
+      <div className="cx-gbp-photos">
+        {photos.slice(0, 2).map((u, i) => <img key={i} src={u} alt="" />)}
+      </div>
+      <div className="cx-gbp-body">
+        <h3>{name}</h3>
+        <div className="cx-gbp-meta">
+          {restaurant.rating != null && <span><Stars rating={restaurant.rating} /> {restaurant.rating}</span>}
+          {restaurant.category && <span>| {restaurant.category}</span>}
+          {price && <span>| {price}</span>}
+        </div>
+        {restaurant.summary && <div className="cx-gbp-sum">{restaurant.summary}</div>}
+      </div>
+    </div>,
+    // 3 — real Google reviews falling as cards
+    <div className="cx-revs cx-stage-in" key="revs">
+      {(reviews.length ? reviews : [null, null, null]).slice(0, 4).map((rv, i) => rv ? (
+        <div className="cx-rev" key={i}>
+          <div className="cx-rev-top">
+            <span className="cx-rev-av">{rv.avatar ? <img src={rv.avatar} alt="" /> : (rv.author || "C")[0]}</span>
+            <span className="cx-rev-who"><b>{rv.author}</b><span>{rv.when}</span></span>
+            <Stars rating={rv.rating} />
+          </div>
+          <div className="cx-rev-txt">{rv.text} <span className="more">Más</span></div>
+        </div>
+      ) : <div className="cx-rev" key={i}>{skeletons(2)}</div>)}
+    </div>,
+    // 4 — photo polaroid collage
+    <div className="cx-pols cx-stage-in" key="pols">
+      {(photos.length ? photos : [null, null, null, null, null]).slice(0, 6).map((u, i) => (
+        <span className="cx-pol" key={i} style={{ left: POL_POS[i].left, top: POL_POS[i].top, transform: `rotate(${POL_POS[i].rotate})`, animationDelay: POL_POS[i].delay + "s" }}>
+          {u ? <img src={u} alt="" /> : <div className="cx-skel" style={{ width: 150, height: 118 }} />}
+        </span>
+      ))}
+    </div>,
+    // 5 — own-site browser frame (skeleton until the PSI screenshot exists)
+    <div className="cx-browser cx-stage-in" key="browser">
+      <div className="cx-browser-bar"><span className="cx-dot" /><span className="cx-dot" /><span className="cx-dot" /><span className="cx-url">{domain}</span></div>
+      <div className="cx-browser-body">{shot ? <img src={shot} alt="" /> : <React.Fragment><div className="cx-skel cx-skel--hero" />{skeletons(3)}</React.Fragment>}</div>
+    </div>,
+    // 6 — phone frame with the real mobile render of the own site
+    <div className="cx-phone cx-stage-in" key="phone">
+      <div className="cx-phone-screen">{shot ? <img src={shot} alt="" /> : <div className="cx-phone-skel"><div className="cx-skel cx-skel--hero" />{skeletons(4)}</div>}</div>
+    </div>,
+  ];
+  const fullBleed = active === 0;  // the map stage doesn't oscillate — pills drop onto it
+
   return (
     <div className="cx-scan">
-      <h2>Analizando tu restaurante…</h2>
-      <p className="cx-scan-sub">Analizamos tu perfil de Google y —con tu permiso— tu propio sitio web. Nunca rastreamos el sitio de otro restaurante.</p>
-      {STEPS.map((s, i) => (
-        <div key={i} className={"cx-scan-item" + (i < active ? " cx-done" : i === active ? " cx-active" : "")}>
-          <span className="cx-chk">{i < active ? "✓" : i === active ? <span className="cx-mini" /> : ""}</span>
-          <span>{s}</span>
+      <div className="cx-scan-rail">
+        <h2>Analizando…</h2>
+        <p className="cx-scan-sub">Tu perfil de Google y —con tu permiso— tu propio sitio web. Nunca rastreamos el sitio de otro restaurante.</p>
+        <div className="cx-scan-steps">
+          {STEPS.map((s, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <div className={"cx-conn" + (i <= active ? "" : " cx-conn--idle")} />}
+              <div className={"cx-scan-item" + (i < active ? " cx-done" : i === active ? " cx-active" : "")}>
+                <span className="cx-chk">{i < active ? "✓" : i === active ? <span className="cx-mini" /> : ""}</span>
+                <span>{s}</span>
+              </div>
+            </React.Fragment>
+          ))}
         </div>
-      ))}
-      <div className="cx-scan-bar"><i style={{ width: pct + "%" }} /></div>
-      <div className="cx-scan-eta">{pct >= 80 ? "Casi listo…" : `${Math.max(3, Math.round((92 - pct) / 4))} segundos restantes`}</div>
+        <div className="cx-scan-bar"><i style={{ width: pct + "%" }} /></div>
+        <div className="cx-scan-eta"><span className="cx-mini" />{pct >= 88 ? "Casi listo…" : `${Math.max(2, Math.round((97 - pct) / 4.6))} segundos restantes`}</div>
+      </div>
+      <div className="cx-stagewrap">
+        <div className="cx-scanline" />
+        {fullBleed ? STAGES[0] : <div className="cx-osc" key={active}>{STAGES[active]}</div>}
+      </div>
     </div>
   );
 }
@@ -783,12 +1006,18 @@ function App() {
     const nearbyPromise = MOCK ? Promise.resolve(null)
       : fetch("/api/diagnostico/nearby?place_id=" + encodeURIComponent(r.placeId)).then((res) => res.ok ? res.json() : null).catch(() => null);
     Promise.all([scorePromise, nearbyPromise]).then(([sc, nb]) => {
-      const wait = Math.max(0, 4200 - (Date.now() - started));
+      // Success holds the full scan theater (~21s, Owner runs ~40s); failures
+      // bail early. Score is stashed as soon as it lands so the scan's browser/
+      // phone stages can render the real PSI screenshot before the report shows.
+      const ok = sc && sc.ok;
+      if (ok) {
+        if (nb && nb.competitors) sc.competitors = { ...sc.competitors, list: nb.competitors.filter((c) => c.placeId) };
+        setScore(sc);
+      }
+      const wait = Math.max(0, (ok ? SCAN_MIN_MS : 4200) - (Date.now() - started));
       setTimeout(() => {
-        if (sc && sc.ok) {
-          if (nb && nb.competitors) sc.competitors = { ...sc.competitors, list: nb.competitors.filter((c) => c.placeId) };
-          setScore(sc); clarityStep("report"); setStep("report");
-        } else { setManualReason(sc && sc.reason); setStep("manual"); }
+        if (ok) { clarityStep("report"); setStep("report"); }
+        else { setManualReason(sc && sc.reason); setStep("manual"); }
       }, wait);
     });
   };
@@ -797,7 +1026,7 @@ function App() {
     <div>
       <div className="cx-nav"><span className="cx-logo">Flux<span>Sales</span></span><a className="cx-login" href="/">Iniciar sesión</a></div>
       {step === "hero" && <Hero onSelect={onSelect} />}
-      {step === "scan" && <Scan restaurantName={restaurant.name} />}
+      {step === "scan" && <Scan restaurant={restaurant} score={score} />}
       {step === "report" && score && <Report score={score} restaurant={restaurant} />}
       {step === "manual" && <ManualClose restaurant={restaurant} reason={manualReason} />}
     </div>
