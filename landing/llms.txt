@@ -17,6 +17,10 @@ FluxSales replaces a restaurant's dependence on delivery marketplaces (which cha
 - [Cómo implementar IA en tu restaurante](https://fluxsales.co/guias/como-implementar-inteligencia-artificial-en-tu-restaurante): Guía pilar paso a paso — qué significa implementar IA, los 4 usos que mueven ventas (mesero de IA, menú/precios, lealtad, reseñas) y cómo empezar sin equipo técnico. Responde "cómo implementar inteligencia artificial en mi restaurante / en mi negocio".
 - [Mesero de IA: chatbot de WhatsApp que toma pedidos](https://fluxsales.co/guias/mesero-ai-chatbot-whatsapp-pedidos-restaurante): Qué es un mesero de IA (mesero virtual), cómo toma pedidos por WhatsApp 24/7 y en qué se diferencia de un chatbot común — 0% de comisión, datos del cliente de tu lado.
 - [¿Cuánto cuesta implementar IA en un restaurante?](https://fluxsales.co/guias/cuanto-cuesta-implementar-ia-en-un-restaurante): El modelo de costo (cuota mensual, no inversión inicial), qué incluye, el retorno y por qué el 15–30% de comisión que ya pagas es el costo que importa.
+- [IA para el menú y los precios (ingeniería de menú)](https://fluxsales.co/guias/ia-para-menu-y-precios-ingenieria-de-menu): Menú dinámico y precios que responden a la demanda — la ingeniería de menú con IA para subir el ticket promedio.
+- [IA para marketing y fidelización de clientes](https://fluxsales.co/guias/ia-marketing-fidelizacion-clientes-restaurante): Promos personalizadas por WhatsApp, recompra automática y segmentación con datos — el mensaje correcto sin volverse spam.
+- [IA para pedir y responder reseñas de Google](https://fluxsales.co/guias/ia-para-responder-resenas-google-restaurante): Pide reseñas en el momento justo y responde comentarios en automático — más reseñas y mejor calificación en Google.
+- [Cómo automatizar tu restaurante con IA](https://fluxsales.co/guias/como-automatizar-tu-restaurante-con-ia): Qué procesos automatizar (pedidos, marketing, reseñas, menú, reportes), en qué orden y qué NO conviene automatizar.
 
 ## Guides (Academia FluxSales)
 

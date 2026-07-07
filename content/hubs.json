@@ -23,6 +23,34 @@
       "read": "Leer la guía →"
     },
     {
+      "url": "/guias/ia-para-menu-y-precios-ingenieria-de-menu",
+      "tag": "IA",
+      "title": "IA para tu menú y tus precios (ingeniería de menú)",
+      "blurb": "Menú dinámico que resalta lo correcto por horario y demanda, e ingeniería de menú con datos — la versión accesible de lo que hacen las cadenas para subir el ticket promedio.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/ia-marketing-fidelizacion-clientes-restaurante",
+      "tag": "IA",
+      "title": "IA para marketing y fidelización de clientes",
+      "blurb": "Promos personalizadas por WhatsApp, recompra automática y segmentación con los datos de tus clientes — el mensaje correcto a la persona correcta, sin volverte spam.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/ia-para-responder-resenas-google-restaurante",
+      "tag": "IA",
+      "title": "IA para tus reseñas de Google",
+      "blurb": "Pide reseñas a los clientes satisfechos en el momento justo y responde los comentarios en automático — más reseñas y mejor calificación, sin trabajo manual.",
+      "read": "Leer la guía →"
+    },
+    {
+      "url": "/guias/como-automatizar-tu-restaurante-con-ia",
+      "tag": "IA",
+      "title": "Cómo automatizar tu restaurante con IA",
+      "blurb": "Qué procesos automatizar —pedidos, marketing, reseñas, menú, reportes—, en qué orden y qué NO conviene automatizar. La guía hub del sistema, sin equipo técnico.",
+      "read": "Leer la guía →"
+    },
+    {
       "url": "/guias/software-para-restaurantes-cdmx",
       "tag": "Local",
       "title": "Software para restaurantes en CDMX: el sistema completo",
