@@ -913,15 +913,22 @@ function Report({ score, restaurant, onLeadReady }) {
         <div>
           <div className="cx-cardrow">
             <div className="cx-panel">
-              <h3>Podrías estar perdiendo dinero</h3>
-              <p className="cx-panel-lead">{s.revenueLoss ? `Por ${s.issues.length} problemas en tu presencia digital` : `${s.issues.length} problemas detectados en tu perfil`}</p>
-              {s.revenueLoss && <div className="cx-loss-amt">{MXN(s.revenueLoss.lowMxn)} – {MXN(s.revenueLoss.highMxn)} <span style={{ fontSize: 14, color: "var(--muted)" }}>/mes*</span></div>}
+              {/* Top performers estimate to a $0–$0 range — reframe positive instead of "losing $0". */}
+              {(() => { const loss = s.revenueLoss && s.revenueLoss.highMxn > 0 ? s.revenueLoss : null; return (<React.Fragment>
+              <h3>{loss ? "Podrías estar perdiendo dinero" : "Vas bien — pero hay margen de mejora"}</h3>
+              <p className="cx-panel-lead">{loss
+                ? `Por ${s.issues.length} problemas en tu presencia digital`
+                : s.issues.length
+                  ? `Tu presencia digital es sólida; detectamos ${s.issues.length} área${s.issues.length === 1 ? "" : "s"} donde aún puedes crecer`
+                  : "Tu presencia digital es sólida — no encontramos problemas graves"}</p>
+              {loss && <div className="cx-loss-amt">{MXN(loss.lowMxn)} – {MXN(loss.highMxn)} <span style={{ fontSize: 14, color: "var(--muted)" }}>/mes*</span></div>}
               <div style={{ marginTop: 12 }} className={lockCls}>
                 {shownIssues.map((it) => (
                   <div className="cx-issue" key={it.id}><span className={"cx-sev cx-sev-" + it.severity} /><div><b>{it.title}</b><p>{it.detail}</p></div></div>
                 ))}
               </div>
-              {s.revenueLoss && <div className="cx-loss-foot">*Estimado con datos de Google (tu diferencia de reseñas vs. tu zona + señales que faltan en tu perfil). Ver metodología abajo.</div>}
+              {loss && <div className="cx-loss-foot">*Estimado con datos de Google (tu diferencia de reseñas vs. tu zona + señales que faltan en tu perfil). Ver metodología abajo.</div>}
+              </React.Fragment>); })()}
             </div>
 
             <div className="cx-panel">
