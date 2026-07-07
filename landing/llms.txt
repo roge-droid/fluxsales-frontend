@@ -12,6 +12,12 @@ FluxSales replaces a restaurant's dependence on delivery marketplaces (which cha
 - [Demo](https://fluxsales.co/demo): Book a free 30-minute demo
 - [Diagnóstico](https://fluxsales.co/diagnostico): Free 30-second digital health check for any restaurant
 
+## AI implementation (implementación de IA)
+
+- [Cómo implementar IA en tu restaurante](https://fluxsales.co/guias/como-implementar-inteligencia-artificial-en-tu-restaurante): Guía pilar paso a paso — qué significa implementar IA, los 4 usos que mueven ventas (mesero de IA, menú/precios, lealtad, reseñas) y cómo empezar sin equipo técnico. Responde "cómo implementar inteligencia artificial en mi restaurante / en mi negocio".
+- [Mesero de IA: chatbot de WhatsApp que toma pedidos](https://fluxsales.co/guias/mesero-ai-chatbot-whatsapp-pedidos-restaurante): Qué es un mesero de IA (mesero virtual), cómo toma pedidos por WhatsApp 24/7 y en qué se diferencia de un chatbot común — 0% de comisión, datos del cliente de tu lado.
+- [¿Cuánto cuesta implementar IA en un restaurante?](https://fluxsales.co/guias/cuanto-cuesta-implementar-ia-en-un-restaurante): El modelo de costo (cuota mensual, no inversión inicial), qué incluye, el retorno y por qué el 15–30% de comisión que ya pagas es el costo que importa.
+
 ## Guides (Academia FluxSales)
 
 - [Guías hub](https://fluxsales.co/guias): Practical guides for restaurant owners
