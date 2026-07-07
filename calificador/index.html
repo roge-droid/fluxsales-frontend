@@ -127,8 +127,23 @@ a{color:inherit}
 .cx-suggest .cx-sg-sub{color:var(--muted);font-size:12.5px}
 .cx-chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:22px}
 .cx-chip{display:flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:99px;
-  padding:8px 15px;font-size:13.5px;color:var(--ink);font-weight:500}
+  padding:8px 15px;font-size:13.5px;color:var(--ink);font-weight:500;font-family:inherit;cursor:pointer;
+  transition:border-color .15s,box-shadow .15s}
+.cx-chip:hover{border-color:#94a3b8;box-shadow:var(--shadow)}
 .cx-chip .d{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
+
+/* chat intro (Owner-style: chip → 2-message chat, search drops to the bottom) */
+.cx-hero--chat{display:flex;flex-direction:column;text-align:left;max-width:760px;min-height:calc(100vh - 150px)}
+.cx-chatlog{flex:1;padding-top:16px}
+.cx-msg{display:flex;margin-bottom:22px;animation:cx-fadein .35s ease}
+.cx-msg--user{justify-content:flex-end}
+.cx-msg--bot{gap:10px;align-items:flex-start}
+.cx-bubble--user{max-width:78%;padding:13px 19px;border-radius:22px;background:#eceae3;font-size:15.5px;line-height:1.5}
+.cx-bubble--bot{max-width:640px;font-size:15.5px;line-height:1.6;padding-top:1px}
+.cx-avatar{width:21px;height:21px;border-radius:50%;background:var(--brand);color:#fff;font-size:11px;font-weight:700;
+  font-family:'DM Sans';display:flex;align-items:center;justify-content:center;flex:0 0 auto;margin-top:3px}
+.cx-ac--up .cx-suggest{top:auto;bottom:calc(100% + 8px)}
+@keyframes cx-fadein{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
 /* scan */
 .cx-scan{max-width:440px;margin:0 auto;padding:70px 20px}
@@ -358,11 +373,28 @@ function usePlaces(active) {
 }
 
 // ── Hero ─────────────────────────────────────────────────────────────────────
+// Owner-style intent chips: clicking one swaps the hero into a scripted 2-message
+// chat (question + canned answer that asks for the restaurant), then the same
+// Places search continues into the normal scan. No backend involved.
+const CHAT_CHIPS = [
+  { icon: "🔎", bg: "#dcfce7", slug: "google", label: "¿Cómo estoy en Google?",
+    a: "Analizo tu presencia en Google y te digo si apareces en las búsquedas correctas y cómo mejorar. ¿Cómo se llama tu restaurante?" },
+  { icon: "🩺", bg: "#ffedd5", slug: "perfil", label: "¿Qué le falta a mi perfil?",
+    a: "Reviso tu perfil de Google y tu sitio web y te digo qué les falta — fotos, datos incompletos, velocidad y más. ¿Cómo se llama tu restaurante?" },
+  { icon: "👑", bg: "#fef9c3", slug: "competencia", label: "¿Quién me está ganando?",
+    a: "Comparo tu restaurante con tus competidores y te digo a quién le ganas y quién te está ganando. ¿Cómo se llama tu restaurante?" },
+];
+
 function Hero({ onSelect }) {
   const places = usePlaces(true);
   const [val, setVal] = useState("");
   const [active, setActive] = useState(-1);
+  const [chat, setChat] = useState(null);
+  const inputRef = useRef(null);
   useEffect(() => { fireEvent("diagnostic_started"); clarityStep("landing"); }, []);
+  useEffect(() => { if (chat && inputRef.current) inputRef.current.focus(); }, [chat]);
+
+  const openChat = (c) => { setChat(c); fireEvent("grader_chip_clicked"); clarityStep("chat_" + c.slug); };
 
   const pick = async (pred) => {
     places.setSuggestions([]);
@@ -379,38 +411,54 @@ function Hero({ onSelect }) {
     onSelect(r);
   };
 
+  const searchBox = (
+    <div className={"cx-ac" + (chat ? " cx-ac--up" : "")}>
+      {places.suggestions.length > 0 && (
+        <ul className="cx-suggest">
+          {places.suggestions.map((p, i) => (
+            <li key={p.placeId || i} role="option" aria-selected={i === active} onMouseDown={(e) => { e.preventDefault(); pick(p); }}>
+              <div className="cx-sg-main">{(p.mainText && p.mainText.text) || (p.text && p.text.text)}</div>
+              {p.secondaryText && <div className="cx-sg-sub">{p.secondaryText.text}</div>}
+            </li>
+          ))}
+        </ul>
+      )}
+      <div className="cx-searchwrap">
+        <input ref={inputRef} className="cx-input" placeholder="Busca tu restaurante" value={val} autoFocus
+          onChange={(e) => { setVal(e.target.value); setActive(-1); places.suggest(e.target.value); }}
+          onKeyDown={(e) => {
+            if (!places.suggestions.length) { if (e.key === "Enter" && MOCK) pick(null); return; }
+            if (e.key === "ArrowDown") { e.preventDefault(); setActive((i) => Math.min(i + 1, places.suggestions.length - 1)); }
+            else if (e.key === "ArrowUp") { e.preventDefault(); setActive((i) => Math.max(i - 1, 0)); }
+            else if (e.key === "Enter" && active >= 0) { e.preventDefault(); pick(places.suggestions[active]); }
+            else if (e.key === "Escape") places.setSuggestions([]);
+          }} />
+        <button className="cx-go" onClick={() => { if (MOCK) pick(null); else if (active >= 0) pick(places.suggestions[active]); else if (places.suggestions[0]) pick(places.suggestions[0]); }}>↑</button>
+      </div>
+    </div>
+  );
+
+  if (chat) return (
+    <div className="cx-hero cx-hero--chat">
+      <div className="cx-chatlog">
+        <div className="cx-msg cx-msg--user"><div className="cx-bubble--user">{chat.label}</div></div>
+        <div className="cx-msg cx-msg--bot"><span className="cx-avatar">F</span><div className="cx-bubble--bot">{chat.a}</div></div>
+      </div>
+      {searchBox}
+    </div>
+  );
+
   return (
     <div className="cx-hero">
       <h1>Escribe el nombre de tu restaurante<br/>y descubre tu Calificación Digital</h1>
       <p className="cx-sub">Analizamos tu presencia en Google en segundos y te decimos cómo te ganan tus competidores.</p>
-      <div className="cx-ac">
-        {places.suggestions.length > 0 && (
-          <ul className="cx-suggest">
-            {places.suggestions.map((p, i) => (
-              <li key={p.placeId || i} role="option" aria-selected={i === active} onMouseDown={(e) => { e.preventDefault(); pick(p); }}>
-                <div className="cx-sg-main">{(p.mainText && p.mainText.text) || (p.text && p.text.text)}</div>
-                {p.secondaryText && <div className="cx-sg-sub">{p.secondaryText.text}</div>}
-              </li>
-            ))}
-          </ul>
-        )}
-        <div className="cx-searchwrap">
-          <input className="cx-input" placeholder="Busca tu restaurante" value={val} autoFocus
-            onChange={(e) => { setVal(e.target.value); setActive(-1); places.suggest(e.target.value); }}
-            onKeyDown={(e) => {
-              if (!places.suggestions.length) { if (e.key === "Enter" && MOCK) pick(null); return; }
-              if (e.key === "ArrowDown") { e.preventDefault(); setActive((i) => Math.min(i + 1, places.suggestions.length - 1)); }
-              else if (e.key === "ArrowUp") { e.preventDefault(); setActive((i) => Math.max(i - 1, 0)); }
-              else if (e.key === "Enter" && active >= 0) { e.preventDefault(); pick(places.suggestions[active]); }
-              else if (e.key === "Escape") places.setSuggestions([]);
-            }} />
-          <button className="cx-go" onClick={() => { if (MOCK) pick(null); else if (active >= 0) pick(places.suggestions[active]); else if (places.suggestions[0]) pick(places.suggestions[0]); }}>↑</button>
-        </div>
-      </div>
+      {searchBox}
       <div className="cx-chips">
-        <span className="cx-chip"><span className="d" style={{ background: "#dcfce7" }}>🔎</span>¿Cómo estoy en Google?</span>
-        <span className="cx-chip"><span className="d" style={{ background: "#ffedd5" }}>🩺</span>¿Qué le falta a mi perfil?</span>
-        <span className="cx-chip"><span className="d" style={{ background: "#fef9c3" }}>👑</span>¿Quién me está ganando?</span>
+        {CHAT_CHIPS.map((c) => (
+          <button key={c.slug} type="button" className="cx-chip" onClick={() => openChat(c)}>
+            <span className="d" style={{ background: c.bg }}>{c.icon}</span>{c.label}
+          </button>
+        ))}
       </div>
     </div>
   );
