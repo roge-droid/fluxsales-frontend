@@ -402,7 +402,13 @@ const REOPEN_TOKEN = !MOCK && PARAMS.get("t") ? PARAMS.get("t") : null;
 // grader_lp_variant=champion pattern Owner runs, so ad-copy A/Bs are measurable.
 const VARIANT = (PARAMS.get("v") || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 12);
 const SESSION_ID = "grader-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
-const FUNNEL_VERSION = "v3-calificador-full" + (VARIANT ? "+" + VARIANT : "");
+const FUNNEL_VERSION = "v4-calificador-capi" + (VARIANT ? "+" + VARIANT : "");
+// Meta match signals for the server-side CAPI GraderScoreGenerated event: the
+// _fbp/_fbc browser cookies, with _fbc derived from ?fbclid when the visitor
+// arrived from an ad before the pixel set the cookie (Meta's documented shape).
+const metaCookie = (name) => (document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)")) || [])[1] || null;
+const FBP = metaCookie("_fbp");
+const FBC = metaCookie("_fbc") || (PARAMS.get("fbclid") ? "fb.1." + Date.now() + "." + PARAMS.get("fbclid") : null);
 
 function fireEvent(eventType, placeId) {
   fetch("/api/diagnostico/event", {
@@ -1404,7 +1410,7 @@ function App() {
     if (MOCK) MOCK_SCORE.business.displayName = r.name;  // demo report reflects the picked restaurant
     const started = Date.now();
     const scorePromise = MOCK ? Promise.resolve(MOCK_SCORE)
-      : fetch("/api/grader/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ place_id: r.placeId, session_id: SESSION_ID, funnel_version: FUNNEL_VERSION, zone: ((r.address || "").split(",").slice(1).join(",").trim() || (r.address || "")) }) }).then((res) => res.json()).catch(() => ({ ok: false, reason: "error" }));
+      : fetch("/api/grader/score", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ place_id: r.placeId, session_id: SESSION_ID, funnel_version: FUNNEL_VERSION, zone: ((r.address || "").split(",").slice(1).join(",").trim() || (r.address || "")), fbp: FBP || undefined, fbc: FBC || undefined }) }).then((res) => res.json()).catch(() => ({ ok: false, reason: "error" }));
     // Enrich competitor names for the report card (names come from /nearby, not /score).
     const nearbyPromise = MOCK ? Promise.resolve(null)
       : fetch("/api/diagnostico/nearby?place_id=" + encodeURIComponent(r.placeId)).then((res) => res.ok ? res.json() : null).catch(() => null);
@@ -1416,6 +1422,9 @@ function App() {
       if (ok) {
         if (nb && nb.competitors) sc.competitors = { ...sc.competitors, list: nb.competitors.filter((c) => c.placeId) };
         setScore(sc);
+        // Ads-optimization conversion: same eventID the backend CAPI event uses
+        // (grader_score_<session>) so Meta dedups browser+server into one.
+        if (!MOCK && typeof fbq === "function") fbq("trackCustom", "GraderScoreGenerated", { content_name: "calificador", score: sc.score && sc.score.value }, { eventID: "grader_score_" + SESSION_ID });
       }
       const wait = Math.max(0, (ok ? SCAN_MIN_MS : 4200) - (Date.now() - started));
       setTimeout(() => {
