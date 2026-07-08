@@ -423,6 +423,7 @@ const MOCK_SCORE = {
     { keyword: "tacos en Roma Norte", top1Name: "Birria y Más", mapRank: 6, organicRank: null },
     { keyword: "mejores tacos al pastor en Roma Norte", top1Name: "El Fogón de la Abuela", mapRank: null, organicRank: 8 },
   ],
+  siteToken: "mock-token",  // real runs get an HMAC token from /grader/score → /sitio?t=
 };
 
 // Demo-only suggestions so the dropdown is visible on ?mock=1 (the real Google
@@ -980,7 +981,16 @@ function AiPreview({ restaurant, score, unlocked, lockCls, onCta }) {
         </div>
       </div>
       <div style={{ textAlign: "center", marginTop: 16 }}>
-        <button className="cx-btn" style={{ width: "auto", padding: "13px 28px" }} onClick={onCta}>Quiero mi sitio así →</button>
+        {/* Unlocked + token → the real deliverable: open the full generated site.
+            Locked → scroll to the gate (the button stays outside the blur). */}
+        {unlocked && score.siteToken ? (
+          <a className="cx-btn" style={{ display: "inline-block", width: "auto", padding: "13px 28px", textDecoration: "none" }}
+            href={"/sitio?t=" + encodeURIComponent(score.siteToken) + (score.siteToken === "mock-token" ? "&mock=1" : "")}
+            target="_blank" rel="noopener"
+            onClick={() => fireEvent("grader_ai_preview_cta_clicked", restaurant.placeId)}>Abrir mi sitio optimizado →</a>
+        ) : (
+          <button className="cx-btn" style={{ width: "auto", padding: "13px 28px" }} onClick={onCta}>Quiero mi sitio así →</button>
+        )}
       </div>
       <div className="cx-ai-foot">Vista previa ilustrativa generada con tus datos públicos de Google. En la demo te lo mostramos funcionando con tu menú real.</div>
     </div>
