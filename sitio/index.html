@@ -275,7 +275,7 @@ const txt = (v) => (v == null ? "" : typeof v === "object" ? v.text || "" : Stri
 async function fetchPlace(placeId) {
   const lib = await google.maps.importLibrary("places");
   const place = new lib.Place({ id: placeId });
-  await place.fetchFields({ fields: ["displayName", "formattedAddress", "rating", "userRatingCount", "priceLevel", "photos", "reviews", "editorialSummary", "primaryTypeDisplayName", "regularOpeningHours", "nationalPhoneNumber", "googleMapsUri"] });
+  await place.fetchFields({ fields: ["displayName", "formattedAddress", "rating", "userRatingCount", "priceLevel", "photos", "reviews", "editorialSummary", "primaryTypeDisplayName", "regularOpeningHours", "nationalPhoneNumber", "googleMapsURI"] });
   const photoUrls = (place.photos || []).slice(0, 6).map((ph) => { try { return ph.getURI({ maxWidth: 1400 }); } catch (e) { return null; } }).filter(Boolean);
   const reviews = (place.reviews || []).slice(0, 6).map((rv) => ({
     author: (rv.authorAttribution && rv.authorAttribution.displayName) || "Cliente",
@@ -293,7 +293,7 @@ async function fetchPlace(placeId) {
     price: { FREE: "$", INEXPENSIVE: "$", MODERATE: "$$", EXPENSIVE: "$$$", VERY_EXPENSIVE: "$$$$" }[place.priceLevel] || null,
     address: txt(place.formattedAddress),
     phone: place.nationalPhoneNumber || null,
-    mapsUri: place.googleMapsUri || null,
+    mapsUri: place.googleMapsURI || null,
     summary: txt(place.editorialSummary),
     hours: (place.regularOpeningHours && place.regularOpeningHours.weekdayDescriptions) || [],
     photoUrls, reviews,
