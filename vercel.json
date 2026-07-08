@@ -97,6 +97,10 @@
       "destination": "/calificador/index.html"
     },
     {
+      "source": "/sitio",
+      "destination": "/sitio/index.html"
+    },
+    {
       "source": "/oferta",
       "destination": "/oferta/index.html"
     },
