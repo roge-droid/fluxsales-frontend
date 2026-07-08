@@ -120,6 +120,33 @@ img{display:block}
 .sw-card a{color:var(--brand);font-weight:600;text-decoration:none}
 .sw-card a:hover{text-decoration:underline}
 
+/* section chips (Owner-style category rail, as in-page anchors) */
+.sw-chips{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;background:#fff;border-bottom:1px solid var(--line);padding:12px 16px}
+.sw-chips a{font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;border:1px solid var(--line);
+  border-radius:99px;padding:7px 15px;background:var(--bg)}
+.sw-chips a:hover{border-color:#94a3b8}
+
+/* "lo más pedido" item cards (Owner-style: photo + name + add button) */
+.sw-dishes{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:640px){.sw-dishes{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.sw-dishes{grid-template-columns:repeat(4,1fr)}}
+.sw-dish{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;text-align:left;padding:0;font-family:inherit}
+.sw-dish img{width:100%;height:150px;object-fit:cover}
+.sw-dish .bd{padding:13px 14px 15px}
+.sw-dish b{font-family:'DM Sans';font-size:15.5px;display:block;margin-bottom:5px}
+.sw-dish .src{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:5px}
+.sw-dish .src .st{color:#f59e0b}
+.sw-dish .add{position:absolute;right:10px;top:118px;width:34px;height:34px;border-radius:50%;background:#0f172a;color:#fff;
+  font-size:19px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 18px rgba(15,23,42,.3)}
+/* "del menú" rows (real items parsed from their current site) */
+.sw-menu{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);padding:8px 20px;margin-top:16px}
+.sw-menu-row{display:flex;align-items:baseline;gap:10px;padding:13px 0;border-bottom:1px dashed #efece5;cursor:pointer;background:none;border-left:none;border-right:none;border-top:none;width:100%;font-family:inherit;text-align:left}
+.sw-menu-row:last-child{border-bottom:none}
+.sw-menu-row b{font-family:'DM Sans';font-size:15px}
+.sw-menu-row .dots{flex:1;border-bottom:1.5px dotted #d9d6cd;transform:translateY(-3px)}
+.sw-menu-row .pr{font-family:'DM Sans';font-weight:700;font-size:15px;color:var(--brand-d)}
+.sw-menu-note{font-size:11.5px;color:#94a3b8;margin-top:10px}
+
 /* activation banner */
 .sw-cta{max-width:960px;margin:60px auto 0;padding:0 22px}
 .sw-cta-inner{background:linear-gradient(135deg,#166534,#14532d);color:#fff;border-radius:24px;padding:38px 30px;text-align:center}
@@ -176,6 +203,46 @@ function fireEvent(eventType, placeId) {
   }).catch(() => {});
 }
 
+// ── Review-mined dishes ("Lo más pedido") ─────────────────────────────────────
+// The reviews name the best-sellers — real, first-party menu signal that Owner's
+// preview doesn't use (theirs shows skeleton rows). Longest-first matching with
+// span consumption so "tacos al pastor" doesn't also count "pastor"/"tacos".
+const DISH_LEXICON = ["tacos al pastor","tacos de canasta","tacos dorados","pescado zarandeado","pastel de tres leches","tostadas de atún","cochinita pibil","café de olla","tres leches","quesabirria","al pastor","suadero","birria","carnitas","barbacoa","cochinita","gringas","gringa","volcanes","volcán","alambres","alambre","arrachera","costillas","chuletas","chuleta","pozole","chilaquiles","enchiladas","quesadillas","sopes","huaraches","tlayudas","tamales","flautas","tostadas","tortas","pambazos","elotes","esquites","aguachile","ceviche","camarones","pulpo","mojarra","micheladas","margaritas","horchata","flan","churros","cheesecake","pizzas","pizza","hamburguesas","hamburguesa","alitas","boneless","sushi","ramen","lasaña","pasta","crepas","waffles","hotcakes","molletes","mole","burritos","nachos","guacamole","pastor","tacos","mariscos"].sort((a, b) => b.length - a.length);
+const deacc = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+function mineDishes(reviews, max) {
+  const found = new Map();
+  for (const rv of reviews || []) {
+    if (!rv || !rv.text || (rv.rating || 0) < 4) continue;  // only praise names best-sellers
+    let t = deacc(rv.text);
+    for (const dish of DISH_LEXICON) {
+      const d = deacc(dish);
+      let idx, hit = false;
+      while ((idx = t.indexOf(d)) !== -1) {
+        const b = idx === 0 ? " " : t[idx - 1];
+        const a = idx + d.length >= t.length ? " " : t[idx + d.length];
+        if (/[^a-z0-9ñ]/.test(b) && /[^a-z0-9ñ]/.test(a)) hit = true;
+        t = t.slice(0, idx) + " ".repeat(d.length) + t.slice(idx + d.length);
+      }
+      if (hit) {
+        const cur = found.get(d) || { name: dish[0].toUpperCase() + dish.slice(1), count: 0 };
+        cur.count++;
+        found.set(d, cur);
+      }
+    }
+  }
+  // Merge same-dish variants named across different reviews ("pastor" +
+  // "tacos al pastor" + "gringa"/"gringas") into the most specific name.
+  const entries = [...found.entries()].map(([canon, v]) => ({ canon, ...v }))
+    .sort((x, y) => y.canon.length - x.canon.length);
+  const merged = [];
+  for (const e of entries) {
+    const host = merged.find((m) => m.canon.includes(e.canon) || e.canon.includes(m.canon));
+    if (host) host.count += e.count;
+    else merged.push(e);
+  }
+  return merged.sort((x, y) => y.count - x.count).slice(0, max || 4);
+}
+
 const MOCK_PHOTO = (emoji, bg) => "data:image/svg+xml;utf8," + encodeURIComponent(
   `<svg xmlns='http://www.w3.org/2000/svg' width='800' height='600'><rect width='800' height='600' fill='${bg}'/><text x='400' y='340' font-size='170' text-anchor='middle'>${emoji}</text></svg>`);
 const MOCK_DATA = {
@@ -190,6 +257,12 @@ const MOCK_DATA = {
     { author: "María Fernanda", avatar: null, rating: 5, when: "hace un mes", text: "Los mejores tacos al pastor de la zona, la salsa de la casa es increíble. El servicio siempre amable y rápido." },
     { author: "Carlos Hernández", avatar: null, rating: 5, when: "hace 2 meses", text: "Fuimos en familia y todo espectacular. Las porciones generosas y los precios justos. Muy recomendado." },
     { author: "Lucía Gómez", avatar: null, rating: 5, when: "hace 2 semanas", text: "El pastor y las gringas son otro nivel. Siempre que venimos a la colonia caemos aquí." },
+  ],
+  menuItems: [
+    { name: "Orden de tacos al pastor (5)", priceMxn: 95 },
+    { name: "Gringa de pastor", priceMxn: 75 },
+    { name: "Quesadilla con todo", priceMxn: 60 },
+    { name: "Agua fresca del día", priceMxn: 35 },
   ],
 };
 
@@ -235,6 +308,13 @@ async function loadSite() {
   try {
     const data = await fetchPlace(v.place_id);
     if (!data.name) return { error: "fetch" };
+    // Real menu items (name + price) parsed server-side from the restaurant's
+    // CURRENT site during the scan — handed off by /calificador via localStorage.
+    // Same-device only; a shared link simply falls back to review-mined dishes.
+    try {
+      const mi = JSON.parse(localStorage.getItem("cx-menu:" + v.place_id) || "null");
+      if (Array.isArray(mi) && mi.length) data.menuItems = mi;
+    } catch (e) {}
     return { data };
   } catch (e) { console.error("[sitio] places fetch:", e); return { error: "fetch" }; }
 }
@@ -276,8 +356,16 @@ function Site({ site }) {
   const open = () => setModal(true);
   const photos = site.photoUrls || [];
   const revs = (site.reviews || []).filter((r) => (r.rating || 0) >= 4 && r.text).slice(0, 3);
+  const dishes = mineDishes(site.reviews, 4);
+  const menuItems = (site.menuItems || []).slice(0, 6);
   const tagline = site.summary || `${site.category || "Restaurante"} en tu zona — pide directo, sin comisiones de apps.`;
   const d = (i) => ({ animationDelay: (0.15 + i * 0.45) + "s" });
+  const CHIPS = [
+    dishes.length >= 2 || menuItems.length ? ["#pedido", "Lo más pedido"] : null,
+    revs.length ? ["#resenas", "Reseñas"] : null,
+    photos.length > 1 ? ["#galeria", "Galería"] : null,
+    ["#visita", "Horarios y ubicación"],
+  ].filter(Boolean);
   return (
     <div className={built ? "sw-build" : "sw-build"}>
       <div className="sw-ribbon">✨ Vista previa generada con IA por <b>FluxSales</b> — <a href="#activar" onClick={(e) => { e.preventDefault(); open(); }}>así se vería tu sitio optimizado</a></div>
@@ -304,9 +392,45 @@ function Site({ site }) {
         {site.price && <React.Fragment><span className="sep">·</span><span>{site.price}</span></React.Fragment>}
         <span className="sep">·</span><span>Pedidos directos <b>sin comisiones</b></span>
       </div>
+      <div className="sw-chips sw-reveal" style={d(2)}>
+        {CHIPS.map(([href, label]) => <a key={href} href={href}>{label}</a>)}
+      </div>
+
+      {(dishes.length >= 2 || menuItems.length > 0) && (
+        <section className="sw-sec sw-reveal" style={d(3)} id="pedido">
+          <h2>Lo más pedido</h2>
+          <p className="sw-lead">{dishes.length >= 2
+            ? "Los platillos que tus clientes mencionan en sus reseñas de Google."
+            : "Platillos de tu menú actual."}</p>
+          {dishes.length >= 2 && (
+            <div className="sw-dishes">
+              {dishes.map((dish, i) => (
+                <button type="button" className="sw-dish" key={dish.name} onClick={open}>
+                  <img src={photos[(i + 1) % Math.max(photos.length, 1)] || photos[0]} alt="" loading="lazy" />
+                  <span className="add">+</span>
+                  <span className="bd">
+                    <b>{dish.name}</b>
+                    <span className="src"><span className="st">★</span> Mencionado en tus reseñas{dish.count > 1 ? ` ×${dish.count}` : ""}</span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          )}
+          {menuItems.length > 0 && (
+            <div className="sw-menu">
+              {menuItems.map((it) => (
+                <button type="button" className="sw-menu-row" key={it.name} onClick={open}>
+                  <b>{it.name}</b><span className="dots" /><span className="pr">${it.priceMxn}</span>
+                </button>
+              ))}
+              <div className="sw-menu-note">Precios tomados de tu menú actual. Con FluxSales tu menú completo se importa y se mantiene al día.</div>
+            </div>
+          )}
+        </section>
+      )}
 
       {revs.length > 0 && (
-        <section className="sw-sec sw-reveal" style={d(3)}>
+        <section className="sw-sec sw-reveal" style={d(3)} id="resenas">
           <h2>Lo que dicen los clientes</h2>
           <p className="sw-lead">Reseñas reales de Google.</p>
           <div className="sw-revs">
@@ -325,7 +449,7 @@ function Site({ site }) {
       )}
 
       {photos.length > 1 && (
-        <section className="sw-sec sw-reveal" style={d(4)}>
+        <section className="sw-sec sw-reveal" style={d(4)} id="galeria">
           <h2>Un vistazo</h2>
           <p className="sw-lead">Fotos de tu perfil de Google.</p>
           <div className="sw-gal">
@@ -334,7 +458,7 @@ function Site({ site }) {
         </section>
       )}
 
-      <section className="sw-sec sw-reveal" style={d(5)}>
+      <section className="sw-sec sw-reveal" style={d(5)} id="visita">
         <h2>Visítanos</h2>
         <p className="sw-lead">Horarios y ubicación.</p>
         <div className="sw-info">

@@ -266,6 +266,12 @@ a{color:inherit}
 .cx-aisite-rev b{display:block;color:var(--ink);margin-top:3px}
 .cx-aisite-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;flex:1;min-height:60px;background:#f1f0ec}
 .cx-aisite-grid img{width:100%;height:100%;object-fit:cover;display:block;min-height:60px}
+.cx-aisite-mtitle{font-size:8.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;padding:7px 11px 2px}
+.cx-aisite-dish{display:flex;align-items:center;gap:7px;padding:5px 11px;font-size:9.5px}
+.cx-aisite-dish img{width:26px;height:26px;border-radius:7px;object-fit:cover;flex:0 0 auto}
+.cx-aisite-dish b{flex:1;line-height:1.25}
+.cx-aisite-dish .pr{font-weight:700;color:var(--brand-d)}
+.cx-aisite-dish .plus{width:16px;height:16px;border-radius:50%;background:#0f172a;color:#fff;font-size:11px;line-height:1;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
 .cx-ai-build .cx-ai-sec{opacity:0;transform:translateY(9px);animation:cx-aisec .5s ease forwards}
 @keyframes cx-aisec{to{opacity:1;transform:none}}
 .cx-ai-foot{font-size:11px;color:#94a3b8;margin-top:12px;text-align:center}
@@ -416,7 +422,7 @@ const MOCK_SCORE = {
   competitors: { count: 3, avgRating: 4.4, avgReviews: 180, betterThan: 0,
     list: [ { name: "El Fogón de la Abuela", rating: 4.6, reviewCount: 320 }, { name: "Birria y Más", rating: 4.5, reviewCount: 210 }, { name: "La Taquería del Centro", rating: 4.3, reviewCount: 150 } ] },
   revenueLoss: { lowMxn: 8000, highMxn: 19000 },
-  siteAudit: { ok: true, finalUrl: "https://tacosdonlupe.mx", seo: { hasH1: true, hasTitle: true, titleMatchesGbp: true, metaDescription: { present: false, length: 0 }, openGraph: { title: false, description: false, image: false }, twitterCard: false, imgAltCoverage: 0.2 }, content: { hasPhone: true, hasAddressHint: false, hasOnlineOrderingCta: false, hasFavicon: true, hasSocialLinks: true }, usability: { hasViewportMeta: false } },
+  siteAudit: { ok: true, finalUrl: "https://tacosdonlupe.mx", seo: { hasH1: true, hasTitle: true, titleMatchesGbp: true, metaDescription: { present: false, length: 0 }, openGraph: { title: false, description: false, image: false }, twitterCard: false, imgAltCoverage: 0.2 }, content: { hasPhone: true, hasAddressHint: false, hasOnlineOrderingCta: false, hasFavicon: true, hasSocialLinks: true }, usability: { hasViewportMeta: false }, menuItems: [{ name: "Orden de tacos al pastor (5)", priceMxn: 95 }, { name: "Gringa de pastor", priceMxn: 75 }, { name: "Quesadilla con todo", priceMxn: 60 }, { name: "Agua fresca del día", priceMxn: 35 }] },
   pageSpeed: { perfScore: 34, lcpMs: 4800, fcpMs: 2600, clsScore: 0.31, ttfbMs: 900, inpMs: 420, mobileFriendly: false, screenshot: null },
   serpRanks: [
     { keyword: "mejores tacos en Roma Norte", top1Name: "El Fogón de la Abuela", mapRank: null, organicRank: null },
@@ -913,6 +919,45 @@ function V2Cards({ s, lockCls }) {
   );
 }
 
+// ── Review-mined dishes ("Lo más pedido") — same lexicon as /sitio ────────────
+// Longest-first matching with span consumption so "tacos al pastor" doesn't also
+// count "pastor"/"tacos". Only 4★+ reviews name best-sellers.
+const DISH_LEXICON = ["tacos al pastor","tacos de canasta","tacos dorados","pescado zarandeado","pastel de tres leches","tostadas de atún","cochinita pibil","café de olla","tres leches","quesabirria","al pastor","suadero","birria","carnitas","barbacoa","cochinita","gringas","gringa","volcanes","volcán","alambres","alambre","arrachera","costillas","chuletas","chuleta","pozole","chilaquiles","enchiladas","quesadillas","sopes","huaraches","tlayudas","tamales","flautas","tostadas","tortas","pambazos","elotes","esquites","aguachile","ceviche","camarones","pulpo","mojarra","micheladas","margaritas","horchata","flan","churros","cheesecake","pizzas","pizza","hamburguesas","hamburguesa","alitas","boneless","sushi","ramen","lasaña","pasta","crepas","waffles","hotcakes","molletes","mole","burritos","nachos","guacamole","pastor","tacos","mariscos"].sort((a, b) => b.length - a.length);
+const deacc = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+function mineDishes(reviews, max) {
+  const found = new Map();
+  for (const rv of reviews || []) {
+    if (!rv || !rv.text || (rv.rating || 0) < 4) continue;
+    let t = deacc(rv.text);
+    for (const dish of DISH_LEXICON) {
+      const dd = deacc(dish);
+      let idx, hit = false;
+      while ((idx = t.indexOf(dd)) !== -1) {
+        const b = idx === 0 ? " " : t[idx - 1];
+        const a = idx + dd.length >= t.length ? " " : t[idx + dd.length];
+        if (/[^a-z0-9ñ]/.test(b) && /[^a-z0-9ñ]/.test(a)) hit = true;
+        t = t.slice(0, idx) + " ".repeat(dd.length) + t.slice(idx + dd.length);
+      }
+      if (hit) {
+        const cur = found.get(dd) || { name: dish[0].toUpperCase() + dish.slice(1), count: 0 };
+        cur.count++;
+        found.set(dd, cur);
+      }
+    }
+  }
+  // Merge same-dish variants named across different reviews ("pastor" +
+  // "tacos al pastor" + "gringa"/"gringas") into the most specific name.
+  const entries = [...found.entries()].map(([canon, v]) => ({ canon, ...v }))
+    .sort((x, y) => y.canon.length - x.canon.length);
+  const merged = [];
+  for (const e of entries) {
+    const host = merged.find((m) => m.canon.includes(e.canon) || e.canon.includes(m.canon));
+    if (host) host.count += e.count;
+    else merged.push(e);
+  }
+  return merged.sort((x, y) => y.count - x.count).slice(0, max || 3);
+}
+
 // ── AI website preview (Owner-parity: "Fix your website in 35 seconds") ──────
 // Owner ends the grader report with a phone mockup of the restaurant's site
 // rebuilt by "AI" — a templated hero + the restaurant's OWN GBP photos — as the
@@ -936,6 +981,16 @@ function AiPreview({ restaurant, score, unlocked, lockCls, onCta }) {
     ob.observe(ref.current);
     return () => ob.disconnect();
   }, [unlocked]);
+  // Menu strip: real items (name+price) parsed from their CURRENT site beat
+  // review-mined dishes; both beat the plain photo grid (Owner's preview shows
+  // skeleton rows here — this is our edge).
+  const menuItems = (score.siteAudit && score.siteAudit.ok && score.siteAudit.menuItems) || [];
+  const menuRows = (menuItems.length ? menuItems : mineDishes(restaurant.reviews, 2)).slice(0, 2);
+  useEffect(() => {  // hand the real menu items to /sitio (same-device localStorage)
+    if (menuItems.length && restaurant.placeId) {
+      try { localStorage.setItem("cx-menu:" + restaurant.placeId, JSON.stringify(menuItems.slice(0, 8))); } catch (e) {}
+    }
+  }, []);
   if (!photos.length) return null;  // the preview is only convincing with real photos
   const grid = photos.slice(1, 4).length ? photos.slice(1, 4) : [photos[0]];
   const dly = (i) => ({ animationDelay: (0.2 + i * 0.55) + "s" });
@@ -972,9 +1027,23 @@ function AiPreview({ restaurant, score, unlocked, lockCls, onCta }) {
                     “{review.text.length > 110 ? review.text.slice(0, 110) + "…" : review.text}”<b>— {review.author}</b>
                   </div>
                 )}
-                <div className="cx-aisite-grid cx-ai-sec" style={dly(4)}>
-                  {grid.map((u, i) => <img key={i} src={u} alt="" />)}
-                </div>
+                {menuRows.length > 0 ? (
+                  <div className="cx-ai-sec" style={dly(4)}>
+                    <div className="cx-aisite-mtitle">Lo más pedido</div>
+                    {menuRows.map((row, i) => (
+                      <div className="cx-aisite-dish" key={i}>
+                        <img src={photos[(i + 1) % photos.length] || photos[0]} alt="" />
+                        <b>{row.name}</b>
+                        {row.priceMxn != null ? <span className="pr">${row.priceMxn}</span> : <span style={{ color: "#f59e0b" }}>★</span>}
+                        <span className="plus">+</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="cx-aisite-grid cx-ai-sec" style={dly(4)}>
+                    {grid.map((u, i) => <img key={i} src={u} alt="" />)}
+                  </div>
+                )}
               </div>
             </div>
           </div>
