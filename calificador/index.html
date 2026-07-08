@@ -239,6 +239,37 @@ a{color:inherit}
 .cx-phone-screen img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
 .cx-phone-skel{padding:16px;display:flex;flex-direction:column;gap:10px}
 
+/* ai-website preview (Owner-parity: report ends at a phone mockup of the site
+   rebuilt "with AI" from the restaurant's own Google data → demo) */
+.cx-ai-duo{display:flex;align-items:flex-start;justify-content:center;gap:20px;flex-wrap:wrap;padding:12px 0 4px}
+.cx-ai-col{display:flex;flex-direction:column;align-items:center;gap:10px}
+.cx-ai-lbl{font-size:12.5px;font-weight:600;color:var(--muted);display:flex;align-items:center;gap:7px}
+.cx-ai-lbl .chip{border-radius:99px;padding:2px 9px;font-size:11px;font-weight:700}
+.cx-ai-lbl .chip--bad{background:#fee2e2;color:var(--bad)}
+.cx-ai-lbl .chip--good{background:#dcfce7;color:var(--brand)}
+.cx-ai-arrow{align-self:center;font-size:22px;color:var(--brand);display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:700}
+.cx-ai-arrow small{font-size:10.5px;color:var(--muted);font-weight:600;max-width:96px;text-align:center;line-height:1.3}
+.cx-phone--sm{width:192px;height:396px;padding:6px;border-radius:30px}
+.cx-phone--sm .cx-phone-screen{border-radius:24px}
+.cx-aisite{background:#fff;gap:0}
+.cx-aisite-nav{background:var(--brand-d);color:#fff;font-family:'DM Sans';font-weight:700;font-size:11.5px;padding:9px 11px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.cx-aisite-nav em{font-style:normal;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cx-aisite-nav span{background:#fff;color:var(--brand-d);border-radius:99px;padding:2px 8px;font-size:9.5px;flex:0 0 auto}
+.cx-aisite-hero{position:relative;height:118px;background:#f1f0ec;flex:0 0 auto}
+.cx-aisite-hero img{width:100%;height:100%;object-fit:cover;display:block}
+.cx-aisite-hero .ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,23,42,0) 26%,rgba(15,23,42,.74));display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;padding:9px 11px;color:#fff}
+.cx-aisite-hero .ov b{font-family:'DM Sans';font-size:13px;line-height:1.25}
+.cx-aisite-btn{background:#16a34a;color:#fff;font-weight:700;font-size:10.5px;border-radius:99px;padding:6px 12px;margin-top:6px}
+.cx-aisite-meta{display:flex;gap:6px;align-items:center;font-size:9.5px;color:var(--muted);padding:8px 11px;border-bottom:1px solid var(--line)}
+.cx-aisite-meta .cx-stars{font-size:9px}
+.cx-aisite-rev{font-size:9px;color:#475569;line-height:1.5;padding:8px 11px;border-bottom:1px solid var(--line)}
+.cx-aisite-rev b{display:block;color:var(--ink);margin-top:3px}
+.cx-aisite-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;flex:1;min-height:60px;background:#f1f0ec}
+.cx-aisite-grid img{width:100%;height:100%;object-fit:cover;display:block;min-height:60px}
+.cx-ai-build .cx-ai-sec{opacity:0;transform:translateY(9px);animation:cx-aisec .5s ease forwards}
+@keyframes cx-aisec{to{opacity:1;transform:none}}
+.cx-ai-foot{font-size:11px;color:#94a3b8;margin-top:12px;text-align:center}
+
 /* report */
 .cx-report{max-width:1080px;margin:0 auto;padding:24px 18px 70px}
 .cx-report-grid{display:grid;grid-template-columns:1fr;gap:18px}
@@ -340,7 +371,7 @@ const { useState, useRef, useEffect } = React;
 
 const MOCK = new URLSearchParams(location.search).get("mock") === "1";
 const SESSION_ID = "grader-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
-const FUNNEL_VERSION = "v2-calificador-scan";
+const FUNNEL_VERSION = "v2-calificador-aiweb";
 
 function fireEvent(eventType, placeId) {
   fetch("/api/diagnostico/event", {
@@ -881,6 +912,81 @@ function V2Cards({ s, lockCls }) {
   );
 }
 
+// ── AI website preview (Owner-parity: "Fix your website in 35 seconds") ──────
+// Owner ends the grader report with a phone mockup of the restaurant's site
+// rebuilt by "AI" — a templated hero + the restaurant's OWN GBP photos — as the
+// desire-builder before the demo CTA (study: grader-owner-ai-website-study.md).
+// Ours goes one further: before/after — the real PSI screenshot vs a preview
+// assembled client-side from the Places data already fetched on pick. The
+// build-in animation replays on unlock. No new backend calls.
+function AiPreview({ restaurant, score, unlocked, lockCls, onCta }) {
+  const b = score.business || {};
+  const photos = restaurant.photoUrls || [];
+  const review = (restaurant.reviews || []).find((r) => (r.rating || 0) >= 4 && r.text);
+  const shot = score.pageSpeed && score.pageSpeed.screenshot;
+  const perf = score.pageSpeed && score.pageSpeed.perfScore;
+  const name = b.displayName || restaurant.name;
+  const ref = useRef(null);
+  useEffect(() => {  // "viewed" = the unlocked preview actually scrolled into sight
+    if (!unlocked || !ref.current || !window.IntersectionObserver) return;
+    const ob = new IntersectionObserver((es) => {
+      if (es.some((e) => e.isIntersecting)) { fireEvent("grader_ai_preview_viewed", restaurant.placeId); ob.disconnect(); }
+    }, { threshold: 0.35 });
+    ob.observe(ref.current);
+    return () => ob.disconnect();
+  }, [unlocked]);
+  if (!photos.length) return null;  // the preview is only convincing with real photos
+  const grid = photos.slice(1, 4).length ? photos.slice(1, 4) : [photos[0]];
+  const dly = (i) => ({ animationDelay: (0.2 + i * 0.55) + "s" });
+  return (
+    <div className="cx-panel" style={{ marginTop: 14 }} ref={ref}>
+      <h3>Así se vería tu sitio, arreglado con IA</h3>
+      <p className="cx-panel-lead">{shot
+        ? "Vista previa generada al instante con las fotos y reseñas reales de tu perfil de Google."
+        : "No encontramos un sitio web propio — así se vería el tuyo, generado con las fotos y reseñas reales de tu perfil de Google."}</p>
+      <div className={lockCls}>
+        <div className="cx-ai-duo">
+          {shot && (
+            <div className="cx-ai-col">
+              <span className="cx-ai-lbl">Tu sitio hoy {perf != null && <span className="chip chip--bad">{perf}/100</span>}</span>
+              <div className="cx-phone cx-phone--sm"><div className="cx-phone-screen"><img src={shot} alt="" /></div></div>
+            </div>
+          )}
+          {shot && <div className="cx-ai-arrow">→<small>arreglado con IA</small></div>}
+          <div className="cx-ai-col">
+            <span className="cx-ai-lbl">Con FluxSales <span className="chip chip--good">Optimizado</span></span>
+            <div className="cx-phone cx-phone--sm">
+              <div className={"cx-phone-screen cx-aisite" + (unlocked ? " cx-ai-build" : "")} key={unlocked ? "build" : "still"}>
+                <div className="cx-aisite-nav cx-ai-sec" style={dly(0)}><em>{name}</em><span>Ordenar</span></div>
+                <div className="cx-aisite-hero cx-ai-sec" style={dly(1)}>
+                  <img src={photos[0]} alt="" />
+                  <div className="ov"><b>{name}</b><i style={{ fontStyle: "normal", fontSize: 9.5, opacity: .9 }}>Pide directo, sin comisiones</i><span className="cx-aisite-btn">Ordenar en línea</span></div>
+                </div>
+                <div className="cx-aisite-meta cx-ai-sec" style={dly(2)}>
+                  {b.rating != null && <span><Stars rating={b.rating} /> {b.rating.toFixed(1)} ({b.reviewCount ?? 0} reseñas)</span>}
+                  {restaurant.category && <span>· {restaurant.category}</span>}
+                </div>
+                {review && (
+                  <div className="cx-aisite-rev cx-ai-sec" style={dly(3)}>
+                    “{review.text.length > 110 ? review.text.slice(0, 110) + "…" : review.text}”<b>— {review.author}</b>
+                  </div>
+                )}
+                <div className="cx-aisite-grid cx-ai-sec" style={dly(4)}>
+                  {grid.map((u, i) => <img key={i} src={u} alt="" />)}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style={{ textAlign: "center", marginTop: 16 }}>
+        <button className="cx-btn" style={{ width: "auto", padding: "13px 28px" }} onClick={onCta}>Quiero mi sitio así →</button>
+      </div>
+      <div className="cx-ai-foot">Vista previa ilustrativa generada con tus datos públicos de Google. En la demo te lo mostramos funcionando con tu menú real.</div>
+    </div>
+  );
+}
+
 // ── Report (score always visible; details gated behind Unlock) ───────────────
 function Report({ score, restaurant, onLeadReady }) {
   const s = score, b = s.business, comp = s.competitors || {};
@@ -905,6 +1011,13 @@ function Report({ score, restaurant, onLeadReady }) {
 
   const lockCls = unlocked ? "" : " cx-locked";
   const shownIssues = unlocked ? s.issues : s.issues.slice(0, 1);
+
+  // AI-preview CTA: locked → scroll to the unlock gate; unlocked → to the demo CTA.
+  const aiCta = () => {
+    fireEvent("grader_ai_preview_cta_clicked", restaurant.placeId);
+    const target = document.querySelector(unlocked ? ".cx-cta" : ".cx-unlock");
+    if (target) target.scrollIntoView({ behavior: "smooth", block: "center" });
+  };
 
   return (
     <div className="cx-report">
@@ -945,6 +1058,8 @@ function Report({ score, restaurant, onLeadReady }) {
           </div>
 
           <V2Cards s={s} lockCls={lockCls} />
+
+          <AiPreview restaurant={restaurant} score={s} unlocked={unlocked} lockCls={lockCls} onCta={aiCta} />
 
           {!unlocked && <div style={{ marginTop: 18 }}><Unlock topCompetitor={topCompetitor} onUnlock={doUnlock} /></div>}
 
