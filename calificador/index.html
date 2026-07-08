@@ -322,6 +322,24 @@ a{color:inherit}
 
 .cx-sec-title{font-family:'DM Sans';font-weight:700;font-size:15px;margin:6px 0 12px}
 .cx-loss-foot{font-size:11px;color:#94a3b8;margin-top:12px}
+/* full checklist (Owner's "44 things reviewed" section) */
+.cx-cl-gtitle{font-family:'DM Sans';font-weight:700;font-size:13px;color:var(--ink);margin:16px 0 6px;padding-bottom:5px;border-bottom:1px solid var(--line)}
+.cx-cl-item{display:flex;gap:9px;align-items:flex-start;padding:6px 0}
+.cx-cl-ic{flex:none;width:19px;height:19px;border-radius:50%;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.cx-cl-ic--pass{background:#dcfce7;color:#16a34a}
+.cx-cl-ic--fail{background:#fee2e2;color:#dc2626}
+.cx-cl-ic--na{background:#f1f5f9;color:#94a3b8}
+.cx-cl-lbl{font-size:13.5px;color:var(--ink)}
+.cx-cl-lbl small{display:block;color:var(--muted);font-size:12px;line-height:1.45;margin-top:1px}
+.cx-cl-na{color:#94a3b8;font-size:11px;font-style:italic}
+/* ranked competitor rows */
+.cx-comp-pos{flex:none;width:26px;font-family:'DM Sans';font-weight:700;font-size:13px;color:var(--muted)}
+.cx-rank-badge{display:inline-block;background:#fef9c3;color:#a16207;font-size:11px;font-weight:700;border-radius:20px;padding:2px 9px;margin-left:8px;vertical-align:2px}
+/* OTP code step */
+.cx-otp-code{letter-spacing:8px;text-align:center;font-size:22px;font-family:'DM Sans';font-weight:700}
+.cx-otp-hint{font-size:12.5px;color:#cbd5e1;margin:2px 0 10px}
+.cx-otp-resend{background:none;border:none;color:#a7f3d0;font-size:12.5px;cursor:pointer;text-decoration:underline;padding:4px}
+.cx-otp-resend:disabled{color:#64748b;cursor:default;text-decoration:none}
 
 /* lock + unlock */
 .cx-locked{filter:blur(7px);pointer-events:none;user-select:none;opacity:.9}
@@ -375,9 +393,16 @@ a{color:inherit}
 <script type="text/babel" data-presets="react">
 const { useState, useRef, useEffect } = React;
 
-const MOCK = new URLSearchParams(location.search).get("mock") === "1";
+const PARAMS = new URLSearchParams(location.search);
+const MOCK = PARAMS.get("mock") === "1";
+// Report permalink: nurture emails/WhatsApp link back with the same signed token
+// /sitio uses (?t=). Valid token → the report re-opens fully unlocked, no re-gate.
+const REOPEN_TOKEN = !MOCK && PARAMS.get("t") ? PARAMS.get("t") : null;
+// LP variant (?v=<slug>) threads through funnel_version on every event — the
+// grader_lp_variant=champion pattern Owner runs, so ad-copy A/Bs are measurable.
+const VARIANT = (PARAMS.get("v") || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 12);
 const SESSION_ID = "grader-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
-const FUNNEL_VERSION = "v2-calificador-aiweb";
+const FUNNEL_VERSION = "v3-calificador-full" + (VARIANT ? "+" + VARIANT : "");
 
 function fireEvent(eventType, placeId) {
   fetch("/api/diagnostico/event", {
@@ -428,7 +453,38 @@ const MOCK_SCORE = {
     { keyword: "mejores tacos en Roma Norte", top1Name: "El Fogón de la Abuela", mapRank: null, organicRank: null },
     { keyword: "tacos en Roma Norte", top1Name: "Birria y Más", mapRank: 6, organicRank: null },
     { keyword: "mejores tacos al pastor en Roma Norte", top1Name: "El Fogón de la Abuela", mapRank: null, organicRank: 8 },
+    { keyword: "comida mexicana en Roma Norte", top1Name: null, mapRank: 1, organicRank: null },
   ],
+  checklist: {
+    reviewed: 29, needWork: 12,
+    groups: [
+      { id: "presencia", title: "Presencia en buscadores", items: [
+        { id: "dominio_propio", label: "Dominio propio", status: "pass", detail: "Tu perfil enlaza a un sitio que controlas tú, no a una plataforma." },
+        { id: "h1", label: "Título principal (H1)", status: "pass", detail: "Tu página declara su título principal." },
+        { id: "meta_description", label: "Descripción para Google (meta description)", status: "fail", detail: "Sin meta description (o muy corta), Google inventa el texto de tu resultado." },
+        { id: "og_image", label: "Imagen al compartir", status: "fail", detail: "Sin og:image, tu link se comparte sin foto (y las fotos son lo que vende)." },
+        { id: "twitter_card", label: "Vista previa en X/Twitter", status: "fail", detail: "Sin twitter card, tu link no genera vista previa en X." },
+        { id: "img_alts", label: "Texto alternativo en tus fotos", status: "fail", detail: "La mayoría de tus fotos no llevan texto alt — Google no las 've'." },
+      ]},
+      { id: "experiencia", title: "Experiencia del cliente", items: [
+        { id: "cta_pedidos", label: "Botón claro para ordenar en línea", status: "fail", detail: "Sin un llamado a ordenar, las visitas no se convierten en pedidos." },
+        { id: "tel_sitio", label: "Teléfono visible en tu sitio", status: "pass", detail: "El cliente puede llamarte directo desde tu sitio." },
+        { id: "menu_precios", label: "Menú con precios en tu sitio", status: "pass", detail: "Detectamos platillos con precio en tu sitio." },
+        { id: "viewport", label: "Diseño móvil declarado", status: "fail", detail: "Tu página no declara viewport móvil — se ve mal en celular." },
+        { id: "velocidad", label: "Carga rápida en móvil", status: "fail", detail: "Tu sitio tarda ~4.8s en cargar en móvil — cada segundo extra pierde pedidos." },
+        { id: "apto_movil", label: "Apto para móvil (prueba de Google)", status: "fail", detail: "Tu sitio no pasó la prueba móvil de Google." },
+      ]},
+      { id: "local", title: "Perfil local", items: [
+        { id: "rating", label: "Calificación sólida (4.2★+)", status: "fail", detail: "Tu 4.1★ está debajo del umbral donde Google y los comensales confían de entrada." },
+        { id: "resenas", label: "Volumen de reseñas (100+)", status: "fail", detail: "48 reseñas — a los perfiles con pocas reseñas Google los muestra menos." },
+        { id: "fotos", label: "Fotos suficientes (5+)", status: "fail", detail: "Los perfiles con 5+ fotos reciben muchas más visitas." },
+        { id: "horarios", label: "Horarios publicados", status: "pass", detail: "Google muestra cuándo estás abierto." },
+        { id: "telefono", label: "Teléfono en tu perfil", status: "pass", detail: "El cliente puede llamarte desde el propio resultado de Google." },
+        { id: "delivery", label: "Entrega a domicilio activada", status: "na", detail: "Google no reporta este dato para tu perfil." },
+        { id: "descripcion_keywords", label: "Palabras clave en tu descripción", status: "pass", detail: "Tu descripción menciona lo que la gente busca: tacos, comida mexicana." },
+      ]},
+    ],
+  },
   siteToken: "mock-token",  // real runs get an HMAC token from /grader/score → /sitio?t=
 };
 
@@ -835,17 +891,62 @@ function Calendar({ ae, lead }) {
 // ── Unlock gate (contact capture over the blurred report) ────────────────────
 const ROLES = [["dueno", "Dueño(a)"], ["gerente", "Gerente"], ["marketing", "Marketing"], ["otro", "Otro"]];
 const SUCS = [["1", "1 sucursal"], ["2-5", "2 a 5"], ["6-20", "6 a 20"], ["20+", "20+"]];
-function Unlock({ topCompetitor, onUnlock }) {
+function Unlock({ topCompetitor, placeId, onUnlock }) {
   const [firstName, setFirstName] = useState(""), [phone, setPhone] = useState(""), [email, setEmail] = useState("");
   const [plataformas, setPlataformas] = useState("dueno"), [sucursales, setSucursales] = useState("1");
   const [err, setErr] = useState(null), [busy, setBusy] = useState(false);
+  // WhatsApp verification (Owner gates on SMS-verified phones; ours is the
+  // channel the AE actually writes to). STRICTLY fail-open: OTP disabled /
+  // send failed / code expired / too many tries → unlock anyway. Verification
+  // may only upgrade lead quality — it must never cost a lead.
+  const [stage, setStage] = useState("form"); // form | code
+  const [code, setCode] = useState(""), [cooldown, setCooldown] = useState(0);
+  useEffect(() => {
+    if (!cooldown) return;
+    const t = setTimeout(() => setCooldown(cooldown - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
+  const leadForm = () => ({ first_name: firstName.trim(), last_name: "", phone: phone.trim(), email: email.trim(), plataformas, sucursales });
+  const sendCode = () => fetch("/api/grader/otp/send", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ phone: phone.trim() }) }).then((r) => r.json());
   const submit = () => {
     if (!firstName.trim()) return setErr("Escribe tu nombre.");
     if (!phone.trim() || phone.replace(/\D/g, "").length < 10) return setErr("Escribe un WhatsApp válido (10 dígitos).");
     if (!email.trim() || !/.+@.+\..+/.test(email)) return setErr("Escribe un correo válido.");
     setErr(null); setBusy(true);
-    onUnlock({ first_name: firstName.trim(), last_name: "", phone: phone.trim(), email: email.trim(), plataformas, sucursales });
+    if (MOCK) return onUnlock(leadForm());
+    sendCode().then((r) => {
+      if (r && r.ok) { setStage("code"); setBusy(false); setCooldown(60); }
+      else onUnlock(leadForm()); // disabled / bad_phone / send_failed → open
+    }).catch(() => onUnlock(leadForm()));
   };
+  const verify = () => {
+    if (!/^\d{6}$/.test(code.trim())) return setErr("Escribe el código de 6 dígitos.");
+    setErr(null); setBusy(true);
+    fetch("/api/grader/otp/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ phone: phone.trim(), code: code.trim(), session_id: SESSION_ID, place_id: placeId || undefined }) })
+      .then((r) => r.json())
+      .then((r) => {
+        if (r && r.ok) return onUnlock(leadForm());
+        if (r && r.reason === "bad_code") { setErr("Código incorrecto — revisa tu WhatsApp."); setBusy(false); return; }
+        onUnlock(leadForm()); // expired / too_many / no_code → open
+      })
+      .catch(() => onUnlock(leadForm()));
+  };
+  const resend = () => {
+    setErr(null); setCode("");
+    sendCode().then((r) => { if (r && r.ok) setCooldown(60); else onUnlock(leadForm()); }).catch(() => onUnlock(leadForm()));
+  };
+  if (stage === "code") return (
+    <div className="cx-unlock">
+      <div className="cx-lock-ic">💬</div>
+      <h3>Te enviamos un código por WhatsApp</h3>
+      <p className="cx-otp-hint">Escribe el código de 6 dígitos que llegó al {phone.replace(/\d(?=\d{4})/g, "•")} para ver tu reporte.</p>
+      <input className="cx-input cx-otp-code" placeholder="······" value={code} maxLength={6} inputMode="numeric" autoFocus
+        onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))} onKeyDown={(e) => { if (e.key === "Enter") verify(); }} />
+      {err && <div className="cx-err" style={{ color: "#fecaca" }}>{err}</div>}
+      <button className="cx-btn" disabled={busy} onClick={verify}>{busy ? "Verificando…" : "Verificar y ver mi reporte →"}</button>
+      <button className="cx-otp-resend" disabled={cooldown > 0} onClick={resend}>{cooldown > 0 ? `Reenviar código (${cooldown}s)` : "Reenviar código"}</button>
+    </div>
+  );
   return (
     <div className="cx-unlock">
       <div className="cx-lock-ic">🔒</div>
@@ -908,14 +1009,48 @@ function V2Cards({ s, lockCls }) {
           <div className={lockCls}>
             {serp.map((k, i) => (
               <div className="cx-comp" key={i}>
-                <span className="cx-comp-name">{k.keyword}<br /><small style={{ color: "var(--muted)" }}>#1: {k.top1Name || "—"}</small></span>
-                <span className="cx-comp-v">{k.mapRank ? `#${k.mapRank} mapa` : "Sin aparecer"} · {k.organicRank ? `#${k.organicRank} orgánico` : "—"}</span>
+                <span className="cx-comp-name">{k.keyword}<br /><small style={{ color: k.mapRank === 1 ? "#16a34a" : "var(--muted)" }}>{k.mapRank === 1 ? "Tú vas #1 aquí 🏆" : `#1: ${k.top1Name || "otro restaurante"}`}</small></span>
+                <span className="cx-comp-v">{k.mapRank ? `#${k.mapRank} en el mapa` : "Sin aparecer"}{k.organicRank ? ` · #${k.organicRank} orgánico` : ""}</span>
               </div>
             ))}
           </div>
         </div>
       )}
     </>
+  );
+}
+
+// ── Full checklist ("Revisamos N puntos, M necesitan trabajo") ───────────────
+// Owner-parity depth play: every check we ran, passes included — the passes are
+// the positive reinforcement, the count is the perceived rigor. Data comes ready
+// from /grader/score (checklist.ts); "na" renders as "No evaluado", never as a
+// failure (the integrity rule, surfaced). Fail rows carry their 1-line why.
+function ChecklistPanel({ checklist, lockCls }) {
+  if (!checklist || !checklist.groups) return null;
+  const ic = (st) => st === "pass" ? "✓" : st === "fail" ? "✗" : "—";
+  return (
+    <div className="cx-panel" style={{ marginTop: 14 }}>
+      <h3>Revisamos {checklist.reviewed} puntos de tu presencia digital</h3>
+      <p className="cx-panel-lead">{checklist.needWork > 0
+        ? `${checklist.needWork} necesita${checklist.needWork === 1 ? "" : "n"} trabajo — aquí está el detalle completo.`
+        : "Todos en orden — aquí está el detalle completo."}</p>
+      <div className={lockCls}>
+        {checklist.groups.map((g, gi) => (
+          <div key={g.id}>
+            <div className="cx-cl-gtitle">{gi + 1}. {g.title}</div>
+            {g.items.map((it) => (
+              <div className="cx-cl-item" key={it.id}>
+                <span className={"cx-cl-ic cx-cl-ic--" + it.status}>{ic(it.status)}</span>
+                <span className="cx-cl-lbl">
+                  {it.label}{it.status === "na" && <span className="cx-cl-na"> · No evaluado</span>}
+                  {it.status !== "pass" && <small>{it.detail}</small>}
+                </span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -1067,13 +1202,24 @@ function AiPreview({ restaurant, score, unlocked, lockCls, onCta }) {
 }
 
 // ── Report (score always visible; details gated behind Unlock) ───────────────
-function Report({ score, restaurant, onLeadReady }) {
+function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
   const s = score, b = s.business, comp = s.competitors || {};
-  const [unlocked, setUnlocked] = useState(false);
-  const [intake, setIntake] = useState(null), [lead, setLead] = useState(null);
+  // Permalink re-opens (?t=) start unlocked: the token only ever traveled to the
+  // lead who already gave contact — re-gating them would just lose the visit.
+  const [unlocked, setUnlocked] = useState(!!initialUnlocked);
+  const [intake, setIntake] = useState(initialUnlocked ? { ok: true, showCalendar: false, aeWhatsapp: "5214425975307" } : null);
+  const [lead, setLead] = useState(initialUnlocked ? { first_name: "", aeWhatsapp: "5214425975307" } : null);
   const below = Math.max(0, (comp.count || 0) - (comp.betterThan || 0));
   const compList = comp.list || [];
   const topCompetitor = compList[0] && compList[0].name;
+  // Owner-style rank position: you + the nearby list, ordered by rating (review
+  // count breaks ties). Being #1 is celebrated, not silent — good restaurants
+  // convert on keeping the lead, not on shame.
+  const ranked = [
+    { name: b.displayName, rating: b.rating, reviewCount: b.reviewCount, you: true },
+    ...compList.map((c) => ({ ...c, you: false })),
+  ].filter((r) => r.rating != null).sort((x, y) => (y.rating - x.rating) || ((y.reviewCount || 0) - (x.reviewCount || 0)));
+  const myRank = ranked.findIndex((r) => r.you) + 1;
 
   const doUnlock = (form) => {
     const fullLead = { ...form, company_name: b.displayName || restaurant.name, place_id: restaurant.placeId, aeWhatsapp: "5214425975307" };
@@ -1124,23 +1270,34 @@ function Report({ score, restaurant, onLeadReady }) {
             </div>
 
             <div className="cx-panel">
-              <h3>{below > 0 ? `${below} restaurante${below > 1 ? "s" : ""} de tu zona te gana${below > 1 ? "n" : ""}` : "Tú vs. tu zona"}</h3>
-              <p className="cx-panel-lead">Comparado con los restaurantes mejor calificados cerca de ti.</p>
+              <h3>{myRank === 1 && ranked.length > 1
+                ? <>Eres el #1 de tu zona<span className="cx-rank-badge">🏆</span></>
+                : myRank > 0
+                  ? <>Estás en el puesto #{myRank} de tu zona</>
+                  : below > 0 ? `${below} restaurante${below > 1 ? "s" : ""} de tu zona te gana${below > 1 ? "n" : ""}` : "Tú vs. tu zona"}</h3>
+              <p className="cx-panel-lead">{myRank === 1 && ranked.length > 1
+                ? "Así te comparas con los mejor calificados cerca de ti — la ventaja se defiende."
+                : "Comparado con los restaurantes mejor calificados cerca de ti."}</p>
               <div className={lockCls}>
-                <div className="cx-comp cx-you"><span className="cx-comp-rank">Tú</span><span className="cx-comp-name">{b.displayName}</span><span className="cx-comp-v">{b.rating != null ? b.rating.toFixed(1) + "★" : "—"} · {b.reviewCount ?? 0}</span></div>
-                {(unlocked ? compList : compList.slice(0, 1)).map((c, i) => (
-                  <div className="cx-comp" key={i}><span className="cx-comp-rank">{i + 1}</span><span className="cx-comp-name">{c.name}</span><span className="cx-comp-v">{c.rating != null ? c.rating.toFixed(1) + "★" : "—"} · {c.reviewCount ?? 0}</span></div>
+                {(unlocked ? ranked : ranked.filter((r, i) => r.you || i === 0)).map((r, i) => (
+                  <div className={"cx-comp" + (r.you ? " cx-you" : "")} key={i}>
+                    <span className="cx-comp-pos">{(unlocked ? i : r.you ? myRank - 1 : 0) + 1}º</span>
+                    <span className="cx-comp-name">{r.you ? <b>{r.name} (tú)</b> : r.name}</span>
+                    <span className="cx-comp-v">{r.rating != null ? r.rating.toFixed(1) + "★" : "—"} · {r.reviewCount ?? 0}</span>
+                  </div>
                 ))}
-                {!compList.length && comp.avgReviews != null && <div className="cx-comp"><span className="cx-comp-rank">~</span><span className="cx-comp-name">Promedio de tu zona</span><span className="cx-comp-v">{comp.avgRating}★ · {comp.avgReviews}</span></div>}
+                {ranked.length <= 1 && comp.avgReviews != null && <div className="cx-comp"><span className="cx-comp-pos">~</span><span className="cx-comp-name">Promedio de tu zona</span><span className="cx-comp-v">{comp.avgRating}★ · {comp.avgReviews}</span></div>}
               </div>
             </div>
           </div>
 
           <V2Cards s={s} lockCls={lockCls} />
 
+          <ChecklistPanel checklist={s.checklist} lockCls={lockCls} />
+
           <AiPreview restaurant={restaurant} score={s} unlocked={unlocked} lockCls={lockCls} onCta={aiCta} />
 
-          {!unlocked && <div style={{ marginTop: 18 }}><Unlock topCompetitor={topCompetitor} onUnlock={doUnlock} /></div>}
+          {!unlocked && <div style={{ marginTop: 18 }}><Unlock topCompetitor={topCompetitor} placeId={restaurant.placeId} onUnlock={doUnlock} /></div>}
 
           {unlocked && intake && (
             <div className="cx-cta">
@@ -1189,13 +1346,58 @@ function Faq() {
   );
 }
 
+// Permalink re-open: fetch the restaurant by place_id (same SDK pattern /sitio
+// uses) into the shape the report/theater components already consume.
+async function fetchRestaurantById(placeId) {
+  const t = (v) => (v == null ? "" : typeof v === "object" ? v.text || "" : String(v));
+  const lib = await google.maps.importLibrary("places");
+  const place = new lib.Place({ id: placeId });
+  await place.fetchFields({ fields: ["displayName", "formattedAddress", "rating", "userRatingCount", "priceLevel", "photos", "reviews", "editorialSummary", "primaryTypeDisplayName"] });
+  return {
+    placeId,
+    name: t(place.displayName),
+    address: t(place.formattedAddress),
+    rating: place.rating || null,
+    reviewCount: place.userRatingCount || null,
+    priceLevel: place.priceLevel || null,
+    category: t(place.primaryTypeDisplayName),
+    summary: t(place.editorialSummary),
+    photoUrls: (place.photos || []).slice(0, 6).map((ph) => { try { return ph.getURI({ maxWidth: 800 }); } catch (e) { return null; } }).filter(Boolean),
+    reviews: (place.reviews || []).slice(0, 5).map((rv) => ({
+      author: (rv.authorAttribution && rv.authorAttribution.displayName) || "Cliente",
+      avatar: (rv.authorAttribution && rv.authorAttribution.photoURI) || null,
+      rating: rv.rating || null,
+      when: rv.relativePublishTimeDescription || "",
+      text: t(rv.text),
+    })),
+  };
+}
+
 // ── App: hero → scan (score runs now) → report(teaser→unlock→full) ───────────
+// With ?t=<token>: reopening → report (already unlocked, no re-gate, no theater).
 function App() {
-  const [step, setStep] = useState("hero");  // hero | scan | report | manual
+  const [step, setStep] = useState(REOPEN_TOKEN ? "reopening" : "hero");  // hero | scan | report | manual | reopening
   const [restaurant, setRestaurant] = useState(null);
   const [score, setScore] = useState(null);
   const [manualReason, setManualReason] = useState(null);
+  const [reopened, setReopened] = useState(false);
   useEffect(() => { window.scrollTo(0, 0); }, [step]);
+
+  useEffect(() => {
+    if (!REOPEN_TOKEN) return;
+    (async () => {
+      try {
+        const v = await fetch("/api/grader/site-token?t=" + encodeURIComponent(REOPEN_TOKEN)).then((r) => r.json());
+        if (!v || !v.ok) { setStep("hero"); return; }
+        const r = await fetchRestaurantById(v.place_id);
+        if (!r.name) { setStep("hero"); return; }
+        const sc = await fetch("/api/grader/score", { method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ place_id: v.place_id, session_id: SESSION_ID, funnel_version: FUNNEL_VERSION, report_token: REOPEN_TOKEN, zone: ((r.address || "").split(",").slice(1).join(",").trim() || (r.address || "")) }) }).then((res) => res.json());
+        if (!sc || !sc.ok) { setStep("hero"); return; }
+        setRestaurant(r); setScore(sc); setReopened(true); clarityStep("report_reopened"); setStep("report");
+      } catch (e) { console.error("[calificador] reopen failed:", e); setStep("hero"); }
+    })();
+  }, []);
 
   const onSelect = (r) => {
     setRestaurant(r); setStep("scan");
@@ -1227,8 +1429,9 @@ function App() {
     <div>
       <div className="cx-nav"><span className="cx-logo">Flux<span>Sales</span></span><a className="cx-login" href="/">Iniciar sesión</a></div>
       {step === "hero" && <Hero onSelect={onSelect} />}
+      {step === "reopening" && <div className="cx-report"><div className="cx-panel" style={{ maxWidth: 420, margin: "60px auto", textAlign: "center" }}><div className="cx-mini" style={{ margin: "0 auto 12px" }} /><p style={{ color: "var(--muted)", fontSize: 14 }}>Abriendo tu reporte…</p></div></div>}
       {step === "scan" && <Scan restaurant={restaurant} score={score} />}
-      {step === "report" && score && <Report score={score} restaurant={restaurant} />}
+      {step === "report" && score && <Report score={score} restaurant={restaurant} initialUnlocked={reopened} />}
       {step === "manual" && <ManualClose restaurant={restaurant} reason={manualReason} />}
     </div>
   );
