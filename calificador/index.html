@@ -403,6 +403,11 @@ const REOPEN_TOKEN = !MOCK && PARAMS.get("t") ? PARAMS.get("t") : null;
 const VARIANT = (PARAMS.get("v") || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 12);
 const SESSION_ID = "grader-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8);
 const FUNNEL_VERSION = "v4-calificador-capi" + (VARIANT ? "+" + VARIANT : "");
+// FluxSales WhatsApp line for every grader CTA fallback (the backend's
+// aeWhatsapp overrides it when lead-intake responds). The demo booking is the
+// primary conversion — WhatsApp is the secondary path, and its prefilled
+// message asks for a demo so even that conversation funnels to a booking.
+const FLUX_WA = "524421716825";
 // Meta match signals for the server-side CAPI GraderScoreGenerated event: the
 // _fbp/_fbc browser cookies, with _fbc derived from ?fbclid when the visitor
 // arrived from an ad before the pixel set the cookie (Meta's documented shape).
@@ -882,7 +887,7 @@ function Calendar({ ae, lead }) {
   };
   if (booked) return (<div className="cx-booked"><div className="cx-check">✓</div><h3 style={{ color: "#fff" }}>Demo agendada, {lead.first_name}</h3><p style={{ color: "#d1fae5", fontSize: 14 }}>{booked.startFormatted}</p>{booked.meetLink && <a href={booked.meetLink} target="_blank" rel="noopener" className="cx-btn" style={{ display: "inline-block", width: "auto", padding: "12px 22px", marginTop: 8 }}>Abrir Google Meet →</a>}</div>);
   if (loading) return <p style={{ color: "#d1fae5", textAlign: "center" }}>Cargando horarios…</p>;
-  if (err === "fallback") return (<div style={{ textAlign: "center" }}><p style={{ color: "#d1fae5", fontSize: 14 }}>Escríbenos por WhatsApp y te agendamos al instante.</p><a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 22px" }} href={"https://wa.me/5214425975307?text=" + encodeURIComponent("Hola, quiero agendar una demo (Calificación Digital)")} target="_blank" rel="noopener">Agendar por WhatsApp</a></div>);
+  if (err === "fallback") return (<div style={{ textAlign: "center" }}><p style={{ color: "#d1fae5", fontSize: 14 }}>Escríbenos por WhatsApp y te agendamos al instante.</p><a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 22px" }} href={"https://wa.me/" + FLUX_WA + "?text=" + encodeURIComponent("Hola, quiero agendar una demo (Calificación Digital)")} target="_blank" rel="noopener">Agendar por WhatsApp</a></div>);
   const day = dates[di] || { slots: [] };
   return (
     <div>
@@ -959,7 +964,7 @@ function Unlock({ topCompetitor, placeId, onUnlock }) {
       <h3>Desbloquea tu reporte completo</h3>
       <p>{topCompetitor ? `Ve por qué ${topCompetitor} te está ganando en Google y qué hacer para superarlo.` : "Ve la lista completa de problemas, tus competidores y cuánto podrías recuperar."}</p>
       <input className="cx-input" placeholder="Tu nombre" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-      <input className="cx-input" placeholder="WhatsApp (10 dígitos)" value={phone} onChange={(e) => setPhone(e.target.value)} inputMode="tel" />
+      <input className="cx-input" placeholder="WhatsApp (10 dígitos)" value={phone} maxLength={10} onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))} inputMode="tel" />
       <input className="cx-input" placeholder="Correo" value={email} onChange={(e) => setEmail(e.target.value)} inputMode="email" />
       <div className="cx-selrow">
         <select className="cx-input" value={plataformas} onChange={(e) => setPlataformas(e.target.value)}>{ROLES.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select>
@@ -1213,8 +1218,8 @@ function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
   // Permalink re-opens (?t=) start unlocked: the token only ever traveled to the
   // lead who already gave contact — re-gating them would just lose the visit.
   const [unlocked, setUnlocked] = useState(!!initialUnlocked);
-  const [intake, setIntake] = useState(initialUnlocked ? { ok: true, showCalendar: false, aeWhatsapp: "5214425975307" } : null);
-  const [lead, setLead] = useState(initialUnlocked ? { first_name: "", aeWhatsapp: "5214425975307" } : null);
+  const [intake, setIntake] = useState(initialUnlocked ? { ok: true, showCalendar: false, aeWhatsapp: FLUX_WA } : null);
+  const [lead, setLead] = useState(initialUnlocked ? { first_name: "", aeWhatsapp: FLUX_WA } : null);
   const below = Math.max(0, (comp.count || 0) - (comp.betterThan || 0));
   const compList = comp.list || [];
   const topCompetitor = compList[0] && compList[0].name;
@@ -1228,16 +1233,16 @@ function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
   const myRank = ranked.findIndex((r) => r.you) + 1;
 
   const doUnlock = (form) => {
-    const fullLead = { ...form, company_name: b.displayName || restaurant.name, place_id: restaurant.placeId, aeWhatsapp: "5214425975307" };
+    const fullLead = { ...form, company_name: b.displayName || restaurant.name, place_id: restaurant.placeId, aeWhatsapp: FLUX_WA };
     setLead(fullLead); setUnlocked(true);
     fireEvent("contact_submitted", restaurant.placeId); clarityStep("report_unlocked");
     fireEvent("full_diagnostic_revealed", restaurant.placeId);
     if (typeof fbq === "function") fbq("track", "Lead", { content_name: "grader_landing" });
-    if (MOCK) { setIntake({ ok: true, showCalendar: true, assignedAE: "Mariana", aeWhatsapp: "5214425975307" }); return; }
+    if (MOCK) { setIntake({ ok: true, showCalendar: true, assignedAE: "Mariana", aeWhatsapp: FLUX_WA }); return; }
     fetch("/api/demo-page/lead-intake", { method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, company_name: fullLead.company_name, place_id: restaurant.placeId || undefined, place_address: restaurant.address || undefined, funnel: "grader", session_id: SESSION_ID }) })
       .then((r) => r.json()).then((ik) => { setIntake(ik); if (ik && ik.aeWhatsapp) fullLead.aeWhatsapp = ik.aeWhatsapp; })
-      .catch(() => setIntake({ ok: true, showCalendar: false, aeWhatsapp: "5214425975307" }));
+      .catch(() => setIntake({ ok: true, showCalendar: false, aeWhatsapp: FLUX_WA }));
   };
 
   const lockCls = unlocked ? "" : " cx-locked";
@@ -1312,9 +1317,9 @@ function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
                 <p>Agenda una demo gratuita de 20 min. Te mostramos cómo subir tu Calificación y dejar de pagar comisiones.</p>
                 <Calendar ae={intake.assignedAE || "Mariana"} lead={lead} />
               </>) : (<>
-                <h3>Te preparamos un plan</h3>
-                <p>Un especialista revisa tu caso y te escribe por WhatsApp con los primeros pasos.</p>
-                <a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 24px" }} href={"https://wa.me/" + (lead.aeWhatsapp || "5214425975307") + "?text=" + encodeURIComponent(`Hola, saqué mi Calificación Digital (${s.score.value}/100) para ${b.displayName || restaurant.name}`)} target="_blank" rel="noopener">Hablar por WhatsApp</a>
+                <h3>Agendemos tu demo</h3>
+                <p>Escríbenos por WhatsApp y coordinamos una demo gratuita de 20 min para subir tu Calificación y dejar de pagar comisiones.</p>
+                <a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 24px" }} href={"https://wa.me/" + (lead.aeWhatsapp || FLUX_WA) + "?text=" + encodeURIComponent(`Hola, saqué mi Calificación Digital (${s.score.value}/100) para ${b.displayName || restaurant.name} y quiero agendar una demo.`)} target="_blank" rel="noopener">Agendar mi demo por WhatsApp</a>
               </>)}
             </div>
           )}
@@ -1335,7 +1340,7 @@ function ManualClose({ restaurant, reason }) {
         <div style={{ fontSize: 40, marginBottom: 8 }}>🔍</div>
         <h2 style={{ fontSize: 21, marginBottom: 8 }}>Necesitamos revisar tu caso</h2>
         <p style={{ color: "var(--muted)", fontSize: 14, marginBottom: 18 }}>{msg}</p>
-        <a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 24px" }} href={"https://wa.me/5214425975307?text=" + encodeURIComponent(`Hola, quiero mi Calificación Digital para ${restaurant.name}`)} target="_blank" rel="noopener">Escribir por WhatsApp</a>
+        <a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 24px" }} href={"https://wa.me/" + FLUX_WA + "?text=" + encodeURIComponent(`Hola, quiero mi Calificación Digital para ${restaurant.name}`)} target="_blank" rel="noopener">Escribir por WhatsApp</a>
       </div>
       <Faq />
     </div>
