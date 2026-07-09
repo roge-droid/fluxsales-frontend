@@ -452,7 +452,7 @@ const ADS_FIELDS = { gclid: ADS.gclid || undefined, utm_campaign: ADS.utm_campai
 // gadsConvert() no-ops safely on any send_to still containing "<" (label not wired yet).
 const GADS_ID = "AW-18291478874";
 const GADS_CONVERSIONS = {
-  grade_completed: GADS_ID + "/<GRADE_LABEL>",           // NEW "Calificación completada" — primary optimization event (Owner model)
+  grade_completed: GADS_ID + "/aHoMCI-grs0cENqih5JE",    // "Calificación completada" — Page-view goal, acct 331-202-9931 (created 2026-07-08)
   demo_booked:     GADS_ID + "/-5jSCPmA-8gcENqih5JE",    // reuse existing "Demo agendada" (grader books the same calendar)
 };
 function gadsConvert(kind) {
