@@ -66,6 +66,15 @@ y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
 })(window,document,"clarity","script","r358ye498l");
 </script>
 
+<!-- Google Ads tag (Campaign E — account 331-202-9931). Conversion labels wired in the app script (GADS_CONVERSIONS). -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18291478874"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18291478874');
+</script>
+
 <!-- Google Maps (Places) — same referrer-locked browser key as /diagnostico. Autocomplete
      only resolves on fluxsales.co; Vercel previews 403 → use ?mock=1 to QA the flow. -->
 <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({
@@ -378,6 +387,18 @@ a{color:inherit}
 .cx-faq p{font-size:13px;color:var(--muted);margin:8px 0 0}
 .cx-foot{text-align:center;font-size:11.5px;color:#94a3b8;margin-top:26px}
 .cx-foot a{text-decoration:underline}
+
+/* ── mobile polish (≤600px) — tighter hero + defensive overflow guard ── */
+html,body{overflow-x:hidden}
+@media(max-width:600px){
+  .cx-hero{padding:34px 18px 46px}
+  .cx-hero h1{font-size:28px;line-height:1.16}
+  .cx-hero .cx-sub{font-size:15px;margin-bottom:22px}
+  .cx-hero--chat{min-height:calc(100dvh - 130px)}
+  .cx-report{padding:18px 14px 60px}
+  .cx-cta,.cx-unlock{padding:22px 16px}
+  .cx-cal-slots{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
@@ -414,6 +435,32 @@ const FLUX_WA = "5214421716825";
 const metaCookie = (name) => (document.cookie.match(new RegExp("(?:^|; )" + name + "=([^;]*)")) || [])[1] || null;
 const FBP = metaCookie("_fbp");
 const FBC = metaCookie("_fbc") || (PARAMS.get("fbclid") ? "fb.1." + Date.now() + "." + PARAMS.get("fbclid") : null);
+
+// ─── Google Ads attribution + conversions (Campaign E — grader) ───
+// Capture the Google click id / UTMs once and thread them into the lead POSTs so
+// closes match back via the Data Manager API (mirrors /diagnostico-google).
+const ADS = (() => {
+  const saved = JSON.parse(sessionStorage.getItem("flux_ads") || "null");
+  if (saved) return saved;
+  const a = { gclid: PARAMS.get("gclid") || "", utm_source: PARAMS.get("utm_source") || "",
+    utm_campaign: PARAMS.get("utm_campaign") || "", utm_content: PARAMS.get("utm_content") || "" };
+  if (a.gclid || a.utm_source) sessionStorage.setItem("flux_ads", JSON.stringify(a));
+  return a;
+})();
+const ADS_FIELDS = { gclid: ADS.gclid || undefined, utm_campaign: ADS.utm_campaign || undefined, utm_content: ADS.utm_content || undefined };
+// Labels come from the conversion actions created in the Google Ads UI (Tools → Conversions).
+// gadsConvert() no-ops safely on any send_to still containing "<" (label not wired yet).
+const GADS_ID = "AW-18291478874";
+const GADS_CONVERSIONS = {
+  grade_completed: GADS_ID + "/aHoMCI-grs0cENqih5JE",    // "Calificación completada" — Page-view goal, acct 331-202-9931 (created 2026-07-08)
+  demo_booked:     GADS_ID + "/-5jSCPmA-8gcENqih5JE",    // reuse existing "Demo agendada" (grader books the same calendar)
+};
+function gadsConvert(kind) {
+  if (typeof gtag !== "function") return;
+  const send_to = GADS_CONVERSIONS[kind];
+  if (!send_to || send_to.indexOf("<") !== -1) return;   // label not wired yet → skip safely
+  gtag("event", "conversion", { send_to });
+}
 
 function fireEvent(eventType, placeId) {
   fetch("/api/diagnostico/event", {
@@ -878,10 +925,10 @@ function Calendar({ ae, lead }) {
     if (MOCK) { setBooked({ startFormatted: "Hoy 10:00", meetLink: "#" }); setBooking(false); return; }
     try {
       const res = await fetch("/api/calendar/book-demo", { method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ae, start: slot.start, end: slot.end, first_name: lead.first_name, last_name: lead.last_name, email: lead.email, phone: lead.phone, company_name: lead.company_name, session_id: SESSION_ID, funnel: "grader", place_id: lead.place_id || undefined }) });
+        body: JSON.stringify({ ae, start: slot.start, end: slot.end, first_name: lead.first_name, last_name: lead.last_name, email: lead.email, phone: lead.phone, company_name: lead.company_name, session_id: SESSION_ID, funnel: "grader", place_id: lead.place_id || undefined, ...ADS_FIELDS }) });
       const result = await res.json();
       if (!res.ok) { setErr(result.error || "No pudimos agendar."); return; }
-      setBooked(result); fireEvent("demo_booked", lead.place_id || ""); clarityStep("demo_booked");
+      setBooked(result); fireEvent("demo_booked", lead.place_id || ""); clarityStep("demo_booked"); gadsConvert("demo_booked");
       if (typeof fbq === "function" && result.eventId) fbq("track", "Schedule", { content_name: "grader_booking", value: 0, currency: "MXN" }, { eventID: "schedule_" + result.eventId });
     } catch { setErr("No pudimos agendar. Intenta de nuevo."); } finally { setBooking(false); }
   };
@@ -1240,7 +1287,7 @@ function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
     if (typeof fbq === "function") fbq("track", "Lead", { content_name: "grader_landing" });
     if (MOCK) { setIntake({ ok: true, showCalendar: true, assignedAE: "Mariana", aeWhatsapp: FLUX_WA }); return; }
     fetch("/api/demo-page/lead-intake", { method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, company_name: fullLead.company_name, place_id: restaurant.placeId || undefined, place_address: restaurant.address || undefined, funnel: "grader", session_id: SESSION_ID }) })
+      body: JSON.stringify({ ...form, company_name: fullLead.company_name, place_id: restaurant.placeId || undefined, place_address: restaurant.address || undefined, funnel: "grader", session_id: SESSION_ID, ...ADS_FIELDS }) })
       .then((r) => r.json()).then((ik) => { setIntake(ik); if (ik && ik.aeWhatsapp) fullLead.aeWhatsapp = ik.aeWhatsapp; })
       .catch(() => setIntake({ ok: true, showCalendar: false, aeWhatsapp: FLUX_WA }));
   };
@@ -1430,6 +1477,7 @@ function App() {
         // Ads-optimization conversion: same eventID the backend CAPI event uses
         // (grader_score_<session>) so Meta dedups browser+server into one.
         if (!MOCK && typeof fbq === "function") fbq("trackCustom", "GraderScoreGenerated", { content_name: "calificador", score: sc.score && sc.score.value }, { eventID: "grader_score_" + SESSION_ID });
+        if (!MOCK) gadsConvert("grade_completed");   // Google Ads: the grade IS the optimization event (Owner model). Fresh scans only — reopens don't reach here.
       }
       const wait = Math.max(0, (ok ? SCAN_MIN_MS : 4200) - (Date.now() - started));
       setTimeout(() => {
