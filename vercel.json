@@ -60,7 +60,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "http://93.188.165.81:3001/:path*"
+      "destination": "https://api.fluxsales.co/:path*"
     },
     {
       "source": "/:path*",
