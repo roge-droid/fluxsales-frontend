@@ -650,6 +650,7 @@ const SESSION_ID = "sess_" + Date.now() + "_" + Math.random().toString(36).slice
 const FUNNEL_VERSION = "v3-freescore";
 
 function fireEvent(eventType, placeId) {
+  if (window.datafast) window.datafast(eventType); // DataFast custom goal (funnel step)
   fetch("/api/diagnostico/event", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
