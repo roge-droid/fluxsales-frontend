@@ -39,7 +39,7 @@
       "@type": "FAQPage",
       "mainEntity": [
         { "@type": "Question", "name": "¿Cómo se calcula la Calificación Digital?", "acceptedAnswer": { "@type": "Answer", "text": "Usamos los datos públicos de tu perfil de Google (calificación, reseñas, fotos, horarios, teléfono, canales de pedido) y, con tu permiso, analizamos tu propio sitio web: velocidad y experiencia móvil con la API oficial de Google PageSpeed, y su SEO en la página. Comparamos con el promedio público de restaurantes cercanos. Nunca rastreamos ni calificamos el sitio web de otro restaurante. La calificación va de 0 a 100 sobre tres áreas: presencia en buscadores, experiencia del cliente y perfil local." } },
-        { "@type": "Question", "name": "¿El estimado de dinero perdido es exacto?", "acceptedAnswer": { "@type": "Answer", "text": "Es un estimado, no una promesa. Lo calculamos a partir de la diferencia de reseñas con tu zona (asumiendo ~1 reseña pública por cada ~30 pedidos, acumulada en ~24 meses) y de las señales que faltan en tu perfil. Se muestra siempre como un rango." } },
+        { "@type": "Question", "name": "¿El estimado de dinero perdido es exacto?", "acceptedAnswer": { "@type": "Answer", "text": "Es un estimado, no una promesa. Partimos de tu volumen de pedidos estimado (asumiendo ~1 reseña pública de Google por cada ~30 pedidos, acumulada en ~24 meses) y calculamos cuánto de eso se va en comisiones a apps de terceros (25–30% por pedido) que podrías recuperar con pedidos directos. Se muestra siempre como un rango." } },
         { "@type": "Question", "name": "¿Qué hacen con mis datos?", "acceptedAnswer": { "@type": "Answer", "text": "Usamos tu nombre, WhatsApp y correo para enviarte tu análisis y, si calificas, coordinar una demo. No los vendemos. Puedes ver nuestro aviso de privacidad en fluxsales.co/privacy." } }
       ]
     }
@@ -400,6 +400,14 @@ html,body{overflow-x:hidden}
   .cx-cal-slots{grid-template-columns:repeat(2,1fr)}
 }
 </style>
+
+<!-- DataFast analytics -->
+<script
+  defer
+  data-website-id="dfid_1JeiKjY2XiNRknZfezthH"
+  data-domain="fluxsales.co"
+  src="https://datafa.st/js/script.js">
+</script>
 </head>
 <body>
 <noscript>
@@ -1262,6 +1270,8 @@ function AiPreview({ restaurant, score, unlocked, lockCls, onCta }) {
 // ── Report (score always visible; details gated behind Unlock) ───────────────
 function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
   const s = score, b = s.business, comp = s.competitors || {};
+  // Revenue-loss (commission bleed) — surfaced in the top panel AND the demo CTA below.
+  const loss = s.revenueLoss && s.revenueLoss.highMxn > 0 ? s.revenueLoss : null;
   // Permalink re-opens (?t=) start unlocked: the token only ever traveled to the
   // lead who already gave contact — re-gating them would just lose the visit.
   const [unlocked, setUnlocked] = useState(!!initialUnlocked);
@@ -1310,7 +1320,7 @@ function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
           <div className="cx-cardrow">
             <div className="cx-panel">
               {/* Top performers estimate to a $0–$0 range — reframe positive instead of "losing $0". */}
-              {(() => { const loss = s.revenueLoss && s.revenueLoss.highMxn > 0 ? s.revenueLoss : null; return (<React.Fragment>
+              {(() => { return (<React.Fragment>
               <h3>{loss ? "Podrías estar perdiendo dinero" : "Vas bien — pero hay margen de mejora"}</h3>
               <p className="cx-panel-lead">{loss
                 ? `Por ${s.issues.length} problemas en tu presencia digital`
@@ -1323,7 +1333,7 @@ function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
                   <div className="cx-issue" key={it.id}><span className={"cx-sev cx-sev-" + it.severity} /><div><b>{it.title}</b><p>{it.detail}</p></div></div>
                 ))}
               </div>
-              {loss && <div className="cx-loss-foot">*Estimado con datos de Google (tu diferencia de reseñas vs. tu zona + señales que faltan en tu perfil). Ver metodología abajo.</div>}
+              {loss && <div className="cx-loss-foot">*Estimación con datos públicos de Google: tu volumen de pedidos estimado × la comisión que pagas a apps de terceros (25–30%) y que recuperarías con pedidos directos. Es un rango, no una cifra exacta. Ver metodología abajo.</div>}
               </React.Fragment>); })()}
             </div>
 
@@ -1360,12 +1370,16 @@ function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
           {unlocked && intake && (
             <div className="cx-cta">
               {intake.showCalendar ? (<>
-                <h3>Arreglemos esto juntos</h3>
-                <p>Agenda una demo gratuita de 20 min. Te mostramos cómo subir tu Calificación y dejar de pagar comisiones.</p>
+                <h3>{loss ? <>Recupera hasta {MXN(loss.highMxn)}/mes</> : "Arreglemos esto juntos"}</h3>
+                <p>{loss
+                  ? "Agenda una demo gratuita de 20 min y te mostramos, paso a paso, cómo dejar de pagar comisiones y recuperar ese dinero."
+                  : "Agenda una demo gratuita de 20 min. Te mostramos cómo subir tu Calificación y dejar de pagar comisiones."}</p>
                 <Calendar ae={intake.assignedAE || "Mariana"} lead={lead} />
               </>) : (<>
-                <h3>Agendemos tu demo</h3>
-                <p>Escríbenos por WhatsApp y coordinamos una demo gratuita de 20 min para subir tu Calificación y dejar de pagar comisiones.</p>
+                <h3>{loss ? <>Recupera hasta {MXN(loss.highMxn)}/mes</> : "Agendemos tu demo"}</h3>
+                <p>{loss
+                  ? "Escríbenos por WhatsApp y coordinamos una demo gratuita de 20 min para dejar de pagar comisiones y recuperar ese dinero."
+                  : "Escríbenos por WhatsApp y coordinamos una demo gratuita de 20 min para subir tu Calificación y dejar de pagar comisiones."}</p>
                 <a className="cx-btn cx-btn--wa" style={{ display: "inline-block", width: "auto", padding: "13px 24px" }} href={"https://wa.me/" + (lead.aeWhatsapp || FLUX_WA) + "?text=" + encodeURIComponent(`Hola, saqué mi Calificación Digital (${s.score.value}/100) para ${b.displayName || restaurant.name} y quiero agendar una demo.`)} target="_blank" rel="noopener">Agendar mi demo por WhatsApp</a>
               </>)}
             </div>
@@ -1398,7 +1412,7 @@ function Faq() {
   return (
     <div className="cx-faq">
       <details><summary>¿Cómo se calcula la Calificación Digital?</summary><p>Usamos los datos públicos de tu perfil de Google (calificación, reseñas, fotos, horarios, teléfono, canales de pedido) y, con tu permiso, analizamos tu propio sitio web: velocidad y experiencia móvil con la API oficial de Google PageSpeed, y su SEO en la página. Comparamos con el promedio público de restaurantes cercanos. Nunca rastreamos ni calificamos el sitio web de otro restaurante. La calificación va de 0 a 100 sobre tres áreas: presencia en buscadores, experiencia del cliente y perfil local.</p></details>
-      <details><summary>¿El dinero perdido es exacto?</summary><p>Es un estimado, no una promesa. Lo calculamos a partir de tu diferencia de reseñas vs. tu zona (asumiendo ~1 reseña pública por cada ~30 pedidos, en ~24 meses) y de las señales que faltan en tu perfil. Siempre se muestra como un rango.</p></details>
+      <details><summary>¿El dinero perdido es exacto?</summary><p>Es un estimado, no una promesa. Partimos de tu volumen de pedidos estimado (asumiendo ~1 reseña pública de Google por cada ~30 pedidos, en ~24 meses) y calculamos cuánto se va en comisiones a apps de terceros (25–30% por pedido) que recuperarías con pedidos directos. Siempre se muestra como un rango.</p></details>
       <details><summary>¿Qué hacen con mis datos?</summary><p>Usamos tu nombre, WhatsApp y correo para enviarte tu análisis y coordinar una demo si calificas. No los vendemos. Consulta el <a href="/privacy" target="_blank" rel="noopener">aviso de privacidad</a>.</p></details>
     </div>
   );
