@@ -296,6 +296,8 @@ a{color:inherit}
 /* report */
 .cx-report{max-width:1080px;margin:0 auto;padding:24px 18px 70px}
 .cx-report-grid{display:grid;grid-template-columns:1fr;gap:18px}
+/* let the 1fr tracks shrink below their content min-width (nowrap comparison rows/score bars) so the report never overflows the mobile viewport */
+.cx-report-grid>*,.cx-cardrow>*{min-width:0}
 @media(min-width:900px){.cx-report-grid{grid-template-columns:300px 1fr;align-items:start}
   .cx-scorepanel{position:sticky;top:20px}}
 .cx-scorepanel{background:linear-gradient(180deg,#fef2f2,#fff);border:1px solid var(--line);border-radius:20px;padding:24px 20px;text-align:center}
