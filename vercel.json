@@ -55,6 +55,31 @@
       "source": "/otras-soluciones",
       "destination": "/",
       "statusCode": 301
+    },
+    {
+      "source": "/hs/:path*",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/comments",
+      "destination": "/blog",
+      "statusCode": 301
+    },
+    {
+      "source": "/presence",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/marketing",
+      "destination": "/guias/marketing-para-restaurantes",
+      "statusCode": 301
+    },
+    {
+      "source": "/reviews",
+      "destination": "/guias",
+      "statusCode": 301
     }
   ],
   "rewrites": [
