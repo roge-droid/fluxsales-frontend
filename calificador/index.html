@@ -1308,7 +1308,7 @@ function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
   const doUnlock = (form) => {
     const fullLead = { ...form, company_name: b.displayName || restaurant.name, place_id: restaurant.placeId, aeWhatsapp: FLUX_WA };
     setLead(fullLead); setUnlocked(true);
-    fireEvent("contact_submitted", restaurant.placeId); clarityStep("report_unlocked");
+    fireEvent("contact_submitted", restaurant.placeId); if (window.datafast && form.email) window.datafast("identify", { user_id: form.email.trim().toLowerCase() }); clarityStep("report_unlocked");
     fireEvent("full_diagnostic_revealed", restaurant.placeId);
     if (typeof fbq === "function") fbq("track", "Lead", { content_name: "grader_landing" });
     if (MOCK) { setIntake({ ok: true, showCalendar: true, assignedAE: "Mariana", aeWhatsapp: FLUX_WA }); return; }
