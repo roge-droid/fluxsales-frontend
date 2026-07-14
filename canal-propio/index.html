@@ -1063,7 +1063,9 @@ function CanalPropioApp() {
 
   // ── Render: post-submit routing by backend BANT lane ──
   const renderResultado = () => {
-    const lane = result && result.lane;
+    // Backend nests the BANT lane at result.bant.lane (null for non-volume funnels).
+    // Fallback: if bant is missing but the gate opened the calendar, treat as 'calendar'.
+    const lane = (result && result.bant && result.bant.lane) || (result && result.showCalendar ? "calendar" : null);
     if (lane === "hot" || lane === "calendar") {
       return (
         <div className="dx-card" style={{ textAlign: "center" }}>
