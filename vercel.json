@@ -122,6 +122,10 @@
       "destination": "/calificador/index.html"
     },
     {
+      "source": "/canal-propio",
+      "destination": "/canal-propio/index.html"
+    },
+    {
       "source": "/sitio",
       "destination": "/sitio/index.html"
     },
