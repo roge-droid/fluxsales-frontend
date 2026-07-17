@@ -7,6 +7,16 @@
       "statusCode": 301
     },
     {
+      "source": "/privacy-policy",
+      "destination": "/privacy",
+      "statusCode": 301
+    },
+    {
+      "source": "/user-data-deletion",
+      "destination": "/data-deletion",
+      "statusCode": 301
+    },
+    {
       "source": "/blog/:slug+",
       "destination": "/blog",
       "statusCode": 301
