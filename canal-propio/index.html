@@ -567,11 +567,17 @@ function resolvePlan(bracketKey) {
   return { price: 7499, label: "desde $7,499/mes" }; // 50k-150k, gt150k
 }
 
+// ROI line under the plan price. The old "menos que lo que recuperas en la primera
+// semana" made the reader do recovery÷4 in their head to believe it (and was
+// razor-thin at the 50k-150k floor). Show the subtraction instead — both numbers
+// are already on screen, so the claim is verifiable at a glance. Conservative on
+// both ends: uses the estimate FLOOR and rounds the leftover DOWN to $500s.
 function roiLine(recoveryMin, plan) {
   if (!plan) return null;
-  if (recoveryMin / 4 > plan.price) return "— menos que lo que recuperas en la primera semana";
-  if (recoveryMin > plan.price) return "— se paga solo con lo que recuperas";
-  return null;
+  const leftover = recoveryMin - plan.price;
+  if (leftover < 1000) return null; // not a selling point at that margin
+  const rounded = Math.floor(leftover / 500) * 500;
+  return "— te quedan ~" + fmtMXN(rounded) + "+ libres al mes, ya pagado el plan";
 }
 
 function CalendarBooking({ firstName, lastName, email, phone, companyName, assignedAE, onBooked, sessionId, placeId }) {
