@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- deploy: campaign-f canal-propio landing (funnel=volume) -->
+<!-- deploy: campaign-f canal-propio-vsl landing (funnel=volume, VSL variant for A/B vs /canal-propio) -->
 <html lang="es">
 <head>
 <!-- Google Tag Manager -->
@@ -12,19 +12,19 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Recupera tu comisión — Tu propio canal de pedidos | Fluxsales</title>
-<meta name="description" content="¿Tu restaurante hace más de 400 órdenes en línea al mes? Deja de regalarle el 40% de cada pedido a las apps. Te enseñamos tu propia cuenta en 2 minutos.">
-<meta property="og:title" content="Recupera tu comisión — Tu propio canal de pedidos | Fluxsales">
-<meta property="og:description" content="Brooklyn Burgers recuperó más de $245,000 al mes con su propio canal de pedidos. Te enseñamos tu cuenta en 2 minutos.">
+<title>¿Sigues regalando el 30% de cada pedido? — Tu propio canal | Fluxsales</title>
+<meta name="description" content="Para restaurantes con 400+ órdenes en línea al mes. Mira en 5 minutos cómo funciona tu propio canal de pedidos y cuánto recuperarías cada mes.">
+<meta property="og:title" content="¿Sigues regalando el 30% de cada pedido? — Tu propio canal | Fluxsales">
+<meta property="og:description" content="Brooklyn Burgers recuperó más de $245,000 al mes con su propio canal de pedidos. Mira cómo funciona en 5 minutos.">
 <meta property="og:type" content="website">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<!-- Paid landing (Campaign F, funnel=volume) — same treatment as diagnostico-google. -->
+<!-- Paid landing (Campaign F, funnel=volume) — VSL variant, same noindex treatment. -->
 <meta name="robots" content="noindex, follow" />
-<link rel="canonical" href="https://fluxsales.co/canal-propio" />
+<link rel="canonical" href="https://fluxsales.co/canal-propio-vsl" />
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -40,11 +40,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     },
     {
       "@type": "WebPage",
-      "name": "Recupera tu comisión — Tu propio canal de pedidos",
-      "url": "https://fluxsales.co/canal-propio",
+      "name": "¿Sigues regalando el 30% de cada pedido? — Tu propio canal de pedidos",
+      "url": "https://fluxsales.co/canal-propio-vsl",
       "inLanguage": "es",
       "about": { "@id": "https://fluxsales.co/#organization" },
-      "description": "Deja de regalarle el 40% de cada pedido a las apps de delivery. Calcula cuánto puedes recuperar con tu propio canal de pedidos."
+      "description": "Para restaurantes con 400+ órdenes en línea al mes: mira cómo funciona un canal propio de pedidos y cuánto recuperarías cada mes."
     }
   ]
 }
@@ -175,41 +175,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: 13px; color: var(--diag-muted); margin-top: 10px !important;
   font-weight: 500;
 }
-
-/* Proof section — Brooklyn Burgers */
-.dx-proof { margin: 44px auto 8px; }
-.dx-proof-card {
-  background: var(--diag-card); border: 1px solid var(--diag-border);
-  border-radius: 16px; padding: 28px 24px;
-  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
-}
-.dx-proof-eyebrow {
-  font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
-  color: var(--diag-blue); margin: 0 0 8px;
-}
-.dx-proof-title {
-  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 22px;
-  color: var(--diag-navy); margin: 0 0 14px; line-height: 1.25;
-}
-.dx-proof-metrics { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 18px; }
-@media (min-width: 640px) { .dx-proof-metrics { grid-template-columns: 1fr 1fr; } }
-.dx-proof-metric {
-  background: var(--diag-bg); border: 1px solid var(--diag-border); border-radius: 10px;
-  padding: 14px 16px;
-}
-.dx-proof-metric-num {
-  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 22px;
-  color: var(--diag-green); line-height: 1.2;
-}
-.dx-proof-metric-label { font-size: 13px; color: var(--diag-subtle); margin-top: 2px; line-height: 1.4; }
-.dx-proof-quote {
-  font-size: 14px; color: var(--diag-navy); line-height: 1.6; margin: 0 0 14px;
-  font-style: italic; border-left: 3px solid var(--diag-blue); padding-left: 14px;
-}
-.dx-proof-link {
-  font-size: 13px; font-weight: 600; color: var(--diag-blue);
-}
-.dx-proof-link:hover { text-decoration: underline; }
 
 .dx-card {
   background: var(--diag-card); border: 1px solid var(--diag-border);
@@ -439,11 +404,180 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--diag-navy); font-weight: 700;
 }
 
+/* ── VSL variant additions ─────────────────────────────────────────────── */
+/* Hero video — vertical 9:16, phone-like frame, centered. */
+.dx-vsl-wrap {
+  position: relative; width: 100%; max-width: 340px; margin: 22px auto 0;
+  border-radius: 20px; overflow: hidden; background: #0f172a;
+  box-shadow: 0 4px 12px rgba(15,23,42,.18), 0 24px 48px -16px rgba(15,23,42,.28);
+  aspect-ratio: 9 / 16;
+}
+.dx-vsl-wrap video { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; }
+.dx-vsl-overlay {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 10px;
+  background: rgba(15,23,42,.35); cursor: pointer; border: none; width: 100%;
+  transition: background .2s;
+}
+.dx-vsl-overlay:hover { background: rgba(15,23,42,.45); }
+.dx-vsl-overlay-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: #fff; color: var(--diag-navy);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; box-shadow: 0 8px 24px rgba(0,0,0,.3);
+}
+.dx-vsl-overlay-label {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 14px;
+  color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,.4);
+  background: rgba(15,23,42,.55); padding: 6px 14px; border-radius: 16px;
+}
+.dx-vsl-cta { max-width: 340px; margin: 18px auto 0; }
+
+/* Dark hero band — full-bleed navy like the reference (headline + VSL + CTA live on
+   dark; everything below is light). Negative margins cancel .dx-main's padding. */
+.dx-hero-band {
+  margin: -32px calc(50% - 50vw) 0;
+  background: var(--diag-navy);
+  padding: 44px 20px 40px;
+}
+@media (min-width: 1000px) { .dx-hero-band { margin-top: -56px; padding: 60px 24px 52px; } }
+.dx-vsl-hero { text-align: center; margin-bottom: 8px; }
+.dx-vsl-hero h1 {
+  font-family: "DM Sans", sans-serif; font-weight: 700;
+  font-size: 27px; line-height: 1.15; margin: 0 0 10px; color: #fff;
+}
+.dx-vsl-hero .dx-sub { font-size: 15px; color: rgba(255,255,255,.72); margin: 0; line-height: 1.55; }
+.dx-hero-band .dx-hero-badge { background: rgba(37,99,235,.18); border-color: rgba(147,197,253,.35); color: #93c5fd; }
+.dx-hero-band .dx-trust-bar { margin-top: 22px; }
+.dx-hero-band .dx-trust-item { color: rgba(255,255,255,.6); }
+.dx-hero-band .dx-trust-item strong { color: #fff; }
+.dx-hero-band .dx-btn { background: var(--diag-blue); font-size: 16px; }
+.dx-hero-band .dx-btn:hover { background: var(--diag-blue-hover); }
+@media (min-width: 768px) {
+  .dx-vsl-hero h1 { font-size: 38px; max-width: 680px; margin-left: auto; margin-right: auto; }
+  .dx-vsl-hero .dx-sub { font-size: 17px; max-width: 560px; margin: 0 auto; }
+}
+
+/* Section scaffolding below the hero */
+.dx-section { margin: 44px auto 0; }
+.dx-section-title {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 24px;
+  color: var(--diag-navy); text-align: center; margin: 0 0 22px; line-height: 1.25;
+}
+
+/* Client testimonial video (Cara de Pan — YouTube lazy embed), centered */
+.dx-yt-card {
+  background: var(--diag-card); border: 1px solid var(--diag-border);
+  border-radius: 16px; padding: 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
+  max-width: 560px; margin: 0 auto 22px;
+}
+.dx-yt-frame {
+  position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px;
+  overflow: hidden; background: #0f172a;
+}
+.dx-yt-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.dx-yt-thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.dx-yt-play {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(15,23,42,.25); border: none; cursor: pointer; width: 100%;
+}
+.dx-yt-play span {
+  width: 60px; height: 60px; border-radius: 50%; background: #fff; color: var(--diag-navy);
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+}
+.dx-yt-caption { font-size: 13px; color: var(--diag-subtle); margin: 12px 2px 0; line-height: 1.5; }
+.dx-yt-caption strong { color: var(--diag-navy); }
+
+/* Google-review cards (Hormozi "What people are saying" style, rendered from the
+   real Fluxsales GBP reviews) + disclaimer */
+.dx-reviews-sub {
+  text-align: center; font-size: 14px; color: var(--diag-subtle);
+  margin: -12px 0 20px; font-weight: 500;
+}
+.dx-reviews-sub .stars { color: #fbbc04; letter-spacing: 1px; }
+.dx-reviews-sub strong { color: var(--diag-navy); }
+.dx-reviews-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 768px) { .dx-reviews-grid { grid-template-columns: 1fr 1fr; } }
+.dx-grev {
+  background: #fff; border: 1px solid var(--diag-border); border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
+}
+.dx-grev-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.dx-grev-avatar { width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; background: var(--diag-bg); }
+.dx-grev-name { font-size: 14px; font-weight: 600; color: var(--diag-navy); line-height: 1.3; }
+.dx-grev-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--diag-muted); }
+.dx-grev-meta .stars { color: #fbbc04; font-size: 13px; letter-spacing: 1px; }
+.dx-grev-text { font-size: 14px; color: #334155; line-height: 1.6; margin: 8px 0 0; }
+.dx-grev-text mark { background: #fef08a; padding: 0 2px; border-radius: 2px; }
+.dx-reviews-link { display: block; text-align: center; margin-top: 16px; font-size: 13px; font-weight: 600; color: var(--diag-blue); }
+.dx-reviews-link:hover { text-decoration: underline; }
+.dx-disclaimer {
+  font-size: 11.5px; color: var(--diag-muted); line-height: 1.5;
+  text-align: center; max-width: 640px; margin: 18px auto 0;
+}
+
+/* Value props (#1–#4, Hormozi-style) — 2×2 on desktop */
+.dx-props { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 768px) { .dx-props { grid-template-columns: 1fr 1fr; } }
+.dx-prop {
+  background: var(--diag-card); border: 1px solid var(--diag-border);
+  border-radius: 16px; padding: 22px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
+}
+.dx-prop-num {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 13px;
+  color: var(--diag-blue); letter-spacing: .05em; margin: 0 0 8px;
+}
+.dx-prop-title {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 17px;
+  color: var(--diag-navy); margin: 0 0 8px; line-height: 1.3;
+}
+.dx-prop-body { font-size: 14px; color: var(--diag-subtle); margin: 0; line-height: 1.55; }
+.dx-prop-body strong { color: var(--diag-navy); }
+
+/* FAQ — accordion cards. The pricing question keeps the $7,499 anchor visible in
+   the closed state (the summary row), so collapsing never hides the price filter. */
+.dx-faq { display: flex; flex-direction: column; gap: 10px; }
+.dx-faq details {
+  background: var(--diag-card); border: 1px solid var(--diag-border);
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
+}
+.dx-faq details[open] { border-color: #bfdbfe; }
+.dx-faq summary {
+  list-style: none; cursor: pointer; user-select: none;
+  display: flex; align-items: center; justify-content: space-between; gap: 14px;
+  padding: 17px 20px;
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 15.5px;
+  color: var(--diag-navy); line-height: 1.35;
+}
+.dx-faq summary::-webkit-details-marker { display: none; }
+.dx-faq summary .dx-faq-q { flex: 1; }
+.dx-faq summary .dx-faq-tag {
+  font-size: 14px; color: var(--diag-blue); white-space: nowrap; font-weight: 700;
+}
+.dx-faq summary .dx-faq-chev {
+  flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  background: var(--diag-bg); border: 1px solid var(--diag-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: var(--diag-subtle); font-weight: 600;
+  transition: transform .2s;
+}
+.dx-faq details[open] .dx-faq-chev { transform: rotate(45deg); background: #eff6ff; border-color: #bfdbfe; color: var(--diag-blue); }
+.dx-faq-body { padding: 0 20px 18px; font-size: 14.5px; color: #334155; line-height: 1.65; }
+.dx-faq-body p { margin: 0 0 10px; }
+.dx-faq-body p:last-child { margin-bottom: 0; }
+.dx-faq-body strong { color: var(--diag-navy); }
+
 @media (max-width: 480px) {
   .dx-card, .dx-proof-card { padding: 24px 18px; }
-  .dx-hero h1 { font-size: 23px; }
+  .dx-hero h1, .dx-vsl-hero h1 { font-size: 23px; }
   .dx-trust-bar { gap: 12px; }
   .dx-trust-item { font-size: 12px; }
+  .dx-letter { padding: 24px 18px; }
 }
 </style>
 <!-- DataFast analytics -->
@@ -462,20 +596,71 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <div id="root"></div>
 <script type="text/babel">
-// ─── Campaign F — canal-propio (funnel=volume) ───────────────────────────────
-// High-intent conquest page for restaurants already doing 400+ online orders/month.
-// The hook is the Brooklyn Burgers proof (real customer, ~$245K/mo recovered) and a
-// self-serve savings calculator built from 5 BANT questions. API_BASE mirrors the
-// diagnostico-google local-dev convention (relative "" when running on localhost,
-// so scripts/local-canal-propio.js can proxy /api/* to the flux-automation server).
+// ─── Campaign F — canal-propio-vsl (funnel=volume, VSL variant) ───────────────
+// A/B variant of /canal-propio modeled on acquisition.com/workshop: the founder VSL
+// does the selling (hook → problem → mechanism → proof → demo CTA), client
+// testimonials + a plain-text disqualifying FAQ with real pricing do the filtering,
+// and the SAME 3-step BANT form (Places gate + funnel=volume backend, untouched)
+// gates the calendar underneath. Split traffic vs /canal-propio by ad set
+// (utm_content per hook); both variants submit to the same endpoint.
 const API_BASE = (location.hostname === "localhost" || location.hostname === "127.0.0.1") ? "" : "/api";
 const API_URL = API_BASE + "/demo-page/lead-intake";
 const SESSION_ID = "sess_" + Date.now() + "_" + Math.random().toString(36).slice(2, 8);
 const FLUX_WA = "5214421716825";
 
+// Hero VSL (FLUXSALES VIDEO LANDING REV5 CUT — trimmed at 5:26 to end on the demo
+// CTA, BEFORE the old $2,999 countdown offer, which contradicts this funnel's
+// premium pricing). Local dev serves the file from this folder (gitignored);
+// TODO(deploy): upload vsl.mp4 to a bucket/CDN and point VSL_SRC at that URL —
+// media does not ship via the repo (see .gitignore note).
+const VSL_SRC = "/canal-propio-vsl/vsl.mp4";
+const VSL_POSTER = "/canal-propio-vsl/vsl-poster.jpg";
+// Cara de Pan client testimonial on YouTube (also used inside Meta ads).
+// https://www.youtube.com/shorts/5JJ1CyYpYTc
+const CARA_DE_PAN_YT_ID = "5JJ1CyYpYTc";
+// Second proof strip: REAL reviews from the Fluxsales Google Business Profile
+// (place ChIJc4jhgDUboy8RO3AtR-TmDcE / cid 13911028692138422331 — 5.0★, 48 reseñas
+// as of 2026-07-14), rendered Hormozi-style with the key phrase highlighted. Text is
+// VERBATIM (typos included — that's what makes it credible); `hl` must be an exact
+// substring of `text`. Deliberately NOT linked out to Google — every CTA on this
+// page funnels to the form; proof sections carry no exits.
+const GBP_RATING = "5.0";
+const GBP_COUNT = 48;
+const GOOGLE_REVIEWS = [
+  {
+    name: "Axel Santos", when: "Hace 3 meses",
+    photo: "https://lh3.googleusercontent.com/a/ACg8ocKrJtc_Z2WEbLMzGDoXjNNA0e5x9Eqlz0csm-iTJsNsq3mXnw=s128-c0x00000000-cc-rp-mo",
+    text: "Gran servicio siempre atentos resolviendo cualquier duda que llega a existir si tiene  oportunidad de trabajar con ellos tomenla",
+    hl: "si tiene  oportunidad de trabajar con ellos tomenla",
+  },
+  {
+    name: "Wantai Bubble Tea", when: "Hace 3 meses",
+    photo: "https://lh3.googleusercontent.com/a-/ALV-UjX9EdQnUybooGL2wbTPClQPi1KO5yFBxjm2JUy0OaWcWATqjzs=w128-h128-p-rp-mo-br100",
+    text: "Muy buena plataforma de lealtad. Nos ha ayudado a aumentar la recompra y organizar nuestro sistema de puntos y promociones de forma clara. Fácil de usar para clientes y staff. Totalmente recomendada para negocios que buscan crecer en retención.",
+    hl: "Nos ha ayudado a aumentar la recompra",
+  },
+  {
+    name: "Cristina Ruiz", when: "Hace 3 meses",
+    photo: "https://lh3.googleusercontent.com/a-/ALV-UjUi9pC2MzWAokkHhruNTxJ5Gbr5PEJXKkILD5_dpKZU_KXQhz8=w128-h128-p-rp-mo-br100",
+    text: "Me encanta esta app! Tienes todo en uno! Yo la uso en mi Dark Kitchen! El servicios. Domicilio me funciona muy bien!",
+    hl: "Tienes todo en uno! Yo la uso en mi Dark Kitchen!",
+  },
+  {
+    name: "Andrea Guerra", when: "Hace 2 años",
+    photo: "https://lh3.googleusercontent.com/a/ACg8ocI3CLAKQCAp4AL81sFhlcHuoWjjMNMT2GbXoh967rew172NVA=s128-c0x00000000-cc-rp-mo",
+    text: "Tienen super buen trato, son muy atentos a las necesidades de sus clientes y cumplen en tiempo y forma. Los recomiendo ampliamente.",
+    hl: "Los recomiendo ampliamente.",
+  },
+];
+
 const _qs = new URLSearchParams(location.search);
+// ?mock=1 — full click-through WITHOUT side effects (no lead-intake POST, no Attio/
+// Telegram/CAPI, no real calendar): submit fakes a hot lane and the calendar renders
+// fake slots + a fake confirmation. Same convention as /calificador's ?mock=1.
+// Never link to this from ads; it exists for local/preview QA only.
+const MOCK = _qs.get("mock") === "1";
 const UTM = (() => {
-  const saved = JSON.parse(sessionStorage.getItem("flux_canal_propio_utm") || "null");
+  const saved = JSON.parse(sessionStorage.getItem("flux_canal_propio_vsl_utm") || "null");
   if (saved) return saved;
   const u = {
     utm_source: _qs.get("utm_source") || "",
@@ -484,7 +669,7 @@ const UTM = (() => {
     utm_content: _qs.get("utm_content") || "",
     gclid: _qs.get("gclid") || "",
   };
-  if (u.utm_source || u.gclid) sessionStorage.setItem("flux_canal_propio_utm", JSON.stringify(u));
+  if (u.utm_source || u.gclid) sessionStorage.setItem("flux_canal_propio_vsl_utm", JSON.stringify(u));
   return u;
 })();
 const UTM_FIELDS = {
@@ -513,7 +698,7 @@ function fireEvent(eventType, extra) {
   fetch(API_BASE + "/diagnostico/event", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ event_type: eventType, session_id: SESSION_ID, funnel_version: "v1-canal-propio", ...extra }),
+    body: JSON.stringify({ event_type: eventType, session_id: SESSION_ID, funnel_version: "v1-canal-propio-vsl", ...extra }),
   }).catch(() => {});
 }
 
@@ -561,10 +746,13 @@ function computeSavings(comisiones, ventaOnline) {
 }
 
 // Plan price shown, keyed off the EFFECTIVE commission bracket (post-estimate).
+// VSL variant: a single $7,499 anchor for every qualifying bracket — the page's FAQ
+// states this price flat-out (Hormozi-style transparency = the qualification filter),
+// so the form must never show a lower number than the letter above it. The AE can
+// then concede down from the anchor in the demo; the page never contradicts them.
 function resolvePlan(bracketKey) {
   if (bracketKey === "lt15k") return null; // educational lane — skip the investment question
-  if (bracketKey === "15k-50k") return { price: 5499, label: "$5,499/mes" };
-  return { price: 7499, label: "desde $7,499/mes" }; // 50k-150k, gt150k
+  return { price: 7499, label: "$7,499/mes" }; // 15k-50k, 50k-150k, gt150k
 }
 
 function roiLine(recoveryMin, plan) {
@@ -589,6 +777,23 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
 
   React.useEffect(() => {
     fireEvent("calendar_shown", { place_id: placeId });
+    if (MOCK) {
+      // Fake next-5-weekday slots so the whole booking UI is clickable locally.
+      const days = [];
+      const d = new Date();
+      const DAY_NAMES = ["dom", "lun", "mar", "mié", "jue", "vie", "sáb"];
+      while (days.length < 5) {
+        d.setDate(d.getDate() + 1);
+        if (d.getDay() === 0 || d.getDay() === 6) continue;
+        days.push({
+          dateLabel: DAY_NAMES[d.getDay()] + " " + d.getDate(),
+          slots: ["10:00 am", "11:30 am", "1:00 pm", "4:00 pm"].map((t) => ({ timeLabel: t, start: d.toISOString(), end: d.toISOString() })),
+        });
+      }
+      setDates(days);
+      setLoading(false);
+      return;
+    }
     fetch(API_BASE + "/calendar/available-slots?ae=" + encodeURIComponent(assignedAE) + "&days=14")
       .then(r => r.json())
       .then(data => {
@@ -601,6 +806,10 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
 
   const handleBook = async () => {
     if (!selectedSlot) return;
+    if (MOCK) {
+      setBooked({ startFormatted: "(demo de prueba — nada se agendó)", meetLink: null });
+      return;
+    }
     setBooking(true); setError(null);
     try {
       const res = await fetch(API_BASE + "/calendar/book-demo", {
@@ -609,7 +818,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
         body: JSON.stringify({
           ae: assignedAE, start: selectedSlot.start, end: selectedSlot.end,
           first_name: firstName, last_name: lastName, email, phone, company_name: companyName,
-          session_id: sessionId, source: "canal_propio", place_id: placeId || undefined,
+          session_id: sessionId, source: "canal_propio_vsl", place_id: placeId || undefined,
           ...UTM_FIELDS,
         }),
       });
@@ -619,7 +828,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
       fireEvent("demo_booked", { place_id: placeId });
       if (onBooked) onBooked();
       if (typeof fbq === "function" && result.eventId) {
-        fbq("track", "Schedule", { content_name: "canal_propio_booking", value: 0, currency: "MXN" }, { eventID: "schedule_" + result.eventId });
+        fbq("track", "Schedule", { content_name: "canal_propio_vsl_booking", value: 0, currency: "MXN" }, { eventID: "schedule_" + result.eventId });
       }
     } catch { setError("No pudimos agendar. Intenta de nuevo."); }
     finally { setBooking(false); }
@@ -690,6 +899,106 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
         <a href={"https://wa.me/" + FLUX_WA}>¿Prefieres WhatsApp?</a>
       </div>
     </>
+  );
+}
+
+// Hero VSL: autoplays muted (Meta traffic = mobile, sound off), one tap restarts
+// WITH sound. No native controls / no scrub bar (VSL convention — Vidalytics-style);
+// after unmuting, tapping the video toggles play/pause. When it ends, the overlay
+// returns as the CTA into the form.
+function VslPlayer({ onCta }) {
+  const videoRef = React.useRef(null);
+  const [unmuted, setUnmuted] = React.useState(false);
+  const [ended, setEnded] = React.useState(false);
+
+  // React doesn't write `muted` as an HTML attribute, which defeats Chrome's
+  // muted-autoplay policy check — set it imperatively before kicking playback.
+  React.useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.play().catch(() => {}); // autoplay may still be blocked (e.g. Low Power Mode) — poster+overlay stay usable
+  }, []);
+
+  const startWithSound = () => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.currentTime = 0; v.muted = false;
+    v.play().catch(() => {});
+    setUnmuted(true); setEnded(false);
+    fireEvent("vsl_unmuted");
+  };
+
+  const togglePlay = () => {
+    const v = videoRef.current;
+    if (!v || !unmuted) return;
+    if (v.paused) v.play().catch(() => {}); else v.pause();
+  };
+
+  return (
+    <div className="dx-vsl-wrap">
+      <video ref={videoRef} src={VSL_SRC} poster={VSL_POSTER}
+        autoPlay muted loop={false} playsInline preload="metadata"
+        onClick={togglePlay}
+        onEnded={() => { setEnded(true); fireEvent("vsl_completed"); }} />
+      {(!unmuted || ended) && (
+        <button type="button" className="dx-vsl-overlay" onClick={ended ? onCta : startWithSound}>
+          <span className="dx-vsl-overlay-icon">{ended ? "→" : "🔊"}</span>
+          <span className="dx-vsl-overlay-label">{ended ? "Ver si tu restaurante califica" : "Toca para escuchar"}</span>
+        </button>
+      )}
+    </div>
+  );
+}
+
+// Cara de Pan testimonial — lazy YouTube embed (thumbnail + click-to-load, so the
+// page never pays the YouTube iframe cost unless the visitor asks for it). Renders
+// nothing while CARA_DE_PAN_YT_ID is unset.
+function YouTubeTestimonial({ videoId, caption }) {
+  const [loaded, setLoaded] = React.useState(false);
+  if (!videoId) return null;
+  return (
+    <div className="dx-yt-card">
+      <div className="dx-yt-frame">
+        {loaded ? (
+          <iframe
+            src={"https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&rel=0"}
+            title="Testimonio de cliente Fluxsales"
+            allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+        ) : (
+          <>
+            <img className="dx-yt-thumb" src={"https://i.ytimg.com/vi/" + videoId + "/hqdefault.jpg"} alt="Testimonio de cliente" loading="lazy" />
+            <button type="button" className="dx-yt-play" aria-label="Reproducir testimonio"
+              onClick={() => { setLoaded(true); fireEvent("testimonial_played"); }}>
+              <span>▶</span>
+            </button>
+          </>
+        )}
+      </div>
+      {caption && <p className="dx-yt-caption">{caption}</p>}
+    </div>
+  );
+}
+
+// One Google review, rendered in the platform's visual language (avatar, stars,
+// relative date) with the key phrase marker-highlighted — the Hormozi treatment.
+function GoogleReviewCard({ r }) {
+  const i = r.hl ? r.text.indexOf(r.hl) : -1;
+  return (
+    <div className="dx-grev">
+      <div className="dx-grev-head">
+        <img className="dx-grev-avatar" src={r.photo} alt="" loading="lazy" referrerPolicy="no-referrer" />
+        <div>
+          <div className="dx-grev-name">{r.name}</div>
+          <div className="dx-grev-meta"><span className="stars">★★★★★</span><span>{r.when}</span></div>
+        </div>
+      </div>
+      <p className="dx-grev-text">
+        {i < 0 ? r.text : (<>
+          {r.text.slice(0, i)}<mark>{r.hl}</mark>{r.text.slice(i + r.hl.length)}
+        </>)}
+      </p>
+    </div>
   );
 }
 
@@ -865,6 +1174,11 @@ function CanalPropioApp() {
 
   const handleSubmit = async () => {
     if (!validatePhone()) return;
+    if (MOCK) {
+      setResult({ bant: { lane: "hot", flags: [], breakdown: {} }, showCalendar: true, assignedAE: "Roge", aeWhatsapp: FLUX_WA, eventId: "mock" });
+      setStep("resultado");
+      return;
+    }
     setSubmitting(true); setError(null);
     try {
       const fullPhone = form.country_code + form.phone.replace(/\D/g, "");
@@ -889,9 +1203,9 @@ function CanalPropioApp() {
       fireEvent("canal_propio_contact_submitted", { place_id: placeId });
       if (window.datafast && form.email) window.datafast("identify", { user_id: form.email.trim().toLowerCase() });
       if (typeof fbq === "function" && data.eventId) {
-        fbq("track", "Lead", { content_name: "canal_propio_page", value: 0, currency: "MXN" }, { eventID: data.eventId });
+        fbq("track", "Lead", { content_name: "canal_propio_vsl_page", value: 0, currency: "MXN" }, { eventID: data.eventId });
       } else if (typeof fbq === "function") {
-        fbq("track", "Lead", { content_name: "canal_propio_page", value: 0, currency: "MXN" });
+        fbq("track", "Lead", { content_name: "canal_propio_vsl_page", value: 0, currency: "MXN" });
       }
       gadsConvert("lead");
       setStep("resultado");
@@ -1120,6 +1434,13 @@ function CanalPropioApp() {
     );
   };
 
+  // VSL variant: the CTA scrolls to the form section instead of sitting beside it.
+  const formRef = React.useRef(null);
+  const scrollToForm = () => {
+    fireEvent("vsl_cta_clicked", { place_id: placeId });
+    if (formRef.current) formRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <div className="dx-page">
       <nav className="dx-nav">
@@ -1131,50 +1452,114 @@ function CanalPropioApp() {
       <div className="dx-main">
         <div className={"dx-container" + (step === "paso1" ? " dx-container--wide" : "")}>
           {step === "paso1" && (
-            <div className="dx-hero-layout">
-              <div className="dx-hero">
-                <span className="dx-hero-badge">Calculadora gratuita</span>
-                <h1>¿Tu restaurante hace más de 400 órdenes en línea al mes?</h1>
-                <p>Deja de regalarle el 40% de cada pedido a las apps. Brooklyn Burgers recuperó más de $245,000 al mes — te enseñamos tu propia cuenta en 2 minutos.</p>
-                <p className="dx-hero-note">Gratis · 2 minutos · sin tarjeta</p>
+            <>
+              {/* ── Hero: dark band, the VSL does the selling ── */}
+              <div className="dx-hero-band">
+                <div className="dx-vsl-hero">
+                  <span className="dx-hero-badge">Para restaurantes con 400+ órdenes en línea al mes</span>
+                  <h1>¿Sigues regalando el 30% de cada pedido a las apps?</h1>
+                  <p className="dx-sub">Mira cómo funciona tu propio canal de pedidos — y cuánto recuperarías cada mes. Sin comisiones, con tu marca, operando en 48 horas.</p>
+                </div>
+                <VslPlayer onCta={scrollToForm} />
+                <div className="dx-vsl-cta">
+                  <button className="dx-btn" onClick={scrollToForm}>Quiero mi canal propio →</button>
+                </div>
+                <div className="dx-trust-bar">
+                  <span className="dx-trust-item"><strong>+1,400</strong> restaurantes</span>
+                  <span className="dx-trust-item"><strong>70%</strong> de comisión recuperada</span>
+                  <span className="dx-trust-item"><strong>48h</strong> para estar operando</span>
+                </div>
               </div>
-              <div className="dx-trust-bar">
-                <span className="dx-trust-item"><strong>+1,400</strong> restaurantes</span>
-                <span className="dx-trust-item"><strong>70%</strong> de comisión recuperada</span>
-                <span className="dx-trust-item"><strong>48h</strong> para estar operando</span>
-              </div>
-              <div className="dx-hero-right">{renderPaso1()}</div>
-            </div>
-          )}
-          {step === "paso1" && (
-            <section className="dx-proof">
-              <div className="dx-proof-card">
-                <div className="dx-proof-eyebrow">Caso de éxito</div>
-                <h2 className="dx-proof-title">Brooklyn Burgers recuperó más de $245,000 MXN al mes con solo 4 sucursales</h2>
-                <p className="dx-proof-quote">
-                  La misma hamburguesa cuesta $130 en su canal propio vs $209 en las apps de delivery. Hoy mueven entre 100 y 120 pedidos al día por su canal propio, contra 15–20 que recibían por las apps — y en menos de 3 meses. Hoy tienen 10 sucursales.
+
+              {/* ── Social proof: client video + real Google reviews (like the reference collage) ── */}
+              <section className="dx-section">
+                <h2 className="dx-section-title">Lo que dicen nuestros clientes:</h2>
+                <YouTubeTestimonial videoId={CARA_DE_PAN_YT_ID}
+                  caption={<>"Tenemos clientes que nos visitan 2 o 3 veces por semana, y el sistema de recompensas los motiva aún más a regresar." — <strong>Cara de Pan</strong> 🍞</>} />
+                <p className="dx-reviews-sub"><span className="stars">★★★★★</span> <strong>{GBP_RATING}</strong> · {GBP_COUNT} reseñas en Google</p>
+                <div className="dx-reviews-grid">
+                  {GOOGLE_REVIEWS.map((r, i) => <GoogleReviewCard key={i} r={r} />)}
+                </div>
+                <p className="dx-disclaimer">
+                  Los resultados presentados corresponden a clientes reales de Fluxsales y no son típicos ni garantizados.
+                  Tu resultado dependerá de tu volumen, operación y ejecución. Las cifras se comparten con fines ilustrativos.
                 </p>
-                <div className="dx-proof-metrics">
-                  <div className="dx-proof-metric">
-                    <div className="dx-proof-metric-num">$245,000+/mes</div>
-                    <div className="dx-proof-metric-label">recuperados con solo 4 sucursales, en menos de 3 meses</div>
+              </section>
+
+              {/* ── Value props (#1/#2/#3) ── */}
+              <section className="dx-section">
+                <h2 className="dx-section-title">Lo que obtienes con tu canal propio:</h2>
+                <div className="dx-props">
+                  <div className="dx-prop">
+                    <p className="dx-prop-num">#1: TU CANAL, TU MARCA</p>
+                    <p className="dx-prop-title">Pedidos en línea sin comisiones</p>
+                    <p className="dx-prop-body">Sitio web y app móvil <strong>con tu marca</strong>, tan poderosos como los de las grandes cadenas. Cada pedido que hoy pasa por las apps se vuelve tuyo — con los datos de tus clientes incluidos.</p>
                   </div>
-                  <div className="dx-proof-metric">
-                    <div className="dx-proof-metric-num">$130 vs $209</div>
-                    <div className="dx-proof-metric-label">misma hamburguesa: canal propio vs apps</div>
+                  <div className="dx-prop">
+                    <p className="dx-prop-num">#2: ENTREGA INCLUIDA</p>
+                    <p className="dx-prop-title">La misma experiencia que las apps — pero en tu canal</p>
+                    <p className="dx-prop-body">Tu cliente pide en línea y un <strong>repartidor cercano</strong> recoge y entrega en su puerta, igual que en las apps de delivery. La diferencia: el pedido, el cliente y el margen son tuyos — sin contratar repartidores ni comprar motos.</p>
                   </div>
-                  <div className="dx-proof-metric">
-                    <div className="dx-proof-metric-num">100–120 vs 15–20</div>
-                    <div className="dx-proof-metric-label">pedidos/día por canal propio vs por apps</div>
+                  <div className="dx-prop">
+                    <p className="dx-prop-num">#3: CLIENTES QUE REGRESAN</p>
+                    <p className="dx-prop-title">Lealtad + marketing automatizado</p>
+                    <p className="dx-prop-body">Un programa de recompensas que impulsa pedidos repetidos y campañas que <strong>venden solas</strong>, mientras tú te concentras en la operación. Igual que las grandes marcas, pero hecho para tu restaurante.</p>
                   </div>
-                  <div className="dx-proof-metric">
-                    <div className="dx-proof-metric-num">10 sucursales</div>
-                    <div className="dx-proof-metric-label">hoy — el canal propio impulsó la expansión</div>
+                  <div className="dx-prop">
+                    <p className="dx-prop-num">#4: NÚMEROS CLAROS EN LA DEMO</p>
+                    <p className="dx-prop-title">Tu caso, con tus cifras</p>
+                    <p className="dx-prop-body">En 30 minutos un asesor evalúa si tu restaurante está listo y sales con un <strong>plan concreto de recuperación</strong>: cuánto pagas hoy en comisiones y cuánto de eso vuelve a tu bolsillo.</p>
                   </div>
                 </div>
-                <a href="/casos/brooklyn-burgers" className="dx-proof-link">Ver el caso completo de Brooklyn Burgers →</a>
-              </div>
-            </section>
+              </section>
+
+
+              {/* ── FAQ accordion — questions adapted from the reference letter
+                     (what happens / who delivers / right size / how much); answers =
+                     this funnel's real facts (BANT thresholds, drivers, $7,499 anchor).
+                     The pricing row shows the anchor even when collapsed. ── */}
+              <section className="dx-section" style={{ maxWidth: 640 }}>
+                <h2 className="dx-section-title">Preguntas directas:</h2>
+                <div className="dx-faq">
+                  <details>
+                    <summary><span className="dx-faq-q">¿Qué pasa en la demo?</span><span className="dx-faq-chev">+</span></summary>
+                    <div className="dx-faq-body">
+                      <p>No es una llamada motivacional. Es tu caso, con tus números. En 30 minutos por Google Meet, un asesor revisa tu volumen, tus comisiones y tu operación, y te muestra tu propia cuenta funcionando. Sales con cifras concretas de cuánto recuperas al mes — decidas trabajar con nosotros o no.</p>
+                    </div>
+                  </details>
+                  <details>
+                    <summary><span className="dx-faq-q">¿Y quién entrega los pedidos?</span><span className="dx-faq-chev">+</span></summary>
+                    <div className="dx-faq-body">
+                      <p>Nosotros. Tu canal incluye <strong>repartidores on-demand</strong>: tu cliente pide en tu sitio o en tu app, el sistema asigna al repartidor más cercano y el pedido llega a su puerta — la misma experiencia que ya conoce de las apps. No contratas a nadie, no compras motos, no pagas nómina. Solo que esta vez el pedido, el cliente y el margen son tuyos.</p>
+                    </div>
+                  </details>
+                  <details>
+                    <summary><span className="dx-faq-q">¿Es para mi restaurante?</span><span className="dx-faq-chev">+</span></summary>
+                    <div className="dx-faq-body">
+                      <p><strong>Si haces menos de 400 órdenes en línea al mes, esto no es para ti (todavía).</strong> Trabajamos con restaurantes que ya tienen volumen en las apps y quieren dejar de rentarlo. Si estás entre 400 y varios miles de órdenes al mes — con una o varias sucursales — podemos ayudarte.</p>
+                    </div>
+                  </details>
+                  <details>
+                    <summary><span className="dx-faq-q">¿Cuánto cuesta?</span><span className="dx-faq-tag">$7,499/mes</span><span className="dx-faq-chev">+</span></summary>
+                    <div className="dx-faq-body">
+                      <p>La inversión es de <strong>$7,499 MXN al mes</strong>. Sin contratos forzosos, mes a mes. Esto nos permite:</p>
+                      <p>1) Trabajar solo con restaurantes con volumen real — tu asesor conoce tu operación, no atiende a cualquiera.</p>
+                      <p>2) Montarte todo en 48 horas: sitio, app, lealtad y marketing, sin que tu equipo tenga que aprender nada nuevo.</p>
+                      <p><strong>Si hoy pagas menos de $15,000 al mes en comisiones, no lo hagas</strong> — las matemáticas aún no te favorecen. Si pagas más, cada mes que esperas es dinero que ya se fue.</p>
+                    </div>
+                  </details>
+                </div>
+                <div className="dx-vsl-cta">
+                  <button className="dx-btn dx-btn--dark" onClick={scrollToForm}>Ver si mi restaurante califica →</button>
+                </div>
+              </section>
+
+              {/* ── The form (same 3-step BANT flow as /canal-propio) ── */}
+              <section className="dx-section" ref={formRef} style={{ maxWidth: 440, scrollMarginTop: 24 }}>
+                <h2 className="dx-section-title">Empieza aquí:</h2>
+                {renderPaso1()}
+              </section>
+            </>
           )}
           {step === "paso2" && renderPaso2()}
           {step === "paso3" && renderPaso3()}
