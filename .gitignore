@@ -5,5 +5,7 @@ node_modules/
 # Reels/media are work product — host for Blotato via a bucket/Blotato upload, not the repo.
 media/
 
-# Landing VSL video is hosted media (bucket/CDN), not repo content — only the poster ships.
-canal-propio-vsl/vsl.mp4
+# Note: canal-propio-vsl/vsl.mp4 IS committed (33MB, compressed) — it's a permanent
+# site asset served by Vercel's edge CDN (Range + faststart), not per-video work
+# product. No bucket/CDN creds were reachable (Supabase Storage egress-restricted,
+# no Vercel Blob token); revisit hosting off-repo if the file grows or gets versioned.
