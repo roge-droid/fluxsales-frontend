@@ -610,9 +610,10 @@ const FLUX_WA = "5214421716825";
 
 // Hero VSL (FLUXSALES VIDEO LANDING REV5 CUT — trimmed at 5:26 to end on the demo
 // CTA, BEFORE the old $2,999 countdown offer, which contradicts this funnel's
-// premium pricing). Local dev serves the file from this folder (gitignored);
-// TODO(deploy): upload vsl.mp4 to a bucket/CDN and point VSL_SRC at that URL —
-// media does not ship via the repo (see .gitignore note).
+// premium pricing). Shipped IN-REPO (33MB, compressed 720×1280 CRF30 + faststart)
+// and served by Vercel's edge CDN with Range support — no bucket/CDN was reachable
+// (Supabase Storage egress-restricted, no Vercel Blob token). To move it off-repo
+// later, upload the file and point VSL_SRC at the new URL; nothing else changes.
 const VSL_SRC = "/canal-propio-vsl/vsl.mp4";
 const VSL_POSTER = "/canal-propio-vsl/vsl-poster.jpg";
 // Cara de Pan client testimonial on YouTube (also used inside Meta ads).
