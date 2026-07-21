@@ -419,6 +419,61 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .dx-bk-links { font-size: 12px; color: var(--diag-muted); text-align: center; margin-top: 12px; }
 .dx-bk-links a { color: var(--diag-blue); text-decoration: underline; }
 
+/* ── Social proof (ported from /canal-propio-vsl): section scaffolding,
+   Cara de Pan lazy YouTube embed, Google-review cards + disclaimer ── */
+.dx-section { margin: 44px auto 0; }
+.dx-section-title {
+  font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 24px;
+  color: var(--diag-navy); text-align: center; margin: 0 0 22px; line-height: 1.25;
+}
+.dx-yt-card {
+  background: var(--diag-card); border: 1px solid var(--diag-border);
+  border-radius: 16px; padding: 18px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
+  max-width: 560px; margin: 0 auto 22px;
+}
+.dx-yt-frame {
+  position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 12px;
+  overflow: hidden; background: #0f172a;
+}
+.dx-yt-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.dx-yt-thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.dx-yt-play {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgba(15,23,42,.25); border: none; cursor: pointer; width: 100%;
+}
+.dx-yt-play span {
+  width: 60px; height: 60px; border-radius: 50%; background: #fff; color: var(--diag-navy);
+  display: flex; align-items: center; justify-content: center; font-size: 22px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.3);
+}
+.dx-yt-caption { font-size: 13px; color: var(--diag-subtle); margin: 12px 2px 0; line-height: 1.5; }
+.dx-yt-caption strong { color: var(--diag-navy); }
+.dx-reviews-sub {
+  text-align: center; font-size: 14px; color: var(--diag-subtle);
+  margin: -12px 0 20px; font-weight: 500;
+}
+.dx-reviews-sub .stars { color: #fbbc04; letter-spacing: 1px; }
+.dx-reviews-sub strong { color: var(--diag-navy); }
+.dx-reviews-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 768px) { .dx-reviews-grid { grid-template-columns: 1fr 1fr; } }
+.dx-grev {
+  background: #fff; border: 1px solid var(--diag-border); border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
+}
+.dx-grev-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.dx-grev-avatar { width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; background: var(--diag-bg); }
+.dx-grev-name { font-size: 14px; font-weight: 600; color: var(--diag-navy); line-height: 1.3; }
+.dx-grev-meta { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--diag-muted); }
+.dx-grev-meta .stars { color: #fbbc04; font-size: 13px; letter-spacing: 1px; }
+.dx-grev-text { font-size: 14px; color: #334155; line-height: 1.6; margin: 8px 0 0; }
+.dx-grev-text mark { background: #fef08a; padding: 0 2px; border-radius: 2px; }
+.dx-disclaimer {
+  font-size: 11.5px; color: var(--diag-muted); line-height: 1.5;
+  text-align: center; max-width: 640px; margin: 18px auto 0;
+}
+
 .dx-footer {
   text-align: center; padding: 16px;
   font-size: 12px; color: var(--diag-muted);
@@ -507,6 +562,43 @@ function gadsConvert(kind) {
   if (!send_to || send_to.indexOf("<") !== -1) return;
   gtag("event", "conversion", { send_to });
 }
+
+// ── Social proof data (ported from /canal-propio-vsl — keep the two in sync) ──
+// Cara de Pan client testimonial on YouTube (also used inside Meta ads).
+const CARA_DE_PAN_YT_ID = "5JJ1CyYpYTc";
+// REAL reviews from the Fluxsales Google Business Profile (place
+// ChIJc4jhgDUboy8RO3AtR-TmDcE — 5.0★, 48 reseñas as of 2026-07-14), rendered
+// Hormozi-style with the key phrase highlighted. Text is VERBATIM (typos included —
+// that's what makes it credible); `hl` must be an exact substring of `text`.
+// Deliberately NOT linked out to Google — proof sections carry no exits.
+const GBP_RATING = "5.0";
+const GBP_COUNT = 48;
+const GOOGLE_REVIEWS = [
+  {
+    name: "Axel Santos", when: "Hace 3 meses",
+    photo: "https://lh3.googleusercontent.com/a/ACg8ocKrJtc_Z2WEbLMzGDoXjNNA0e5x9Eqlz0csm-iTJsNsq3mXnw=s128-c0x00000000-cc-rp-mo",
+    text: "Gran servicio siempre atentos resolviendo cualquier duda que llega a existir si tiene  oportunidad de trabajar con ellos tomenla",
+    hl: "si tiene  oportunidad de trabajar con ellos tomenla",
+  },
+  {
+    name: "Wantai Bubble Tea", when: "Hace 3 meses",
+    photo: "https://lh3.googleusercontent.com/a-/ALV-UjX9EdQnUybooGL2wbTPClQPi1KO5yFBxjm2JUy0OaWcWATqjzs=w128-h128-p-rp-mo-br100",
+    text: "Muy buena plataforma de lealtad. Nos ha ayudado a aumentar la recompra y organizar nuestro sistema de puntos y promociones de forma clara. Fácil de usar para clientes y staff. Totalmente recomendada para negocios que buscan crecer en retención.",
+    hl: "Nos ha ayudado a aumentar la recompra",
+  },
+  {
+    name: "Cristina Ruiz", when: "Hace 3 meses",
+    photo: "https://lh3.googleusercontent.com/a-/ALV-UjUi9pC2MzWAokkHhruNTxJ5Gbr5PEJXKkILD5_dpKZU_KXQhz8=w128-h128-p-rp-mo-br100",
+    text: "Me encanta esta app! Tienes todo en uno! Yo la uso en mi Dark Kitchen! El servicios. Domicilio me funciona muy bien!",
+    hl: "Tienes todo en uno! Yo la uso en mi Dark Kitchen!",
+  },
+  {
+    name: "Andrea Guerra", when: "Hace 2 años",
+    photo: "https://lh3.googleusercontent.com/a/ACg8ocI3CLAKQCAp4AL81sFhlcHuoWjjMNMT2GbXoh967rew172NVA=s128-c0x00000000-cc-rp-mo",
+    text: "Tienen super buen trato, son muy atentos a las necesidades de sus clientes y cumplen en tiempo y forma. Los recomiendo ampliamente.",
+    hl: "Los recomiendo ampliamente.",
+  },
+];
 
 function fireEvent(eventType, extra) {
   if (window.datafast) window.datafast(eventType);
@@ -714,6 +806,57 @@ function Progress({ step }) {
       <div className={"dx-progress-step" + (step >= 1 ? " done" : "") + (step === 1 ? " on" : "")} />
       <div className={"dx-progress-step" + (step >= 2 ? " done" : "") + (step === 2 ? " on" : "")} />
       <div className={"dx-progress-step" + (step >= 3 ? " done" : "") + (step === 3 ? " on" : "")} />
+    </div>
+  );
+}
+
+// Cara de Pan testimonial — lazy YouTube embed (thumbnail + click-to-load, so the
+// page never pays the YouTube iframe cost unless the visitor asks for it). Renders
+// nothing while CARA_DE_PAN_YT_ID is unset. Ported from /canal-propio-vsl.
+function YouTubeTestimonial({ videoId, caption }) {
+  const [loaded, setLoaded] = React.useState(false);
+  if (!videoId) return null;
+  return (
+    <div className="dx-yt-card">
+      <div className="dx-yt-frame">
+        {loaded ? (
+          <iframe
+            src={"https://www.youtube-nocookie.com/embed/" + videoId + "?autoplay=1&rel=0"}
+            title="Testimonio de cliente Fluxsales"
+            allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
+        ) : (
+          <>
+            <img className="dx-yt-thumb" src={"https://i.ytimg.com/vi/" + videoId + "/hqdefault.jpg"} alt="Testimonio de cliente" loading="lazy" />
+            <button type="button" className="dx-yt-play" aria-label="Reproducir testimonio"
+              onClick={() => { setLoaded(true); fireEvent("testimonial_played"); }}>
+              <span>▶</span>
+            </button>
+          </>
+        )}
+      </div>
+      {caption && <p className="dx-yt-caption">{caption}</p>}
+    </div>
+  );
+}
+
+// One Google review, rendered in the platform's visual language (avatar, stars,
+// relative date) with the key phrase marker-highlighted — the Hormozi treatment.
+function GoogleReviewCard({ r }) {
+  const i = r.hl ? r.text.indexOf(r.hl) : -1;
+  return (
+    <div className="dx-grev">
+      <div className="dx-grev-head">
+        <img className="dx-grev-avatar" src={r.photo} alt="" loading="lazy" referrerPolicy="no-referrer" />
+        <div>
+          <div className="dx-grev-name">{r.name}</div>
+          <div className="dx-grev-meta"><span className="stars">★★★★★</span><span>{r.when}</span></div>
+        </div>
+      </div>
+      <p className="dx-grev-text">
+        {i < 0 ? r.text : (<>
+          {r.text.slice(0, i)}<mark>{r.hl}</mark>{r.text.slice(i + r.hl.length)}
+        </>)}
+      </p>
     </div>
   );
 }
@@ -1180,6 +1323,21 @@ function CanalPropioApp() {
                 </div>
                 <a href="/casos/brooklyn-burgers" className="dx-proof-link">Ver el caso completo de Brooklyn Burgers →</a>
               </div>
+            </section>
+          )}
+          {step === "paso1" && (
+            <section className="dx-section">
+              <h2 className="dx-section-title">Lo que dicen nuestros clientes:</h2>
+              <YouTubeTestimonial videoId={CARA_DE_PAN_YT_ID}
+                caption={<>"Tenemos clientes que nos visitan 2 o 3 veces por semana, y el sistema de recompensas los motiva aún más a regresar." — <strong>Cara de Pan</strong> 🍞</>} />
+              <p className="dx-reviews-sub"><span className="stars">★★★★★</span> <strong>{GBP_RATING}</strong> · {GBP_COUNT} reseñas en Google</p>
+              <div className="dx-reviews-grid">
+                {GOOGLE_REVIEWS.map((r, i) => <GoogleReviewCard key={i} r={r} />)}
+              </div>
+              <p className="dx-disclaimer">
+                Los resultados presentados corresponden a clientes reales de Fluxsales y no son típicos ni garantizados.
+                Tu resultado dependerá de tu volumen, operación y ejecución. Las cifras se comparten con fines ilustrativos.
+              </p>
             </section>
           )}
           {step === "paso2" && renderPaso2()}
