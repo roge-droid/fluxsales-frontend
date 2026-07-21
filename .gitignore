@@ -4,3 +4,6 @@ node_modules/
 
 # Reels/media are work product — host for Blotato via a bucket/Blotato upload, not the repo.
 media/
+
+# Landing VSL video is hosted media (bucket/CDN), not repo content — only the poster ships.
+canal-propio-vsl/vsl.mp4

@@ -39,6 +39,7 @@ const MIME = {
   ".jpeg": "image/jpeg",
   ".webp": "image/webp",
   ".ico": "image/x-icon",
+  ".mp4": "video/mp4",
 };
 
 function proxyToBackend(req, res) {
@@ -66,6 +67,7 @@ function serveStatic(req, res) {
   if (urlPath.endsWith("/")) urlPath += "index.html";
   // Match vercel.json's clean-URL routes for local testing convenience.
   if (urlPath === "/canal-propio") urlPath = "/canal-propio/index.html";
+  if (urlPath === "/canal-propio-vsl") urlPath = "/canal-propio-vsl/index.html";
   if (urlPath === "/diagnostico") urlPath = "/diagnostico/index.html";
   if (urlPath === "/diagnostico-google") urlPath = "/diagnostico-google/index.html";
   if (urlPath === "/calificador") urlPath = "/calificador/index.html";
@@ -73,13 +75,39 @@ function serveStatic(req, res) {
   const filePath = path.join(ROOT, urlPath);
   if (!filePath.startsWith(ROOT)) { res.writeHead(403); res.end("Forbidden"); return; }
 
+  const ext = path.extname(filePath);
+
+  // Video needs Range support (Safari refuses to play mp4 without it) and shouldn't
+  // be buffered whole into memory — stream it.
+  if (ext === ".mp4") {
+    fs.stat(filePath, (err, stat) => {
+      if (err) { res.writeHead(404, { "Content-Type": "text/plain" }); res.end("Not found: " + urlPath); return; }
+      const range = req.headers.range;
+      const m = range && /^bytes=(\d*)-(\d*)$/.exec(range);
+      if (m) {
+        const start = m[1] ? Number(m[1]) : 0;
+        const end = m[2] ? Math.min(Number(m[2]), stat.size - 1) : stat.size - 1;
+        res.writeHead(206, {
+          "Content-Type": MIME[ext],
+          "Content-Range": `bytes ${start}-${end}/${stat.size}`,
+          "Accept-Ranges": "bytes",
+          "Content-Length": end - start + 1,
+        });
+        fs.createReadStream(filePath, { start, end }).pipe(res);
+      } else {
+        res.writeHead(200, { "Content-Type": MIME[ext], "Content-Length": stat.size, "Accept-Ranges": "bytes" });
+        fs.createReadStream(filePath).pipe(res);
+      }
+    });
+    return;
+  }
+
   fs.readFile(filePath, (err, data) => {
     if (err) {
       res.writeHead(404, { "Content-Type": "text/plain" });
       res.end("Not found: " + urlPath);
       return;
     }
-    const ext = path.extname(filePath);
     res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
     res.end(data);
   });

@@ -126,6 +126,10 @@
       "destination": "/canal-propio/index.html"
     },
     {
+      "source": "/canal-propio-vsl",
+      "destination": "/canal-propio-vsl/index.html"
+    },
+    {
       "source": "/sitio",
       "destination": "/sitio/index.html"
     },
