@@ -2,6 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "redirects": [
     {
+      "source": "/case/la-pitzota",
+      "destination": "/propuesta/la-pitzota",
+      "statusCode": 301
+    },
+    {
       "source": "/terms-of-service",
       "destination": "/terms",
       "statusCode": 301
@@ -110,6 +115,10 @@
     {
       "source": "/case/:path*",
       "destination": "/case/:path*"
+    },
+    {
+      "source": "/propuesta/:path*",
+      "destination": "/propuesta/:path*"
     },
     {
       "source": "/demo/:path*",
