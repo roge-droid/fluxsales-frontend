@@ -769,7 +769,7 @@ function Hero({ onSelect }) {
 // (translateY 4s ease-in-out infinite — measured on grader.owner.com). Visuals
 // use the restaurant's REAL Google data (photos/reviews fetched client-side on
 // pick); the phone stage shows the PSI screenshot once the score response lands.
-const SCAN_STEP_MS = 3500;               // 6 stages × 3.5s ≈ 21s of theater
+const SCAN_STEP_MS = 1600;               // 6 stages × 1.6s ≈ 10s of theater (was 3.5s/21s — cold ad traffic bailed before the score reveal)
 const SCAN_MIN_MS = SCAN_STEP_MS * 6 + 600;
 function Stars({ rating }) {
   const full = Math.round(rating || 0);
@@ -790,7 +790,7 @@ function Scan({ restaurant, score }) {
   const [typed, setTyped] = useState("");
   useEffect(() => {
     const t = setInterval(() => setActive((a) => Math.min(a + 1, STEPS.length - 1)), SCAN_STEP_MS);
-    const p = setInterval(() => setPct((x) => Math.min(97, x + Math.max(0.3, (97 - x) * 0.022))), 300);
+    const p = setInterval(() => setPct((x) => Math.min(97, x + Math.max(0.5, (97 - x) * 0.075))), 300);  // fills to ~90% by the ~10s cutover (kept in step with SCAN_STEP_MS)
     return () => { clearInterval(t); clearInterval(p); };
   }, []);
   useEffect(() => {  // stage-1 typewriter (simulated Google search)
