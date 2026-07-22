@@ -995,6 +995,28 @@ function DiagnosticoApp() {
   const [calendarUrl, setCalendarUrl] = React.useState("");
   const [assignedAE, setAssignedAE] = React.useState("Mariana");
 
+  // Email deep link (?agenda=<signed token>) — a qualified lead from the welcome drip lands
+  // straight on the calendar, prefilled. The backend re-checks the review gate server-side
+  // (GET /welcome/booking-context), so this can't be used to skip qualification. Any failure
+  // (bad/expired token, not qualified) falls back silently to the normal search flow.
+  const [agendaCtx, setAgendaCtx] = React.useState(null);
+  React.useEffect(() => {
+    const t = new URLSearchParams(window.location.search).get("agenda");
+    if (!t) return;
+    fetch("/api/welcome/booking-context?t=" + encodeURIComponent(t))
+      .then((r) => r.json())
+      .then((data) => {
+        if (!data || !data.ok || !data.ae) return;
+        setAgendaCtx(data);
+        setCompanyName(data.company_name || "");
+        setPlaceId(data.place_id || "");
+        setAssignedAE(data.ae);
+        setStep("agenda");
+        fireEvent("agenda_deeplink_open", data.place_id || "");
+      })
+      .catch(() => {});
+  }, []);
+
   const placesRef = React.useRef(null);
   const placesLibRef = React.useRef(null);
   const sessionTokenRef = React.useRef(null);
@@ -1746,6 +1768,41 @@ function DiagnosticoApp() {
     );
   };
 
+  // Deep-linked booking view: the lead already qualified (server-verified), so the only job
+  // here is picking a slot. Reuses the same CalendarBooking widget as the post-form flow.
+  const renderAgenda = () => {
+    if (!agendaCtx) return null;
+    if (agendaCtx.alreadyBooked) {
+      return (
+        <div className="dx-card" style={{ textAlign: "center" }}>
+          <div className="dx-bk-booked-check">✓</div>
+          <h3 className="dx-bk-booked-title">Ya tienes tu demo agendada{agendaCtx.first_name ? ", " + agendaCtx.first_name : ""}</h3>
+          <p style={{ color: "#64748b", fontSize: 15, margin: 0 }}>
+            Revisa tu correo o tu calendario — ahí está la invitación con el link de Google Meet.
+          </p>
+          <a href="https://wa.me/5214421716825" style={{ display: "inline-block", marginTop: 16, fontSize: 13, color: "#2563eb" }}>
+            ¿Necesitas moverla? Escríbenos por WhatsApp →
+          </a>
+        </div>
+      );
+    }
+    return (
+      <div className="dx-card">
+        <div style={{ textAlign: "center", marginBottom: 18 }}>
+          <span className="dx-hero-badge">Tu restaurante ya calificó</span>
+          <h2 style={{ margin: "12px 0 6px" }}>{agendaCtx.first_name ? "Hola " + agendaCtx.first_name + ", aparta tu lugar" : "Aparta tu lugar"}</h2>
+          <p style={{ color: "#64748b", fontSize: 15, margin: 0 }}>
+            Elige el horario que mejor te acomode — 20 minutos con {agendaCtx.ae}, de nuestro equipo.
+          </p>
+        </div>
+        <CalendarBooking firstName={agendaCtx.first_name || ""} lastName={agendaCtx.last_name || ""}
+          email={agendaCtx.email || ""} phone={agendaCtx.phone || ""} companyName={agendaCtx.company_name || ""}
+          assignedAE={agendaCtx.ae} calendarUrl={calendarUrl}
+          sessionId={SESSION_ID} placeId={agendaCtx.place_id || ""} />
+      </div>
+    );
+  };
+
   return (
     <div className="dx-page">
       <nav className="dx-nav">
@@ -1808,6 +1865,7 @@ function DiagnosticoApp() {
           )}
           {step === "scorecard" && renderScorecard()}
           {step === "contact" && renderContact()}
+          {step === "agenda" && renderAgenda()}
         </div>
       </div>
       <div className="dx-footer">
