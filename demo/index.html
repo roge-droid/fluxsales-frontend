@@ -1014,7 +1014,7 @@ function DiagnosticoApp() {
   const [success, setSuccess] = React.useState(false);
   const [showCalendar, setShowCalendar] = React.useState(false);
   const [calendarUrl, setCalendarUrl] = React.useState("");
-  const [assignedAE, setAssignedAE] = React.useState("Mariana");
+  const [assignedAE, setAssignedAE] = React.useState("Ayline");
 
   const placesRef = React.useRef(null);
   const placesLibRef = React.useRef(null);
@@ -1192,8 +1192,8 @@ function DiagnosticoApp() {
         "Mariana": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
         "Ayline": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
       };
-      setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
-      setAssignedAE(result.assignedAE || "Mariana");
+      setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Ayline"]);
+      setAssignedAE(result.assignedAE || "Ayline");
       setSuccess(true);
       fireEvent("contact_submitted", placeId); if (window.datafast && form.email) window.datafast("identify", { user_id: form.email.trim().toLowerCase() });
       if (window.clarity) {
@@ -1241,8 +1241,8 @@ function DiagnosticoApp() {
         "Mariana": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
         "Ayline": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",
       };
-      setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Mariana"]);
-      setAssignedAE(result.assignedAE || "Mariana");
+      setCalendarUrl(AE_CALENDARS[result.assignedAE] || AE_CALENDARS["Ayline"]);
+      setAssignedAE(result.assignedAE || "Ayline");
       fireEvent("scorecard_unlocked", placeId);
       fireEvent("contact_submitted", placeId); if (window.datafast && form.email) window.datafast("identify", { user_id: form.email.trim().toLowerCase() });
       if (window.clarity) {
