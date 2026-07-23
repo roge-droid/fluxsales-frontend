@@ -581,6 +581,25 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .dx-faq-body { font-size: 14.5px; color: #334155; line-height: 1.55; padding: 0 0 16px; margin: 0; }
 
+.dx-bvideo { margin: 18px auto 6px; max-width: 280px; }
+.dx-bvideo video { width: 100%; border-radius: 14px; border: 1px solid var(--diag-border); display: block; background: #0f172a; }
+.dx-bvideo-caption { font-size: 12.5px; color: var(--diag-muted); text-align: center; margin-top: 8px; }
+.dx-testimonials { display: flex; flex-direction: column; gap: 16px; max-width: 520px; margin: 24px auto 0; }
+.dx-testi {
+  background: var(--diag-card); border: 1px solid var(--diag-border); border-radius: 12px; padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04), 0 8px 24px -8px rgba(0,0,0,.08);
+}
+.dx-testi-quote { font-size: 14px; color: var(--diag-navy); line-height: 1.6; margin: 0 0 12px; font-style: italic; }
+.dx-testi-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.dx-testi-id { display: flex; align-items: center; gap: 10px; }
+.dx-testi-photo { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--diag-border); }
+.dx-testi-who { font-size: 13px; color: var(--diag-subtle); line-height: 1.4; }
+.dx-testi-name { font-weight: 600; color: var(--diag-navy); }
+.dx-testi-metric {
+  font-size: 12px; font-weight: 600; color: var(--diag-green); background: #f0fdf4;
+  border: 1px solid #bbf7d0; border-radius: 20px; padding: 4px 12px; white-space: nowrap;
+}
+
 @media (max-width: 480px) {
   .dx-card, .dx-proof-card, .dx-offer-card { padding: 24px 18px; }
   .dx-hero h1 { font-size: 23px; }
@@ -745,7 +764,7 @@ function computeSavings(comisiones, ventaOnline) {
 function resolvePlan(bracketKey) {
   if (bracketKey === "lt15k") return null; // educational lane — skip the investment question
   if (bracketKey === "15k-50k") return { price: 5499, label: "desde $5,499/mes" };
-  return { price: 12499, label: "$12,499/mes — Done-For-You, operado por nosotros" }; // 50k-150k, gt150k
+  return { price: 20000, label: "$20,000/mes — Done-For-You, operado por nosotros" }; // 50k-150k, gt150k
 }
 
 // ROI line under the plan price. The old "menos que lo que recuperas en la primera
@@ -1399,6 +1418,12 @@ function CanalPropioApp() {
                 <p className="dx-proof-quote">
                   La misma hamburguesa cuesta $130 en su canal propio vs $209 en las apps de delivery. Hoy mueven entre 100 y 120 pedidos al día por su canal propio, contra 15–20 que recibían por las apps — y en menos de 3 meses. Hoy tienen 10 sucursales.
                 </p>
+                <div className="dx-bvideo">
+                  <video src="/canal-propio-oferta/brooklyn.mp4" poster="/canal-propio-oferta/brooklyn-poster.jpg"
+                    controls playsInline preload="none"
+                    onPlay={() => fireEvent("testimonial_played")} />
+                  <div className="dx-bvideo-caption">Axel · Co-fundador, Brooklyn Burgers · 4 → 10 sucursales, Veracruz</div>
+                </div>
                 <div className="dx-proof-metrics">
                   <div className="dx-proof-metric">
                     <div className="dx-proof-metric-num">$245,000+/mes</div>
@@ -1473,7 +1498,7 @@ function CanalPropioApp() {
                   <span className="val">~$57,000/mes</span>
                 </div>
                 <div className="dx-stack-price">
-                  <div><span className="num">$12,499</span><span className="per">/mes</span></div>
+                  <div><span className="num">$20,000</span><span className="per">/mes</span></div>
                   <div className="note">Sin contratos forzosos · mes a mes · presupuesto de publicidad aparte</div>
                 </div>
                 <div className="dx-guarantee">
@@ -1512,7 +1537,7 @@ function CanalPropioApp() {
                 <div className="dx-tier dx-tier--star">
                   <div className="dx-tier-flag">Recomendado — todo operado por nosotros</div>
                   <div className="dx-tier-name">Done-For-You</div>
-                  <div className="dx-tier-price">$12,499<span className="per">/mes</span></div>
+                  <div className="dx-tier-price">$20,000<span className="per">/mes</span></div>
                   <ul>
                     <li>Todo lo de Hecho-Contigo</li>
                     <li>Campañas de migración: las hacemos nosotros</li>
@@ -1556,7 +1581,7 @@ function CanalPropioApp() {
                 </details>
                 <details>
                   <summary>¿Cuánto cuesta? <span className="dx-faq-tag">desde $2,999/mes</span></summary>
-                  <p className="dx-faq-body">Depende de cuánto hagamos por ti: <strong>$2,999/mes</strong> si operas tú la plataforma, <strong>$5,499/mes</strong> con setup y asesoría, y <strong>$12,499/mes</strong> el plan Done-For-You donde nuestro equipo opera todo — con garantía de que se paga solo en 90 días. Sin contratos forzosos, mes a mes. Si pagas más de $15,000 al mes en comisiones, cada mes que esperas es dinero que ya se fue.</p>
+                  <p className="dx-faq-body">Depende de cuánto hagamos por ti: <strong>$2,999/mes</strong> si operas tú la plataforma, <strong>$5,499/mes</strong> con setup y asesoría, y <strong>$20,000/mes</strong> el plan Done-For-You donde nuestro equipo opera todo — con garantía de que se paga solo en 90 días. Sin contratos forzosos, mes a mes. Si pagas más de $15,000 al mes en comisiones, cada mes que esperas es dinero que ya se fue.</p>
                 </details>
               </div>
             </section>
@@ -1569,6 +1594,38 @@ function CanalPropioApp() {
               <p className="dx-reviews-sub"><span className="stars">★★★★★</span> <strong>{GBP_RATING}</strong> · {GBP_COUNT} reseñas en Google</p>
               <div className="dx-reviews-grid">
                 {GOOGLE_REVIEWS.map((r, i) => <GoogleReviewCard key={i} r={r} />)}
+              </div>
+              <div className="dx-testimonials">
+                <div className="dx-testi">
+                  <p className="dx-testi-quote">"Bajamos nuestra dependencia de Rappi del 70% al 28% en cinco meses."</p>
+                  <div className="dx-testi-footer">
+                    <div className="dx-testi-id">
+                      <img className="dx-testi-photo" src="/landing/assets/venue-bora-bora.webp" alt="Bora Bora Pizzas" width="44" height="44" loading="lazy" />
+                      <div className="dx-testi-who"><span className="dx-testi-name">Ricardo Mendoza</span><br/>Co-fundador, Bora Bora Pizzas</div>
+                    </div>
+                    <span className="dx-testi-metric">-$412K comisiones/año</span>
+                  </div>
+                </div>
+                <div className="dx-testi">
+                  <p className="dx-testi-quote">"Ahora Fluxsales hace mis posts por mí y vendemos el doble los martes."</p>
+                  <div className="dx-testi-footer">
+                    <div className="dx-testi-id">
+                      <img className="dx-testi-photo" src="/landing/assets/venue-cosi-fan-tutte.webp" alt="Cosi Fan Tutte" width="44" height="44" loading="lazy" />
+                      <div className="dx-testi-who"><span className="dx-testi-name">Andrea Castellanos</span><br/>Dueña, Cosi Fan Tutte</div>
+                    </div>
+                    <span className="dx-testi-metric">2x ventas martes</span>
+                  </div>
+                </div>
+                <div className="dx-testi">
+                  <p className="dx-testi-quote">"Los clientes reciben un mensaje el día de su cumpleaños y vienen con tres amigos."</p>
+                  <div className="dx-testi-footer">
+                    <div className="dx-testi-id">
+                      <img className="dx-testi-photo" src="/landing/assets/venue-dolce-bisquet.webp" alt="Dolce Bisquet" width="44" height="44" loading="lazy" />
+                      <div className="dx-testi-who"><span className="dx-testi-name">Mariana Ortiz</span><br/>Operaciones, Dolce Bisquet</div>
+                    </div>
+                    <span className="dx-testi-metric">3.2x retorno</span>
+                  </div>
+                </div>
               </div>
               <p className="dx-disclaimer">
                 Los resultados presentados corresponden a clientes reales de Fluxsales y no son típicos ni garantizados.
