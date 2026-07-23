@@ -954,7 +954,7 @@ function CanalPropioApp() {
   // no longer asked — the AE verifies authority on the call; backend defaults
   // authorityOk=true when the field is absent (bant.ts, needs backend ≥ that change live).
   const [bant, setBant] = React.useState({
-    ordenes_mensuales: "", venta_online_mensual: "", comisiones_mensuales: "",
+    ordenes_mensuales: "", sucursales: "", venta_online_mensual: "", comisiones_mensuales: "",
     funnel_timing: "",
   });
   // Changing comisiones away from "unknown" hides the venta drill-down — clear its
@@ -965,7 +965,7 @@ function CanalPropioApp() {
     return next;
   });
   const ventaNeeded = bant.comisiones_mensuales === "unknown";
-  const bantComplete = bant.ordenes_mensuales && bant.comisiones_mensuales
+  const bantComplete = bant.ordenes_mensuales && bant.sucursales && bant.comisiones_mensuales
     && (!ventaNeeded || bant.venta_online_mensual) && bant.funnel_timing;
 
   // Paso 3 — savings + investment + contact
@@ -1024,7 +1024,7 @@ function CanalPropioApp() {
           first_name: form.first_name.trim(), last_name: form.last_name.trim(),
           email: form.email.trim(), phone: fullPhone,
           company_name: companyName, place_id: placeId || undefined, place_address: placeAddress || undefined,
-          ordenes_mensuales: bant.ordenes_mensuales,
+          ordenes_mensuales: bant.ordenes_mensuales, sucursales: bant.sucursales || undefined,
           venta_online_mensual: bant.venta_online_mensual || undefined,
           comisiones_mensuales: bant.comisiones_mensuales,
           funnel_timing: bant.funnel_timing, inversion_ready: inversionReady || undefined,
@@ -1113,6 +1113,13 @@ function CanalPropioApp() {
       <div className="dx-opt-grid">
         {[["lt200", "Menos de 200"], ["200-400", "200 – 400"], ["400-1000", "400 – 1,000"], ["gt1000", "Más de 1,000"]].map(([v, label]) => (
           <OptionCard key={v} selected={bant.ordenes_mensuales === v} onClick={() => setBantField("ordenes_mensuales", v)}>{label}</OptionCard>
+        ))}
+      </div>
+
+      <h3 className="dx-q-title" style={{ marginTop: 24 }}>¿Cuántas sucursales tienes?</h3>
+      <div className="dx-opt-grid">
+        {[["1", "1 sucursal"], ["2-5", "2 a 5"], ["6-20", "6 a 20"], ["20+", "Más de 20"]].map(([v, label]) => (
+          <OptionCard key={v} selected={bant.sucursales === v} onClick={() => setBantField("sucursales", v)}>{label}</OptionCard>
         ))}
       </div>
 
