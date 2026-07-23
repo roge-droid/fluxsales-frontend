@@ -139,6 +139,40 @@ body {
 .tier li.no { color: #94a3b8; }
 .tier li.no::before { content: "—"; color: #cbd5e1; }
 
+/* ── Platform feature wall ── */
+.plat-grid { display: grid; gap: 10px; grid-template-columns: 1fr; }
+@media (min-width: 640px) { .plat-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .plat-grid { grid-template-columns: repeat(3, 1fr); } }
+.plat { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; display: flex; gap: 12px; align-items: flex-start; box-shadow: var(--shadow); }
+.plat .ic { flex-shrink: 0; width: 34px; height: 34px; border-radius: 9px; background: #eff6ff; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+.plat strong { display: block; font-family: "DM Sans", sans-serif; font-size: 14.5px; color: var(--navy); }
+.plat span { font-size: 12.5px; color: var(--muted); line-height: 1.45; display: block; margin-top: 1px; }
+
+/* ── Fragmented tools comparison ── */
+.tools-card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow); padding: 36px 40px; }
+@media (max-width: 640px) { .tools-card { padding: 26px 20px; } }
+.tool-row { display: flex; align-items: center; gap: 14px; padding: 11px 0; border-bottom: 1px solid var(--rule); }
+.tool-row:first-of-type { border-top: 1px solid var(--rule); }
+.tool-logo { width: 30px; height: 30px; border-radius: 8px; background: var(--rule); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 15px; }
+.tool-logo img { width: 18px; height: 18px; opacity: .75; }
+.tool-what { flex: 1; min-width: 0; }
+.tool-what strong { font-size: 14px; color: var(--navy); font-weight: 600; display: block; }
+.tool-what span { font-size: 12px; color: var(--muted); }
+.tool-cost { font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 13.5px; color: #94a3b8; white-space: nowrap; }
+.tools-total { display: flex; justify-content: space-between; align-items: baseline; padding: 16px 0 0; }
+.tools-total .lbl { font-size: 14px; font-weight: 600; color: var(--muted); max-width: 60%; line-height: 1.4; }
+.tools-total .val { font-family: "DM Sans", sans-serif; font-weight: 700; font-size: 22px; color: #ef4444; }
+.tools-vs { margin-top: 16px; background: linear-gradient(180deg, #eff6ff, #dbeafe40); border: 1.5px solid #bfdbfe; border-radius: 14px; padding: 18px 20px; text-align: center; font-size: 15px; color: var(--navy); }
+.tools-vs strong { font-family: "DM Sans", sans-serif; color: var(--blue); font-size: 19px; }
+
+/* ── Video testimonials ── */
+.vtesti-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: 16px; }
+@media (min-width: 760px) { .vtesti-grid { grid-template-columns: repeat(2, 1fr); } }
+.vtesti { background: var(--card); border: 1px solid var(--border); border-radius: 18px; box-shadow: var(--shadow); padding: 18px; }
+.vtesti video { width: 100%; max-width: 290px; margin: 0 auto; border-radius: 12px; display: block; background: var(--ink); aspect-ratio: 9 / 16; }
+.vtesti-caption { font-size: 13.5px; color: #334155; margin-top: 12px; line-height: 1.5; }
+.vtesti-caption strong { color: var(--navy); }
+
 /* ── Proof ── */
 .feature-quote { background: var(--navy); color: #fff; border-radius: 20px; padding: 44px 48px; box-shadow: var(--shadow); }
 @media (max-width: 640px) { .feature-quote { padding: 30px 24px; } }
@@ -218,7 +252,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <span class="nav-tag">LA OFERTA</span>
     </nav>
     <div class="hero-inner">
-      <span class="hero-eyebrow">Canal Propio · Done-For-You</span>
+      <span class="hero-eyebrow">Canal Propio · La oferta completa</span>
       <h1>Un software te da herramientas.<br>
       <span class="accent">Aquí recibes la plataforma con IA y el equipo que la opera por ti.</span></h1>
       <p class="hero-sub">Todo lo que acabas de ver en la demo — montado, operado y optimizado por nosotros. Tu canal queda funcionando en 48 horas.</p>
@@ -236,7 +270,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wrap wrap--narrow">
     <div class="stack-card">
       <div class="stack-head">
-        <span class="stack-kicker">Plan Done-For-You</span>
+        <span class="stack-kicker">Plan Canal Operado</span>
         <h2 class="display stack-title">Todo lo que incluye:</h2>
       </div>
 
@@ -306,7 +340,58 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <p>Ejecuta el kit de activación en tu local — te damos las plantillas listas — y nosotros corremos lo digital y la publicidad: si en 90 días tu canal no vende más de lo que pagaste, <strong>trabajamos gratis hasta que lo haga.</strong></p>
         </div>
       </div>
-      <p class="scarcity">Tomamos un número limitado de canales Done-For-You nuevos al mes — el equipo dedicado no se estira.</p>
+      <p class="scarcity">Tomamos un número limitado de planes Canal Operado nuevos al mes — el equipo dedicado no se estira.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PLATFORM FEATURE WALL ═══ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="section-kicker">La plataforma</span>
+      <h2 class="display section-title">Todo lo que tu plataforma incluye</h2>
+    </div>
+    <div class="plat-grid">
+      <div class="plat"><span class="ic">🌐</span><div><strong>Sitio web de pedidos con tu marca</strong><span>Optimizado a conversión, construido con IA</span></div></div>
+      <div class="plat"><span class="ic">📱</span><div><strong>App móvil propia</strong><span>Tu restaurante en el teléfono de tu cliente</span></div></div>
+      <div class="plat"><span class="ic">🔗</span><div><strong>Dominio propio</strong><span>tumarca.com — tuyo, no rentado</span></div></div>
+      <div class="plat"><span class="ic">🔍</span><div><strong>SEO + AEO</strong><span>Posicionado en Google y en los motores de IA</span></div></div>
+      <div class="plat"><span class="ic">⭐</span><div><strong>Programa de lealtad</strong><span>Puntos y recompensas que hacen volver</span></div></div>
+      <div class="plat"><span class="ic">💸</span><div><strong>Cashback</strong><span>Cada pedido premia el siguiente</span></div></div>
+      <div class="plat"><span class="ic">📣</span><div><strong>Departamento de marketing integrado</strong><span>Campañas de email listas para enviar</span></div></div>
+      <div class="plat"><span class="ic">🔔</span><div><strong>Notificaciones push</strong><span>Directo a la pantalla de tu cliente</span></div></div>
+      <div class="plat"><span class="ic">🎟️</span><div><strong>Cupones por WhatsApp y email</strong><span>Ofertas que llegan donde tu cliente sí lee</span></div></div>
+      <div class="plat"><span class="ic">🛵</span><div><strong>Entrega on-demand integrada</strong><span>Repartidores cercanos, sin nómina ni motos</span></div></div>
+      <div class="plat"><span class="ic">👥</span><div><strong>Datos de tus clientes (CRM)</strong><span>Quién pide, qué pide, cada cuándo — tuyo</span></div></div>
+      <div class="plat"><span class="ic">📊</span><div><strong>Analítica y reportes</strong><span>Ventas, recompra y campañas en un tablero</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FRAGMENTED TOOLS COMPARISON ═══ -->
+<section class="section">
+  <div class="wrap wrap--narrow">
+    <div class="section-head">
+      <span class="section-kicker">La alternativa</span>
+      <h2 class="display section-title">Resolver esto por separado te costaría así</h2>
+    </div>
+    <div class="tools-card">
+      <div class="tool-row"><span class="tool-logo"><img src="https://cdn.simpleicons.org/shopify/64748b" alt="" loading="lazy"></span><div class="tool-what"><strong>Página de pedidos + sitio web</strong><span>Plataforma e-commerce + agencia web</span></div><span class="tool-cost">~$3,500/mes</span></div>
+      <div class="tool-row"><span class="tool-logo">⭐</span><div class="tool-what"><strong>Programa de lealtad y cashback</strong><span>App de lealtad por separado</span></div><span class="tool-cost">~$1,500/mes</span></div>
+      <div class="tool-row"><span class="tool-logo"><img src="https://cdn.simpleicons.org/mailchimp/64748b" alt="" loading="lazy"></span><div class="tool-what"><strong>Email marketing</strong><span>Herramienta de campañas de correo</span></div><span class="tool-cost">~$1,200/mes</span></div>
+      <div class="tool-row"><span class="tool-logo"><img src="https://cdn.simpleicons.org/whatsapp/64748b" alt="" loading="lazy"></span><div class="tool-what"><strong>Campañas de WhatsApp</strong><span>Plataforma de mensajería masiva</span></div><span class="tool-cost">~$1,500/mes</span></div>
+      <div class="tool-row"><span class="tool-logo">🔔</span><div class="tool-what"><strong>Notificaciones push</strong><span>Servicio de push por separado</span></div><span class="tool-cost">~$800/mes</span></div>
+      <div class="tool-row"><span class="tool-logo"><img src="https://cdn.simpleicons.org/ubereats/64748b" alt="" loading="lazy"></span><div class="tool-what"><strong>Entrega a domicilio</strong><span>Flotilla propia o servicio por pedido</span></div><span class="tool-cost">~$6,000/mes</span></div>
+      <div class="tool-row"><span class="tool-logo"><img src="https://cdn.simpleicons.org/google/64748b" alt="" loading="lazy"></span><div class="tool-what"><strong>SEO / posicionamiento</strong><span>Agencia o freelancer</span></div><span class="tool-cost">~$3,000/mes</span></div>
+      <div class="tool-row"><span class="tool-logo"><img src="https://cdn.simpleicons.org/meta/64748b" alt="" loading="lazy"></span><div class="tool-what"><strong>Publicidad gestionada</strong><span>Agencia de ads (Meta/Google)</span></div><span class="tool-cost">~$15,000/mes</span></div>
+      <div class="tool-row"><span class="tool-logo">🎨</span><div class="tool-what"><strong>Diseño de materiales</strong><span>Diseñador freelance</span></div><span class="tool-cost">~$2,000/mes</span></div>
+      <div class="tool-row"><span class="tool-logo"><img src="https://cdn.simpleicons.org/hubspot/64748b" alt="" loading="lazy"></span><div class="tool-what"><strong>CRM / datos de clientes</strong><span>CRM por separado</span></div><span class="tool-cost">~$1,000/mes</span></div>
+      <div class="tools-total">
+        <span class="lbl">10 herramientas y proveedores distintos — y todavía te toca coordinarlos a ti</span>
+        <span class="val">~$35,500+/mes</span>
+      </div>
+      <div class="tools-vs">Aquí es <strong>una sola plataforma + un equipo que la opera</strong> — $20,000/mes, todo incluido.</div>
     </div>
   </div>
 </section>
@@ -320,7 +405,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div class="tier-grid">
       <div class="tier">
-        <div class="tier-name">Autoservicio</div>
+        <div class="tier-name">Plataforma</div>
         <div class="tier-price">$2,999<span class="per">/mes</span></div>
         <div class="tier-for">Para el que quiere operarlo todo él mismo</div>
         <ul>
@@ -331,7 +416,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </ul>
       </div>
       <div class="tier">
-        <div class="tier-name">Hecho-Contigo</div>
+        <div class="tier-name">Arranque</div>
         <div class="tier-price">$5,499<span class="per">/mes</span></div>
         <div class="tier-for">Nosotros lo montamos, tú lo operas con nuestra asesoría</div>
         <ul>
@@ -344,11 +429,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
       <div class="tier tier--star">
         <span class="tier-flag">Recomendado — todo operado por nosotros</span>
-        <div class="tier-name">Done-For-You</div>
+        <div class="tier-name">Canal Operado</div>
         <div class="tier-price">$20,000<span class="per">/mes</span></div>
         <div class="tier-for">Tú solo recibes los pedidos</div>
         <ul>
-          <li>Todo lo de Hecho-Contigo</li>
+          <li>Todo lo de Arranque</li>
           <li>Campañas de migración: las hacemos nosotros</li>
           <li>Trafficker de ads dedicado (Meta/Google/TikTok)</li>
           <li>Equipo dedicado + ejecutivo de cuenta</li>
@@ -360,7 +445,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="tier-price">A cotizar</div>
         <div class="tier-for">Para grupos y franquicias</div>
         <ul>
-          <li>Todo lo de Done-For-You, por sucursal</li>
+          <li>Todo lo de Canal Operado, por sucursal</li>
           <li>Campañas locales por zona</li>
           <li>Gerente de cuenta regional</li>
           <li>Reporte consolidado por sucursal</li>
@@ -389,6 +474,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="fm"><div class="num">4 → 10 sucursales</div><div class="lbl">el canal propio impulsó la expansión</div></div>
       </div>
       <a class="feature-link" href="/casos/brooklyn-burgers">Ver el caso completo de Brooklyn Burgers →</a>
+    </div>
+
+    <!-- Official video testimonials: Axel (Brooklyn) + Código Burger -->
+    <div class="vtesti-grid">
+      <div class="vtesti">
+        <video src="/canal-propio-oferta/testimonio-axel.mp4" poster="/canal-propio-oferta/testimonio-axel-poster.jpg" controls playsinline preload="none"></video>
+        <p class="vtesti-caption"><strong>Axel · Brooklyn Burgers</strong> — "Flux es como un Rappi, pero exclusivo de tu marca — con beneficios. En un día puedo tener 15–20 pedidos por Rappi, pero por Flux llego a 100–120."</p>
+      </div>
+      <div class="vtesti">
+        <video src="/canal-propio-oferta/testimonio-codigo.mp4" poster="/canal-propio-oferta/testimonio-codigo-poster.jpg" controls playsinline preload="none"></video>
+        <p class="vtesti-caption"><strong>Código Burger</strong> — "Las apps se llevan tu utilidad y se quedan con tus clientes. Con Flux el control de tu marca, tus clientes y el reparto es tuyo." — Marco Dávila, CEO</p>
+      </div>
     </div>
 
     <!-- Cara de Pan video testimonial -->
