@@ -1,10 +1,12 @@
 <!doctype html>
 <!--
-  CASE STUDY TEMPLATE — Brooklyn Burgers. Structure follows docs/CASE-STUDY-SPEC.md (flux-automation).
-  Data: 4 locales, Veracruz; ~$700K MXN/mes en ventas por Uber Eats a ~35% comisión (≈$245K/mes
-  recuperados); canal UE reemplazado en <3 meses; ~200 órdenes/día; quote from co-founder Axel.
-  Figures + quote provided by FluxSales; customer (Axel / Brooklyn Burgers) consented to public
-  publication 2026-06-17. LIVE (indexable, in sitemap).
+  CASE STUDY — Código Burger. Structure follows docs/CASE-STUDY-SPEC.md (flux-automation).
+  Data source: on-camera interview with Marco Dávila (CEO), julio 2026 — Meet recording; metrics
+  are HIS on-camera statements (delivery = 28–32% de venta total; meses en que el canal propio
+  supera a las apps en venta a domicilio; "trabajar el doble" en apps para el mismo margen) and
+  are attributed as such in copy. Customer consented to publication (confirmed by Jorge,
+  2026-07-23). Video: /casos/media/codigo-marco.mp4 (subtitled cut of the interview).
+  LIVE (indexable, in sitemap).
 -->
 <html lang="es">
 <head>
@@ -18,21 +20,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Caso de éxito: Brooklyn Burgers — FluxSales</title>
-<meta name="description" content="Cómo Brooklyn Burgers redujo su dependencia de las apps de delivery y construyó su canal de pedidos directos con FluxSales.">
+<title>Caso de éxito: Código Burger — FluxSales</title>
+<meta name="description" content="Cómo Código Burger construyó su propio canal de pedidos con FluxSales — y llegó a meses en los que su canal propio vende más a domicilio que las apps de delivery.">
 <meta property="og:type" content="article" />
 <meta property="og:image" content="https://fluxsales.co/og-image.png" />
-<meta property="og:title" content="Caso de éxito: Brooklyn Burgers — FluxSales">
-<meta property="og:description" content="Cómo Brooklyn Burgers dejó de depender de las apps de delivery con FluxSales.">
+<meta property="og:title" content="Caso de éxito: Código Burger — FluxSales">
+<meta property="og:description" content="El canal propio de Código Burger llegó a superar a las apps de delivery en ventas a domicilio.">
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="canonical" href="https://fluxsales.co/casos/brooklyn-burgers" />
+<link rel="canonical" href="https://fluxsales.co/casos/codigo-burger" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/landing/styles.css" />
 
-<!-- Structured data — shared entity + the case study as an Article. No metrics in JSON-LD until verified. -->
+<!-- Structured data — shared entity + the case study as an Article + the testimonial video. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -46,23 +48,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       "sameAs": ["https://twitter.com/fluxsales"]
     },
     {
-      "@type": "VideoObject",
-      "name": "Axel (Brooklyn Burgers) sobre el canal propio con FluxSales",
-      "description": "Entrevista: de tomar pedidos por WhatsApp a un canal propio que deja 100–120 pedidos al día por unidad, contra 15–20 de Rappi.",
-      "thumbnailUrl": "https://fluxsales.co/casos/media/brooklyn-axel-poster.jpg",
-      "contentUrl": "https://fluxsales.co/casos/media/brooklyn-axel.mp4",
-      "uploadDate": "2026-07-23",
+      "@type": "Article",
+      "headline": "Caso de éxito: Código Burger",
+      "datePublished": "2026-07-23",
+      "dateModified": "2026-07-23",
+      "url": "https://fluxsales.co/casos/codigo-burger",
       "inLanguage": "es",
+      "about": "Canal propio de pedidos directos con FluxSales que llegó a superar a las apps de delivery en ventas a domicilio",
       "publisher": { "@id": "https://fluxsales.co/#organization" }
     },
     {
-      "@type": "Article",
-      "headline": "Caso de éxito: Brooklyn Burgers",
-      "datePublished": "2026-06-17",
-      "dateModified": "2026-06-17",
-      "url": "https://fluxsales.co/casos/brooklyn-burgers",
+      "@type": "VideoObject",
+      "name": "Marco Dávila (CEO, Código Burger) sobre su canal propio con FluxSales",
+      "description": "Entrevista: por qué construyeron su e-commerce propia, y cómo el canal propio llegó a superar a las apps de delivery en ventas a domicilio.",
+      "thumbnailUrl": "https://fluxsales.co/casos/media/codigo-marco-poster.jpg",
+      "contentUrl": "https://fluxsales.co/casos/media/codigo-marco.mp4",
+      "uploadDate": "2026-07-23",
       "inLanguage": "es",
-      "about": "Reducción de dependencia de apps de delivery y construcción de canal de pedidos directos con FluxSales",
       "publisher": { "@id": "https://fluxsales.co/#organization" }
     }
   ]
@@ -85,7 +87,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .cs-quote { margin: 8px 0; padding: 28px; border-radius: 18px; background: #0d2c20; color: #eef6f0; }
   .cs-quote blockquote { font-family: Fraunces, serif; font-size: 22px; line-height: 1.4; margin: 0 0 16px; }
   .cs-quote .who { font-size: 14px; opacity: .85; }
-  .todo { color: #b45309; background: #fff7ed; border: 1px dashed #f59e0b; padding: 1px 6px; border-radius: 5px; font-size: .9em; }
   .cs-video video { display: block; width: 100%; max-width: 400px; margin: 8px auto 0; border-radius: 18px; background: #000; }
   .cs-video .note { text-align: center; font-size: 13px; color: rgba(13,44,32,.6); margin-top: 10px; }
   .cs-cta { text-align: center; padding: 40px 0 80px; }
@@ -133,53 +134,50 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <main class="cs-wrap">
   <section class="cs-hero">
     <span class="eyebrow">Caso de éxito</span>
-    <h1 class="display h1" style="margin:12px 0 8px">Brooklyn Burgers dejó de depender de Uber Eats.</h1>
-    <p class="lead">Cómo reemplazaron por completo el canal de Uber Eats del que dependían — en menos de 3 meses — con su propio canal de pedidos directos.</p>
+    <h1 class="display h1" style="margin:12px 0 8px">El canal propio de Código Burger ya compite de tú a tú con las apps.</h1>
+    <p class="lead">Querían su propia e-commerce desde el principio. Hoy hay meses en los que su canal directo vende más a domicilio que las apps de delivery — con margen propio y clientes propios.</p>
 
     <div class="cs-snapshot">
-      <div><div class="k">Cliente</div><div class="v">Brooklyn Burgers</div></div>
+      <div><div class="k">Cliente</div><div class="v">Código Burger</div></div>
       <div><div class="k">Segmento</div><div class="v">Hamburguesas · QSR</div></div>
-      <div><div class="k">Ubicación</div><div class="v">Veracruz, México</div></div>
-      <div><div class="k">Tamaño</div><div class="v">4 locales</div></div>
+      <div><div class="k">Ubicación</div><div class="v">Cd. Nezahualcóyotl, Edo. de México</div></div>
+      <div><div class="k">Tamaño</div><div class="v">3 sucursales</div></div>
     </div>
   </section>
 
-  <!-- RESULTS first (Hormozi + case-study research: lead with quantified outcomes). -->
+  <!-- RESULTS first (Hormozi + case-study research: lead with quantified outcomes).
+       All three metrics are Marco's on-camera statements from the July 2026 interview. -->
   <section class="cs-section">
     <h2>Resultados</h2>
     <div class="cs-results">
-      <div class="cs-metric"><div class="big">~$245K</div><div class="lbl">MXN/mes en comisión de Uber Eats que dejaron de pagar</div></div>
-      <div class="cs-metric"><div class="big">&lt;3 meses</div><div class="lbl">para apagar el canal del que dependían</div></div>
-      <div class="cs-metric"><div class="big">~$700K</div><div class="lbl">MXN/mes en ventas liberadas de Uber Eats</div></div>
+      <div class="cs-metric"><div class="big">Propio &gt; apps</div><div class="lbl">meses en los que el canal directo vende más a domicilio que las apps de delivery</div></div>
+      <div class="cs-metric"><div class="big">28–32%</div><div class="lbl">de la venta total del restaurante es a domicilio — y cada punto que migra deja más margen</div></div>
+      <div class="cs-metric"><div class="big">×2</div><div class="lbl">lo que hay que trabajar en las apps para lograr el mismo margen que en el canal propio</div></div>
     </div>
-    <p>Brooklyn movía cerca de <b>$700,000 MXN al mes</b> por el canal de Uber Eats, con una comisión promedio cercana al <b>35%</b> — unos <b>~$245,000 MXN al mes</b> que se iban en comisión. El canal directo se levantó en paralelo: al día 30 ya superaba el 25% del mix, al día 60 Uber Eats iba en caída, y al día 90 lo apagaron por completo. Hoy la red opera ~200 órdenes diarias sin comisión de Uber Eats — y esa comisión se queda en la casa.</p>
+    <p>Cuando Código Burger empezó con las apps de delivery, ellas se llevaban casi todo el domicilio — que representa entre el <b>28% y 32%</b> de la venta total del restaurante. Hoy, dice Marco, las ventas <b>se han emparejado: ha habido meses en los que el canal propio vende más a domicilio que las aplicaciones</b>. Y como el canal propio no paga comisión por pedido, ese mismo volumen deja mucho más margen — margen que reinvierten en promociones y en pauta que apunta directo a su página.</p>
   </section>
 
-  <!-- Video testimonial (spec §5: video > text). July 2026 interview with Axel — covers the
-       operadora's own-channel operation today (WhatsApp → app propia; Flux vs Rappi volume).
-       Distinct conversation from the Uber Eats replacement above; figures in the intro are HIS
-       on-camera statements. -->
+  <!-- Video testimonial (spec §5: video > text for trust). Subtitled cut of the interview. -->
   <section class="cs-section cs-video">
-    <h2>Axel, en sus propias palabras</h2>
-    <p>En esta entrevista (julio 2026), Axel cuenta cómo opera hoy la red: de tomar pedidos por WhatsApp — <b>15 a 25 minutos por pedido</b> — a un canal propio donde el pedido llega listo para cocinar. En sus números: <b>100–120 pedidos al día por unidad</b> a través de Flux, contra <b>15–20 de Rappi</b>, y una cartera de clientes que migró en unos 30 días gracias al cashback y los puntos.</p>
-    <video src="/casos/media/brooklyn-axel.mp4" poster="/casos/media/brooklyn-axel-poster.jpg" controls playsinline preload="metadata"></video>
-    <p class="note">Entrevista con Axel, Operadora Gastronómica Brooklyn · julio 2026 · subtítulos en español</p>
+    <h2>Marco, en sus propias palabras</h2>
+    <video src="/casos/media/codigo-marco.mp4" poster="/casos/media/codigo-marco-poster.jpg" controls playsinline preload="metadata"></video>
+    <p class="note">Entrevista con Marco Dávila, CEO de Código Burger · julio 2026 · subtítulos en español</p>
   </section>
 
   <section class="cs-section">
     <h2>El reto</h2>
-    <p>Brooklyn Burgers operaba sus 4 locales en Veracruz sobre dos canales de delivery — Uber Eats y Rappi. Dependían de Uber Eats para cerca de <b>$700,000 MXN al mes</b> en ventas, con una comisión promedio cercana al <b>35%</b> por orden: cada mes, una parte enorme del margen se iba en comisión, y la relación con el cliente vivía en la plataforma, no en el restaurante.</p>
+    <p>Las apps de delivery les daban posicionamiento, pero a un costo que se comía la utilidad — <i>"a veces ni siquiera utilidad"</i>, dice Marco. Además distorsionaban el precio (una hamburguesa de $80 termina costando $130 o más dentro de la app) y <b>el cliente era de la plataforma, no del restaurante</b>: sin acceso a sus datos, no había forma de invitarlo a regresar sin pagar de nuevo por él.</p>
   </section>
 
   <section class="cs-section">
     <h2>La solución</h2>
-    <p>Con FluxSales levantaron su propio canal de pedidos directos en paralelo a las apps — sitio, pedidos en línea y marketing — sin apagar nada de golpe. A medida que el canal directo ganaba mix, fueron retirando su dependencia de Uber Eats hasta apagar ese canal por completo en el mes tres, conservando Rappi solo como secundario.</p>
+    <p>Con FluxSales levantaron lo que siempre quisieron tener: su <b>e-commerce propia</b> — pedidos en su propia página, pago en línea o efectivo, y el <b>reparto resuelto</b> sin contratar repartidores propios. Migran clientes con un programa de lealtad por QR en cada pedido, promociones que solo el canal propio puede costear, y <b>pauta pagada que apunta directo a la página</b> — no al perfil de una app. Las apps siguen ahí como canal secundario de posicionamiento; el crecimiento se construye en el canal que es suyo.</p>
   </section>
 
   <section class="cs-section">
     <div class="cs-quote">
-      <blockquote>"Llegó un momento en que veíamos la cuenta de Uber Eats y nos preguntábamos quién era el dueño del negocio, ellos o nosotros. Apagamos el canal en el mes tres. El cliente siguió llegando — solo que ahora la comisión se queda en la casa."</blockquote>
-      <div class="who">Axel · Co-fundador, Brooklyn Burgers · 4 locales, Veracruz</div>
+      <blockquote>"Flux hace toda la función que hacen estas apps de delivery, pero propia: no competimos con nadie ahí dentro y no nos cobran comisiones altísimas. Nos facilita la vida completamente."</blockquote>
+      <div class="who">Marco Dávila · CEO, Código Burger · Cd. Nezahualcóyotl</div>
     </div>
   </section>
 
