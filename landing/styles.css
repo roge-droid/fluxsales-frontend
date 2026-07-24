@@ -1159,6 +1159,44 @@ input[type=range]::-moz-range-thumb {
   margin: 24px auto 0;
   max-width: 60ch;
 }
+.addons {
+  max-width: 900px;
+  margin: 32px auto 0;
+}
+.addons-title {
+  font-family: var(--mono); font-size: 12px;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--green-ink);
+  text-align: center;
+  margin: 0 0 16px;
+}
+.addons-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+.addon {
+  background: var(--card);
+  border: 1px dashed var(--rule);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+}
+.addon-name {
+  font-family: var(--sans); font-weight: 600;
+  font-size: 15px; color: var(--ink);
+}
+.addon-price {
+  font-family: var(--mono); font-size: 15px;
+  color: var(--green-ink);
+  margin: 4px 0 6px;
+}
+.addon-price small { font-family: var(--sans); font-size: 12px; color: var(--ink-muted); margin-left: 4px; }
+.addon-desc {
+  font-size: 14px; color: var(--ink-muted);
+  line-height: 1.5;
+}
+@media (max-width: 800px) {
+  .addons-grid { grid-template-columns: 1fr; }
+}
 .included {
   margin-top: 64px;
   padding-top: 48px;

@@ -72,7 +72,7 @@ function Pricing({ lang }) {
           <p className="lead">{t.subtitle}</p>
           {t.valueAnchor && <p className="pricing-value-anchor">{t.valueAnchor}</p>}
         </div>
-        <div className="plans plans-4">
+        <div className={"plans plans-" + t.plans.length}>
           {t.plans.map((p, i) => (
             <div key={i} className={"plan" + (p.popular ? " pop" : "")}>
               {p.badge && <div className="plan-pop-badge">{p.badge}</div>}
@@ -96,6 +96,21 @@ function Pricing({ lang }) {
             </div>
           ))}
         </div>
+
+        {t.addons && (
+          <div className="addons">
+            <h3 className="addons-title">{t.addonsTitle}</h3>
+            <div className="addons-grid">
+              {t.addons.map((a, i) => (
+                <div className="addon" key={i}>
+                  <div className="addon-name">{a.name}</div>
+                  <div className="addon-price">+ {fmt(a.price)}<small>{t.perMonth}</small></div>
+                  <div className="addon-desc">{a.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {t.multiNote && <div className="plans-multi-note">{t.multiNote}</div>}
 
