@@ -829,6 +829,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ae: assignedAE, start: selectedSlot.start, end: selectedSlot.end,
+          book_token: window.__bookToken || undefined,
           first_name: firstName, last_name: lastName, email, phone, company_name: companyName,
           session_id: sessionId, source: "remarketing", funnel: "remarketing", place_id: placeId || undefined,
         }),
@@ -1152,6 +1153,7 @@ function DiagnosticoApp() {
       });
       if (!res.ok) throw new Error(res.status);
       const result = await res.json();
+      window.__bookToken = result.book_token || null; // booking-gate token (BOOK_TOKEN_MODE)
       setShowCalendar(result.showCalendar === true);
       const AE_CALENDARS = {
         "Mariana": "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2TIhDlMp2Ggh2pzBEPBoM4lpv0ZLGuV1hfnhhKPFwUvyJA2ro948RS5qAC4xUuAEh9jZl4h8sA",

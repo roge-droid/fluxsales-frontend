@@ -949,7 +949,7 @@ function Calendar({ ae, lead }) {
     if (MOCK) { setBooked({ startFormatted: "Hoy 10:00", meetLink: "#" }); setBooking(false); return; }
     try {
       const res = await fetch("/api/calendar/book-demo", { method: "POST", headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ae, start: slot.start, end: slot.end, first_name: lead.first_name, last_name: lead.last_name, email: lead.email, phone: lead.phone, company_name: lead.company_name, session_id: SESSION_ID, funnel: "grader", place_id: lead.place_id || undefined, ...ADS_FIELDS }) });
+        body: JSON.stringify({ ae, book_token: window.__bookToken || undefined, start: slot.start, end: slot.end, first_name: lead.first_name, last_name: lead.last_name, email: lead.email, phone: lead.phone, company_name: lead.company_name, session_id: SESSION_ID, funnel: "grader", place_id: lead.place_id || undefined, ...ADS_FIELDS }) });
       const result = await res.json();
       if (!res.ok) { setErr(result.error || "No pudimos agendar."); return; }
       setBooked(result); fireEvent("demo_booked", lead.place_id || ""); clarityStep("demo_booked"); gadsConvert("demo_booked");
@@ -1314,7 +1314,7 @@ function Report({ score, restaurant, onLeadReady, initialUnlocked }) {
     if (MOCK) { setIntake({ ok: true, showCalendar: true, assignedAE: "Mariana", aeWhatsapp: FLUX_WA }); return; }
     fetch("/api/demo-page/lead-intake", { method: "POST", headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, company_name: fullLead.company_name, place_id: restaurant.placeId || undefined, place_address: restaurant.address || undefined, funnel: "grader", session_id: SESSION_ID, ...ADS_FIELDS }) })
-      .then((r) => r.json()).then((ik) => { setIntake(ik); if (ik && ik.aeWhatsapp) fullLead.aeWhatsapp = ik.aeWhatsapp; })
+      .then((r) => r.json()).then((ik) => { window.__bookToken = (ik && ik.book_token) || null; setIntake(ik); if (ik && ik.aeWhatsapp) fullLead.aeWhatsapp = ik.aeWhatsapp; })
       .catch(() => setIntake({ ok: true, showCalendar: false, aeWhatsapp: FLUX_WA }));
   };
 

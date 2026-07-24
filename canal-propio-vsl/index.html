@@ -824,6 +824,7 @@ function CalendarBooking({ firstName, lastName, email, phone, companyName, assig
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ae: assignedAE, start: selectedSlot.start, end: selectedSlot.end,
+          book_token: window.__bookToken || undefined,
           first_name: firstName, last_name: lastName, email, phone, company_name: companyName,
           session_id: sessionId, source: "canal_propio_vsl", place_id: placeId || undefined,
           ...UTM_FIELDS,
@@ -1206,6 +1207,7 @@ function CanalPropioApp() {
       });
       if (!res.ok) throw new Error(String(res.status));
       const data = await res.json();
+      window.__bookToken = data.book_token || null; // booking-gate token (BOOK_TOKEN_MODE)
       setResult(data);
       fireEvent("canal_propio_contact_submitted", { place_id: placeId });
       if (window.datafast && form.email) window.datafast("identify", { user_id: form.email.trim().toLowerCase() });
