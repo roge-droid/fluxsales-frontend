@@ -1,0 +1,203 @@
+<!doctype html>
+<!--
+  CASE STUDY — Código Burger. Structure follows docs/CASE-STUDY-SPEC.md (flux-automation).
+  Data source: on-camera interview with Marco Dávila (CEO), julio 2026 — Meet recording; metrics
+  are HIS on-camera statements (delivery = 28–32% de venta total; meses en que el canal propio
+  supera a las apps en venta a domicilio; "trabajar el doble" en apps para el mismo margen) and
+  are attributed as such in copy. Customer consented to publication (confirmed by Jorge,
+  2026-07-23). Video: /casos/media/codigo-marco.mp4 (subtitled cut of the interview).
+  LIVE (indexable, in sitemap).
+-->
+<html lang="es">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P9JWNWM9');</script>
+<!-- End Google Tag Manager -->
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Caso de éxito: Código Burger — FluxSales</title>
+<meta name="description" content="Cómo Código Burger construyó su propio canal de pedidos con FluxSales — y llegó a meses en los que su canal propio vende más a domicilio que las apps de delivery.">
+<meta property="og:type" content="article" />
+<meta property="og:image" content="https://fluxsales.co/og-image.png" />
+<meta property="og:title" content="Caso de éxito: Código Burger — FluxSales">
+<meta property="og:description" content="El canal propio de Código Burger llegó a superar a las apps de delivery en ventas a domicilio.">
+
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="canonical" href="https://fluxsales.co/casos/codigo-burger" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,30..100;1,9..144,300..700,30..100&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/landing/styles.css" />
+
+<!-- Structured data — shared entity + the case study as an Article + the testimonial video. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://fluxsales.co/#organization",
+      "name": "FluxSales",
+      "url": "https://fluxsales.co/",
+      "logo": "https://fluxsales.co/og-image.png",
+      "sameAs": ["https://twitter.com/fluxsales"]
+    },
+    {
+      "@type": "Article",
+      "headline": "Caso de éxito: Código Burger",
+      "datePublished": "2026-07-23",
+      "dateModified": "2026-07-23",
+      "url": "https://fluxsales.co/casos/codigo-burger",
+      "inLanguage": "es",
+      "about": "Canal propio de pedidos directos con FluxSales que llegó a superar a las apps de delivery en ventas a domicilio",
+      "publisher": { "@id": "https://fluxsales.co/#organization" }
+    },
+    {
+      "@type": "VideoObject",
+      "name": "Marco Dávila (CEO, Código Burger) sobre su canal propio con FluxSales",
+      "description": "Entrevista: por qué construyeron su e-commerce propia, y cómo el canal propio llegó a superar a las apps de delivery en ventas a domicilio.",
+      "thumbnailUrl": "https://fluxsales.co/casos/media/codigo-marco-poster.jpg",
+      "contentUrl": "https://fluxsales.co/casos/media/codigo-marco.mp4",
+      "uploadDate": "2026-07-23",
+      "inLanguage": "es",
+      "publisher": { "@id": "https://fluxsales.co/#organization" }
+    }
+  ]
+}
+</script>
+
+<style>
+  .cs-wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  .cs-hero { padding: 64px 0 24px; }
+  .cs-snapshot { display: flex; flex-wrap: wrap; gap: 20px 40px; margin: 24px 0 8px; padding: 20px 0; border-top: 1px solid rgba(13,44,32,.12); border-bottom: 1px solid rgba(13,44,32,.12); }
+  .cs-snapshot .k { font: 600 12px/1 "JetBrains Mono", monospace; letter-spacing: .08em; text-transform: uppercase; color: #2f7a5e; margin-bottom: 6px; }
+  .cs-snapshot .v { font-size: 16px; font-weight: 600; }
+  .cs-results { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 16px 0; }
+  .cs-metric { padding: 24px; border-radius: 16px; background: rgba(16,185,129,.07); border: 1px solid rgba(16,185,129,.22); text-align: center; }
+  .cs-metric .big { font-family: Fraunces, serif; font-size: 40px; line-height: 1; color: #0d2c20; }
+  .cs-metric .lbl { font-size: 14px; opacity: .8; margin-top: 8px; }
+  .cs-section { padding: 28px 0; }
+  .cs-section h2 { font-family: Fraunces, serif; font-size: 28px; margin: 0 0 12px; }
+  .cs-section p { font-size: 17px; line-height: 1.6; }
+  .cs-quote { margin: 8px 0; padding: 28px; border-radius: 18px; background: #0d2c20; color: #eef6f0; }
+  .cs-quote blockquote { font-family: Fraunces, serif; font-size: 22px; line-height: 1.4; margin: 0 0 16px; }
+  .cs-quote .who { font-size: 14px; opacity: .85; }
+  .cs-video video { display: block; width: 100%; max-width: 400px; margin: 8px auto 0; border-radius: 18px; background: #000; }
+  .cs-video .note { text-align: center; font-size: 13px; color: rgba(13,44,32,.6); margin-top: 10px; }
+  .cs-cta { text-align: center; padding: 40px 0 80px; }
+  @media (max-width: 760px) { .cs-results { grid-template-columns: 1fr; } }
+</style>
+<!-- DataFast analytics -->
+<script
+  defer
+  data-website-id="dfid_1JeiKjY2XiNRknZfezthH"
+  data-domain="fluxsales.co"
+  src="https://datafa.st/js/script.js">
+</script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P9JWNWM9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=590520096533350&ev=PageView&noscript=1" /></noscript>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="/" class="logo">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg"><g fill="currentColor">
+          <rect x="54" y="40" width="50" height="172" rx="6"/><rect x="54" y="40" width="150" height="46" rx="6"/>
+          <rect x="54" y="108" width="98" height="38" rx="6"/>
+          <path d="M 148 94 Q 152 92 158 96 L 198 124 Q 202 128 198 132 L 158 160 Q 152 164 148 162 L 148 94 Z"/>
+        </g></svg>
+      </span>
+      <span>Fluxsales</span>
+    </a>
+    <nav class="nav-links">
+      <a href="/casos">Casos</a>
+      <a href="/pricing">Precios</a>
+      <a href="/blog">Blog</a>
+    </nav>
+    <div class="nav-right">
+      <a href="/demo" class="btn btn-primary">Agenda una demo <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main class="cs-wrap">
+  <section class="cs-hero">
+    <span class="eyebrow">Caso de éxito</span>
+    <h1 class="display h1" style="margin:12px 0 8px">El canal propio de Código Burger ya compite de tú a tú con las apps.</h1>
+    <p class="lead">Querían su propia e-commerce desde el principio. Hoy hay meses en los que su canal directo vende más a domicilio que las apps de delivery — con margen propio y clientes propios.</p>
+
+    <div class="cs-snapshot">
+      <div><div class="k">Cliente</div><div class="v">Código Burger</div></div>
+      <div><div class="k">Segmento</div><div class="v">Hamburguesas · QSR</div></div>
+      <div><div class="k">Ubicación</div><div class="v">Cd. Nezahualcóyotl, Edo. de México</div></div>
+      <div><div class="k">Tamaño</div><div class="v">3 sucursales</div></div>
+    </div>
+  </section>
+
+  <!-- RESULTS first (Hormozi + case-study research: lead with quantified outcomes).
+       All three metrics are Marco's on-camera statements from the July 2026 interview. -->
+  <section class="cs-section">
+    <h2>Resultados</h2>
+    <div class="cs-results">
+      <div class="cs-metric"><div class="big">Propio &gt; apps</div><div class="lbl">meses en los que el canal directo vende más a domicilio que las apps de delivery</div></div>
+      <div class="cs-metric"><div class="big">28–32%</div><div class="lbl">de la venta total del restaurante es a domicilio — y cada punto que migra deja más margen</div></div>
+      <div class="cs-metric"><div class="big">×2</div><div class="lbl">lo que hay que trabajar en las apps para lograr el mismo margen que en el canal propio</div></div>
+    </div>
+    <p>Cuando Código Burger empezó con las apps de delivery, ellas se llevaban casi todo el domicilio — que representa entre el <b>28% y 32%</b> de la venta total del restaurante. Hoy, dice Marco, las ventas <b>se han emparejado: ha habido meses en los que el canal propio vende más a domicilio que las aplicaciones</b>. Y como el canal propio no paga comisión por pedido, ese mismo volumen deja mucho más margen — margen que reinvierten en promociones y en pauta que apunta directo a su página.</p>
+  </section>
+
+  <!-- Video testimonial (spec §5: video > text for trust). Subtitled cut of the interview. -->
+  <section class="cs-section cs-video">
+    <h2>Marco, en sus propias palabras</h2>
+    <video src="/casos/media/codigo-marco.mp4" poster="/casos/media/codigo-marco-poster.jpg" controls playsinline preload="metadata"></video>
+    <p class="note">Entrevista con Marco Dávila, CEO de Código Burger · julio 2026 · subtítulos en español</p>
+  </section>
+
+  <section class="cs-section">
+    <h2>El reto</h2>
+    <p>Las apps de delivery les daban posicionamiento, pero a un costo que se comía la utilidad — <i>"a veces ni siquiera utilidad"</i>, dice Marco. Además distorsionaban el precio (una hamburguesa de $80 termina costando $130 o más dentro de la app) y <b>el cliente era de la plataforma, no del restaurante</b>: sin acceso a sus datos, no había forma de invitarlo a regresar sin pagar de nuevo por él.</p>
+  </section>
+
+  <section class="cs-section">
+    <h2>La solución</h2>
+    <p>Con FluxSales levantaron lo que siempre quisieron tener: su <b>e-commerce propia</b> — pedidos en su propia página, pago en línea o efectivo, y el <b>reparto resuelto</b> sin contratar repartidores propios. Migran clientes con un programa de lealtad por QR en cada pedido, promociones que solo el canal propio puede costear, y <b>pauta pagada que apunta directo a la página</b> — no al perfil de una app. Las apps siguen ahí como canal secundario de posicionamiento; el crecimiento se construye en el canal que es suyo.</p>
+  </section>
+
+  <section class="cs-section">
+    <div class="cs-quote">
+      <blockquote>"Flux hace toda la función que hacen estas apps de delivery, pero propia: no competimos con nadie ahí dentro y no nos cobran comisiones altísimas. Nos facilita la vida completamente."</blockquote>
+      <div class="who">Marco Dávila · CEO, Código Burger · Cd. Nezahualcóyotl</div>
+    </div>
+  </section>
+
+  <section class="cs-cta">
+    <h2 class="display h2" style="margin-bottom:16px">¿Tu restaurante con la misma mecánica?</h2>
+    <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap">
+      <a class="btn btn-primary" href="/demo">Agenda una demo <span class="arr">→</span></a>
+      <a class="btn btn-secondary" href="/diagnostico">Diagnóstico gratis</a>
+    </div>
+    <p style="margin-top:20px; font-size:14px; color:rgba(13,44,32,.75)"><a href="https://maps.google.com/?cid=13911028692138422331" target="_blank" rel="noopener" style="color:inherit; text-decoration:none"><span style="color:#e7a33e; letter-spacing:2px">★★★★★</span> Calificado 5.0 con 48 reseñas en Google</a></p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-legal" style="border-top:1px solid rgba(13,44,32,.1);padding-top:24px;margin-top:24px">
+      <span>© 2026 Fluxsales. Hecho con cariño en CDMX.</span>
+      <span>CDMX · Monterrey · Guadalajara</span>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

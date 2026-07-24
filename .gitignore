@@ -5,6 +5,8 @@ node_modules/
 # Reels/media are work product — host for Blotato via a bucket/Blotato upload, not the repo.
 media/
 
+# Note: casos/media/* (testimonial reels + posters) IS committed (force-added) — permanent
+# case-page assets served by Vercel, same rule as the VSL below.
 # Note: canal-propio-vsl/vsl.mp4 IS committed (33MB, compressed) — it's a permanent
 # site asset served by Vercel's edge CDN (Range + faststart), not per-video work
 # product. No bucket/CDN creds were reachable (Supabase Storage egress-restricted,
